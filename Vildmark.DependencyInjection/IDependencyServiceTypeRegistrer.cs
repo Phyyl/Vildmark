@@ -1,4 +1,4 @@
-﻿namespace Ashborn.DependencyServices
+﻿namespace Vildmark.DependencyInjection
 {
 	public interface IDependencyServiceTypeRegistrer
 	{

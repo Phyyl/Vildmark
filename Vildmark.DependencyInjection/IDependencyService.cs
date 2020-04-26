@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ashborn.DependencyServices
+namespace Vildmark.DependencyInjection
 {
 	public interface IDependencyService
 	{

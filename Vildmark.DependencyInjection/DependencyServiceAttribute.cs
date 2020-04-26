@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ashborn.DependencyServices
+namespace Vildmark.DependencyInjection
 {
 	[AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
 	public class DependencyServiceAttribute : Attribute

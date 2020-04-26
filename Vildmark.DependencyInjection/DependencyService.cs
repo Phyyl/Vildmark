@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Vildmark.Common;
 
-namespace Ashborn.DependencyServices
+namespace Vildmark.DependencyInjection
 {
 	public class DependencyService : IDependencyService
 	{
