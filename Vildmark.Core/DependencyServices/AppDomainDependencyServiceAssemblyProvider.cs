@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Vildmark.DependencyInjection
+namespace Vildmark.DependencyServices
 {
 	public class AppDomainDependencyServiceAssemblyProvider : IDependencyServiceAssemblyProvider
 	{

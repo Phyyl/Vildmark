@@ -1,4 +1,4 @@
-﻿namespace Vildmark.DependencyInjection
+﻿namespace Vildmark.DependencyServices
 {
 	public interface IDependencyServiceTypeRegistrer
 	{

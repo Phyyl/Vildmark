@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Vildmark.DependencyInjection
+namespace Vildmark.DependencyServices
 {
 	[AttributeUsage(AttributeTargets.Assembly, AllowMultiple = false)]
 	public class DependencyServicesAssemblyAttribute : Attribute

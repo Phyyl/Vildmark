@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Vildmark.Common
+namespace Vildmark
 {
 	public static class Extensions
 	{

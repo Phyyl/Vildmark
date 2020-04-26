@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 
-namespace Vildmark.DependencyInjection
+namespace Vildmark.DependencyServices
 {
 	public interface IDependencyServiceAssemblyProvider
 	{

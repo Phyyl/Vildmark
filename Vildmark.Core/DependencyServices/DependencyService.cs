@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Vildmark.Common;
 
-namespace Vildmark.DependencyInjection
+namespace Vildmark.DependencyServices
 {
 	public class DependencyService : IDependencyService
 	{

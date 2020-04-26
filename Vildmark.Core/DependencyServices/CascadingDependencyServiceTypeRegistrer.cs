@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Vildmark.DependencyInjection
+namespace Vildmark.DependencyServices
 {
 	public class CascadingDependencyServiceTypeRegistrer : IDependencyServiceTypeRegistrer
 	{
