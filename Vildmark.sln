@@ -5,6 +5,7 @@ VisualStudioVersion = 16.0.29926.136
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vildmark.Core", "Vildmark.Common\Vildmark.Core.csproj", "{0604DF30-115F-420C-A942-135030013BB7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vildmark.Graphics", "Vildmark.Graphics\Vildmark.Graphics.csproj", "{F97092C7-94CF-400F-B65F-B7A0523AF08A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,6 +29,18 @@ Global
 		{0604DF30-115F-420C-A942-135030013BB7}.Release|x64.Build.0 = Release|Any CPU
 		{0604DF30-115F-420C-A942-135030013BB7}.Release|x86.ActiveCfg = Release|Any CPU
 		{0604DF30-115F-420C-A942-135030013BB7}.Release|x86.Build.0 = Release|Any CPU
+		{F97092C7-94CF-400F-B65F-B7A0523AF08A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F97092C7-94CF-400F-B65F-B7A0523AF08A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F97092C7-94CF-400F-B65F-B7A0523AF08A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F97092C7-94CF-400F-B65F-B7A0523AF08A}.Debug|x64.Build.0 = Debug|Any CPU
+		{F97092C7-94CF-400F-B65F-B7A0523AF08A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F97092C7-94CF-400F-B65F-B7A0523AF08A}.Debug|x86.Build.0 = Debug|Any CPU
+		{F97092C7-94CF-400F-B65F-B7A0523AF08A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F97092C7-94CF-400F-B65F-B7A0523AF08A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F97092C7-94CF-400F-B65F-B7A0523AF08A}.Release|x64.ActiveCfg = Release|Any CPU
+		{F97092C7-94CF-400F-B65F-B7A0523AF08A}.Release|x64.Build.0 = Release|Any CPU
+		{F97092C7-94CF-400F-B65F-B7A0523AF08A}.Release|x86.ActiveCfg = Release|Any CPU
+		{F97092C7-94CF-400F-B65F-B7A0523AF08A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

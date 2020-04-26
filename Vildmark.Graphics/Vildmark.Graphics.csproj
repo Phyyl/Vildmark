@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RootNamespace>Vildmark.Graphics</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OpenToolkit.Graphics" Version="4.0.0-pre9.1" />
+    <PackageReference Include="System.Memory" Version="4.5.4" />
+  </ItemGroup>
+
+</Project>
