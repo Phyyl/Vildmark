@@ -27,3 +27,14 @@ jobs:
       run: dotnet build --configuration Release
     - name: Test
       run: dotnet test --verbosity normal
+    - name: Get tag version
+      id: getTagVersion
+      run: |
+        echo ::set-output name=TAGVERSION::${GITHUB_REF/refs\/tags\//}
+        unset ISTAG
+        if [ -n $TAGVERSION ]; then ISTAG='true' ; fi
+        echo ::set-output name=ISTAG::${ISTAG}
+      
+    - name: Push
+      if: steps.getTagVersion.output.ISTAG
+      run: dotnet pack -p:PackageVersion=$VERSION
