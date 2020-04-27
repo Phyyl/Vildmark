@@ -1,0 +1,107 @@
+﻿using Ashborn.Graphics.GLObjects;
+using OpenToolkit.Graphics.OpenGL;
+using OpenToolkit.Mathematics;
+using System;
+using System.Linq;
+
+namespace Ashborn.Graphics.Shaders
+{
+	public class Uniform<T> : ShaderVariable
+	{
+		private Action<T> setterAction;
+
+		public Uniform(Shader shader, string name)
+			: base(shader, name)
+		{
+			InitializeSetterAction();
+		}
+
+		public void SetValue(T value)
+		{
+			if (!Defined)
+			{
+				return;
+			}
+
+			setterAction?.Invoke(value);
+		}
+
+		protected override int GetLocation() => Shader.GetUniformLocation(Name);
+
+		private void InitializeSetterAction()
+		{
+			setterAction = default(T) switch
+			{
+				bool _ => CreateAction<bool>(x => GL.Uniform1(Location, x ? 1 : 0)),
+				byte _ => CreateAction<byte>(x => GL.Uniform1(Location, x)),
+				sbyte _ => CreateAction<sbyte>(x => GL.Uniform1(Location, x)),
+				short _ => CreateAction<short>(x => GL.Uniform1(Location, x)),
+				ushort _ => CreateAction<ushort>(x => GL.Uniform1(Location, x)),
+				int _ => CreateAction<int>(x => GL.Uniform1(Location, x)),
+				uint _ => CreateAction<uint>(x => GL.Uniform1(Location, x)),
+				double _ => CreateAction<double>(x => GL.Uniform1(Location, x)),
+				Vector2 _ => CreateAction<Vector2>(x => GL.Uniform2(Location, x)),
+				Vector3 _ => CreateAction<Vector3>(x => GL.Uniform3(Location, x)),
+				Vector4 _ => CreateAction<Vector4>(x => GL.Uniform4(Location, x)),
+				Matrix2 _ => CreateAction<Matrix2>(x => GL.UniformMatrix2(Location, false, ref x)),
+				Matrix3 _ => CreateAction<Matrix3>(x => GL.UniformMatrix3(Location, false, ref x)),
+				Matrix4 _ => CreateAction<Matrix4>(x => GL.UniformMatrix4(Location, false, ref x)),
+				GLSLSampler2D _ => CreateAction<GLSLSampler2D>(x =>
+				{
+					GL.Uniform1(Location, x.Index);
+					x.Texture.Bind(x.Index);
+				}),
+				null => GetReferenceTypeSetterAction(),
+				_ => null
+			} ?? (x => { });
+		}
+
+		private Action<T> GetReferenceTypeSetterAction()
+		{
+			if (typeof(T).IsArray)
+			{
+				Type elementType = typeof(T).GetElementType();
+
+				if (elementType == typeof(int))
+				{
+					return CreateAction<int[]>(x => GL.Uniform1(Location, x.Length, x));
+				}
+
+				if (elementType == typeof(uint))
+				{
+					return CreateAction<uint[]>(x => GL.Uniform1(Location, x.Length, x));
+				}
+
+				if (elementType == typeof(double))
+				{
+					return CreateAction<double[]>(x => GL.Uniform1(Location, x.Length, x));
+				}
+
+				if (elementType == typeof(float))
+				{
+					return CreateAction<float[]>(x => GL.Uniform1(Location, x.Length, x));
+				}
+
+				if (elementType == typeof(GLSLSampler2D))
+				{
+					return CreateAction<GLSLSampler2D[]>(x =>
+					{
+						foreach (var sampler in x)
+						{
+							sampler.Texture.Bind(sampler.Index);
+
+							GL.Uniform1(Location + sampler.Index, sampler.Index);
+						}
+					});
+				}
+			}
+
+			return null;
+		}
+
+		private Action<T> CreateAction<T2>(Action<T2> action)
+		{
+			return action as Action<T>;
+		}
+	}
+}
