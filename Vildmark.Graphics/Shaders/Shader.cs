@@ -1,9 +1,7 @@
-﻿using Ashborn.Graphics.GLObjects;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using Vildmark.Graphics.GLObjects;
 
-namespace Ashborn.Graphics.Shaders
+namespace Vildmark.Graphics.Shaders
 {
 	public class Shader
 	{

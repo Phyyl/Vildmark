@@ -1,12 +1,7 @@
 ﻿using OpenToolkit.Graphics.OpenGL;
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
 using Vildmark.Graphics.GLObjects;
 
-namespace Ashborn.Graphics.Shaders
+namespace Vildmark.Graphics.Shaders
 {
 	public class Attrib<T> : ShaderVariable where T : unmanaged
 	{

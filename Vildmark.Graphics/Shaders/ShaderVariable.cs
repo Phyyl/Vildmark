@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Ashborn.Graphics.Shaders
+﻿namespace Vildmark.Graphics.Shaders
 {
 	public abstract class ShaderVariable
 	{

@@ -1,10 +1,9 @@
-﻿using Ashborn.Graphics.GLObjects;
-using OpenToolkit.Graphics.OpenGL;
+﻿using OpenToolkit.Graphics.OpenGL;
 using OpenToolkit.Mathematics;
 using System;
-using System.Linq;
+using Vildmark.Graphics.GLObjects;
 
-namespace Ashborn.Graphics.Shaders
+namespace Vildmark.Graphics.Shaders
 {
 	public class Uniform<T> : ShaderVariable
 	{
