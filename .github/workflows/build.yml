@@ -33,5 +33,4 @@ jobs:
       id: get_version
       run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3 | cut -c 2-
     - name: Pack
-      if: steps.getTagVersion.output.ISTAG
       run: dotnet pack -p:PackageVersion=${{ steps.get_version.outputs.VERSION }}
