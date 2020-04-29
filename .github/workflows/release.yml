@@ -1,29 +1,27 @@
-name: Build
+name: release
 
 on:
   push:
-    branches: 
-      - master
-      - actions
-      - ci
-  pull_request:
-    branches:
-      - master
+    tags:
+      - 'v*'
+
+name: Release
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.101
+    - name: Get version
+      id: get_version
+      run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3 | cut -c 2-)
     - name: Install dependencies
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release --no-restore
-    - name: Test
-      run: dotnet test --verbosity normal --no-restore
+    - name: Pack
+      run: dotnet pack -p:PackageVersion=${{ steps.get_version.outputs.VERSION }}
