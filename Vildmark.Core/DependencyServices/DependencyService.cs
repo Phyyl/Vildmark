@@ -48,10 +48,9 @@ namespace Vildmark.DependencyServices
 			return CreateInstance(typeof(T)) as T;
 		}
 
-		//TODO: Prioritize public constructors
 		public object CreateInstance(Type type)
 		{
-			foreach (var constructor in type.GetConstructors(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic))
+			foreach (var constructor in type.GetConstructors(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic).OrderBy(c => c.IsPublic ? 0 : 1))
 			{
 				try
 				{
