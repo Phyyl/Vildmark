@@ -24,4 +24,4 @@ jobs:
     - name: Pack
       run: dotnet pack -p:PackageVersion=${{ steps.get_version.outputs.VERSION }} --output nuget-output --configuration Release --no-build
     - name: Push
-      run: dotnet nuget push --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} nuget-output/**/*.nupkg
+      run: dotnet nuget push --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} nuget-output/**/*.nupkg --no-symbols true
