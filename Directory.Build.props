@@ -8,5 +8,15 @@
     <PackageProjectUrl>https://github.com/Phyyl/Vildmark</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Phyyl/Vildmark</RepositoryUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression></PackageLicenseExpression>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
 </Project>
