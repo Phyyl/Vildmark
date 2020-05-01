@@ -2,5 +2,11 @@
   <PropertyGroup>
     <LangVersion>8.0</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Company />
+    <Authors>Phyyl</Authors>
+    <PackageProjectUrl>https://github.com/Phyyl/Vildmark</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Phyyl/Vildmark</RepositoryUrl>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 </Project>
