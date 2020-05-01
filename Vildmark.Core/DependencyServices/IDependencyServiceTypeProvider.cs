@@ -5,6 +5,6 @@ namespace Vildmark.DependencyServices
 {
 	public interface IDependencyServiceTypeProvider
 	{
-		IEnumerable<(Type serviceType, Type instanceType)> GetServices();
+		IEnumerable<Type> GetServiceTypes();
 	}
 }

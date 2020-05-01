@@ -17,9 +17,13 @@ jobs:
     - name: Get version
       id: get_version
       run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3 | cut -c 2-)
+    - name: Add nuget source
+      run: dotnet nuget sources add -name "github" -userName ${{ GPR_USERNAME }} -password ${{ secrets.GITHUB_TOKEN }} ${{ secrets. GPR_URI }}
     - name: Install dependencies
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Pack
-      run: dotnet pack -p:PackageVersion=${{ steps.get_version.outputs.VERSION }}
+      run: dotnet pack -p:PackageVersion=${{ steps.get_version.outputs.VERSION }} --output nuget-output --configuration Release --no-build
+    - name: Push
+      run: dotnet nuget push nuget-output/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json

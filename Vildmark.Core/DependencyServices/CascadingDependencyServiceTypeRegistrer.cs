@@ -1,53 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Vildmark.DependencyServices
 {
-	public class CascadingDependencyServiceTypeRegistrer : IDependencyServiceTypeRegistrer
-	{
-		private readonly IDependencyService dependencyService;
-		private readonly IDependencyServiceTypeProvider provider;
+    public class CascadingDependencyServiceTypeRegistrer : IDependencyServiceTypeRegistrer
+    {
+        private readonly IDependencyService dependencyService;
+        private readonly IDependencyServiceTypeProvider provider;
 
-		public CascadingDependencyServiceTypeRegistrer(IDependencyService dependencyService, IDependencyServiceTypeProvider provider)
-		{
-			this.dependencyService = dependencyService;
-			this.provider = provider;
-		}
+        public CascadingDependencyServiceTypeRegistrer(IDependencyService dependencyService, IDependencyServiceTypeProvider provider)
+        {
+            this.dependencyService = dependencyService;
+            this.provider = provider;
+        }
 
-		//TODO: Improve readability and maintainability
-		public void RegisterServices()
-		{
-			List<(Type serviceType, Type instanceType)> services = provider.GetServices().ToList();
+        //TODO: Improve readability and maintainability
+        public void RegisterServices()
+        {
+            List<Type> services = provider.GetServiceTypes().ToList();
 
-			if (services.Count == 0)
-			{
-				return;
-			}
+            if (services.Count == 0)
+            {
+                return;
+            }
 
-			int previousCount;
+            int previousCount;
 
-			do
-			{
-				previousCount = services.Count;
+            do
+            {
+                previousCount = services.Count;
 
-				for (int i = services.Count - 1; i >= 0; i--)
-				{
-					(Type serviceType, Type instanceType) = services[i];
+                for (int i = services.Count - 1; i >= 0; i--)
+                {
+                    Type instanceType = services[i];
+                    object instance = dependencyService.CreateInstance(instanceType);
 
-					object instance = dependencyService.CreateInstance(instanceType);
+                    if (instance is null)
+                    {
+                        continue;
+                    }
 
-					if (instance is null)
-					{
-						continue;
-					}
+                    foreach (var attribute in instanceType.GetCustomAttributes<DependencyServiceAttribute>())
+                    {
+                        dependencyService.Register(attribute.ServiceType, instance);
+                    }
 
-					dependencyService.Register(serviceType, instance);
+                    services.RemoveAt(i);
+                }
 
-					services.RemoveAt(i);
-				}
-			}
-			while (services.Count < previousCount);
-		}
-	}
+            }
+            while (services.Count < previousCount);
+
+            foreach (var service in services)
+            {
+                Console.WriteLine($"Failed to initialize service {service.Name}");
+            }
+        }
+    }
 }
