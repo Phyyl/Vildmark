@@ -6,7 +6,7 @@ on:
       - 'v*'
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -17,8 +17,6 @@ jobs:
     - name: Get version
       id: get_version
       run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3 | cut -c 2-)
-    - name: Add nuget source
-      run: dotnet nuget sources add -name "github" -userName ${{ GPR_USERNAME }} -password ${{ secrets.GITHUB_TOKEN }} ${{ secrets.GPR_URI }}
     - name: Install dependencies
       run: dotnet restore
     - name: Build
@@ -27,5 +25,5 @@ jobs:
       run: dotnet pack -p:PackageVersion=${{ steps.get_version.outputs.VERSION }} --output nuget-output --configuration Release --no-build
     - name: Push
       run: |
-        dotnet nuget push --source github nuget-output/*.nupkg
-        dotnet nuget push --source github nuget-output/*.snupkg
+        dotnet nuget push --api-key ${{ NUGET_API_KEY }} nuget-output/*.nupkg
+        dotnet nuget push --api-key ${{ NUGET_API_KEY }} nuget-output/*.snupkg
