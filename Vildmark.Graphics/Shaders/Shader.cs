@@ -6,13 +6,13 @@ using Vildmark.Resources;
 
 namespace Vildmark.Graphics.Shaders
 {
-	public class Shader
+	public abstract class Shader
 	{
 		private GLShaderProgram shaderProgram;
 
-		protected Shader(params GLShader[] shaders)
+		protected Shader()
 		{
-			shaderProgram = GLShaderProgram.Create(shaders);
+			shaderProgram = GLShaderProgram.Create(LoadVertexShader(), LoadFragmentShader(), LoadGeometryShader());
 		}
 
 		public int GetAttribLocation(string name)
@@ -27,19 +27,10 @@ namespace Vildmark.Graphics.Shaders
 
 		public IDisposable Use() => shaderProgram.Use();
 
-		protected static GLShader LoadVertexShader(string name)
-		{
-			return LoadShader(ShaderType.VertexShader, name);
-		}
+		protected abstract GLShader LoadVertexShader();
 
-		protected static GLShader LoadFragmentShader(string name)
-		{
-			return LoadShader(ShaderType.FragmentShader, name);
-		}
+		protected abstract GLShader LoadFragmentShader();
 
-		private static GLShader LoadShader(ShaderType shaderType, string name)
-		{
-			return GLShader.Create(shaderType, EmbeddedResources.GetString(name, Assembly.GetCallingAssembly()));
-		}
+		protected abstract GLShader LoadGeometryShader();
 	}
 }
