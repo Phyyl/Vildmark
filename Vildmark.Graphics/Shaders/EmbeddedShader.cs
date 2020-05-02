@@ -29,7 +29,7 @@ namespace Vildmark.Graphics.Shaders
 
 		protected override GLShader LoadVertexShader()
 		{
-			return LoadShader(ShaderType.FragmentShader);
+			return LoadShader(ShaderType.VertexShader);
 		}
 
 		protected override GLShader LoadGeometryShader()

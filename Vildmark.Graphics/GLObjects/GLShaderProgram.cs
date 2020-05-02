@@ -54,10 +54,12 @@ namespace Vildmark.Graphics.GLObjects
 		{
 			GL.DeleteProgram(this);
 		}
-		
+
 		public static GLShaderProgram Create(params GLShader[] shaders)
 		{
-			if (shaders.Any(s => !(s?.Compiled ?? false)))
+			shaders = shaders.Where(s => s is { }).ToArray();
+
+			if (shaders.Any(s => !s.Compiled))
 			{
 				return null;
 			}
