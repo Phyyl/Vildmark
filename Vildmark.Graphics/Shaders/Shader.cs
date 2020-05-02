@@ -27,17 +27,17 @@ namespace Vildmark.Graphics.Shaders
 
 		public IDisposable Use() => shaderProgram.Use();
 
-		protected virtual GLShader LoadVertexShader(string name)
+		protected static GLShader LoadVertexShader(string name)
 		{
 			return LoadShader(ShaderType.VertexShader, name);
 		}
 
-		protected virtual GLShader LoadFragmentShader(string name)
+		protected static GLShader LoadFragmentShader(string name)
 		{
 			return LoadShader(ShaderType.FragmentShader, name);
 		}
 
-		protected virtual GLShader LoadShader(ShaderType shaderType, string name)
+		private static GLShader LoadShader(ShaderType shaderType, string name)
 		{
 			return GLShader.Create(shaderType, EmbeddedResources.GetString(name, Assembly.GetCallingAssembly()));
 		}
