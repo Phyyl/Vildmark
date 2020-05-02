@@ -5,8 +5,12 @@ using System.Text;
 
 namespace Vildmark.Graphics.Resources
 {
-	public interface IResourceLoader<T>
+	public interface IResourceLoader<TParameter, TResult>
 	{
-		T Load(Stream stream);
+		TResult Load(TParameter parameter);
+	}
+
+	public interface IResourceLoader<TResult> :IResourceLoader<Stream, TResult>
+	{
 	}
 }

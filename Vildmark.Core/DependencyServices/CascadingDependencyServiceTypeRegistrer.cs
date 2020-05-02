@@ -47,6 +47,11 @@ namespace Vildmark.DependencyServices
                         dependencyService.Register(attribute.ServiceType, instance);
                     }
 
+                    if (dependencyService.Get(instance.GetType()) is null)
+                    {
+                        dependencyService.Register(instance.GetType(), instance);
+                    }
+
                     services.RemoveAt(i);
                 }
 
