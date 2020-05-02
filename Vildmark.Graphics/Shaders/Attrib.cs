@@ -37,7 +37,7 @@ namespace Vildmark.Graphics.Shaders
 			buffer.Disable(Location, bind);
 		}
 
-		public void VertexAttribPointer(GLBuffer<T> buffer, int stride = 0, int offset = 0, bool normalized = false, bool enable = true, bool bind = true, int divisor = 0)
+		public void VertexAttribPointer(GLBuffer buffer, int stride = 0, int offset = 0, bool normalized = false, bool enable = true, bool bind = true, int divisor = 0)
 		{
 			if (!Defined)
 			{

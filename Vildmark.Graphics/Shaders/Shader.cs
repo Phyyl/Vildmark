@@ -1,5 +1,8 @@
-﻿using System;
+﻿using OpenToolkit.Graphics.OpenGL;
+using System;
+using System.Reflection;
 using Vildmark.Graphics.GLObjects;
+using Vildmark.Resources;
 
 namespace Vildmark.Graphics.Shaders
 {
@@ -7,7 +10,7 @@ namespace Vildmark.Graphics.Shaders
 	{
 		private GLShaderProgram shaderProgram;
 
-		public Shader(params GLShader[] shaders)
+		protected Shader(params GLShader[] shaders)
 		{
 			shaderProgram = GLShaderProgram.Create(shaders);
 		}
@@ -23,5 +26,20 @@ namespace Vildmark.Graphics.Shaders
 		}
 
 		public IDisposable Use() => shaderProgram.Use();
+
+		protected virtual GLShader LoadVertexShader(string name)
+		{
+			return LoadShader(ShaderType.VertexShader, name);
+		}
+
+		protected virtual GLShader LoadFragmentShader(string name)
+		{
+			return LoadShader(ShaderType.FragmentShader, name);
+		}
+
+		protected virtual GLShader LoadShader(ShaderType shaderType, string name)
+		{
+			return GLShader.Create(shaderType, EmbeddedResources.GetString(name, Assembly.GetCallingAssembly()));
+		}
 	}
 }
