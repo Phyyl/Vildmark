@@ -39,10 +39,10 @@ namespace Vildmark.Graphics.Shaders
 
 		protected virtual GLShader LoadShader(ShaderType shaderType)
 		{
-			return GLShader.Create(shaderType, EmbeddedResources.GetString(GetResourceName(shaderType, name), EmbeddedResourceAssembly));
+			return GLShader.Create(shaderType, EmbeddedResources.GetString(GetResourceName(shaderType), EmbeddedResourceAssembly));
 		}
 
-		protected virtual string GetResourceName(ShaderType shaderType, string name)
+		protected virtual string GetResourceName(ShaderType shaderType)
 		{
 			string suffix = shaderType switch
 			{
