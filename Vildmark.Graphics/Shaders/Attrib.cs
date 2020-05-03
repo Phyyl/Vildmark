@@ -6,7 +6,12 @@ namespace Vildmark.Graphics.Shaders
 {
 	public class Attrib<T> : ShaderVariable where T : unmanaged
 	{
-		public Attrib(Shader shader, string name, int size = 0, VertexAttribPointerType vertexAttribPointerType = VertexAttribPointerType.Float)
+		public const int PositionIndex = 0;
+		public const int ColorIndex = 1;
+		public const int TexCoordIndex = 2;
+		public const int NormalIndex = 3;
+
+		public Attrib(IShader shader, string name, int size = 0, VertexAttribPointerType vertexAttribPointerType = VertexAttribPointerType.Float)
 			: base(shader, name)
 		{
 			Size = size > 0 ? size : Marshal.SizeOf<T>() / 4;

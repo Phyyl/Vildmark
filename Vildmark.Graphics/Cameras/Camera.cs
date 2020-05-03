@@ -47,6 +47,8 @@ namespace Vildmark.Graphics.Cameras
 
 		public Matrix4 ViewMatrix => Matrix4.CreateTranslation(-position) * Matrix4.CreateRotationY(rotation.Y) * Matrix4.CreateRotationX(rotation.X) * Matrix4.CreateRotationX(rotation.Z);
 
+		public Matrix4 ViewProjectionMatrix => ViewMatrix * ProjectionMatrix;
+
 		public abstract Matrix4 ProjectionMatrix { get; }
 	}
 }

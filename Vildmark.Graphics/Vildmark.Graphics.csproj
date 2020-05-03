@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources/**/*.frag"></EmbeddedResource>
+    <EmbeddedResource Include="Resources/**/*.vert"></EmbeddedResource>
+    <EmbeddedResource Include="Resources/**/*.png"></EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Shaders\material.frag" />
+    <None Remove="Resources\Shaders\material.vert" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="OpenToolkit.Graphics" Version="4.0.0-pre9.1" />
     <PackageReference Include="System.Memory" Version="4.5.4" />
   </ItemGroup>

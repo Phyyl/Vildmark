@@ -2,7 +2,7 @@
 {
 	public abstract class ShaderVariable
 	{
-		protected ShaderVariable(Shader shader, string name)
+		protected ShaderVariable(IShader shader, string name)
 		{
 			Name = name;
 			Shader = shader;
@@ -11,7 +11,7 @@
 
 		public string Name { get; }
 
-		public Shader Shader { get; }
+		public IShader Shader { get; }
 
 		public int Location { get; }
 

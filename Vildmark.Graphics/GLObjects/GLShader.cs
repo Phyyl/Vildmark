@@ -31,6 +31,11 @@ namespace Vildmark.Graphics.GLObjects
 
         public static GLShader Create(ShaderType shaderType, string source)
         {
+            if (source == default)
+            {
+                return default;
+            }
+
             GLShader shader = new GLShader(shaderType, source);
 
             if (!shader.Compiled)

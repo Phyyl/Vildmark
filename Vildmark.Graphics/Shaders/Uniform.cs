@@ -9,7 +9,7 @@ namespace Vildmark.Graphics.Shaders
 	{
 		private Action<T> setterAction;
 
-		public Uniform(Shader shader, string name)
+		public Uniform(IShader shader, string name)
 			: base(shader, name)
 		{
 			InitializeSetterAction();

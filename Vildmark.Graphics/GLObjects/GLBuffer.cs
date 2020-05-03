@@ -57,7 +57,7 @@ namespace Vildmark.Graphics.GLObjects
 			bindContext?.Dispose();
 		}
 
-		public void VertexAttribPointer(int index, int size, VertexAttribPointerType vertexAttribPointerType, int stride = 0, int offset = 0, bool normalized = false, bool bind = true, bool enable = true, int divisor = 0)
+		public void VertexAttribPointer(int index, int size, VertexAttribPointerType vertexAttribPointerType = VertexAttribPointerType.Float, int stride = 0, int offset = 0, bool normalized = false, bool bind = true, bool enable = true, int divisor = 0)
 		{
 			if (index < 0)
 			{

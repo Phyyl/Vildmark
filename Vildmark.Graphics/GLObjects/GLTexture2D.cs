@@ -136,5 +136,10 @@ namespace Vildmark.Graphics.GLObjects
 				Texture.Unbind(Index);
 			}
 		}
+
+		public static GLTexture2D FromPixels(int width, int height, params byte[] data)
+		{
+			return new GLTexture2D(width, height, data);
+		}
 	}
 }
