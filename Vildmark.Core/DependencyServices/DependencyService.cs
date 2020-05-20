@@ -82,7 +82,7 @@ namespace Vildmark.DependencyServices
 					}
 				}
 
-				object value = constructor.Invoke(parameters);
+				object value = constructor.Invoke(parameterValues);
 
 				if (value is null)
 				{
