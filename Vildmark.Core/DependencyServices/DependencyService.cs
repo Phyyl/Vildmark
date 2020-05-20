@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace Vildmark.DependencyServices
 {
@@ -50,29 +51,45 @@ namespace Vildmark.DependencyServices
 
 		public object CreateInstance(Type type)
 		{
+			object value = CreateInstance(type, false);
+
+			if (value is { })
+			{
+				return value;
+			}
+
+			return CreateInstance(type, true);
+		}
+
+		private object CreateInstance(Type type, bool throwOnError)
+		{
 			foreach (var constructor in type.GetConstructors(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic).OrderBy(c => c.IsPublic ? 0 : 1))
 			{
-				try
+				var parameters = constructor.GetParameters();
+				var parameterValues = parameters.Select(p => Get(p.ParameterType)).ToArray();
+
+				if (parameters.Any(p => p is null))
 				{
-					var parameters = constructor.GetParameters().Select(p => Get(p.ParameterType)).ToArray();
-
-					if (parameters.Any(p => p is null))
+					if (throwOnError)
 					{
-						throw new Exception("Failed to resolve some services");
+						string missingServices = string.Join(", ", Enumerable.Range(0, parameters.Length).Where(i => parameterValues[i] is null).Select(i => parameters[i].ParameterType.Name));
+
+						throw new Exception($"Missing services ({missingServices})");
 					}
-
-					object value = constructor.Invoke(parameters);
-
-					if (value is null)
+					else
 					{
 						continue;
 					}
+				}
 
-					return value;
-				}
-				catch
+				object value = constructor.Invoke(parameters);
+
+				if (value is null)
 				{
+					continue;
 				}
+
+				return value;
 			}
 
 			return default;
