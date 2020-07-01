@@ -8,7 +8,7 @@ namespace Vildmark.DependencyServices
 {
 	public class DependencyService : IDependencyService
 	{
-		public static IDependencyService Global { get; set; } = new DependencyService();
+		public static IDependencyService Global { get; set; } = new AutoRegisterDependencyService(new DependencyService());
 
 		static DependencyService()
 		{
