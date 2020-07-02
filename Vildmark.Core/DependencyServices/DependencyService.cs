@@ -8,17 +8,6 @@ namespace Vildmark.DependencyServices
 {
 	public class DependencyService : IDependencyService
 	{
-		public static IDependencyService Global { get; set; } = new AutoRegisterDependencyService(new DependencyService());
-
-		static DependencyService()
-		{
-			IDependencyServiceAssemblyProvider assemblyProvider = new AppDomainDependencyServiceAssemblyProvider();
-			IDependencyServiceTypeProvider provider = new AttributeDependencyServiceTypeProvider(assemblyProvider);
-			IDependencyServiceTypeRegistrer registrer = new CascadingDependencyServiceTypeRegistrer(Global, provider);
-
-			registrer.RegisterServices();
-		}
-
 		private readonly Dictionary<Type, object> services = new Dictionary<Type, object>();
 
 		public DependencyService()

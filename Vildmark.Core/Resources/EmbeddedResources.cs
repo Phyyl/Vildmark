@@ -13,7 +13,7 @@ namespace Vildmark.Resources
 	{
 		public static T Get<T>(string name, Assembly assembly = default)
 		{
-			return DependencyService.Global.Get<IResourceLoader<T>>().Load(GetStream(name, assembly ?? Assembly.GetCallingAssembly()));
+			return Service<IResourceLoader<T>>.Instance.Load(GetStream(name, assembly ?? Assembly.GetCallingAssembly()));
 		}
 
 		public static Stream GetStream(string name, Assembly assembly = default)

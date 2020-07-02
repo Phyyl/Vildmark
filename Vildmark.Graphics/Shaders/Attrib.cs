@@ -1,6 +1,7 @@
 ﻿using OpenToolkit.Graphics.OpenGL;
 using System.Runtime.InteropServices;
 using Vildmark.Graphics.GLObjects;
+using Vildmark.Graphics.Resources;
 
 namespace Vildmark.Graphics.Shaders
 {

@@ -42,7 +42,7 @@ namespace Vildmark.Graphics.Shaders
 
 		protected virtual GLShader LoadShader(ShaderType shaderType)
 		{
-			return GLShader.Create(shaderType, EmbeddedResources.GetString(GetResourceName(shaderType), EmbeddedResourceAssembly));
+			return GLShader.Create(shaderType, EmbeddedResources.Get<string>(GetResourceName(shaderType), EmbeddedResourceAssembly));
 		}
 
 		protected virtual string GetResourceName(ShaderType shaderType)
