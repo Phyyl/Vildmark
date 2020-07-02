@@ -10,7 +10,7 @@ namespace Vildmark.Graphics.Resources
 		TResult Load(TParameter parameter);
 	}
 
-	public interface IResourceLoader<TResult> :IResourceLoader<Stream, TResult>
+	public interface IResourceLoader<TResult> : IResourceLoader<Stream, TResult>
 	{
 	}
 }

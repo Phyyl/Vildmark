@@ -1,49 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
+using Vildmark.DependencyServices;
+using Vildmark.Graphics.Resources;
 
 namespace Vildmark.Resources
 {
 	public static class EmbeddedResources
 	{
-		public static string GetString(string name, Assembly assembly = default)
+		public static T Get<T>(string name, Assembly assembly = default)
 		{
-			try
-			{
-				using Stream stream = GetStream(name, assembly ?? Assembly.GetCallingAssembly());
-				using StreamReader reader = new StreamReader(stream);
-
-				return reader.ReadToEnd();
-			}
-			catch
-			{
-				return default;
-			}
-		}
-
-		public static byte[] GetBytes(string name, Assembly assembly = default)
-		{
-			try
-			{
-				using Stream stream = GetStream(name, assembly ?? Assembly.GetCallingAssembly());
-
-				byte[] result = new byte[stream.Length];
-
-				stream.Read(result, 0, result.Length);
-
-				return result;
-			}
-			catch
-			{
-				return default;
-			}
+			return DependencyService.Global.Get<IResourceLoader<T>>().Load(GetStream(name, assembly ?? Assembly.GetCallingAssembly()));
 		}
 
 		public static Stream GetStream(string name, Assembly assembly = default)
 		{
-			return (assembly ?? Assembly.GetCallingAssembly()).GetManifestResourceStream(name);
+			if (name is null)
+			{
+				throw new ArgumentNullException(nameof(name));
+			}
+
+			assembly ??= Assembly.GetCallingAssembly();
+
+			string[] names = assembly.GetManifestResourceNames();
+
+			if (!names.Contains(name))
+			{
+				string closeName = names.FirstOrDefault(n => string.Equals(name, n, StringComparison.InvariantCultureIgnoreCase));
+
+				if (closeName is null)
+				{
+					closeName = names.FirstOrDefault(n => n.EndsWith(name, StringComparison.InvariantCultureIgnoreCase));
+				}
+
+				name = closeName;
+			}
+
+			if (name is { })
+			{
+				return assembly.GetManifestResourceStream(name);
+			}
+
+			return null;
 		}
 	}
 }
