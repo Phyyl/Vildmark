@@ -1,54 +1,24 @@
 ﻿using OpenToolkit.Mathematics;
+using Vildmark.Graphics.Rendering;
 
 namespace Vildmark.Graphics.Cameras
 {
 	public abstract class Camera
 	{
-		private Vector3 position;
+		public Transforms Transforms { get; }
 
-		private Vector3 rotation;
+		protected abstract Matrix4 ProjectionMatrix { get; }
 
-		public Camera(int viewWidth, int viewHeight, float zNear, float zFar, Vector3 position = default, Vector3 rotation = default)
+		public Matrix4 ViewProjectionMatrix => Transforms.Matrix * ProjectionMatrix;
+
+		protected Camera(Transforms transforms = default)
 		{
-			ViewWidth = viewWidth;
-			ViewHeight = viewHeight;
-			ZNear = zNear;
-			ZFar = zFar;
-			Position = position;
-			Rotation = rotation;
+			Transforms = transforms ?? new Transforms();
+			Transforms.TranslationScale = new Vector3(-1);
 		}
 
-		public int ViewWidth { get; set; }
-
-		public int ViewHeight { get; set; }
-
-		public float ZNear { get; set; }
-
-		public float ZFar { get; set; }
-
-		public ref Vector3 Position => ref position;
-
-		public ref Vector3 Rotation => ref rotation;
-
-		public float Aspect => ViewWidth / (float)ViewHeight;
-
-		public Vector3 Rotate(Vector3 direction)
+		public virtual void Resize(int width, int height)
 		{
-			Quaternion quaternion = new Quaternion(Rotation.X, -Rotation.Y, Rotation.Z);
-
-			return quaternion * direction;
 		}
-
-		public void Resize(int width, int height)
-		{
-			ViewWidth = width;
-			ViewHeight = height;
-		}
-
-		public Matrix4 ViewMatrix => Matrix4.CreateTranslation(-position) * Matrix4.CreateRotationY(rotation.Y) * Matrix4.CreateRotationX(rotation.X) * Matrix4.CreateRotationX(rotation.Z);
-
-		public Matrix4 ViewProjectionMatrix => ViewMatrix * ProjectionMatrix;
-
-		public abstract Matrix4 ProjectionMatrix { get; }
 	}
 }
