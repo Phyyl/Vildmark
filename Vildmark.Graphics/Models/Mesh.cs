@@ -14,11 +14,11 @@ namespace Vildmark.Graphics.Models
 
 		public GLVertexArray VertexArray { get; }
 
-		public Mesh(MeshDescriptor meshDescriptor)
+		public Mesh(Span<Vertex> vertices, Span<uint> indices = default)
 		{
 			VertexArray = new GLVertexArray();
-			VertexBuffer = new GLBuffer<Vertex>(meshDescriptor.Vertices.Span);
-			IndexBuffer = meshDescriptor.Indices.Length > 0 ? new GLBuffer<uint>(meshDescriptor.Indices.Span, BufferTarget.ElementArrayBuffer) : default;
+			VertexBuffer = new GLBuffer<Vertex>(vertices);
+			IndexBuffer = indices.Length > 0 ? new GLBuffer<uint>(indices, BufferTarget.ElementArrayBuffer) : default;
 
 			using (VertexArray.Bind())
 			{
