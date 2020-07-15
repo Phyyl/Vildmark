@@ -18,7 +18,7 @@ namespace Vildmark.Graphics.Cameras
 
 		protected override Matrix4 ProjectionMatrix => Matrix4.CreatePerspectiveFieldOfView(FovY, Width / (float)Height, ZNear, ZFar);
 
-		public PerspectiveCamera(float fovY, int width, int height, float zNear, float zFar, Transforms transforms = default)
+		public PerspectiveCamera(float fovY, int width, int height, float zNear = 0.1f, float zFar = 1000, Transforms transforms = default)
 			: base(transforms)
 		{
 			FovY = fovY;

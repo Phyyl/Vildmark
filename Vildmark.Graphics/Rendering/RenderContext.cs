@@ -13,6 +13,11 @@ namespace Vildmark.Graphics.Rendering
 		public RenderContext()
 		{
 			GL.Enable(EnableCap.DepthTest);
+			GL.Enable(EnableCap.Blend);
+			GL.Enable(EnableCap.CullFace);
+
+			GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+			GL.CullFace(CullFaceMode.Back);
 		}
 
 		public void Clear(Color4 color)

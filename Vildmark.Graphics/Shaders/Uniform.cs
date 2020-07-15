@@ -9,9 +9,13 @@ namespace Vildmark.Graphics.Shaders
 	{
 		private Action<T> setterAction;
 
-		public Uniform(IShader shader, string name)
+		public int Index { get; }
+
+		public Uniform(IShader shader, string name, int index = 0)
 			: base(shader, name)
 		{
+			Index = index;
+
 			InitializeSetterAction();
 		}
 
@@ -110,6 +114,11 @@ namespace Vildmark.Graphics.Shaders
 		private Action<T> CreateAction<T2>(Action<T2> action)
 		{
 			return action as Action<T>;
+		}
+
+		public override string ToString()
+		{ 
+			return $"{base.ToString()}, Index: {Index}";
 		}
 	}
 }

@@ -18,5 +18,10 @@
 		public bool Defined => Location >= 0;
 
 		protected abstract int GetLocation();
+
+		public override string ToString()
+		{
+			return $"Name: {Name}, Location: {Location}, Defined: {Defined}";
+		}
 	}
 }

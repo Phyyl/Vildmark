@@ -1,4 +1,5 @@
 ﻿using OpenToolkit.Graphics.OpenGL;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Resources;
@@ -54,5 +55,10 @@ namespace Vildmark.Graphics.Shaders
 		}
 
 		protected override int GetLocation() => Shader.GetAttribLocation(Name);
+
+		public override string ToString()
+		{
+			return $"{base.ToString()}, Size: {Size}, VertexAttribPointerType: {VertexAttribPointerType}";
+		}
 	}
 }
