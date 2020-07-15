@@ -25,7 +25,7 @@ namespace Vildmark.Graphics.Rendering
 		{
 			using (materialShader.Use())
 			{
-				materialShader.Tex0.SetValue(model.Material.GLTexture.GetSampler());
+				materialShader.Tex0.SetValue(model.Material.GLTexture);
 				materialShader.ProjectionMatrix.SetValue(model.ModelMatrix * camera.ViewProjectionMatrix);
 				materialShader.Tint.SetValue(model.Material.Tint);
 

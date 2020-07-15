@@ -103,11 +103,6 @@ namespace Vildmark.Graphics.GLObjects
 			GL.BindTexture(TextureTarget, 0);
 		}
 
-		public GLSLSampler2D GetSampler(int index = 0)
-		{
-			return new GLSLSampler2D(this, index);
-		}
-
 		protected override void DisposeOpenGL()
 		{
 			GL.DeleteTexture(this);

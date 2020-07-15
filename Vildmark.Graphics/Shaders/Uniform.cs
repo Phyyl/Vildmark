@@ -45,10 +45,10 @@ namespace Vildmark.Graphics.Shaders
 				Matrix2 _ => CreateAction<Matrix2>(x => GL.UniformMatrix2(Location, false, ref x)),
 				Matrix3 _ => CreateAction<Matrix3>(x => GL.UniformMatrix3(Location, false, ref x)),
 				Matrix4 _ => CreateAction<Matrix4>(x => GL.UniformMatrix4(Location, false, ref x)),
-				GLSLSampler2D _ => CreateAction<GLSLSampler2D>(x =>
+				GLTexture2D _ => CreateAction<GLTexture2D>(x =>
 				{
-					GL.Uniform1(Location, x.Index);
-					x.Texture.Bind(x.Index);
+					GL.Uniform1(Location, Index);
+					x.Bind(Index);
 				}),
 				null => GetReferenceTypeSetterAction(),
 				_ => null
@@ -81,18 +81,27 @@ namespace Vildmark.Graphics.Shaders
 					return CreateAction<float[]>(x => GL.Uniform1(Location, x.Length, x));
 				}
 
-				if (elementType == typeof(GLSLSampler2D))
+				if (elementType == typeof(GLTexture2D))
 				{
-					return CreateAction<GLSLSampler2D[]>(x =>
+					return CreateAction<GLTexture2D[]>(x =>
 					{
-						foreach (var sampler in x)
+						foreach (var texture in x)
 						{
-							sampler.Texture.Bind(sampler.Index);
+							texture.Bind(Index);
 
-							GL.Uniform1(Location + sampler.Index, sampler.Index);
+							GL.Uniform1(Location + Index, Index);
 						}
 					});
 				}
+			}
+			else if (typeof(T) == typeof(GLTexture2D))
+			{
+				return CreateAction<GLTexture2D>(x =>
+				{
+					x.Bind(Index);
+
+					GL.Uniform1(Location, Index);
+				});
 			}
 
 			return null;
