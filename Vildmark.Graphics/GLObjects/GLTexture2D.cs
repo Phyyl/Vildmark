@@ -16,7 +16,7 @@ namespace Vildmark.Graphics.GLObjects
 			int height,
 			Span<byte> data = default,
 			TextureMagFilter textureMagFilter = TextureMagFilter.Nearest,
-			TextureMinFilter textureMinFilter = TextureMinFilter.Linear,
+			TextureMinFilter textureMinFilter = TextureMinFilter.Nearest,
 			TextureWrapMode wrapSMode = TextureWrapMode.ClampToEdge,
 			TextureWrapMode wrapTMode = TextureWrapMode.ClampToEdge,
 			TextureTarget textureTarget = TextureTarget.Texture2D)

@@ -69,6 +69,11 @@ namespace Vildmark.Graphics.Rendering
 
 		public void Render(Model model)
 		{
+			if (model is null)
+			{
+				return;
+			}
+
 			Render(model.Mesh, model.Material, model.Transforms, model.PrimitiveType);
 		}
 

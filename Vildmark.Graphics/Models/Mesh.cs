@@ -8,9 +8,9 @@ namespace Vildmark.Graphics.Models
 {
 	public class Mesh
 	{
-		public GLBuffer<Vertex> VertexBuffer { get; }
+		public GLBuffer<Vertex> VertexBuffer { get; private set; }
 
-		public GLBuffer<uint> IndexBuffer { get; }
+		public GLBuffer<uint> IndexBuffer { get; private set; }
 
 		public GLVertexArray VertexArray { get; }
 
@@ -44,6 +44,16 @@ namespace Vildmark.Graphics.Models
 					GL.DrawArrays(primitiveType, 0, VertexBuffer.Count);
 				}
 			}
+		}
+
+		public void UpdateVertices(Span<Vertex> vertices)
+		{
+			VertexBuffer?.UpdateData(vertices);
+		}
+
+		public void UpdateIndices(Span<uint> indices)
+		{
+			IndexBuffer?.UpdateData(indices);
 		}
 	}
 }
