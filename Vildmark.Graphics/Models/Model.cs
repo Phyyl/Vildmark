@@ -1,37 +1,27 @@
-﻿using OpenToolkit.Mathematics;
+﻿using OpenToolkit.Graphics.OpenGL;
+using OpenToolkit.Mathematics;
 using Vildmark.Graphics.GLObjects;
+using Vildmark.Graphics.Rendering;
 using Vildmark.Graphics.Resources;
 
 namespace Vildmark.Graphics.Models
 {
 	public class Model
 	{
-		private Vector3 position;
-
-		private Vector3 rotation;
-
-		private Vector3 origin;
-
-		public Model(Mesh mesh, Vector3 position = default, Vector3 rotation = default, Vector3 origin = default, Material material = default)
+		public Model(Mesh mesh, Material material = default, Transforms transforms = default, PrimitiveType primitiveType = PrimitiveType.Triangles)
 		{
 			Mesh = mesh;
 			Material = material ?? new Material(Textures.WhitePixel);
+			Transforms = transforms ?? new Transforms();
 
-			Position = position;
-			Rotation = rotation;
-			Origin = origin;
+			PrimitiveType = primitiveType;
 		}
-
-		public ref Vector3 Position => ref position;
-
-		public ref Vector3 Rotation => ref rotation;
-
-		public ref Vector3 Origin => ref origin;
+		public Transforms Transforms { get; }
 
 		public Mesh Mesh { get; }
 
 		public Material Material { get; }
 
-		public Matrix4 ModelMatrix => Matrix4.CreateTranslation(-origin) * Matrix4.CreateRotationY(rotation.Y) * Matrix4.CreateRotationX(rotation.X) * Matrix4.CreateRotationX(rotation.Z) * Matrix4.CreateTranslation(-position);
+		public PrimitiveType PrimitiveType { get; }
 	}
 }

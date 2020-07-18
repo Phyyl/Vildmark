@@ -24,11 +24,11 @@ namespace Vildmark.Graphics.Models
 
 		public Material(GLTexture2D texture, Vector4 tint)
 		{
-			GLTexture = texture ?? Textures.WhitePixel;
+			Texture = texture ?? Textures.WhitePixel;
 			Tint = tint;
 		}
 
-		public GLTexture2D GLTexture { get; }
+		public GLTexture2D Texture { get; }
 
 		public Vector4 Tint { get; }
 	}

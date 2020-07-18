@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenToolkit.Mathematics" Version="4.0.0-pre9.1" />
+    <PackageReference Include="OpenToolkit.Mathematics" Version="4.0.0-pre9" />
   </ItemGroup>
 
 </Project>
