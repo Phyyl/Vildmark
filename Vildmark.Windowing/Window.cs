@@ -11,7 +11,7 @@ namespace Vildmark.Windowing
 {
 	public partial class Window : IWindow
 	{
-		private GameWindow gameWindow;
+		private readonly GameWindow gameWindow;
 		private readonly WindowSettings settings;
 
 		public IWindowHandler WindowHandler { get; set; }
@@ -77,6 +77,7 @@ namespace Vildmark.Windowing
 		private void GameWindow_UpdateFrame(FrameEventArgs obj)
 		{
 			UpdateKeyboard();
+			UpdateMouse();
 
 			WindowHandler?.Update((float)obj.Time);
 		}
