@@ -64,6 +64,11 @@ namespace Vildmark.Graphics.Rendering
 
 		public void Render(Mesh mesh, Material material = default, Transforms transforms = default, PrimitiveType primitiveType = PrimitiveType.Triangles)
 		{
+			if (mesh.VertexBuffer.Count == 0)
+			{
+				return;
+			}
+
 			batches.Add(new Batch(mesh, material, transforms?.Matrix ?? Matrix4.Identity, primitiveType));
 		}
 
