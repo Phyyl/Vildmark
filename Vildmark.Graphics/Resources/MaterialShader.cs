@@ -5,7 +5,7 @@ using Vildmark.Graphics.Shaders;
 
 namespace Vildmark.Graphics.Resources
 {
-	internal class MaterialShader : EmbeddedShader
+	public class MaterialShader : EmbeddedShader
 	{
 		public MaterialShader()
 			: base("material")

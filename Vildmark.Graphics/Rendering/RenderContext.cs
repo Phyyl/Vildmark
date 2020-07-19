@@ -54,7 +54,7 @@ namespace Vildmark.Graphics.Rendering
 		public void ClearColorBuffer()
 		{
 			GL.ClearColor(ClearColor);
-			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+			GL.Clear(ClearBufferMask.ColorBufferBit);
 		}
 
 		public void SetViewPort(int width, int height)
@@ -94,10 +94,16 @@ namespace Vildmark.Graphics.Rendering
 			Flush();
 		}
 
-		private void Flush()
+		public void BeginFlush()
 		{
 			GL.Viewport(0, 0, Width, Height);
 			ClearColorBuffer();
+			ClearDepthBuffer();
+		}
+
+		private void Flush()
+		{
+			BeginFlush();
 			RenderBatches(materialShader, Camera);
 		}
 

@@ -16,7 +16,7 @@ namespace Vildmark.Graphics.GLObjects
 			return new BindContext(this);
 		}
 
-		public void Unbind()
+		public static void Unbind()
 		{
 			GL.BindVertexArray(0);
 		}
@@ -42,7 +42,7 @@ namespace Vildmark.Graphics.GLObjects
 
 			public virtual void Dispose()
 			{
-				VertexArray.Unbind();
+				Unbind();
 			}
 		}
 	}
