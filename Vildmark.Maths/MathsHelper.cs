@@ -20,5 +20,12 @@ namespace Vildmark.Maths
 		public static Vector2 Max(Vector2 a, Vector2 b) => new Vector2(Max(a.X, b.X), Max(a.Y, b.Y));
 		public static Vector3 Max(Vector3 a, Vector3 b) => new Vector3(Max(a.X, b.X), Max(a.Y, b.Y), Max(a.Z, b.Z));
 		public static Vector4 Max(Vector4 a, Vector4 b) => new Vector4(Max(a.X, b.X), Max(a.Y, b.Y), Max(a.Z, b.Z), Max(a.W, b.W));
+
+		public static void ConvertTo3DIndex(int index, int width, int height, int depth, out int x, out int y, out int z)
+		{
+			x = index / (height * depth);
+			y = (index / depth) % height;
+			z = index % depth;
+		}
 	}
 }
