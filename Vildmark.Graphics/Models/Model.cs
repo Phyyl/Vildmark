@@ -16,6 +16,7 @@ namespace Vildmark.Graphics.Models
 
 			PrimitiveType = primitiveType;
 		}
+
 		public Transforms Transforms { get; }
 
 		public Mesh Mesh { get; }

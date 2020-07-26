@@ -120,7 +120,9 @@ namespace Vildmark.Graphics.Rendering
 			using (shader.Use())
 			{
 				shader.Tex0.SetValue(batch.Material.Texture);
-				shader.ProjectionMatrix.SetValue(batch.ModelMatrix * camera.ViewProjectionMatrix);
+				shader.ProjectionMatrix.SetValue(camera.ProjectionMatrix);
+				shader.ViewMatrix.SetValue(camera.Transforms.Matrix);
+				shader.ModelMatrix.SetValue(batch.ModelMatrix);
 				shader.Tint.SetValue(batch.Material.Tint);
 
 				batch.Mesh.Render(batch.PrimitiveType);

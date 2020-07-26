@@ -1,6 +1,8 @@
 ﻿#version 330
 
 uniform mat4 projection_matrix;
+uniform mat4 view_matrix;
+uniform mat4 model_matrix;
 uniform sampler2D tex0;
 
 layout(location = 0) in vec3 vert_position;
@@ -16,7 +18,7 @@ void main()
     vec2 tex0HalfTexelSize = 1.0 / vec2(textureSize(tex0, 0)) / 16.0;
 	float bias = (abs(vert_normal.x) - abs(vert_normal.z)) * 0.05;
 	
-	gl_Position = projection_matrix * vec4(vert_position, 1.0);
+	gl_Position = model_matrix * view_matrix * projection_matrix * vec4(vert_position, 1.0);
 	vert_frag_color = vert_color + vec4(bias, bias, bias, 1.0);
 	vert_frag_tex_coord = vert_tex_coord;
 }

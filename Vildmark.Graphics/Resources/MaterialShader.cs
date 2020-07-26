@@ -11,6 +11,8 @@ namespace Vildmark.Graphics.Resources
 			: base("material")
 		{
 			ProjectionMatrix = new Uniform<Matrix4>(this, "projection_matrix");
+			ModelMatrix = new Uniform<Matrix4>(this, "model_matrix");
+			ViewMatrix = new Uniform<Matrix4>(this, "view_matrix");
 			Tex0 = new Uniform<GLTexture2D>(this, "tex0");
 			Tint = new Uniform<Vector4>(this, "tint");
 
@@ -29,6 +31,10 @@ namespace Vildmark.Graphics.Resources
 		public Attrib<Vertex> Normal { get; }
 
 		public Uniform<Matrix4> ProjectionMatrix { get; }
+
+		public Uniform<Matrix4> ViewMatrix { get; }
+
+		public Uniform<Matrix4> ModelMatrix { get; }
 
 		public Uniform<GLTexture2D> Tex0 { get; }
 

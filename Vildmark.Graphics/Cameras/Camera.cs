@@ -7,9 +7,7 @@ namespace Vildmark.Graphics.Cameras
 	{
 		public Transforms Transforms { get; }
 
-		protected abstract Matrix4 ProjectionMatrix { get; }
-
-		public Matrix4 ViewProjectionMatrix => Transforms.Matrix * ProjectionMatrix;
+		public abstract Matrix4 ProjectionMatrix { get; }
 
 		protected Camera(Transforms transforms = default)
 		{
