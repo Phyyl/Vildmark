@@ -96,7 +96,8 @@ namespace Vildmark.Graphics.Rendering
 
 		public void BeginFlush()
 		{
-			GL.Viewport(0, 0, Width, Height);
+			SetViewPort(Width, Height);
+
 			ClearColorBuffer();
 			ClearDepthBuffer();
 		}

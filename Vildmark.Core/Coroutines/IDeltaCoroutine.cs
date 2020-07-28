@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Vildmark.Coroutines
 {
-	public interface ICoroutine
+	public interface IDeltaCoroutine : ICoroutine
 	{
-		IEnumerable<bool> Run();
+		float Delta { get; set; }
 	}
 }
