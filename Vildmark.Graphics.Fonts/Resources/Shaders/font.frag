@@ -12,5 +12,7 @@ void main()
 {
 	vec4 rgb = texture(tex0, vert_frag_tex_coord);
 
-	frag_color = vec4(1.0, 1.0, 1.0, rgb.r) * vert_frag_color * tint;
+	float f = (rgb.r + rgb.g + rgb.b) / 3.0;
+
+	frag_color = vec4(1.0, 1.0, 1.0, f) * vert_frag_color * tint;
 }

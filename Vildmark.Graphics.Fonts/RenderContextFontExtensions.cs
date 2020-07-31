@@ -25,7 +25,7 @@ namespace Vildmark.Graphics.Fonts
 				stringMesh.UpdateVertices(vertices);
 			}
 
-			renderContext.Render(stringMesh, camera, new Material(font.Texture), shader: Resources.Shaders.Font);
+			renderContext.Render(stringMesh, camera, new Material(font.Texture));
 		}
 
 		private static Vertex[] CreateStringVertices(string str, Font font, Vector2 position)

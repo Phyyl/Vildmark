@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using OpenToolkit.Graphics.OpenGL;
 using System.Reflection;
 using Vildmark.DependencyServices;
 using Vildmark.Graphics.GLObjects;
@@ -7,28 +8,34 @@ using Vildmark.Resources;
 
 namespace Vildmark.Graphics.Fonts.Resources
 {
-	[DependencyService(typeof(IResourceLoader<string, Font>))]
-	public class FontResourceLoader : IResourceLoader<string, Font>
-	{
-		public Font Load(string name, Assembly assembly)
-		{
-			string json = EmbeddedResources.Get<string>($"{name}.json", assembly);
+    [DependencyService(typeof(IResourceLoader<string, Font>))]
+    public class FontResourceLoader : IResourceLoader<string, Font>
+    {
+        public Font Load(string name, Assembly assembly)
+        {
+            string json = EmbeddedResources.Get<string>($"{name}.json", assembly);
 
-			if (json is null)
-			{
-				return default;
-			}
+            if (json is null)
+            {
+                return default;
+            }
 
-			Font font = JsonConvert.DeserializeObject<Font>(json);
+            Font font = JsonConvert.DeserializeObject<Font>(json);
 
-			if (font is null)
-			{
-				return default;
-			}
+            if (font is null)
+            {
+                return default;
+            }
 
-			font.Texture = EmbeddedResources.Get<GLTexture2D>($"{name}.png", assembly);
+            font.Texture = EmbeddedResources.Get<GLTexture2D>($"{name}.png", assembly);
 
-			return font;
-		}
-	}
+            using (font.Texture.Bind())
+            {
+                font.Texture.TextureMagFilter = TextureMagFilter.Linear;
+                font.Texture.TextureMinFilter = TextureMinFilter.Linear;
+            }
+
+            return font;
+        }
+    }
 }
