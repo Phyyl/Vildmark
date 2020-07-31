@@ -13,24 +13,38 @@ namespace Vildmark.Resources
 	{
 		public static T Get<T>(string name, Assembly assembly = default)
 		{
-			Stream stream = GetStream(name, assembly ?? Assembly.GetCallingAssembly());
+			assembly ??= Assembly.GetCallingAssembly();
 
-			if (stream is null)
+			IResourceLoader<string, T> stringResourceLoader = Service<IResourceLoader<string, T>>.Instance;
+
+			if (stringResourceLoader != null)
 			{
-				return default;
+				return stringResourceLoader.Load(name, assembly);
 			}
 
-			return Service<IResourceLoader<T>>.Instance.Load(stream);
+			IResourceLoader<Stream, T> streamResourceLoader = Service<IResourceLoader<Stream, T>>.Instance;
+
+			if (streamResourceLoader != null)
+			{
+				Stream stream = GetStream(name, assembly);
+
+				if (stream != null)
+				{
+					return Service<IResourceLoader<Stream, T>>.Instance.Load(stream, assembly);
+				}
+			}
+
+			return default;
 		}
 
 		public static Stream GetStream(string name, Assembly assembly = default)
 		{
+			assembly ??= Assembly.GetCallingAssembly();
+
 			if (name is null)
 			{
 				throw new ArgumentNullException(nameof(name));
 			}
-
-			assembly ??= Assembly.GetCallingAssembly();
 
 			string[] names = assembly.GetManifestResourceNames();
 

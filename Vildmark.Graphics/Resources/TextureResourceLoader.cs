@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using Vildmark.DependencyServices;
 using Vildmark.Graphics.GLObjects;
 
 namespace Vildmark.Graphics.Resources
 {
-	[DependencyService(typeof(IResourceLoader<GLTexture2D>))]
-	[DependencyService(typeof(TextureResourceLoader))]
-	public class TextureResourceLoader : IResourceLoader<GLTexture2D>
+	[DependencyService(typeof(IResourceLoader<Stream, GLTexture2D>))]
+	public class TextureResourceLoader : IResourceLoader<Stream, GLTexture2D>
 	{
-		public unsafe GLTexture2D Load(Stream stream)
+		public unsafe GLTexture2D Load(Stream stream, Assembly assembly)
 		{
 			Bitmap bitmap = new Bitmap(stream);
 

@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Shaders\font.frag" />
+    <None Remove="Resources\Shaders\font.vert" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Shaders\font.frag" />
+    <EmbeddedResource Include="Resources\Shaders\font.vert" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Vildmark.Core\Vildmark.Core.csproj" />
+    <ProjectReference Include="..\Vildmark.Graphics\Vildmark.Graphics.csproj" />
+  </ItemGroup>
+
+</Project>

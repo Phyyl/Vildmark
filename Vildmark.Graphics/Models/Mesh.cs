@@ -14,7 +14,7 @@ namespace Vildmark.Graphics.Models
 
 		public GLVertexArray VertexArray { get; }
 
-		public Mesh(Span<Vertex> vertices, Span<uint> indices = default)
+		public Mesh(Span<Vertex> vertices = default, Span<uint> indices = default)
 		{
 			VertexArray = new GLVertexArray();
 			VertexBuffer = new GLBuffer<Vertex>(vertices);

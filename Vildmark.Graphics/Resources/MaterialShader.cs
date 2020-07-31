@@ -8,7 +8,12 @@ namespace Vildmark.Graphics.Resources
 	public class MaterialShader : EmbeddedShader
 	{
 		public MaterialShader()
-			: base("material")
+			: this("material")
+		{
+		}
+
+		protected MaterialShader(string name)
+			: base(name)
 		{
 			ProjectionMatrix = new Uniform<Matrix4>(this, "projection_matrix");
 			ModelMatrix = new Uniform<Matrix4>(this, "model_matrix");

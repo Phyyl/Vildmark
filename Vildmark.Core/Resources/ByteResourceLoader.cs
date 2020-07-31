@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using Vildmark.DependencyServices;
 using Vildmark.Graphics.Resources;
 
 namespace Vildmark.Resources
 {
-	[DependencyService(typeof(ByteResourceLoader))]
-	[DependencyService(typeof(IResourceLoader<byte[]>))]
-	public class ByteResourceLoader : IResourceLoader<byte[]>
+	[DependencyService(typeof(IResourceLoader<Stream, byte[]>))]
+	public class ByteResourceLoader : IResourceLoader<Stream, byte[]>
 	{
-		public byte[] Load(Stream stream)
+		public byte[] Load(Stream stream, Assembly assembly)
 		{
 			using MemoryStream memoryStream = new MemoryStream();
 

@@ -26,5 +26,13 @@ namespace Vildmark.Graphics.Cameras
 			ZNear = zNear;
 			ZFar = zFar;
 		}
+
+		public override void Resize(int width, int height)
+		{
+			base.Resize(width, height);
+
+			Width = width;
+			Height = height;
+		}
 	}
 }

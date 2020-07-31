@@ -5,45 +5,22 @@ using System.Collections.Generic;
 using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.Models;
 using Vildmark.Graphics.Resources;
+using Vildmark.Graphics.Shaders;
 
 namespace Vildmark.Graphics.Rendering
 {
 	public class RenderContext
 	{
-		private readonly List<Batch> batches = new List<Batch>();
-
-		private readonly MaterialShader materialShader;
-
-		public Camera Camera { get; set; }
-
-		public int Width { get; private set; }
-
-		public int Height { get; private set; }
-
 		public Color4 ClearColor { get; set; } = Color4.CornflowerBlue;
 
-		public RenderContext(int width, int height, Camera camera)
+		public RenderContext()
 		{
-			materialShader = new MaterialShader();
-
-			Camera = camera;
-
 			GL.Enable(EnableCap.DepthTest);
 			GL.Enable(EnableCap.Blend);
-			GL.Enable(EnableCap.CullFace);
+			//GL.Enable(EnableCap.CullFace);
 
 			GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
-			GL.CullFace(CullFaceMode.Back);
-
-			Resize(width, height);
-		}
-
-		public void Resize(int width, int height)
-		{
-			Width = width;
-			Height = height;
-
-			Camera.Resize(width, height);
+			//GL.CullFace(CullFaceMode.Back);
 		}
 
 		public void ClearDepthBuffer()
@@ -62,111 +39,38 @@ namespace Vildmark.Graphics.Rendering
 			GL.Viewport(0, 0, width, height);
 		}
 
-		public void Render(Mesh mesh, Material material = default, Transforms transforms = default, PrimitiveType primitiveType = PrimitiveType.Triangles)
+		public void Render(Mesh mesh, Camera camera, Material material, Transforms transforms = default, MaterialShader shader = default, PrimitiveType primitiveType = PrimitiveType.Triangles)
 		{
 			if (mesh.VertexBuffer.Count == 0)
 			{
 				return;
 			}
 
-			batches.Add(new Batch(mesh, material, transforms?.Matrix ?? Matrix4.Identity, primitiveType));
+			shader ??= Resources.Shaders.Material;
+
+			using (shader.Use())
+			{
+				using (material.Texture.Bind())
+				{
+					shader.ProjectionMatrix.SetValue(camera.ProjectionMatrix);
+					shader.ViewMatrix.SetValue(camera.Transforms.Matrix);
+					shader.ModelMatrix.SetValue(transforms?.Matrix ?? Matrix4.Identity);
+					shader.Tex0.SetValue(material.Texture);
+					shader.Tint.SetValue(material.Tint);
+
+					mesh.Render(primitiveType);
+				}
+			}
 		}
 
-		public void Render(Model model)
+		public void Render(Model model, Camera camera)
 		{
 			if (model is null)
 			{
 				return;
 			}
 
-			Render(model.Mesh, model.Material, model.Transforms, model.PrimitiveType);
-		}
-
-		public IDisposable Begin()
-		{
-			batches.Clear();
-
-			return new BeginContext(this);
-		}
-
-		public void End()
-		{
-			Flush();
-		}
-
-		public void BeginFlush()
-		{
-			SetViewPort(Width, Height);
-
-			ClearColorBuffer();
-			ClearDepthBuffer();
-		}
-
-		private void Flush()
-		{
-			BeginFlush();
-			RenderBatches(materialShader, Camera);
-		}
-
-		private void RenderBatches(MaterialShader materialShader, Camera camera)
-		{
-			foreach (var batch in batches)
-			{
-				RenderBatch(batch, materialShader, camera);
-			}
-		}
-
-		private void RenderBatch(Batch batch, MaterialShader shader, Camera camera)
-		{
-			using (shader.Use())
-			{
-				shader.Tex0.SetValue(batch.Material.Texture);
-				shader.ProjectionMatrix.SetValue(camera.ProjectionMatrix);
-				shader.ViewMatrix.SetValue(camera.Transforms.Matrix);
-				shader.ModelMatrix.SetValue(batch.ModelMatrix);
-				shader.Tint.SetValue(batch.Material.Tint);
-
-				batch.Mesh.Render(batch.PrimitiveType);
-			}
-		}
-
-		private class Batch
-		{
-			public Mesh Mesh { get; }
-
-			public Material Material { get; }
-
-			public Matrix4 ModelMatrix { get; }
-
-			public PrimitiveType PrimitiveType { get; }
-
-			public Batch(Mesh mesh, Material material, Matrix4 modelMatrix, PrimitiveType primitiveType)
-			{
-				Mesh = mesh;
-				Material = material ?? Materials.WhitePixel;
-				ModelMatrix = modelMatrix;
-				PrimitiveType = primitiveType;
-			}
-
-			public Batch(Model model)
-				: this(model.Mesh, model.Material, model.Transforms.Matrix, model.PrimitiveType)
-			{
-			}
-		}
-
-		private class BeginContext : IDisposable
-		{
-			public RenderContext RenderContext { get; }
-
-			public BeginContext(RenderContext renderContext)
-			{
-				RenderContext = renderContext;
-			}
-
-			public void Dispose()
-			{
-				RenderContext.End();
-			}
+			Render(model.Mesh, camera, model.Material, model.Transforms, primitiveType: model.PrimitiveType);
 		}
 	}
 }
