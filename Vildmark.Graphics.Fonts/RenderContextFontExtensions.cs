@@ -12,9 +12,9 @@ namespace Vildmark.Graphics.Fonts
 	{
 		private static Mesh stringMesh;
 
-		public static void RenderString(this RenderContext renderContext, string str, Font font, Vector2 position, Camera camera)
+		public static void RenderString(this RenderContext renderContext, string str, Font font, Vector2 position, Camera camera, float scale = 12)
 		{
-			Vertex[] vertices = CreateStringVertices(str, font, position);
+			Vertex[] vertices = CreateStringVertices(str, font, position, scale);
 
 			if (stringMesh is null)
 			{
@@ -28,11 +28,11 @@ namespace Vildmark.Graphics.Fonts
 			renderContext.Render(stringMesh, camera, new Material(font.Texture));
 		}
 
-		private static Vertex[] CreateStringVertices(string str, Font font, Vector2 position)
+		private static Vertex[] CreateStringVertices(string str, Font font, Vector2 position, float scale = 12)
 		{
 			List<Vertex> vertices = new List<Vertex>();
 
-			Vector3 cursor = new Vector3(0, font.Size, 0);
+			Vector2 cursor = new Vector2(0, font.Size);
 
 			foreach (var chr in str)
 			{
@@ -41,10 +41,13 @@ namespace Vildmark.Graphics.Fonts
 					continue;
 				}
 
-				Vector3 vtl = new Vector3(position.X - fontChar.OriginX, position.Y - fontChar.OriginY, 0) + cursor;
-				Vector3 vtr = vtl + new Vector3(fontChar.Width, 0, 0);
-				Vector3 vbl = vtl + new Vector3(0, fontChar.Height, 0);
-				Vector3 vbr = vtl + new Vector3(fontChar.Width, fontChar.Height, 0);
+				Vector2 glyphSize = new Vector2(fontChar.Width, fontChar.Height) / font.Size * scale;
+				Vector2 glyphOrigin = new Vector2(fontChar.OriginX, fontChar.OriginY) / font.Size * scale;
+
+				Vector3 vtl = new Vector3(position - glyphOrigin + cursor);
+				Vector3 vtr = vtl + new Vector3(glyphSize.X, 0, 0);
+				Vector3 vbl = vtl + new Vector3(0, glyphSize.Y, 0);
+				Vector3 vbr = vtl + new Vector3(glyphSize.X, glyphSize.Y, 0);
 
 				Vector2 ts = new Vector2(fontChar.Width / (float)font.Width, fontChar.Height / (float)font.Height);
 				Vector2 ttl = new Vector2(fontChar.X / (float)font.Width, fontChar.Y / (float)font.Height);
@@ -59,7 +62,7 @@ namespace Vildmark.Graphics.Fonts
 				vertices.Add(new Vertex(vbr, tbr));
 				vertices.Add(new Vertex(vtr, ttr));
 
-				cursor.X += fontChar.Advance;
+				cursor.X += fontChar.Advance / (float)font.Size * scale;
 			}
 
 			return vertices.ToArray();
