@@ -15,12 +15,13 @@ namespace Vildmark.Graphics.Rendering
 
 		public RenderContext()
 		{
-			GL.Enable(EnableCap.DepthTest);
+			EnableDepthTest();
+
 			GL.Enable(EnableCap.Blend);
-			//GL.Enable(EnableCap.CullFace);
+			GL.Enable(EnableCap.CullFace);
 
 			GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
-			//GL.CullFace(CullFaceMode.Back);
+			GL.CullFace(CullFaceMode.Back);
 		}
 
 		public void ClearDepthBuffer()
@@ -32,6 +33,16 @@ namespace Vildmark.Graphics.Rendering
 		{
 			GL.ClearColor(ClearColor);
 			GL.Clear(ClearBufferMask.ColorBufferBit);
+		}
+
+		public void EnableDepthTest()
+		{
+			GL.Enable(EnableCap.DepthTest);
+		}
+
+		public void DisableDepthTest()
+		{
+			GL.Disable(EnableCap.DepthTest);
 		}
 
 		public void SetViewPort(int width, int height)

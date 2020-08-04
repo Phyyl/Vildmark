@@ -1,17 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Shaders\font.frag" />
-    <None Remove="Resources\Shaders\font.vert" />
+    <None Remove="Resources\Shaders\dffont.frag" />
+    <None Remove="Resources\Shaders\dffont.vert" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Shaders\font.frag" />
-    <EmbeddedResource Include="Resources\Shaders\font.vert" />
+    <EmbeddedResource Include="Resources\Shaders\dffont.frag" />
+    <EmbeddedResource Include="Resources\Shaders\dffont.vert" />
   </ItemGroup>
 
   <ItemGroup>

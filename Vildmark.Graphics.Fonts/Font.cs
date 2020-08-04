@@ -6,6 +6,7 @@ using Vildmark.Graphics.GLObjects;
 
 namespace Vildmark.Graphics.Fonts
 {
+	//Chars (include space): !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ ¡¢£¥▌"cª«¬-r_°±²3'µ·,1º»¼½_¿AAAAÄÅÆÇEÉEEIIIIDÑOOOOÖxOUUUÜY_ßàáâaäåæçèéêëìíîïdñòóôoö÷oùúûüy_ÿ
 	public class Font
 	{
 		[JsonIgnore]

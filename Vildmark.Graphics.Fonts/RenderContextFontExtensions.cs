@@ -12,8 +12,10 @@ namespace Vildmark.Graphics.Fonts
 	{
 		private static Mesh stringMesh;
 
-		public static void RenderString(this RenderContext renderContext, string str, Font font, Vector2 position, Camera camera, float scale = 12)
+		public static void RenderString(this RenderContext renderContext, string str, Font font, Vector2 position, Camera camera, float scale = 24)
 		{
+			renderContext.DisableDepthTest();
+
 			Vertex[] vertices = CreateStringVertices(str, font, position, scale);
 
 			if (stringMesh is null)
@@ -25,14 +27,16 @@ namespace Vildmark.Graphics.Fonts
 				stringMesh.UpdateVertices(vertices);
 			}
 
-			renderContext.Render(stringMesh, camera, new Material(font.Texture));
+			renderContext.Render(stringMesh, camera, new Material(font.Texture), shader: Resources.Shaders.DistanceField);
+
+			renderContext.EnableDepthTest();
 		}
 
-		private static Vertex[] CreateStringVertices(string str, Font font, Vector2 position, float scale = 12)
+		private static Vertex[] CreateStringVertices(string str, Font font, Vector2 position, float scale)
 		{
 			List<Vertex> vertices = new List<Vertex>();
 
-			Vector2 cursor = new Vector2(0, font.Size);
+			Vector2 cursor = new Vector2(0, scale);
 
 			foreach (var chr in str)
 			{
@@ -42,9 +46,9 @@ namespace Vildmark.Graphics.Fonts
 				}
 
 				Vector2 glyphSize = new Vector2(fontChar.Width, fontChar.Height) / font.Size * scale;
-				Vector2 glyphOrigin = new Vector2(fontChar.OriginX, fontChar.OriginY) / font.Size * scale;
+				Vector2 glyphOrigin = new Vector2(-fontChar.OriginX, -fontChar.OriginY) / font.Size * scale;
 
-				Vector3 vtl = new Vector3(position - glyphOrigin + cursor);
+				Vector3 vtl = new Vector3(glyphOrigin + cursor + position);
 				Vector3 vtr = vtl + new Vector3(glyphSize.X, 0, 0);
 				Vector3 vbl = vtl + new Vector3(0, glyphSize.Y, 0);
 				Vector3 vbr = vtl + new Vector3(glyphSize.X, glyphSize.Y, 0);
