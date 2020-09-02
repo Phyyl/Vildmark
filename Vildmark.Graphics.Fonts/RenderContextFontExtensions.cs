@@ -8,68 +8,70 @@ using Vildmark.Graphics.Rendering;
 
 namespace Vildmark.Graphics.Fonts
 {
-	public static class RenderContextFontExtensions
-	{
-		private static Mesh stringMesh;
+    public static class RenderContextFontExtensions
+    {
+        private static Mesh stringMesh;
 
-		public static void RenderString(this RenderContext renderContext, string str, Font font, Vector2 position, Camera camera, float scale = 24)
-		{
-			renderContext.DisableDepthTest();
+        public static void RenderString(this RenderContext renderContext, string str, Vector2 position = default, Font font = default, float scale = 24)
+        {
+            font ??= Font.Arial;
 
-			Vertex[] vertices = CreateStringVertices(str, font, position, scale);
+            renderContext.DisableDepthTest();
 
-			if (stringMesh is null)
-			{
-				stringMesh = new Mesh(vertices);
-			}
-			else
-			{
-				stringMesh.UpdateVertices(vertices);
-			}
+            Vertex[] vertices = CreateStringVertices(str, font, position, scale);
 
-			renderContext.Render(stringMesh, camera, new Material(font.Texture), shader: Resources.Shaders.DistanceField);
+            if (stringMesh is null)
+            {
+                stringMesh = new Mesh(vertices);
+            }
+            else
+            {
+                stringMesh.UpdateVertices(vertices);
+            }
 
-			renderContext.EnableDepthTest();
-		}
+            renderContext.Render(stringMesh, renderContext.OrthographicCamera, new Material(font.Texture), shader: Resources.Shaders.DistanceField);
 
-		private static Vertex[] CreateStringVertices(string str, Font font, Vector2 position, float scale)
-		{
-			List<Vertex> vertices = new List<Vertex>();
+            renderContext.EnableDepthTest();
+        }
 
-			Vector2 cursor = new Vector2(0, scale);
+        private static Vertex[] CreateStringVertices(string str, Font font, Vector2 position, float scale)
+        {
+            List<Vertex> vertices = new List<Vertex>();
 
-			foreach (var chr in str)
-			{
-				if (!font.Characters.TryGetValue(chr, out FontChar fontChar))
-				{
-					continue;
-				}
+            Vector2 cursor = new Vector2(0, scale);
 
-				Vector2 glyphSize = new Vector2(fontChar.Width, fontChar.Height) / font.Size * scale;
-				Vector2 glyphOrigin = new Vector2(-fontChar.OriginX, -fontChar.OriginY) / font.Size * scale;
+            foreach (var chr in str)
+            {
+                if (!font.Characters.TryGetValue(chr, out FontChar fontChar))
+                {
+                    continue;
+                }
 
-				Vector3 vtl = new Vector3(glyphOrigin + cursor + position);
-				Vector3 vtr = vtl + new Vector3(glyphSize.X, 0, 0);
-				Vector3 vbl = vtl + new Vector3(0, glyphSize.Y, 0);
-				Vector3 vbr = vtl + new Vector3(glyphSize.X, glyphSize.Y, 0);
+                Vector2 glyphSize = new Vector2(fontChar.Width, fontChar.Height) / font.Size * scale;
+                Vector2 glyphOrigin = new Vector2(-fontChar.OriginX, -fontChar.OriginY) / font.Size * scale;
 
-				Vector2 ts = new Vector2(fontChar.Width / (float)font.Width, fontChar.Height / (float)font.Height);
-				Vector2 ttl = new Vector2(fontChar.X / (float)font.Width, fontChar.Y / (float)font.Height);
-				Vector2 ttr = ttl + new Vector2(ts.X, 0);
-				Vector2 tbl = ttl + new Vector2(0, ts.Y);
-				Vector2 tbr = ttl + ts;
+                Vector3 vtl = new Vector3(glyphOrigin + cursor + position);
+                Vector3 vtr = vtl + new Vector3(glyphSize.X, 0, 0);
+                Vector3 vbl = vtl + new Vector3(0, glyphSize.Y, 0);
+                Vector3 vbr = vtl + new Vector3(glyphSize.X, glyphSize.Y, 0);
 
-				vertices.Add(new Vertex(vtl, ttl));
-				vertices.Add(new Vertex(vbl, tbl));
-				vertices.Add(new Vertex(vbr, tbr));
-				vertices.Add(new Vertex(vtl, ttl));
-				vertices.Add(new Vertex(vbr, tbr));
-				vertices.Add(new Vertex(vtr, ttr));
+                Vector2 ts = new Vector2(fontChar.Width / (float)font.Width, fontChar.Height / (float)font.Height);
+                Vector2 ttl = new Vector2(fontChar.X / (float)font.Width, fontChar.Y / (float)font.Height);
+                Vector2 ttr = ttl + new Vector2(ts.X, 0);
+                Vector2 tbl = ttl + new Vector2(0, ts.Y);
+                Vector2 tbr = ttl + ts;
 
-				cursor.X += fontChar.Advance / (float)font.Size * scale;
-			}
+                vertices.Add(new Vertex(vtl, ttl));
+                vertices.Add(new Vertex(vbl, tbl));
+                vertices.Add(new Vertex(vbr, tbr));
+                vertices.Add(new Vertex(vtl, ttl));
+                vertices.Add(new Vertex(vbr, tbr));
+                vertices.Add(new Vertex(vtr, ttr));
 
-			return vertices.ToArray();
-		}
-	}
+                cursor.X += fontChar.Advance / (float)font.Size * scale;
+            }
+
+            return vertices.ToArray();
+        }
+    }
 }

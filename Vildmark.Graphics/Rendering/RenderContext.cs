@@ -2,7 +2,10 @@
 using OpenToolkit.Mathematics;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Vildmark.Graphics.Cameras;
+using Vildmark.Graphics.GLObjects;
+using Vildmark.Graphics.Helpers;
 using Vildmark.Graphics.Models;
 using Vildmark.Graphics.Resources;
 using Vildmark.Graphics.Shaders;
@@ -13,7 +16,9 @@ namespace Vildmark.Graphics.Rendering
 	{
 		public Color4 ClearColor { get; set; } = Color4.CornflowerBlue;
 
-		public RenderContext()
+		public OrthographicOffCenterCamera OrthographicCamera { get; }
+
+		public RenderContext(int width, int height)
 		{
 			EnableDepthTest();
 
@@ -22,6 +27,13 @@ namespace Vildmark.Graphics.Rendering
 
 			GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 			GL.CullFace(CullFaceMode.Back);
+
+			OrthographicCamera = new OrthographicOffCenterCamera(width, height);
+		}
+
+		public void Resize(int width, int height)
+		{
+			OrthographicCamera.Resize(width, height);
 		}
 
 		public void ClearDepthBuffer()
@@ -72,6 +84,23 @@ namespace Vildmark.Graphics.Rendering
 					mesh.Render(primitiveType);
 				}
 			}
+		}
+
+		public void Render(GLTexture2D texture, Vector2 position = default, Vector2 size = default)
+        {
+			if (size.X == 0)
+            {
+				size.X = texture.Width;
+            }
+
+			if (size.Y == 0)
+			{
+				size.Y = texture.Height;
+			}
+
+			GL.Disable(EnableCap.CullFace);
+			Render(new Mesh(CubeHelper.GetBackVertices(new Vector3(position), new Vector3(size), Vector4.One, Vector2.Zero, Vector2.One).ToArray()), OrthographicCamera, new Material(texture));
+			GL.Enable(EnableCap.CullFace);
 		}
 
 		public void Render(Model model, Camera camera)

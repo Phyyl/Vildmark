@@ -5,11 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Fonts\arial.json" />
+    <None Remove="Resources\Fonts\arial.png" />
     <None Remove="Resources\Shaders\dffont.frag" />
     <None Remove="Resources\Shaders\dffont.vert" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Fonts\arial.json" />
+    <EmbeddedResource Include="Resources\Fonts\arial.png" />
     <EmbeddedResource Include="Resources\Shaders\dffont.frag" />
     <EmbeddedResource Include="Resources\Shaders\dffont.vert" />
   </ItemGroup>
