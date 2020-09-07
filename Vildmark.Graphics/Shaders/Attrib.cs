@@ -1,4 +1,4 @@
-﻿using OpenToolkit.Graphics.OpenGL;
+﻿using OpenTK.Graphics.OpenGL;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Vildmark.Graphics.GLObjects;

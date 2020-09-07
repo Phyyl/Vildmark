@@ -1,4 +1,4 @@
-﻿using OpenToolkit.Graphics.OpenGL;
+﻿using OpenTK.Graphics.OpenGL;
 using System.Diagnostics;
 
 namespace Vildmark.Graphics.GLObjects

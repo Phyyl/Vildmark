@@ -1,4 +1,4 @@
-﻿using OpenToolkit.Graphics.OpenGL;
+﻿using OpenTK.Graphics.OpenGL;
 using System;
 using System.Runtime.InteropServices;
 
@@ -125,21 +125,6 @@ namespace Vildmark.Graphics.GLObjects
 			: base(bufferTarget, bufferUsageHint)
 		{
 			SetData(data);
-		}
-
-		public unsafe void UpdateData(Span<T> data, int offset = 0)
-		{
-			if (data.IsEmpty)
-			{
-				return;
-			}
-
-			using (Bind())
-			{
-				GL.BufferSubData(BufferTarget, (IntPtr)offset, data.Length * sizeof(T), ref MemoryMarshal.GetReference(data));
-			}
-
-			Count = data.Length;
 		}
 
 		public unsafe void SetData(Span<T> data)

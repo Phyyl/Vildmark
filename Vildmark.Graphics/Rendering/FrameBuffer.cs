@@ -1,5 +1,5 @@
 ﻿using System;
-using OpenToolkit.Graphics.OpenGL;
+using OpenTK.Graphics.OpenGL;
 using Vildmark.Graphics.GLObjects;
 
 namespace Vildmark.Graphics.Rendering

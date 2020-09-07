@@ -1,4 +1,4 @@
-﻿using OpenToolkit.Graphics.OpenGL;
+﻿using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -48,12 +48,12 @@ namespace Vildmark.Graphics.Models
 
 		public void UpdateVertices(Span<Vertex> vertices)
 		{
-			VertexBuffer?.UpdateData(vertices);
+			VertexBuffer?.SetData(vertices);
 		}
 
 		public void UpdateIndices(Span<uint> indices)
 		{
-			IndexBuffer?.UpdateData(indices);
+			IndexBuffer?.SetData(indices);
 		}
 	}
 }

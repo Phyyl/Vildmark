@@ -10,5 +10,9 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <OpenTKVersion>4.0.0-pre9.4</OpenTKVersion>
+  </PropertyGroup>
   
 </Project>

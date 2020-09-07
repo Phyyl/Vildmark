@@ -1,4 +1,4 @@
-﻿using OpenToolkit.Mathematics;
+﻿using OpenTK.Mathematics;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,18 +8,17 @@ namespace Vildmark.Graphics.Cameras
 {
 	public class OrthographicCamera : Camera
 	{
-		public float Width { get; set; }
+		public float Width { get; private set; }
 
-		public float Height { get; set; }
+		public float Height { get; private set; }
 
-		public float ZNear { get; set; }
+		public float ZNear { get; }
 
-		public float ZFar { get; set; }
+		public float ZFar { get;}
 
 		public override Matrix4 ProjectionMatrix => Matrix4.CreateOrthographic(Width, Height, ZNear, ZFar);
 
-		public OrthographicCamera(float width, float height, float zNear = 1, float zFar = -1, Transforms transforms = default)
-			: base(transforms)
+		public OrthographicCamera(float width, float height, float zNear = 1, float zFar = -1)
 		{
 			Width = width;
 			Height = height;

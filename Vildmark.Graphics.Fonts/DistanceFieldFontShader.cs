@@ -5,11 +5,11 @@ using Vildmark.Graphics.Resources;
 
 namespace Vildmark.Graphics.Fonts
 {
-	public class DistanceFieldFontShader : MaterialShader
-	{
-		public DistanceFieldFontShader()
-			:base("dffont")
-		{
-		}
-	}
+    public class DistanceFieldFontShader : MaterialShader
+    {
+        public DistanceFieldFontShader()
+            : base("font")
+        {
+        }
+    }
 }

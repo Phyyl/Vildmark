@@ -1,4 +1,4 @@
-﻿using OpenToolkit.Mathematics;
+﻿using OpenTK.Mathematics;
 using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Models;
 using Vildmark.Graphics.Shaders;

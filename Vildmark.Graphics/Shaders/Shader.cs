@@ -1,4 +1,4 @@
-﻿using OpenToolkit.Graphics.OpenGL;
+﻿using OpenTK.Graphics.OpenGL;
 using System;
 using System.Reflection;
 using Vildmark.Graphics.GLObjects;
@@ -17,14 +17,14 @@ namespace Vildmark.Graphics.Shaders
 
 		public int GetAttribLocation(string name)
 		{
-			return shaderProgram.GetAttribLocation(name);
+			return shaderProgram?.GetAttribLocation(name) ?? -1;
 		}
 
 		public int GetUniformLocation(string name)
 		{
-			return shaderProgram.GetUniformLocation(name);
+			return shaderProgram?.GetUniformLocation(name) ?? -1;
 		}
 
-		public IDisposable Use() => shaderProgram.Use();
+		public IDisposable Use() => shaderProgram?.Use();
 	}
 }

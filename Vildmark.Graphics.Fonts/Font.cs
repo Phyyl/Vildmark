@@ -38,5 +38,8 @@ namespace Vildmark.Graphics.Fonts
 
 		[JsonProperty("characters")]
 		public Dictionary<char, FontChar> Characters { get; set; }
+
+		[JsonIgnore]
+		public int BaseLine => (int)(Size * 0.75f);
 	}
 }

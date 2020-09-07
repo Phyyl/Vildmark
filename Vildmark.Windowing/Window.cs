@@ -1,94 +1,88 @@
-﻿using OpenToolkit.Graphics.OpenGL;
-using OpenToolkit.Mathematics;
-using OpenToolkit.Windowing.Common;
-using OpenToolkit.Windowing.Desktop;
-using OpenToolkit.Windowing.GraphicsLibraryFramework;
+﻿using OpenTK.Graphics.OpenGL;
+using OpenTK.Mathematics;
+using OpenTK.Windowing.Common;
+using OpenTK.Windowing.Desktop;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Vildmark.Windowing
 {
-	public partial class Window : IWindow
-	{
-		private readonly GameWindow gameWindow;
-		private readonly WindowSettings settings;
+    public partial class Window : IWindow
+    {
+        private readonly GameWindow gameWindow;
+        private readonly WindowSettings settings;
 
-		public IWindowHandler WindowHandler { get; set; }
+        public IWindowHandler WindowHandler { get; set; }
 
-		public int Width => Size.X;
+        public int Width => Size.X;
 
-		public int Height => Size.Y;
+        public int Height => Size.Y;
 
-		public Vector2i Size { get; private set; }
+        public Vector2i Size { get; private set; }
 
-		public Window(WindowSettings settings, IWindowHandler windowHandler)
-		{
-			GLFW.WindowHint(WindowHintInt.Samples, settings.Samples);
+        public Window(WindowSettings settings, IWindowHandler windowHandler)
+        {
+            NativeWindowSettings nativeSettings = NativeWindowSettings.Default;
 
-			gameWindow = new GameWindow(GameWindowSettings.Default, new NativeWindowSettings
-			{
-				Size = new Vector2i(settings.Width, settings.Height),
-				Title = settings.Title,
-				WindowState = settings.State,
-				WindowBorder = settings.Border,
-				//Profile = ContextProfile.Core,
-				//API = ContextAPI.OpenGL,
-				//APIVersion = new Version(4, 6),
-			});
+            nativeSettings.Size = new Vector2i(settings.Width, settings.Height);
+            nativeSettings.Title = settings.Title;
+            nativeSettings.WindowState = settings.State;
+            nativeSettings.WindowBorder = settings.Border;
+            nativeSettings.Samples = settings.Samples;
 
-			gameWindow.Load += GameWindow_Load;
-			gameWindow.Unload += GameWindow_Unload;
-			gameWindow.Resize += GameWindow_Resize;
-			gameWindow.UpdateFrame += GameWindow_UpdateFrame;
-			gameWindow.RenderFrame += GameWindow_RenderFrame;
-			WindowHandler = windowHandler;
+            gameWindow = new GameWindow(GameWindowSettings.Default, nativeSettings);
 
-			this.settings = settings;
-		}
+            gameWindow.Load += GameWindow_Load;
+            gameWindow.Unload += GameWindow_Unload;
+            gameWindow.Resize += GameWindow_Resize;
+            gameWindow.UpdateFrame += GameWindow_UpdateFrame;
+            gameWindow.RenderFrame += GameWindow_RenderFrame;
+            WindowHandler = windowHandler;
 
-		public void Run()
-		{
-			gameWindow.Run();
-		}
+            this.settings = settings;
+        }
 
-		private void GameWindow_Load()
-		{
-			WindowHandler?.Load();
+        public void Run()
+        {
+            gameWindow.Run();
+        }
 
-			if (settings.Samples > 0)
-			{
-				GL.Enable(EnableCap.Multisample);
-			}
-		}
+        private void GameWindow_Load()
+        {
+            gameWindow.MakeCurrent();
 
-		private void GameWindow_Unload()
-		{
-			WindowHandler?.Unload();
-		}
+            WindowHandler?.Load();
+        }
 
-		private void GameWindow_Resize(ResizeEventArgs obj)
-		{
-			Size = new Vector2i(obj.Width, obj.Height);
+        private void GameWindow_Unload()
+        {
+            WindowHandler?.Unload();
+        }
 
-			WindowHandler?.Resize(obj.Width, obj.Height);
-		}
+        private void GameWindow_Resize(ResizeEventArgs obj)
+        {
+            Size = new Vector2i(obj.Width, obj.Height);
 
-		private void GameWindow_UpdateFrame(FrameEventArgs obj)
-		{
-			UpdateKeyboard();
-			UpdateMouse();
+            WindowHandler?.Resize(obj.Width, obj.Height);
+        }
 
-			WindowHandler?.Update((float)obj.Time);
-		}
+        private void GameWindow_UpdateFrame(FrameEventArgs obj)
+        {
+            UpdateKeyboard();
+            UpdateMouse();
 
-		private void GameWindow_RenderFrame(FrameEventArgs obj)
-		{
-			GL.Viewport(0, 0, Width, Height);
+            WindowHandler?.Update((float)obj.Time);
+        }
 
-			WindowHandler?.Render((float)obj.Time);
+        private void GameWindow_RenderFrame(FrameEventArgs obj)
+        {
+            GL.Viewport(0, 0, Width, Height);
 
-			gameWindow.SwapBuffers();
-		}
-	}
+            WindowHandler?.Render((float)obj.Time);
+
+            gameWindow.SwapBuffers();
+        }
+    }
 }

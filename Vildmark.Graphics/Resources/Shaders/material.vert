@@ -15,10 +15,7 @@ out vec4 vert_frag_color;
 
 void main()
 {
-    vec2 tex0HalfTexelSize = 1.0 / vec2(textureSize(tex0, 0)) / 16.0;
-	float bias = (abs(vert_normal.x) - abs(vert_normal.z)) * 0.05;
-	
 	gl_Position = projection_matrix * view_matrix * model_matrix * vec4(vert_position, 1.0);
-	vert_frag_color = vert_color + vec4(bias, bias, bias, 1.0);
+	vert_frag_color = vert_color;
 	vert_frag_tex_coord = vert_tex_coord;
 }

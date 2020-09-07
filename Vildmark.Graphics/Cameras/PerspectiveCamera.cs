@@ -1,4 +1,4 @@
-﻿using OpenToolkit.Mathematics;
+﻿using OpenTK.Mathematics;
 using System.Transactions;
 using Vildmark.Graphics.Rendering;
 
@@ -18,8 +18,7 @@ namespace Vildmark.Graphics.Cameras
 
 		public override Matrix4 ProjectionMatrix => Matrix4.CreatePerspectiveFieldOfView(FovY, Width / (float)Height, ZNear, ZFar);
 
-		public PerspectiveCamera(float fovY, int width, int height, float zNear = 0.01f, float zFar = 1000, Transforms transforms = default)
-			: base(transforms)
+		public PerspectiveCamera(float fovY, int width, int height, float zNear = 0.01f, float zFar = 1000)
 		{
 			FovY = fovY;
 			Width = width;

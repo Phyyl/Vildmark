@@ -1,5 +1,5 @@
 using Vildmark.Graphics.GLObjects;
-using OpenToolkit.Mathematics;
+using OpenTK.Mathematics;
 using Vildmark.Graphics.Resources;
 
 namespace Vildmark.Graphics.Models

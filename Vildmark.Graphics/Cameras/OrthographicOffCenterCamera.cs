@@ -1,4 +1,4 @@
-﻿using OpenToolkit.Mathematics;
+﻿using OpenTK.Mathematics;
 using Vildmark.Graphics.Rendering;
 
 namespace Vildmark.Graphics.Cameras
@@ -15,8 +15,7 @@ namespace Vildmark.Graphics.Cameras
 
 		public override Matrix4 ProjectionMatrix => Matrix4.CreateOrthographicOffCenter(0, Width, Height, 0, ZNear, ZFar);
 
-		public OrthographicOffCenterCamera(float width, float height, float zNear = 1, float zFar = -1, Transforms transforms = default)
-			: base(transforms)
+		public OrthographicOffCenterCamera(float width, float height, float zNear = 1, float zFar = -1)
 		{
 			Width = width;
 			Height = height;

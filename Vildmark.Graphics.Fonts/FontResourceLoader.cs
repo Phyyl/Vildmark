@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using OpenToolkit.Graphics.OpenGL;
+using OpenTK.Graphics.OpenGL;
 using System.Reflection;
 using Vildmark.DependencyServices;
 using Vildmark.Graphics.GLObjects;

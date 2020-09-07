@@ -5,11 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenTK" Version="4.0.0-pre9.1" />
+    <ProjectReference Include="..\Vildmark.Core\Vildmark.Core.csproj" />
+    <ProjectReference Include="..\..\opentk\src\OpenTK.Core\OpenTK.Core.csproj" />
+    <ProjectReference Include="..\..\opentk\src\OpenTK.Graphics\OpenTK.Graphics.csproj" />
+    <ProjectReference Include="..\..\opentk\src\OpenTK.Input\OpenTK.Input.csproj" />
+    <ProjectReference Include="..\..\opentk\src\OpenTK.Mathematics\OpenTK.Mathematics.csproj" />
+    <ProjectReference Include="..\..\opentk\src\OpenTK.Windowing.Common\OpenTK.Windowing.Common.csproj" />
+    <ProjectReference Include="..\..\opentk\src\OpenTK.Windowing.Desktop\OpenTK.Windowing.Desktop.csproj" />
+    <ProjectReference Include="..\..\opentk\src\OpenTK.Windowing.GraphicsLibraryFramework\OpenTK.Windowing.GraphicsLibraryFramework.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Vildmark.Core\Vildmark.Core.csproj" />
-  </ItemGroup>
 
 </Project>

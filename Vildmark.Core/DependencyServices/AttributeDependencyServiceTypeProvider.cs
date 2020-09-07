@@ -17,7 +17,7 @@ namespace Vildmark.DependencyServices
         public IEnumerable<Type> GetServiceTypes()
         {
             Assembly[] assemblies = assemblyProvider.GetAssemblies().ToArray();
-
+            
             Dictionary<Type, Type> types = new Dictionary<Type, Type>();
 
             foreach (var instanceType in assemblies.SelectMany(a => a.GetTypes()))

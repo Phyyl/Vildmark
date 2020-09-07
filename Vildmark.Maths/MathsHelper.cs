@@ -1,4 +1,4 @@
-﻿using OpenToolkit.Mathematics;
+﻿using OpenTK.Mathematics;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,6 +7,8 @@ namespace Vildmark.Maths
 {
 	public static class MathsHelper
 	{
+		public const float PiOver8 = MathHelper.PiOver4 / 2;
+
 		public static float Round(float value, int digits = 0) => (float)Math.Round(value, digits);
 		public static float Floor(float value) => (float)Math.Floor(value);
 
@@ -26,6 +28,11 @@ namespace Vildmark.Maths
 			x = index / (height * depth);
 			y = (index / depth) % height;
 			z = index % depth;
+		}
+
+		public static Vector2 VectorFromAngle(float angle)
+        {
+			return new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
 		}
 	}
 }
