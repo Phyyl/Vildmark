@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\opentk\src\OpenTK.Mathematics\OpenTK.Mathematics.csproj" />
+    <PackageReference Include="OpenTK.Mathematics" Version="4.0.0-pre9.4" />
   </ItemGroup>
   
 </Project>
