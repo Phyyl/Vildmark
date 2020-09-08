@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 
@@ -28,6 +29,11 @@ namespace Vildmark.Helpers
             }
 
             loaded = true;
+        }
+
+        public static IEnumerable<Assembly> GetAllLoadedUserAssemblies()
+        {
+            return AppDomain.CurrentDomain.GetAssemblies().Where(a => a.GetCustomAttribute<AssemblyCompanyAttribute>()?.Company != "Microsoft Corporation");
         }
     }
 }

@@ -16,9 +16,9 @@ namespace Vildmark.Helpers
                 return;
             }
 
-            foreach (var type in AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()))
+            foreach (var type in AssemblyHelper.GetAllLoadedUserAssemblies().SelectMany(a => a.GetTypes()))
             {
-                type.TypeInitializer?.Invoke(new object[0]);
+                type.TypeInitializer?.Invoke(null, null);
             }
 
             staticConstructorsRan = true;
