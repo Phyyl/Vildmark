@@ -1,98 +1,129 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace Vildmark.DependencyServices
 {
-	public class DependencyService : IDependencyService
-	{
-		private readonly Dictionary<Type, object> services = new Dictionary<Type, object>();
+    public class DependencyService : IDependencyService
+    {
+        private readonly Dictionary<Type, List<Entry>> services = new Dictionary<Type, List<Entry>>();
 
-		public DependencyService()
-		{
-			Register<IDependencyService>(this);
-		}
+        public DependencyService()
+        {
+            Register<IDependencyService>(this);
+        }
 
-		public T Get<T>() where T : class
-		{
-			return Get(typeof(T)) as T;
-		}
+        public T Get<T>() where T : class
+        {
+            return Get(typeof(T)) as T;
+        }
 
-		public object Get(Type type)
-		{
-			return services.GetValueOrDefault(type);
-		}
+        public object Get(Type type)
+        {
+            return services.GetValueOrDefault(type)?.FirstOrDefault()?.Value;
+        }
 
-		public object Register(Type type, object value)
-		{
-			services.AddOrSet(type, value);
+        public IEnumerable<object> GetAll(Type type)
+        {
+            return services.GetValueOrDefault(type)?.Select(e => e.Value);
 
-			return value;
-		}
+        }
 
-		public T Register<T>(T value) where T : class
-		{
-			return Register(typeof(T), value) as T;
-		}
+        public IEnumerable<T> GetAll<T>() where T : class
+        {
+            return GetAll(typeof(T)) as IEnumerable<T>;
 
-		public TInstance Register<T, TInstance>()
-			where T : class
-			where TInstance : class, T, new()
-		{
-			return Register<T>(new TInstance()) as TInstance;
-		}
+        }
 
-		public T CreateInstance<T>() where T : class
-		{
-			return CreateInstance(typeof(T)) as T;
-		}
+        public object Register(Type type, object value, int priority = 0)
+        {
+            services.TryAdd(type, new List<Entry>());
+            services[type].Add(new Entry(type, value, priority));
+            services[type].Sort((a, b) => a.Priority - b.Priority);
 
-		public object CreateInstance(Type type)
-		{
-			object value = CreateInstance(type, false);
+            return value;
+        }
 
-			if (value is { })
-			{
-				return value;
-			}
+        public T Register<T>(T value, int priority = 0) where T : class
+        {
+            return Register(typeof(T), value, priority) as T;
+        }
 
-			return CreateInstance(type, true);
-		}
+        public TInstance Register<T, TInstance>(int priority = 0)
+            where T : class
+            where TInstance : class, T, new()
+        {
+            return Register<T>(new TInstance(), priority) as TInstance;
+        }
 
-		private object CreateInstance(Type type, bool throwOnError)
-		{
-			foreach (var constructor in type.GetConstructors(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic).OrderBy(c => c.IsPublic ? 0 : 1))
-			{
-				var parameters = constructor.GetParameters();
-				var parameterValues = parameters.Select(p => Get(p.ParameterType)).ToArray();
+        public T CreateInstance<T>() where T : class
+        {
+            return CreateInstance(typeof(T)) as T;
+        }
 
-				if (parameters.Any(p => p is null))
-				{
-					if (throwOnError)
-					{
-						string missingServices = string.Join(", ", Enumerable.Range(0, parameters.Length).Where(i => parameterValues[i] is null).Select(i => parameters[i].ParameterType.Name));
+        public object CreateInstance(Type type)
+        {
+            object value = CreateInstance(type, false);
 
-						throw new Exception($"Missing services ({missingServices})");
-					}
-					else
-					{
-						continue;
-					}
-				}
+            if (value is { })
+            {
+                return value;
+            }
 
-				object value = constructor.Invoke(parameterValues);
+            return CreateInstance(type, true);
+        }
 
-				if (value is null)
-				{
-					continue;
-				}
+        private object CreateInstance(Type type, bool throwOnError)
+        {
+            foreach (var constructor in type.GetConstructors(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic).OrderBy(c => c.IsPublic ? 0 : 1))
+            {
+                var parameters = constructor.GetParameters();
+                var parameterValues = parameters.Select(p => Get(p.ParameterType)).ToArray();
 
-				return value;
-			}
+                if (parameters.Any(p => p is null))
+                {
+                    if (throwOnError)
+                    {
+                        string missingServices = string.Join(", ", Enumerable.Range(0, parameters.Length).Where(i => parameterValues[i] is null).Select(i => parameters[i].ParameterType.Name));
 
-			return default;
-		}
-	}
+                        throw new Exception($"Missing services ({missingServices})");
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+
+                object value = constructor.Invoke(parameterValues);
+
+                if (value is null)
+                {
+                    continue;
+                }
+
+                return value;
+            }
+
+            return default;
+        }
+
+        private class Entry
+        {
+            public Entry(Type type, object value, int priority)
+            {
+                Type = type;
+                Value = value;
+                Priority = priority;
+            }
+
+            public Type Type { get; }
+
+            public object Value { get; }
+
+            public int Priority { get; }
+        }
+    }
 }

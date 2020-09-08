@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 
 namespace Vildmark
 {
@@ -23,6 +24,18 @@ namespace Vildmark
 
 			return value;
 		}
+
+		public static bool TryAdd<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue value)
+        {
+			if (dictionary.ContainsKey(key))
+            {
+				return false;
+            }
+
+			dictionary.Add(key, value);
+
+			return true;
+        }
 
 		public static void RemoveAll<T>(this List<T> list, IEnumerable<T> values)
 		{

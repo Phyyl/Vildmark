@@ -30,7 +30,7 @@ namespace Vildmark.Windowing
             nativeSettings.Title = settings.Title;
             nativeSettings.WindowState = settings.State;
             nativeSettings.WindowBorder = settings.Border;
-            nativeSettings.Samples = settings.Samples;
+            //nativeSettings.Samples = settings.Samples;
 
             gameWindow = new GameWindow(GameWindowSettings.Default, nativeSettings);
 

@@ -1,23 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Vildmark.DependencyServices
 {
 	public static class Service<T> where T : class
 	{
-		private static T instance;
+		private static T[] instances;
 
-		public static T Instance => instance ??= GetInstance();
+		public static T Instance => Instances.FirstOrDefault();
 
-		private static T GetInstance()
+		public static IEnumerable<T> Instances => instances ??= GetInstances();
+
+		private static T[] GetInstances()
 		{
-			return Service.DependencyService.Get<T>();
+			return Service.DependencyService.GetAll<T>().ToArray();
 		}
 	}
 
 	internal static class Service
 	{
-		internal static IDependencyService DependencyService { get; } = new AutoRegisterDependencyService(new DependencyService());
+		internal static IDependencyService DependencyService { get; } = new AppDomainDependencyService();
 	}
 }

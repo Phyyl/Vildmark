@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Vildmark.DependencyServices
 {
@@ -6,10 +8,12 @@ namespace Vildmark.DependencyServices
 	{
 		T Get<T>() where T : class;
 		object Get(Type type);
+		IEnumerable<T> GetAll<T>() where T : class;
+		IEnumerable<object> GetAll(Type type);
 
-		object Register(Type type, object value);
-		T Register<T>(T value) where T : class;
-		TInstance Register<T, TInstance>()
+		object Register(Type type, object value, int priority = 0);
+		T Register<T>(T value, int priority = 0) where T : class;
+		TInstance Register<T, TInstance>(int priority = 0)
 			where T : class
 			where TInstance : class, T, new();
 
