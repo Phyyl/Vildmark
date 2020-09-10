@@ -34,6 +34,11 @@ namespace Vildmark.DependencyServices
 
             Type instanceType = instanceTypes.OrderByDescending(GetPriority).FirstOrDefault();
 
+            if (instanceType == null)
+            {
+                return null;
+            }
+
             int GetPriority(Type type)
             {
                 ServiceAttribute[] attributes = type.GetCustomAttributes<ServiceAttribute>().ToArray();
