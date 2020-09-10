@@ -12,6 +12,12 @@ namespace Vildmark.DependencyServices
             Priority = priority;
         }
 
+        public ServiceAttribute(int priority)
+            : this(null, priority)
+        {
+
+        }
+
         public Type Type { get; }
 
         public int Priority { get; }

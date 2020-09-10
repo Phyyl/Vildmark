@@ -29,10 +29,10 @@ namespace Vildmark.DependencyServices
             }
 
             IEnumerable<Assembly> assemblies = AssemblyHelper.GetAllLoadedUserAssemblies();
-            IEnumerable<Type> types = assemblies.SelectMany(a => a.GetTypes());
+            IEnumerable<Type> types = assemblies.SelectMany(a => a.GetTypes().Where(t => !t.IsAbstract));
             IEnumerable<Type> instanceTypes = types.Where(type.IsAssignableFrom);
 
-            Type instanceType = instanceTypes.OrderBy(GetPriority).FirstOrDefault();
+            Type instanceType = instanceTypes.OrderByDescending(GetPriority).FirstOrDefault();
 
             int GetPriority(Type type)
             {
