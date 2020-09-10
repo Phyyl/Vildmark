@@ -49,7 +49,8 @@ namespace Vildmark.DependencyServices
                 return attribute?.Priority ?? 0;
             }
 
-            value = Create(instanceType);
+            value ??= services.Values.FirstOrDefault(o => instanceType.IsAssignableFrom(o.GetType()));
+            value ??= Create(instanceType);
 
             if (!(value is null))
             {
