@@ -30,7 +30,7 @@ namespace Vildmark.Resources
 
 				if (stream != null)
 				{
-					return Service<IResourceLoader<Stream, T>>.Instance.Load(stream, assembly);
+					return streamResourceLoader.Load(stream, assembly);
 				}
 			}
 

@@ -8,6 +8,7 @@ using Vildmark.Graphics.Resources;
 
 namespace Vildmark.Resources
 {
+	[Service]
 	public class ByteResourceLoader : IResourceLoader<Stream, byte[]>
 	{
 		public byte[] Load(Stream stream, Assembly assembly)
