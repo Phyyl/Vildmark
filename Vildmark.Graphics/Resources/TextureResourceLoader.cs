@@ -10,7 +10,6 @@ using Vildmark.Graphics.GLObjects;
 
 namespace Vildmark.Graphics.Resources
 {
-	[DependencyService(typeof(IResourceLoader<Stream, GLTexture2D>))]
 	public class TextureResourceLoader : IResourceLoader<Stream, GLTexture2D>
 	{
 		public unsafe GLTexture2D Load(Stream stream, Assembly assembly)

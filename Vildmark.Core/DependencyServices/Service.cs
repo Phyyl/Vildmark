@@ -7,20 +7,13 @@ namespace Vildmark.DependencyServices
 {
 	public static class Service<T> where T : class
 	{
-		private static T[] instances;
+		private static T instance;
 
-		public static T Instance => Instances.FirstOrDefault();
+		public static T Instance => instance ??= GetInstance();
 
-		public static IEnumerable<T> Instances => instances ??= GetInstances();
-
-		private static T[] GetInstances()
+		private static T GetInstance()
 		{
-			return Service.DependencyService.GetAll<T>().ToArray();
+			return DependencyService.Global.Get<T>();
 		}
-	}
-
-	internal static class Service
-	{
-		internal static IDependencyService DependencyService { get; } = new AppDomainDependencyService();
 	}
 }

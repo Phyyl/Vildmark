@@ -4,17 +4,17 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using Vildmark.Helpers;
 
 namespace Vildmark.DependencyServices
 {
     public class DependencyService : IDependencyService
     {
-        private readonly Dictionary<Type, List<Entry>> services = new Dictionary<Type, List<Entry>>();
+        private static IDependencyService global;
 
-        public DependencyService()
-        {
-            Register<IDependencyService>(this);
-        }
+        public static IDependencyService Global => global ??= CreateGlobal();
+
+        private readonly Dictionary<Type, object> services = new Dictionary<Type, object>();
 
         public T Get<T>() where T : class
         {
@@ -23,60 +23,55 @@ namespace Vildmark.DependencyServices
 
         public object Get(Type type)
         {
-            return services.GetValueOrDefault(type)?.FirstOrDefault()?.Value;
-        }
+            if (services.TryGetValue(type, out var value))
+            {
+                return value;
+            }
 
-        public IEnumerable<object> GetAll(Type type)
-        {
-            return services.GetValueOrDefault(type)?.Select(e => e.Value);
+            IEnumerable<Assembly> assemblies = AssemblyHelper.GetAllLoadedUserAssemblies();
+            IEnumerable<Type> types = assemblies.SelectMany(a => a.GetTypes());
+            IEnumerable<Type> instanceTypes = types.Where(type.IsAssignableFrom);
 
-        }
+            Type instanceType = instanceTypes.OrderBy(GetPriority).FirstOrDefault();
 
-        public IEnumerable<T> GetAll<T>() where T : class
-        {
-            return GetAll(typeof(T)) as IEnumerable<T>;
+            int GetPriority(Type type)
+            {
+                ServiceAttribute[] attributes = type.GetCustomAttributes<ServiceAttribute>().ToArray();
+                ServiceAttribute attribute = attributes.FirstOrDefault(a => a.Type == type) ??
+                    attributes.FirstOrDefault(a => type.IsAssignableFrom(a.Type)) ??
+                    attributes.FirstOrDefault(a => a.Type == null);
 
-        }
+                return attribute?.Priority ?? 0;
+            }
 
-        public object Register(Type type, object value, int priority = 0)
-        {
-            services.TryAdd(type, new List<Entry>());
-            services[type].Add(new Entry(type, value, priority));
-            services[type].Sort((a, b) => a.Priority - b.Priority);
+            value = Create(instanceType);
+
+            if (!(value is null))
+            {
+                services.Add(type, value);
+            }
 
             return value;
         }
 
-        public T Register<T>(T value, int priority = 0) where T : class
+        public T Create<T>() where T : class
         {
-            return Register(typeof(T), value, priority) as T;
+            return Create(typeof(T)) as T;
         }
 
-        public TInstance Register<T, TInstance>(int priority = 0)
-            where T : class
-            where TInstance : class, T, new()
+        public object Create(Type type)
         {
-            return Register<T>(new TInstance(), priority) as TInstance;
-        }
-
-        public T CreateInstance<T>() where T : class
-        {
-            return CreateInstance(typeof(T)) as T;
-        }
-
-        public object CreateInstance(Type type)
-        {
-            object value = CreateInstance(type, false);
+            object value = Create(type, false);
 
             if (value is { })
             {
                 return value;
             }
 
-            return CreateInstance(type, true);
+            return Create(type, true);
         }
 
-        private object CreateInstance(Type type, bool throwOnError)
+        private object Create(Type type, bool throwOnError)
         {
             foreach (var constructor in type.GetConstructors(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic).OrderBy(c => c.IsPublic ? 0 : 1))
             {
@@ -108,6 +103,13 @@ namespace Vildmark.DependencyServices
             }
 
             return default;
+        }
+
+        private static IDependencyService CreateGlobal()
+        {
+            AssemblyHelper.LoadAllReferencedAssemblies();
+
+            return new DependencyService();
         }
 
         private class Entry

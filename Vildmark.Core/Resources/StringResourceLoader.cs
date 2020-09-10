@@ -8,7 +8,6 @@ using Vildmark.Graphics.Resources;
 
 namespace Vildmark.Resources
 {
-	[DependencyService(typeof(IResourceLoader<Stream, string>))]
 	public class StringResourceLoader : IResourceLoader<Stream, string>
 	{
 		public string Load(Stream stream, Assembly assembly)
