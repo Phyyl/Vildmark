@@ -49,6 +49,11 @@ namespace Vildmark.Windowing
             gameWindow.Run();
         }
 
+        public void Close()
+        {
+            gameWindow.Close();
+        }
+
         private void GameWindow_Load()
         {
             gameWindow.MakeCurrent();
