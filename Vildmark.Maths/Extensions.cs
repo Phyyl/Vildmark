@@ -1,6 +1,7 @@
 ﻿using OpenTK.Mathematics;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 
 namespace Vildmark.Maths
@@ -35,6 +36,21 @@ namespace Vildmark.Maths
 		public static Vector4 Floor(this Vector4 v)
 		{
 			return new Vector4(MathsHelper.Floor(v.X), MathsHelper.Floor(v.Y), MathsHelper.Floor(v.Z), MathsHelper.Floor(v.W));
+		}
+
+		public static Vector4 ToVector(this Rectangle rectangle)
+        {
+			return new Vector4(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+		}
+
+		public static Vector4 ToVector(this RectangleF rectangle)
+		{
+			return new Vector4(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+		}
+
+		public static RectangleF ToRectangleF(this Vector4 v)
+        {
+			return new RectangleF(v.X, v.Y, v.Z, v.W);
 		}
 	}
 }

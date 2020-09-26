@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Vildmark.Core\Vildmark.Core.csproj" />
+    <ProjectReference Include="..\Vildmark.Maths\Vildmark.Maths.csproj" />
   </ItemGroup>
 
 </Project>

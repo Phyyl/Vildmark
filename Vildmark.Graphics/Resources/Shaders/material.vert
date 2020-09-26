@@ -3,7 +3,7 @@
 uniform mat4 projection_matrix;
 uniform mat4 view_matrix;
 uniform mat4 model_matrix;
-uniform sampler2D tex0;
+uniform vec4 source_rect;
 
 layout(location = 0) in vec3 vert_position;
 layout(location = 1) in vec2 vert_tex_coord;

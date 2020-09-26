@@ -2,6 +2,7 @@
 using OpenTK.Mathematics;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.GLObjects;
@@ -9,6 +10,7 @@ using Vildmark.Graphics.Helpers;
 using Vildmark.Graphics.Models;
 using Vildmark.Graphics.Resources;
 using Vildmark.Graphics.Shaders;
+using Vildmark.Maths;
 
 namespace Vildmark.Graphics.Rendering
 {
@@ -107,13 +109,14 @@ namespace Vildmark.Graphics.Rendering
                     shader.ModelMatrix.SetValue(modelMatrix ?? Matrix4.Identity);
                     shader.Tex0.SetValue(material.Texture);
                     shader.Tint.SetValue(material.Tint);
+                    shader.SourceRect.SetValue(material.SourceRect.ToVector());
 
                     mesh.Render(primitiveType);
                 }
             }
         }
 
-        public void Render(GLTexture2D texture, Vector2 position = default, Vector2 size = default, Vector4? color = default, float scale = 1, float angle = 0, Vector2 origin = default, float z = 0)
+        public void RenderRectangle(GLTexture2D texture, Vector2 position = default, Vector2 size = default, Vector4? color = default, float scale = 1, float angle = 0, Vector2 origin = default, RectangleF sourceRect = default, float z = 0)
         {
             texture ??= Textures.WhitePixel;
             color ??= Vector4.One;
@@ -128,8 +131,20 @@ namespace Vildmark.Graphics.Rendering
                 size.Y = texture.Height;
             }
 
+            if (sourceRect == RectangleF.Empty)
+            {
+                sourceRect = new RectangleF(0, 0, 1, 1);
+            }
+            else if (sourceRect.Width > 1 || sourceRect.Height > 1)
+            {
+                sourceRect.X /= texture.Width;
+                sourceRect.Width /= texture.Width;
+                sourceRect.Y /= texture.Height;
+                sourceRect.Height /= texture.Height;
+            }
+
             DisableDepthTest();
-            Render(squareMesh, new Material(texture, color.Value), CreateModelMatrix(position, size, scale, angle, origin, z));
+            Render(squareMesh, new Material(texture, color.Value, sourceRect), CreateModelMatrix(position, size, scale, angle, origin, z));
             EnableDepthTest();
         }
 

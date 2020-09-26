@@ -20,6 +20,7 @@ namespace Vildmark.Graphics.Resources
 			ViewMatrix = new Uniform<Matrix4>(this, "view_matrix");
 			Tex0 = new Uniform<GLTexture2D>(this, "tex0");
 			Tint = new Uniform<Vector4>(this, "tint");
+			SourceRect = new Uniform<Vector4>(this, "source_rect");
 
 			Position = new Attrib<Vertex>(this, "vert_position", 3);
 			TexCoord = new Attrib<Vertex>(this, "vert_tex_coord", 2);
@@ -44,5 +45,7 @@ namespace Vildmark.Graphics.Resources
 		public Uniform<GLTexture2D> Tex0 { get; }
 
 		public Uniform<Vector4> Tint { get; }
+
+		public Uniform<Vector4> SourceRect { get; }
 	}
 }
