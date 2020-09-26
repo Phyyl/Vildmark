@@ -11,6 +11,9 @@ namespace Vildmark.Graphics.Rendering
         public GLTexture2D Texture { get; }
         public RectangleF Rectangle { get; }
 
+        public float Width => Rectangle.Width;
+        public float Height => Rectangle.Height;
+
         public Texture2D(GLTexture2D texture, RectangleF rectangle)
         {
             Texture = texture;
