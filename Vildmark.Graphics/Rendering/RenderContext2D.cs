@@ -143,6 +143,9 @@ namespace Vildmark.Graphics.Rendering
                 sourceRect.Height /= texture.Height;
             }
 
+            size.X *= sourceRect.Width;
+            size.Y *= sourceRect.Height;
+
             DisableDepthTest();
             Render(squareMesh, new Material(texture, color.Value, sourceRect), CreateModelMatrix(position, size, scale, angle, origin, z));
             EnableDepthTest();

@@ -39,6 +39,7 @@ namespace Vildmark.Graphics.Models
 		{
 			Texture = texture ?? Textures.WhitePixel;
 			Tint = tint;
+			SourceRect = sourceRect;
 		}
 
 		public GLTexture2D Texture { get; }
