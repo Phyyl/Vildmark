@@ -7,7 +7,7 @@ namespace Vildmark.Graphics.Cameras
     {
         private Vector3 translation;
         private Vector3 rotation;
-        private float scale;
+        private float scale = 1;
 
         public ref Vector3 Translation => ref translation;
         public ref Vector3 Rotation => ref rotation;
