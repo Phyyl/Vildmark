@@ -22,6 +22,6 @@ namespace Vildmark.Graphics.Rendering
             tileSize = new Vector2(texture.Width / xTiles, texture.Height / yTiles);
         }
 
-        public Material this[int x, int y] => new Material(Texture, new Vector4(x * tileSize.X, y * tileSize.Y, tileSize.X, tileSize.Y).ToRectangleF());
+        public Texture2D this[int x, int y] => new Texture2D(Texture, new Vector4(x * tileSize.X, y * tileSize.Y, tileSize.X, tileSize.Y).ToRectangleF());
     }
 }
