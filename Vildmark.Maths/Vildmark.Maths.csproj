@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenTK.Mathematics" Version="4.0.0-pre9.4" />
+    <PackageReference Include="OpenTK.Mathematics" Version="4.0.0-pre9.9" />
   </ItemGroup>
   
 </Project>

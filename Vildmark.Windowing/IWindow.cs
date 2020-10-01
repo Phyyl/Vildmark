@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Vildmark.Windowing
 {
-	public interface IWindow : IMouse, IKeyboard, IGamePad
+	public interface IWindow : IMouse, IKeyboard
 	{
 		int Width { get; }
 

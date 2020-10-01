@@ -75,9 +75,6 @@ namespace Vildmark.Windowing
 
         private void GameWindow_UpdateFrame(FrameEventArgs obj)
         {
-            UpdateKeyboard();
-            UpdateMouse();
-
             WindowHandler?.Update((float)obj.Time);
         }
 

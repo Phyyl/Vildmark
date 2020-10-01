@@ -1,4 +1,4 @@
-﻿using OpenTK.Windowing.Common.Input;
+﻿using OpenTK.Windowing.GraphicsLibraryFramework;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,9 +7,9 @@ namespace Vildmark.Windowing
 {
 	public interface IKeyboard
 	{
-		bool IsKeyDown(Key key);
-		bool IsKeyUp(Key key);
-		bool IsKeyPressed(Key key);
-		bool IsKeyReleased(Key key);
+		bool IsKeyDown(Keys key);
+		bool IsKeyUp(Keys key);
+		bool IsKeyPressed(Keys key);
+		bool IsKeyReleased(Keys key);
 	}
 }

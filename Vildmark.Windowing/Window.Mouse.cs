@@ -1,5 +1,5 @@
 ﻿using OpenTK.Mathematics;
-using OpenTK.Windowing.Common.Input;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -38,13 +38,7 @@ namespace Vildmark.Windowing
 
 		public bool IsMouseUp(MouseButton mouseButton)
 		{
-			return gameWindow.IsMouseButtonUp(mouseButton);
-		}
-
-		public void UpdateMouse()
-		{
-			Delta = gameWindow.MouseDelta;
-			Position = gameWindow.MousePosition;
+			return !gameWindow.IsMouseButtonDown(mouseButton);
 		}
 	}
 }
