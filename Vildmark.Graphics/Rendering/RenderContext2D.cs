@@ -23,14 +23,15 @@ namespace Vildmark.Graphics.Rendering
 
         public OrthographicOffCenterCamera OrthographicCamera { get; }
 
-        public RenderContext2D(int width, int height)
+        public RenderContext2D(int width, int height, float scale = 1)
         {
-            EnableDepthTest();
-
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
-            OrthographicCamera = new OrthographicOffCenterCamera(width, height);
+            OrthographicCamera = new OrthographicOffCenterCamera(width, height)
+            {
+                Scale = scale
+            };
 
             squareMesh = new Mesh(new Vertex[]
             {
@@ -65,15 +66,10 @@ namespace Vildmark.Graphics.Rendering
             OrthographicCamera.Resize(width, height);
         }
 
-        public void ClearDepthBuffer()
-        {
-            GL.Clear(ClearBufferMask.DepthBufferBit);
-        }
-
-        public void ClearColorBuffer()
+        public void Clear()
         {
             GL.ClearColor(ClearColor);
-            GL.Clear(ClearBufferMask.ColorBufferBit);
+            GL.Clear(ClearBufferMask.DepthBufferBit | ClearBufferMask.ColorBufferBit);
         }
 
         public void EnableDepthTest()
@@ -148,27 +144,24 @@ namespace Vildmark.Graphics.Rendering
                 size.Y *= sourceRect.Height;
             }
 
-            DisableDepthTest();
             Render(squareMesh, new Material(texture, color.Value, sourceRect), CreateModelMatrix(position, size, scale, angle, origin, z));
-            EnableDepthTest();
         }
 
         public void RenderRectangle(Vector2 position, Vector2 size, Vector4? color = default, float scale = 1, float angle = 0, Vector2 origin = default, float z = 0)
         {
-            color ??= Vector4.One;
+            Render(squareMesh, new Material(Textures.WhitePixel, color ?? Vector4.One), CreateModelMatrix(position, size, scale, angle, origin, z));
+        }
 
-            DisableDepthTest();
-            Render(squareMesh, new Material(Textures.WhitePixel, color.Value), CreateModelMatrix(position, size, scale, angle, origin, z));
-            EnableDepthTest();
+        public void RenderRectangle(Texture2D texture, Vector2 position = default, Vector2 size = default, Vector4? color = default, float scale = 1, float angle = 0, Vector2 origin = default, float z = 0)
+        {
+            RenderRectangle(texture.Texture, position, size, color, scale, angle, origin, texture.Rectangle, z);
         }
 
         public void RenderCircle(Vector2 position, float radius, Vector4? color = default, float scale = 1, Vector2 origin = default, float z = 0)
         {
             color ??= Vector4.One;
 
-            DisableDepthTest();
             Render(circleMesh, new Material(Textures.WhitePixel, color.Value), CreateModelMatrix(position, new Vector2(radius, radius), scale, 0, origin, z), PrimitiveType.TriangleFan);
-            EnableDepthTest();
         }
 
         private Matrix4 CreateModelMatrix(Vector2 position, Vector2 size, float scale, float angle, Vector2 origin, float z)

@@ -15,11 +15,11 @@ namespace Vildmark.Graphics.Rendering
 
         public GLTexture2D Texture { get; }
 
-        public TextureAtlas(GLTexture2D texture, int xTiles, int yTiles)
-        {
+        public TextureAtlas(GLTexture2D texture, int tileWidth, int tileHeight)
+        { 
             Texture = texture;
 
-            tileSize = new Vector2(texture.Width / xTiles, texture.Height / yTiles);
+            tileSize = new Vector2(tileWidth, tileHeight);
         }
 
         public Texture2D this[int x, int y] => new Texture2D(Texture, new Vector4(x * tileSize.X, y * tileSize.Y, tileSize.X, tileSize.Y).ToRectangleF());
