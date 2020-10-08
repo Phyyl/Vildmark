@@ -54,10 +54,33 @@ namespace Vildmark.DependencyServices
 
             if (!(value is null))
             {
-                services.Add(type, value);
+                Set(type, value, true);
             }
 
             return value;
+        }
+
+        public bool Set<T>(T value, bool @override = false) where T : class
+        {
+            return Set(typeof(T), value, @override);
+        }
+
+        public bool Set(Type type, object value, bool @override = false)
+        {
+            if (!services.ContainsKey(type))
+            {
+                services.Add(type, value);
+            }
+            else if (@override)
+            {
+                services[type] = value;
+            }
+            else
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public T Create<T>() where T : class
