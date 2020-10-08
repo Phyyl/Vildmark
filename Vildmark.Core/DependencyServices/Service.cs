@@ -9,7 +9,11 @@ namespace Vildmark.DependencyServices
 	{
 		private static T instance;
 
-		public static T Instance => instance ??= GetInstance();
+		public static T Instance
+		{
+			get => instance ??= GetInstance();
+			set => instance ??= value;
+		}
 
 		private static T GetInstance()
 		{
