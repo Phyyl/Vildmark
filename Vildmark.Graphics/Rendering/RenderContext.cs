@@ -3,6 +3,10 @@ using OpenTK.Mathematics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Vildmark.Graphics.Cameras;
+using Vildmark.Graphics.Models;
+using Vildmark.Graphics.Resources;
+using Vildmark.Maths;
 
 namespace Vildmark.Graphics.Rendering
 {
@@ -32,6 +36,31 @@ namespace Vildmark.Graphics.Rendering
         public void DisableDepthTest()
         {
             GL.Disable(EnableCap.DepthTest);
+        }
+
+        public void Render(Mesh mesh, Material material, Camera camera, Matrix4? modelMatrix = default, PrimitiveType primitiveType = PrimitiveType.Triangles, MaterialShader shader = default)
+        {
+            if (mesh.VertexBuffer.Count == 0)
+            {
+                return;
+            }
+
+            shader ??= Resources.Shaders.Material;
+
+            using (shader.Use())
+            {
+                using (material.Texture.Bind())
+                {
+                    shader.ProjectionMatrix.SetValue(camera.ProjectionMatrix);
+                    shader.ViewMatrix.SetValue(camera.ViewMatrix);
+                    shader.ModelMatrix.SetValue(modelMatrix ?? Matrix4.Identity);
+                    shader.Tex0.SetValue(material.Texture);
+                    shader.Tint.SetValue(material.Tint);
+                    shader.SourceRect.SetValue(material.SourceRect.ToVector());
+
+                    mesh.Render(primitiveType);
+                }
+            }
         }
 
         public void SetViewPort(int width, int height)
