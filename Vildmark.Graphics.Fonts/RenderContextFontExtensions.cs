@@ -39,7 +39,7 @@ namespace Vildmark.Graphics.Fonts
 
             Matrix4 modelMatrix = Matrix4.CreateTranslation(new Vector3(-origin));
 
-            renderContext.Render(stringMesh, new Material(font.Texture, color.Value), renderContext.OrthographicCamera, modelMatrix: modelMatrix,shader: Resources.Shaders.DistanceField);
+            renderContext.Render(stringMesh, new Material(font.Texture, color.Value), modelMatrix: modelMatrix,shader: Resources.Shaders.DistanceField);
         }
 
         public static Vector2 MeasureStringLine(this RenderContext2D renderContext, string str, float size = defaultSize, Font font = default)

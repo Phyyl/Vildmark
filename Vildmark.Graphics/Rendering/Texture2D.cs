@@ -14,10 +14,10 @@ namespace Vildmark.Graphics.Rendering
         public float Width => Rectangle.Width;
         public float Height => Rectangle.Height;
 
-        public Texture2D(GLTexture2D texture, RectangleF rectangle)
+        public Texture2D(GLTexture2D texture, RectangleF? rectangle = default)
         {
             Texture = texture;
-            Rectangle = rectangle;
+            Rectangle = rectangle ?? new RectangleF(0, 0, texture.Width, texture.Height);
         }
     }
 }

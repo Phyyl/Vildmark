@@ -21,6 +21,8 @@ namespace Vildmark.Graphics.Rendering
 
         public OrthographicOffCenterCamera OrthographicCamera { get; }
 
+        public override Camera Camera => OrthographicCamera;
+
         public RenderContext2D(int width, int height, float scale = 1)
         {
             const int circleSideCount = 72;
@@ -56,11 +58,6 @@ namespace Vildmark.Graphics.Rendering
             circleMesh = new Mesh(Enumerable.Range(0, circleSideCount + 1).SelectMany(GetCircleVertices).ToArray());
         }
 
-        public override void Resize(int width, int height)
-        {
-            OrthographicCamera.Resize(width, height);
-        }
-
         public void RenderRectangle(GLTexture2D texture, Vector2 position = default, Vector2 size = default, Vector4? color = default, float scale = 1, float angle = 0, Vector2 origin = default, RectangleF sourceRect = default, float z = 0)
         {
             texture ??= Textures.WhitePixel;
@@ -93,12 +90,12 @@ namespace Vildmark.Graphics.Rendering
                 size.Y *= sourceRect.Height;
             }
 
-            Render(squareMesh, new Material(texture, color.Value, sourceRect), OrthographicCamera, CreateModelMatrix(position, size, scale, angle, origin, z));
+            Render(squareMesh, new Material(texture, color.Value, sourceRect), CreateModelMatrix(position, size, scale, angle, origin, z));
         }
 
         public void RenderRectangle(Vector2 position, Vector2 size, Vector4? color = default, float scale = 1, float angle = 0, Vector2 origin = default, float z = 0)
         {
-            Render(squareMesh, new Material(Textures.WhitePixel, color ?? Vector4.One), OrthographicCamera, CreateModelMatrix(position, size, scale, angle, origin, z));
+            Render(squareMesh, new Material(Textures.WhitePixel, color ?? Vector4.One), CreateModelMatrix(position, size, scale, angle, origin, z));
         }
 
         public void RenderRectangle(Texture2D texture, Vector2 position = default, Vector2 size = default, Vector4? color = default, float scale = 1, float angle = 0, Vector2 origin = default, float z = 0)
@@ -110,7 +107,7 @@ namespace Vildmark.Graphics.Rendering
         {
             color ??= Vector4.One;
 
-            Render(circleMesh, new Material(Textures.WhitePixel, color.Value), OrthographicCamera, CreateModelMatrix(position, new Vector2(radius, radius), scale, 0, origin, z), PrimitiveType.TriangleFan);
+            Render(circleMesh, new Material(Textures.WhitePixel, color.Value), CreateModelMatrix(position, new Vector2(radius, radius), scale, 0, origin, z), PrimitiveType.TriangleFan);
         }
 
         private Matrix4 CreateModelMatrix(Vector2 position, Vector2 size, float scale, float angle, Vector2 origin, float z)

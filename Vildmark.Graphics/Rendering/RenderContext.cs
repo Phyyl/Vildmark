@@ -10,9 +10,11 @@ using Vildmark.Maths;
 
 namespace Vildmark.Graphics.Rendering
 {
-    public class RenderContext
+    public abstract class RenderContext
     {
         public Color4 ClearColor { get; set; } = Color4.CornflowerBlue;
+
+        public abstract Camera Camera { get; }
 
         public RenderContext()
         {
@@ -20,7 +22,10 @@ namespace Vildmark.Graphics.Rendering
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
         }
 
-        public virtual void Resize(int width, int height) { }
+        public void Resize(int width, int height)
+        {
+            Camera.Resize(width, height);
+        }
 
         public void Clear()
         {
@@ -38,7 +43,7 @@ namespace Vildmark.Graphics.Rendering
             GL.Disable(EnableCap.DepthTest);
         }
 
-        public void Render(Mesh mesh, Material material, Camera camera, Matrix4? modelMatrix = default, PrimitiveType primitiveType = PrimitiveType.Triangles, MaterialShader shader = default)
+        public virtual void Render(Mesh mesh, Material material, Matrix4? modelMatrix = default, PrimitiveType primitiveType = PrimitiveType.Triangles, MaterialShader shader = default)
         {
             if (mesh.VertexBuffer.Count == 0)
             {
@@ -51,8 +56,8 @@ namespace Vildmark.Graphics.Rendering
             {
                 using (material.Texture.Bind())
                 {
-                    shader.ProjectionMatrix.SetValue(camera.ProjectionMatrix);
-                    shader.ViewMatrix.SetValue(camera.ViewMatrix);
+                    shader.ProjectionMatrix.SetValue(Camera.ProjectionMatrix);
+                    shader.ViewMatrix.SetValue(Camera.ViewMatrix);
                     shader.ModelMatrix.SetValue(modelMatrix ?? Matrix4.Identity);
                     shader.Tex0.SetValue(material.Texture);
                     shader.Tint.SetValue(material.Tint);

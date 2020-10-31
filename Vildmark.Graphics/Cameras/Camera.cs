@@ -5,11 +5,11 @@ namespace Vildmark.Graphics.Cameras
 {
     public abstract class Camera
     {
-        private Vector3 translation;
+        private Vector3 position;
         private Vector3 rotation;
         private float scale = 1;
 
-        public ref Vector3 Translation => ref translation;
+        public ref Vector3 Position => ref position;
         public ref Vector3 Rotation => ref rotation;
 
         public ref float Scale => ref scale;
@@ -20,7 +20,7 @@ namespace Vildmark.Graphics.Cameras
         {
             get
             {
-                Matrix4 matrix = translation.LengthSquared > 0 ? Matrix4.CreateTranslation(translation) : Matrix4.Identity;
+                Matrix4 matrix = position.LengthSquared > 0 ? Matrix4.CreateTranslation(-position) : Matrix4.Identity;
 
                 if (scale != 1)
                 {
