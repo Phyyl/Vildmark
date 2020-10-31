@@ -14,19 +14,16 @@ using Vildmark.Maths;
 
 namespace Vildmark.Graphics.Rendering
 {
-    public class RenderContext2D
+    public class RenderContext2D : RenderContext
     {
         private Mesh squareMesh;
         private Mesh circleMesh;
-
-        public Color4 ClearColor { get; set; } = Color4.CornflowerBlue;
 
         public OrthographicOffCenterCamera OrthographicCamera { get; }
 
         public RenderContext2D(int width, int height, float scale = 1)
         {
-            GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+            const int circleSideCount = 72;
 
             OrthographicCamera = new OrthographicOffCenterCamera(width, height)
             {
@@ -42,8 +39,6 @@ namespace Vildmark.Graphics.Rendering
                 new Vertex(new Vector3(1, 1, 0), new Vector2(1, 1), new Vector3(0, 0, 1)),
                 new Vertex(new Vector3(1, 0, 0), new Vector2(1, 0), new Vector3(0, 0, 1)),
             });
-
-            const int circleSideCount = 72;
 
             IEnumerable<Vertex> GetCircleVertices(int i)
             {
@@ -61,30 +56,9 @@ namespace Vildmark.Graphics.Rendering
             circleMesh = new Mesh(Enumerable.Range(0, circleSideCount + 1).SelectMany(GetCircleVertices).ToArray());
         }
 
-        public void Resize(int width, int height)
+        public override void Resize(int width, int height)
         {
             OrthographicCamera.Resize(width, height);
-        }
-
-        public void Clear()
-        {
-            GL.ClearColor(ClearColor);
-            GL.Clear(ClearBufferMask.DepthBufferBit | ClearBufferMask.ColorBufferBit);
-        }
-
-        public void EnableDepthTest()
-        {
-            GL.Enable(EnableCap.DepthTest);
-        }
-
-        public void DisableDepthTest()
-        {
-            GL.Disable(EnableCap.DepthTest);
-        }
-
-        public void SetViewPort(int width, int height)
-        {
-            GL.Viewport(0, 0, width, height);
         }
 
         public void Render(Mesh mesh, Material material, Matrix4? modelMatrix = default, PrimitiveType primitiveType = PrimitiveType.Triangles, MaterialShader shader = default)

@@ -11,89 +11,22 @@ namespace Vildmark.Windowing
 {
     public partial class Window : IGamePad
     {
-        public bool IsGamePadConnected(int index = 0)
-        {
-            return gameWindow.JoystickStates[index] != null;
-        }
+        public bool IsGamePadConnected(int index = 0) => gameWindow.JoystickStates[index] != null;
 
-        public Vector2 GetLeftThumbStick(int index = 0)
-        {
-            if (!IsGamePadConnected(index))
-            {
-                return default;
-            }
+        public Vector2 GetLeftThumbStick(int index = 0) => new Vector2(gameWindow.JoystickStates[index]?.GetAxis(0) ?? default, gameWindow.JoystickStates[index]?.GetAxis(1) ?? default);
 
-            return new Vector2(gameWindow.JoystickStates[index].GetAxis(0), gameWindow.JoystickStates[index].GetAxis(1));
-        }
+        public Vector2 GetRightThumbStick(int index = 0) => new Vector2(gameWindow.JoystickStates[index]?.GetAxis(2) ?? default, gameWindow.JoystickStates[index]?.GetAxis(3) ?? default);
 
-        public Vector2 GetRightThumbStick(int index = 0)
-        {
-            if (!IsGamePadConnected(index))
-            {
-                return default;
-            }
+        public bool IsGamePadButtonDown(int button, int index = 0) => gameWindow.JoystickStates[index]?.IsButtonDown(button) ?? default;
 
-            return new Vector2(gameWindow.JoystickStates[index].GetAxis(2), gameWindow.JoystickStates[index].GetAxis(3));
-        }
+        public bool IsGamePadButtonUp(int button, int index = 0) => !IsGamePadButtonDown(button, index);
 
-        public bool IsGamePadButtonDown(int button, int index = 0)
-        {
-            if (!IsGamePadConnected(index))
-            {
-                return default;
-            }
+        public bool IsGamePadButtonPressed(int button, int index = 0) => !(gameWindow.JoystickStates[index]?.WasButtonDown(button) ?? default) && IsGamePadButtonDown(button, index);
 
-            return gameWindow.JoystickStates[index].IsButtonDown(button);
-        }
+        public bool IsGamePadButtonReleased(int button, int index = 0) => (gameWindow.JoystickStates[index]?.WasButtonDown(button) ?? default) && IsGamePadButtonUp(button, index);
 
-        public bool IsGamePadButtonUp(int button, int index = 0)
-        {
-            if (!IsGamePadConnected(index))
-            {
-                return default;
-            }
+        public float GetLeftTrigger(int index = 0) => gameWindow.JoystickStates[index]?.GetAxis(4) ?? default;
 
-            return !IsGamePadButtonDown(button, index);
-        }
-
-        public bool IsGamePadButtonPressed(int button, int index = 0)
-        {
-            if (!IsGamePadConnected(index))
-            {
-                return default;
-            }
-
-            return !gameWindow.JoystickStates[index].WasButtonDown(button) && IsGamePadButtonDown(button, index);
-        }
-
-        public bool IsGamePadButtonReleased(int button, int index = 0)
-        {
-            if (!IsGamePadConnected(index))
-            {
-                return default;
-            }
-
-            return gameWindow.JoystickStates[index].WasButtonDown(button) && IsGamePadButtonUp(button, index);
-        }
-
-        public float GetLeftTrigger(int index = 0)
-        {
-            if (!IsGamePadConnected(index))
-            {
-                return default;
-            }
-
-            return gameWindow.JoystickStates[index].GetAxis(4);
-        }
-
-        public float GetRightTrigger(int index = 0)
-        {
-            if (!IsGamePadConnected(index))
-            {
-                return default;
-            }
-
-            return gameWindow.JoystickStates[index].GetAxis(5);
-        }
+        public float GetRightTrigger(int index = 0) => gameWindow.JoystickStates[index]?.GetAxis(5) ?? default;
     }
 }
