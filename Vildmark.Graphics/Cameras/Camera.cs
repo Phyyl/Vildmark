@@ -1,5 +1,6 @@
 ﻿using OpenTK.Mathematics;
 using Vildmark.Graphics.Rendering;
+using Vildmark.Maths;
 
 namespace Vildmark.Graphics.Cameras
 {
@@ -16,35 +17,7 @@ namespace Vildmark.Graphics.Cameras
 
         public abstract Matrix4 ProjectionMatrix { get; }
 
-        public Matrix4 ViewMatrix
-        {
-            get
-            {
-                Matrix4 matrix = position.LengthSquared > 0 ? Matrix4.CreateTranslation(-position) : Matrix4.Identity;
-
-                if (scale != 1)
-                {
-                    matrix *= Matrix4.CreateScale(scale);
-                }
-
-                if (rotation.Y > 0)
-                {
-                    matrix *= Matrix4.CreateRotationY(rotation.Y);
-                }
-
-                if (rotation.X > 0)
-                {
-                    matrix *= Matrix4.CreateRotationY(rotation.X);
-                }
-
-                if (rotation.Z > 0)
-                {
-                    matrix *= Matrix4.CreateRotationY(rotation.Z);
-                }
-
-                return matrix;
-            }
-        }
+        public Matrix4 ViewMatrix => MatrixHelper.CreateViewMatrix(position, rotation, new Vector3(scale));
 
         public virtual void Resize(int width, int height)
         {

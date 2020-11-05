@@ -107,36 +107,12 @@ namespace Vildmark.Graphics.Rendering
         {
             color ??= Vector4.One;
 
-            Render(circleMesh, new Material(Textures.WhitePixel, color.Value), CreateModelMatrix(position, new Vector2(radius, radius), scale, 0, origin, z), PrimitiveType.TriangleFan);
+            Render(circleMesh, new Material(Textures.WhitePixel, color.Value), CreateModelMatrix(position, new Vector2(scale * radius), scale, 0, origin, z), PrimitiveType.TriangleFan);
         }
 
         private Matrix4 CreateModelMatrix(Vector2 position, Vector2 size, float scale, float angle, Vector2 origin, float z)
         {
-            Matrix4 modelMatrix = Matrix4.Identity;
-
-            modelMatrix *= Matrix4.CreateScale(new Vector3(size.X, size.Y, 1));
-
-            if (origin.LengthSquared > 0)
-            {
-                modelMatrix *= Matrix4.CreateTranslation(new Vector3(-origin));
-            }
-
-            if (scale != 0)
-            {
-                modelMatrix *= Matrix4.CreateScale(scale, scale, 1);
-            }
-
-            if (angle != 0)
-            {
-                modelMatrix *= Matrix4.CreateRotationZ(angle);
-            }
-
-            if (position.LengthSquared > 0)
-            {
-                modelMatrix *= Matrix4.CreateTranslation(new Vector3(position.X, position.Y, z));
-            }
-
-            return modelMatrix;
+            return MatrixHelper.CreateMatrix(new Vector3(position.X, position.Y, z), new Vector3(0, 0, angle), new Vector3(scale, scale, 1), new Vector3(origin.X, origin.Y, 0));
         }
     }
 }

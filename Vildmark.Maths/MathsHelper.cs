@@ -23,6 +23,10 @@ namespace Vildmark.Maths
 		public static Vector3 Max(Vector3 a, Vector3 b) => new Vector3(Max(a.X, b.X), Max(a.Y, b.Y), Max(a.Z, b.Z));
 		public static Vector4 Max(Vector4 a, Vector4 b) => new Vector4(Max(a.X, b.X), Max(a.Y, b.Y), Max(a.Z, b.Z), Max(a.W, b.W));
 
+		public static int Mod(int x, int mod) => ((x % mod) + mod) % mod;
+		public static float Mod(float x, float mod) => ((x % mod) + mod) % mod;
+		public static double Mod(double x, double mod) => ((x % mod) + mod) % mod;
+
 		public static void ConvertTo3DIndex(int index, int width, int height, int depth, out int x, out int y, out int z)
 		{
 			x = index / (height * depth);
