@@ -47,12 +47,12 @@ namespace Vildmark.Maths.Physics
 
         public bool Intersects(AABB b)
         {
-            return Right >= b.Left &&
-                Left <= b.Right &&
-                Front >= b.Back &&
-                Back <= b.Front &&
-                Top >= b.Bottom &&
-                Bottom <= b.Top;
+            return Right > b.Left &&
+                Left < b.Right &&
+                Front > b.Back &&
+                Back < b.Front &&
+                Top > b.Bottom &&
+                Bottom < b.Top;
         }
     }
 }
