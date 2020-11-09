@@ -105,9 +105,7 @@ namespace Vildmark.Graphics.Rendering
 
         public void RenderCircle(Vector2 position, float radius, Vector4? color = default, float scale = 1, Vector2 origin = default, float z = 0)
         {
-            color ??= Vector4.One;
-
-            Render(circleMesh, new Material(Textures.WhitePixel, color.Value), CreateModelMatrix(position, new Vector2(scale * radius), scale, 0, origin, z), PrimitiveType.TriangleFan);
+            Render(circleMesh, new Material(Textures.WhitePixel, color ??= Vector4.One), CreateModelMatrix(position, new Vector2(scale * radius), scale, 0, origin, z), PrimitiveType.TriangleFan);
         }
 
         private Matrix4 CreateModelMatrix(Vector2 position, Vector2 size, float scale, float angle, Vector2 origin, float z)
