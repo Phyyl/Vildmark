@@ -9,12 +9,12 @@ namespace Vildmark.Maths.Physics
 {
     public static class CollisionDetection
     {
-        public static bool GetMovingAABBToAABBDistance(AABB a, Vector3 movement, AABB b, out float distance, out Vector3 intersection)
+        public static bool IntersectMovingAABBToAABB(AABB a, Vector3 movement, AABB b, out float distance, out Vector3 intersection)
         {
-            return GetRayToAABBIntersection(new Ray(a.Center, movement), b.Inflate(a.Size), out distance, out intersection);
+            return IntersectRayToAABB(new Ray(a.Center, movement), b.Inflate(a.Size), out distance, out intersection);
         }
 
-        public static bool GetRayToAABBIntersection(Ray ray, AABB box, out float distance, out Vector3 intersection)
+        public static bool IntersectRayToAABB(Ray ray, AABB box, out float distance, out Vector3 intersection)
         {
             float tMax = float.PositiveInfinity;
 
