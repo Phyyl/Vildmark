@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Vildmark.Maths
@@ -23,7 +24,7 @@ namespace Vildmark.Maths
 			return new Vector4(MathsHelper.Round(v.X, digits), MathsHelper.Round(v.Y, digits), MathsHelper.Round(v.Z, digits), MathsHelper.Round(v.W, digits));
 		}
 
-		public static Vector2 Floored(this Vector2 v)
+		public static Vector2 Floor(this Vector2 v)
 		{
 			return new Vector2(MathsHelper.Floor(v.X), MathsHelper.Floor(v.Y));
 		}
@@ -38,6 +39,21 @@ namespace Vildmark.Maths
 			return new Vector4(MathsHelper.Floor(v.X), MathsHelper.Floor(v.Y), MathsHelper.Floor(v.Z), MathsHelper.Floor(v.W));
 		}
 
+		public static Vector2 Abs(this Vector2 v)
+        {
+			return new Vector2(Math.Abs(v.X), Math.Abs(v.Y));
+		}
+
+		public static Vector3 Abs(this Vector3 v)
+		{
+			return new Vector3(Math.Abs(v.X), Math.Abs(v.Y), Math.Abs(v.Z));
+		}
+
+		public static Vector4 Abs(this Vector4 v)
+		{
+			return new Vector4(Math.Abs(v.X), Math.Abs(v.Y), Math.Abs(v.Z), Math.Abs(v.W));
+		}
+
 		public static Vector4 ToVector(this Rectangle rectangle)
         {
 			return new Vector4(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
@@ -46,6 +62,21 @@ namespace Vildmark.Maths
 		public static Vector4 ToVector(this RectangleF rectangle)
 		{
 			return new Vector4(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+		}
+
+		public static Vector2i ToVector2i(this Vector2 v)
+		{
+			return new Vector2i((int)v.X, (int)v.Y);
+		}
+
+		public static Vector3i ToVector3i(this Vector3 v)
+        {
+			return new Vector3i((int)v.X, (int)v.Y, (int)v.Z);
+        }
+
+		public static Vector4i ToVector4i(this Vector4 v)
+		{
+			return new Vector4i((int)v.X, (int)v.Y, (int)v.Z, (int)v.W);
 		}
 
 		public static RectangleF ToRectangleF(this Vector4 v)

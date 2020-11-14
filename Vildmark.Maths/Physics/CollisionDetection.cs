@@ -9,17 +9,15 @@ namespace Vildmark.Maths.Physics
 {
     public static class CollisionDetection
     {
-        public static bool IntersectMovingAABBToAABB(AABB a, Vector3 movement, AABB b, out float distance, out Vector3 intersection)
+        public static IntersectionResult IntersectMovingAABBToAABB(AABB a, Vector3 movement, AABB b)
         {
-            return IntersectRayToAABB(new Ray(a.Center, movement), b.Inflate(a.Size), out distance, out intersection);
+            return IntersectRayToAABB(new Ray(a.Center, movement), b.Inflate(a.Size));
         }
 
-        public static bool IntersectRayToAABB(Ray ray, AABB box, out float distance, out Vector3 intersection)
+        public static IntersectionResult IntersectRayToAABB(Ray ray, AABB box)
         {
+            IntersectionResult result = new IntersectionResult(false, 0, ray.Start, -ray.Direction.Normalized());
             float tMax = float.PositiveInfinity;
-
-            distance = default;
-            intersection = default;
 
             for (int i = 0; i < 3; i++)
             {
@@ -27,7 +25,7 @@ namespace Vildmark.Maths.Physics
                 {
                     if (ray.Start[i] < box.Min[i] || ray.Start[i] > box.Max[i])
                     {
-                        return false;
+                        return default;
                     }
                 }
                 else
@@ -41,19 +39,26 @@ namespace Vildmark.Maths.Physics
                         (t1, t2) = (t2, t1);
                     }
 
-                    distance = Math.Max(distance, t1);
+                    if (t1 > result.Distance)
+                    {
+                        result.Distance = t1;
+                        result.Normal = default;
+                        result.Normal[i] = -Math.Sign(ray.Direction[i]);
+                    }
+
                     tMax = Math.Min(tMax, t2);
 
-                    if (distance > tMax)
+                    if (result.Distance > tMax)
                     {
-                        return false;
+                        return default;
                     }
                 }
             }
 
-            intersection = ray.Start + ray.Direction * distance;
+            result.Position = ray.Start + ray.Direction * result.Distance;
+            result.Intersects = result.Distance < 1;
 
-            return true;
+            return result;
         }
     }
 }
