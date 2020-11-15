@@ -54,5 +54,20 @@ namespace Vildmark.Maths.Physics
                 Top > b.Bottom &&
                 Bottom < b.Top;
         }
+
+        public bool Contains(Vector3 point)
+        {
+            return point.X > Left
+                && point.X < Right
+                && point.Y > Bottom
+                && point.Y < Top
+                && point.Z > Back
+                && point.Z < Front;
+        }
+
+        public override string ToString()
+        {
+            return $"{Position}, {Size}";
+        }
     }
 }

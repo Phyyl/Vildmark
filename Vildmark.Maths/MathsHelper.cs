@@ -11,6 +11,7 @@ namespace Vildmark.Maths
 
 		public static float Round(float value, int digits = 0) => (float)Math.Round(value, digits);
 		public static float Floor(float value) => (float)Math.Floor(value);
+		public static float Ceiling(float value) => (float)Math.Ceiling(value);
 
 		public static float Min(float a, float b) => a < b ? a : b;
 		public static float Max(float a, float b) => a > b ? a : b;

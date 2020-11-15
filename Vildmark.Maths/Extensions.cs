@@ -39,6 +39,21 @@ namespace Vildmark.Maths
 			return new Vector4(MathsHelper.Floor(v.X), MathsHelper.Floor(v.Y), MathsHelper.Floor(v.Z), MathsHelper.Floor(v.W));
 		}
 
+		public static Vector2 Ceiling(this Vector2 v)
+		{
+			return new Vector2(MathsHelper.Ceiling(v.X), MathsHelper.Ceiling(v.Y));
+		}
+
+		public static Vector3 Ceiling(this Vector3 v)
+		{
+			return new Vector3(MathsHelper.Ceiling(v.X), MathsHelper.Ceiling(v.Y), MathsHelper.Ceiling(v.Z));
+		}
+
+		public static Vector4 Ceiling(this Vector4 v)
+		{
+			return new Vector4(MathsHelper.Ceiling(v.X), MathsHelper.Ceiling(v.Y), MathsHelper.Ceiling(v.Z), MathsHelper.Ceiling(v.W));
+		}
+
 		public static Vector2 Abs(this Vector2 v)
         {
 			return new Vector2(Math.Abs(v.X), Math.Abs(v.Y));

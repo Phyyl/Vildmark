@@ -20,5 +20,10 @@ namespace Vildmark.Maths.Physics
         {
             return new Ray(Start + offset, Direction);
         }
+
+        public override string ToString()
+        {
+            return $"{Start}, {Direction}";
+        }
     }
 }
