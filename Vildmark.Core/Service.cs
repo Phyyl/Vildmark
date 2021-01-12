@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Vildmark.Helpers;
+using Vildmark.Resources;
 
 namespace Vildmark
 {
@@ -10,7 +12,31 @@ namespace Vildmark
     {
         private static readonly Dictionary<Type, object> instances = new Dictionary<Type, object>();
 
-        public static T Get<T>()
+        static Service()
+        {
+            if (ServiceOptions.AutoRegisterTypes)
+            {
+                AssemblyHelper.LoadAllReferencedAssemblies();
+
+                IEnumerable<ServiceRegistration> registrations = TypeHelper
+                    .TypesWith<RegisterAttribute>()
+                    .SelectMany(type => type
+                        .GetCustomAttributes<RegisterAttribute>()
+                        .Select(attribute => new ServiceRegistration(type, attribute, TypeHelper.CreateInstanceOrDefault(type))))
+                    .Where(r =>
+                        r.Value != null &&
+                        r.Attribute.Type.IsAssignableFrom(r.DeclaringType) &&
+                        !r.DeclaringType.IsAbstract)
+                    .OrderByDescending(r => r.Attribute.Priority);
+
+                foreach (var registration in registrations)
+                {
+                    Set(registration.Attribute.Type, registration.Value);
+                }
+            }
+        }
+
+        public static T Get<T>() where T : class
         {
             return Storage<T>.Instance;
         }
@@ -20,23 +46,39 @@ namespace Vildmark
             return instances.GetValueOrDefault(type);
         }
 
-        public static T Set<T>(T value)
+        public static T Set<T>(T value) where T : class
         {
-            instances.AddOrSet(typeof(T), value);
-            return Storage<T>.Instance = value;
+            instances.TryAdd(typeof(T), value);
+            return Storage<T>.Instance ??= value;
         }
 
-        public static T Initialize<T>() where T : new()
+        public static bool Set(Type serviceType, object value)
+        {
+            instances.TryAdd(serviceType, value);
+
+            FieldInfo propertyInfo = typeof(Storage<>).MakeGenericType(serviceType).GetField(nameof(Storage<object>.Instance));
+
+            if (propertyInfo.GetValue(null) == null)
+            {
+                propertyInfo.SetValue(null, value);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public static T Initialize<T>() where T : class, new()
         {
             return Initialize(new T());
         }
 
-        public static T Initialize<T>(T value)
+        public static T Initialize<T>(T value) where T : class
         {
             return Set(value);
         }
 
-        public static T CreateInstance<T>()
+        public static T CreateInstance<T>() where T : class
         {
             return CreateInstance(typeof(T)) is T value ? value : default;
         }
@@ -71,13 +113,29 @@ namespace Vildmark
             return default;
         }
 
-        private static class Storage<T>
+        private static class Storage<T> where T : class
         {
             public static T Instance;
         }
+
+        private class ServiceRegistration
+        {
+            public Type DeclaringType { get; }
+
+            public RegisterAttribute Attribute { get; }
+
+            public object Value { get; }
+
+            public ServiceRegistration(Type declaringType, RegisterAttribute attribute, object value)
+            {
+                DeclaringType = declaringType;
+                Attribute = attribute;
+                Value = value;
+            }
+        }
     }
 
-    public static class Service<T>
+    public static class Service<T> where T : class
     {
         public static T Instance
         {

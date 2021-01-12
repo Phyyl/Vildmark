@@ -21,7 +21,7 @@ namespace Vildmark.Helpers
             {
                 try
                 {
-                    Assembly.LoadFrom($"{assemblyName}.dll");
+                    Assembly.LoadFrom($"{assemblyName.Name}.dll");
                 }
                 catch // miam
                 {

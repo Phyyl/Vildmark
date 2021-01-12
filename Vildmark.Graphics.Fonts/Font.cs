@@ -13,7 +13,7 @@ namespace Vildmark.Graphics.Fonts
 	{
 		private static Font arial;
 
-		public static Font Arial => arial ??= EmbeddedResources.Get<Font>("arial", typeof(Font).Assembly);
+		public static Font Arial => arial ??= ResourceLoader.LoadEmbedded<Font>("arial");
 
 		[JsonIgnore]
 		public GLTexture2D Texture { get; set; }
