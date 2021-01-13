@@ -11,39 +11,31 @@ namespace Vildmark
     public static class Service
     {
         private static readonly Dictionary<Type, object> instances = new Dictionary<Type, object>();
+        private static readonly Dictionary<Type, ServiceTypeRegistration> registrations = new Dictionary<Type, ServiceTypeRegistration>();
 
         static Service()
         {
-            if (ServiceOptions.AutoRegisterTypes)
+            AssemblyHelper.LoadAllReferencedAssemblies();
+
+            IEnumerable<ServiceTypeRegistration> registrations = TypeHelper
+                .TypesWith<RegisterAttribute>()
+                .SelectMany(type => type
+                    .GetCustomAttributes<RegisterAttribute>()
+                    .Select(attribute => new ServiceTypeRegistration(type, attribute)))
+                .Where(r =>
+                    r.Attribute.Type.IsAssignableFrom(r.DeclaringType) &&
+                    !r.DeclaringType.IsAbstract)
+                .OrderBy(r => r.Attribute.Priority);
+
+            foreach (var registration in registrations)
             {
-                AssemblyHelper.LoadAllReferencedAssemblies();
-
-                IEnumerable<ServiceRegistration> registrations = TypeHelper
-                    .TypesWith<RegisterAttribute>()
-                    .SelectMany(type => type
-                        .GetCustomAttributes<RegisterAttribute>()
-                        .Select(attribute => new ServiceRegistration(type, attribute, TypeHelper.CreateInstanceOrDefault(type))))
-                    .Where(r =>
-                        r.Value != null &&
-                        r.Attribute.Type.IsAssignableFrom(r.DeclaringType) &&
-                        !r.DeclaringType.IsAbstract)
-                    .OrderByDescending(r => r.Attribute.Priority);
-
-                foreach (var registration in registrations)
-                {
-                    Set(registration.Attribute.Type, registration.Value);
-                }
+                Service.registrations.AddOrSet(registration.Attribute.Type, registration);
             }
         }
 
         public static T Get<T>() where T : class
         {
-            return Storage<T>.Instance;
-        }
-
-        public static object Get(Type type)
-        {
-            return instances.GetValueOrDefault(type);
+            return Storage<T>.Instance ??= Instanciate<T>();
         }
 
         public static T Set<T>(T value) where T : class
@@ -52,35 +44,19 @@ namespace Vildmark
             return Storage<T>.Instance ??= value;
         }
 
-        private static bool Set(Type serviceType, object value)
+        public static T Set<T>() where T : class, new()
         {
-            instances.TryAdd(serviceType, value);
-
-            FieldInfo propertyInfo = typeof(Storage<>).MakeGenericType(serviceType).GetField(nameof(Storage<object>.Instance));
-
-            if (propertyInfo.GetValue(null) == null)
-            {
-                propertyInfo.SetValue(null, value);
-
-                return true;
-            }
-
-            return false;
-        }
-
-        public static T Initialize<T>() where T : class, new()
-        {
-            return Initialize(new T());
-        }
-
-        public static T Initialize<T>(T value) where T : class
-        {
-            return Set(value);
+            return Set(new T());
         }
 
         public static T CreateInstance<T>() where T : class
         {
             return CreateInstance(typeof(T)) is T value ? value : default;
+        }
+
+        public static object Get(Type type)
+        {
+            return instances.GetValueOrDefault(type);
         }
 
         public static object CreateInstance(Type type)
@@ -113,26 +89,22 @@ namespace Vildmark
             return default;
         }
 
+        private static T Instanciate<T>() where T : class
+        {
+            if (registrations.TryGetValue(typeof(T), out ServiceTypeRegistration registration))
+            {
+                return CreateInstance(registration.DeclaringType) as T;
+            }
+
+            return default;
+        }
+
         private static class Storage<T> where T : class
         {
             public static T Instance;
         }
 
-        private class ServiceRegistration
-        {
-            public Type DeclaringType { get; }
-
-            public RegisterAttribute Attribute { get; }
-
-            public object Value { get; }
-
-            public ServiceRegistration(Type declaringType, RegisterAttribute attribute, object value)
-            {
-                DeclaringType = declaringType;
-                Attribute = attribute;
-                Value = value;
-            }
-        }
+        private record ServiceTypeRegistration(Type DeclaringType, RegisterAttribute Attribute);
     }
 
     public static class Service<T> where T : class
