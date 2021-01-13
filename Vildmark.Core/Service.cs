@@ -52,7 +52,7 @@ namespace Vildmark
             return Storage<T>.Instance ??= value;
         }
 
-        public static bool Set(Type serviceType, object value)
+        private static bool Set(Type serviceType, object value)
         {
             instances.TryAdd(serviceType, value);
 
