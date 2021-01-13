@@ -8,9 +8,9 @@ namespace Vildmark.Graphics.Cameras
 {
 	public class OrthographicCamera : Camera
 	{
-		public float Width { get; private set; }
+		public float Width { get; set; }
 
-		public float Height { get; private set; }
+		public float Height { get; set; }
 
 		public float ZNear { get; }
 
@@ -28,8 +28,6 @@ namespace Vildmark.Graphics.Cameras
 
 		public override void Resize(int width, int height)
 		{
-			base.Resize(width, height);
-
 			Width = width;
 			Height = height;
 		}

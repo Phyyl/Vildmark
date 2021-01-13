@@ -29,8 +29,6 @@ namespace Vildmark.Graphics.Cameras
 
 		public override void Resize(int width, int height)
 		{
-			base.Resize(width, height);
-
 			Width = width;
 			Height = height;
 		}

@@ -110,7 +110,10 @@ namespace Vildmark.Graphics.Rendering
 
         private Matrix4 CreateModelMatrix(Vector2 position, Vector2 size, float scale, float angle, Vector2 origin, float z)
         {
-            return MatrixHelper.CreateMatrix(new Vector3(position.X, position.Y, z), new Vector3(0, 0, angle), new Vector3(scale, scale, 1), new Vector3(origin.X, origin.Y, 0));
+            throw new NotImplementedException();
+
+            // Need to fix this
+            //return MatrixHelper.CreateMatrix(new Vector3(position.X, position.Y, z), new Vector3(0, 0, angle)) * Matrix4.CreateScale(scale, scale, 1));
         }
     }
 }

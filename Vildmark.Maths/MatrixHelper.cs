@@ -7,19 +7,9 @@ namespace Vildmark.Maths
 {
     public static class MatrixHelper
     {
-        public static Matrix4 CreateMatrix(Vector3 position, Vector3 rotation, Vector3 scale = default, Vector3 origin = default)
+        public static Matrix4 CreateMatrix(Vector3 position, Vector3 rotation)
         {
             Matrix4 result = Matrix4.Identity;
-
-            if (origin != default)
-            {
-                result *= Matrix4.CreateTranslation(-origin);
-            }
-
-            if (scale != default)
-            {
-                result *= Matrix4.CreateScale(scale);
-            }
 
             if (rotation.Y != 0)
             {
@@ -42,11 +32,6 @@ namespace Vildmark.Maths
             }
 
             return result;
-        }
-
-        public static Matrix4 CreateViewMatrix(Vector3 position, Vector3 rotation, Vector3 scale = default, Vector3 origin = default)
-        {
-            return CreateMatrix(-position, rotation, scale, origin);
         }
     }
 }
