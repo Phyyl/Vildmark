@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Vildmark.Resources
 {
-    public interface INamedResourceLoader<T> where T : class
+    public interface IEmbeddedResourceLoader<T> where T : class
     {
         T Load(string name, Assembly assembly = default);
     }

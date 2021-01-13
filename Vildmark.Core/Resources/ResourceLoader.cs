@@ -50,7 +50,7 @@ namespace Vildmark.Resources
 
         public static T LoadEmbedded<T>(string name, Assembly assembly = default) where T : class
         {
-            return Service<INamedResourceLoader<T>>.Instance?.Load(name, assembly) ?? Load<T>(GetEmbeddedStream(name, assembly));
+            return Service<IEmbeddedResourceLoader<T>>.Instance?.Load(name, assembly) ?? Load<T>(GetEmbeddedStream(name, assembly));
         }
 
         public static T Load<T>(Stream stream) where T : class

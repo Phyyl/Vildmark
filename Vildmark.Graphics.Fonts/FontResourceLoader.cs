@@ -10,7 +10,7 @@ using Vildmark.Resources;
 namespace Vildmark.Graphics.Fonts.Resources
 {
     [Register(typeof(IResourceLoader<Font>))]
-    public class FontResourceLoader : INamedResourceLoader<Font>
+    public class FontResourceLoader : IEmbeddedResourceLoader<Font>
     {
         public Font Load(string name, Assembly assembly = default)
         {
