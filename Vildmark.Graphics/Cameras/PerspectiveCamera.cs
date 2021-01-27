@@ -4,33 +4,25 @@ using Vildmark.Graphics.Rendering;
 
 namespace Vildmark.Graphics.Cameras
 {
-	public class PerspectiveCamera : Camera
-	{
-		public float FovY { get; set; }
+    public class PerspectiveCamera : Camera
+    {
+        private float fovY;
 
-		public int Width { get; set; }
+        public float FovY
+        {
+            get => fovY;
+            set => SetValue(ref fovY, value);
+        }
 
-		public int Height { get; set; }
+        public PerspectiveCamera(float fovY, int width, int height, float zNear = 0.01f, float zFar = 1000)
+            : base(width, height, zNear, zFar)
+        {
+            FovY = fovY;
+        }
 
-		public float ZNear { get; set; }
-
-		public float ZFar { get; set; }
-
-		public override Matrix4 ProjectionMatrix => Matrix4.CreatePerspectiveFieldOfView(FovY, Width / (float)Height, ZNear, ZFar);
-
-		public PerspectiveCamera(float fovY, int width, int height, float zNear = 0.01f, float zFar = 1000)
-		{
-			FovY = fovY;
-			Width = width;
-			Height = height;
-			ZNear = zNear;
-			ZFar = zFar;
-		}
-
-		public override void Resize(int width, int height)
-		{
-			Width = width;
-			Height = height;
-		}
-	}
+        protected override Matrix4 CreateProjectionMatrix()
+        {
+            return Matrix4.CreatePerspectiveFieldOfView(FovY, AspectRatio, ZNear, ZFar);
+        }
+    }
 }

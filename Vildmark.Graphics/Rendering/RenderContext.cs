@@ -24,7 +24,8 @@ namespace Vildmark.Graphics.Rendering
 
         public void Resize(int width, int height)
         {
-            Camera.Resize(width, height);
+            Camera.Width = width;
+            Camera.Height = height;
         }
 
         public void Clear()
@@ -43,9 +44,9 @@ namespace Vildmark.Graphics.Rendering
             GL.Disable(EnableCap.DepthTest);
         }
 
-        public virtual void Render(Mesh mesh, Material material, Matrix4? modelMatrix = default, PrimitiveType primitiveType = PrimitiveType.Triangles, MaterialShader shader = default)
+        public virtual void Render(Model model, MaterialShader shader = default)
         {
-            if (mesh.VertexBuffer.Count == 0)
+            if (model.Mesh.VertexBuffer.Count == 0)
             {
                 return;
             }
@@ -54,17 +55,13 @@ namespace Vildmark.Graphics.Rendering
 
             using (shader.Use())
             {
-                using (material.Texture.Bind())
-                {
-                    shader.ProjectionMatrix.SetValue(Camera.ProjectionMatrix);
-                    shader.ViewMatrix.SetValue(Camera.ViewMatrix);
-                    shader.ModelMatrix.SetValue(modelMatrix ?? Matrix4.Identity);
-                    shader.Tex0.SetValue(material.Texture);
-                    shader.Tint.SetValue(material.Tint);
-                    shader.SourceRect.SetValue(material.SourceRect.ToVector());
+                model.Mesh.Setup(shader);
+                model.Material.Setup(shader);
+                Camera.Setup(shader);
 
-                    mesh.Render(primitiveType);
-                }
+                shader.ModelMatrix.SetValue(model.Transform.Matrix);
+
+                model.Mesh.Render();
             }
         }
 

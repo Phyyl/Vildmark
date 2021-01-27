@@ -1,4 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL;
+using OpenTK.Mathematics;
+using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Vildmark.Graphics.GLObjects;
@@ -6,59 +8,51 @@ using Vildmark.Graphics.Resources;
 
 namespace Vildmark.Graphics.Shaders
 {
-	public class Attrib<T> : ShaderVariable where T : unmanaged
-	{
-		public const int PositionIndex = 0;
-		public const int ColorIndex = 1;
-		public const int TexCoordIndex = 2;
-		public const int NormalIndex = 3;
+    public abstract class Attrib : ShaderVariable
+    {
+        protected Attrib(string name)
+            : base(name)
+        {
+        }
+    }
 
-		public Attrib(IShader shader, string name, int size = 0, VertexAttribPointerType vertexAttribPointerType = VertexAttribPointerType.Float)
-			: base(shader, name)
-		{
-			Size = size > 0 ? size : Marshal.SizeOf<T>() / 4;
-			VertexAttribPointerType = vertexAttribPointerType;
-		}
+    public class Attrib<T> : Attrib where T : unmanaged
+    {
+        private readonly int size;
 
-		public int Size { get; }
+        public unsafe Attrib(string name)
+            : base(name)
+        {
+            size = sizeof(T) / sizeof(float);
+        }
 
-		public VertexAttribPointerType VertexAttribPointerType { get; }
+        public unsafe void Setup<TVertex>(GLBuffer<TVertex> buffer, int offset) where TVertex : unmanaged
+        {
+            if (!Defined || !Enabled)
+            {
+                return;
+            }
 
-		public void Enable(GLBuffer<T> buffer, bool bind = true)
-		{
-			if (!Defined)
-			{
-				return;
-			}
+            using (buffer.Bind())
+            {
+                GL.EnableVertexAttribArray(Location);
+                GL.VertexAttribPointer(Location, size, VertexAttribPointerType.Float, false, sizeof(TVertex), offset);
+            }
+        }
 
-			buffer.Enable(Location, bind);
-		}
+        public void Disable()
+        {
+            if (!Defined)
+            {
+                return;
+            }
 
-		public void Disable(GLBuffer<T> buffer, bool bind = true)
-		{
-			if (!Defined)
-			{
-				return;
-			}
+            GL.DisableVertexAttribArray(Location);
+        }
 
-			buffer.Disable(Location, bind);
-		}
-
-		public void VertexAttribPointer(GLBuffer buffer, int stride = 0, int offset = 0, bool normalized = false, bool enable = true, bool bind = true, int divisor = 0)
-		{
-			if (!Defined)
-			{
-				return;
-			}
-
-			buffer.VertexAttribPointer(Location, Size, VertexAttribPointerType, stride, offset, normalized, bind, enable, divisor);
-		}
-
-		protected override int GetLocation() => Shader.GetAttribLocation(Name);
-
-		public override string ToString()
-		{
-			return $"{base.ToString()}, Size: {Size}, VertexAttribPointerType: {VertexAttribPointerType}";
-		}
-	}
+        public override string ToString()
+        {
+            return $"{base.ToString()}, Size: {size}";
+        }
+    }
 }

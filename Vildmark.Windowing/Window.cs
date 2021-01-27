@@ -31,6 +31,7 @@ namespace Vildmark.Windowing
             nativeSettings.WindowState = settings.State;
             nativeSettings.WindowBorder = settings.Border;
             nativeSettings.NumberOfSamples = settings.Samples;
+            nativeSettings.Flags = ContextFlags.ForwardCompatible;
 
             gameWindow = new GameWindow(GameWindowSettings.Default, nativeSettings);
 

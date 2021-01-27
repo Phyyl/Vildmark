@@ -5,47 +5,24 @@ using Vildmark.Graphics.Shaders;
 
 namespace Vildmark.Graphics.Resources
 {
-	public class MaterialShader : EmbeddedShader
+	public class MaterialShader : Shader
 	{
-		public MaterialShader()
-			: this("material")
-		{
-		}
+		public Attrib<Vector3> Position { get; } = new Attrib<Vector3>("vert_position");
 
-		protected MaterialShader(string name)
-			: base(name)
-		{
-			ProjectionMatrix = new Uniform<Matrix4>(this, "projection_matrix");
-			ModelMatrix = new Uniform<Matrix4>(this, "model_matrix");
-			ViewMatrix = new Uniform<Matrix4>(this, "view_matrix");
-			Tex0 = new Uniform<GLTexture2D>(this, "tex0");
-			Tint = new Uniform<Vector4>(this, "tint");
-			SourceRect = new Uniform<Vector4>(this, "source_rect");
+		public Attrib<Vector2> TexCoord { get; } = new Attrib<Vector2>("vert_tex_coord");
 
-			Position = new Attrib<Vertex>(this, "vert_position", 3);
-			TexCoord = new Attrib<Vertex>(this, "vert_tex_coord", 2);
-			Color = new Attrib<Vertex>(this, "vert_color", 4);
-			Normal = new Attrib<Vertex>(this, "vert_normal", 3);
-		}
+		public Attrib<Vector4> Color { get; } = new Attrib<Vector4>("vert_color");
 
-		public Attrib<Vertex> Position { get; }
+		public Attrib<Vector3> Normal { get; } = new Attrib<Vector3>("vert_normal");
 
-		public Attrib<Vertex> TexCoord { get; }
+		public Uniform<Matrix4> ProjectionMatrix { get; } = new Uniform<Matrix4>("projection_matrix");
 
-		public Attrib<Vertex> Color { get; }
+		public Uniform<Matrix4> ViewMatrix { get; } = new Uniform<Matrix4>("view_matrix");
 
-		public Attrib<Vertex> Normal { get; }
+		public Uniform<Matrix4> ModelMatrix { get; } = new Uniform<Matrix4>("model_matrix");
 
-		public Uniform<Matrix4> ProjectionMatrix { get; }
+		public Uniform<GLTexture2D> Tex0 { get; } = new Uniform<GLTexture2D>("tex0");
 
-		public Uniform<Matrix4> ViewMatrix { get; }
-
-		public Uniform<Matrix4> ModelMatrix { get; }
-
-		public Uniform<GLTexture2D> Tex0 { get; }
-
-		public Uniform<Vector4> Tint { get; }
-
-		public Uniform<Vector4> SourceRect { get; }
+		public Uniform<Vector4> Tint { get; } = new Uniform<Vector4>("tint");
 	}
 }

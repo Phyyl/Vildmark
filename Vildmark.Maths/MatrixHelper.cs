@@ -7,9 +7,14 @@ namespace Vildmark.Maths
 {
     public static class MatrixHelper
     {
-        public static Matrix4 CreateMatrix(Vector3 position, Vector3 rotation)
+        public static Matrix4 CreateMatrix(Vector3 position, Vector3 rotation, Vector3 origin = default)
         {
             Matrix4 result = Matrix4.Identity;
+
+            if (origin != default)
+            {
+                result *= Matrix4.CreateTranslation(-origin);
+            }
 
             if (rotation.Y != 0)
             {

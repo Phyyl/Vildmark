@@ -29,64 +29,64 @@ namespace Vildmark.Graphics.GLObjects
 			GL.BindBuffer(BufferTarget, 0);
 		}
 
-		public void Enable(int index, bool bind = true)
-		{
-			if (index < 0)
-			{
-				return;
-			}
+		//public void Enable(int index, bool bind = true)
+		//{
+		//	if (index < 0)
+		//	{
+		//		return;
+		//	}
 
-			IDisposable bindContext = bind ? Bind() : default;
+		//	IDisposable bindContext = bind ? Bind() : default;
 
-			GL.EnableVertexAttribArray(index);
+		//	GL.EnableVertexAttribArray(index);
 
-			bindContext?.Dispose();
-		}
+		//	bindContext?.Dispose();
+		//}
 
-		public void Disable(int index, bool bind = true)
-		{
-			if (index < 0)
-			{
-				return;
-			}
+		//public void Disable(int index, bool bind = true)
+		//{
+		//	if (index < 0)
+		//	{
+		//		return;
+		//	}
 
-			IDisposable bindContext = bind ? Bind() : default;
+		//	IDisposable bindContext = bind ? Bind() : default;
 
-			GL.DisableVertexAttribArray(index);
+		//	GL.DisableVertexAttribArray(index);
 
-			bindContext?.Dispose();
-		}
+		//	bindContext?.Dispose();
+		//}
 
-		public void VertexAttribPointer(int index, int size, VertexAttribPointerType vertexAttribPointerType = VertexAttribPointerType.Float, int stride = 0, int offset = 0, bool normalized = false, bool bind = true, bool enable = true, int divisor = 0)
-		{
-			if (index < 0)
-			{
-				return;
-			}
+		//public void VertexAttribPointer(int index, int size, VertexAttribPointerType vertexAttribPointerType = VertexAttribPointerType.Float, int stride = 0, int offset = 0, bool normalized = false, bool bind = true, bool enable = true, int divisor = 0)
+		//{
+		//	if (index < 0)
+		//	{
+		//		return;
+		//	}
 
-			IDisposable bindContext = bind ? Bind() : default;
+		//	IDisposable bindContext = bind ? Bind() : default;
 
-			if (enable)
-			{
-				Enable(index, false);
-			}
+		//	if (enable)
+		//	{
+		//		Enable(index, false);
+		//	}
 
-			if (vertexAttribPointerType >= VertexAttribPointerType.Byte && vertexAttribPointerType <= VertexAttribPointerType.UnsignedInt)
-			{
-				GL.VertexAttribIPointer(index, size, (VertexAttribIntegerType)vertexAttribPointerType, stride, (IntPtr)offset);
-			}
-			else
-			{
-				GL.VertexAttribPointer(index, size, vertexAttribPointerType, normalized, stride, offset);
-			}
+		//	if (vertexAttribPointerType >= VertexAttribPointerType.Byte && vertexAttribPointerType <= VertexAttribPointerType.UnsignedInt)
+		//	{
+		//		GL.VertexAttribIPointer(index, size, (VertexAttribIntegerType)vertexAttribPointerType, stride, (IntPtr)offset);
+		//	}
+		//	else
+		//	{
+		//		GL.VertexAttribPointer(index, size, vertexAttribPointerType, normalized, stride, offset);
+		//	}
 
-			if (divisor > 0)
-			{
-				GL.VertexAttribDivisor(index, divisor);
-			}
+		//	if (divisor > 0)
+		//	{
+		//		GL.VertexAttribDivisor(index, divisor);
+		//	}
 
-			bindContext?.Dispose();
-		}
+		//	bindContext?.Dispose();
+		//}
 
 		protected override void DisposeOpenGL()
 		{
@@ -147,6 +147,16 @@ namespace Vildmark.Graphics.GLObjects
 		public IDisposable Map(out Span<T> data)
 		{
 			return Map(BufferAccess.ReadWrite, out data);
+		}
+
+		public IDisposable MapReadOnly(out Span<T> data)
+		{
+			return Map(BufferAccess.ReadOnly, out data);
+		}
+
+		public IDisposable MapWriteOnly(out Span<T> data)
+		{
+			return Map(BufferAccess.WriteOnly, out data);
 		}
 
 		public unsafe IDisposable Map(BufferAccess bufferAccess, out Span<T> data)

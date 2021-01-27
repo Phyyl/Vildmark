@@ -2,6 +2,7 @@
 using OpenTK.Mathematics;
 using System;
 using System.Runtime.InteropServices;
+using Vildmark.Graphics.Rendering;
 
 namespace Vildmark.Graphics.GLObjects
 {

@@ -6,30 +6,16 @@ using Vildmark.Graphics.Rendering;
 
 namespace Vildmark.Graphics.Cameras
 {
-	public class OrthographicCamera : Camera
-	{
-		public float Width { get; set; }
+    public class OrthographicCamera : Camera
+    {
+        public OrthographicCamera(int width, int height, float zNear = 1, float zFar = -1)
+            : base(width, height, zNear, zFar)
+        {
+        }
 
-		public float Height { get; set; }
-
-		public float ZNear { get; }
-
-		public float ZFar { get;}
-
-		public override Matrix4 ProjectionMatrix => Matrix4.CreateOrthographic(Width, Height, ZNear, ZFar);
-
-		public OrthographicCamera(float width, float height, float zNear = 1, float zFar = -1)
-		{
-			Width = width;
-			Height = height;
-			ZNear = zNear;
-			ZFar = zFar;
-		}
-
-		public override void Resize(int width, int height)
-		{
-			Width = width;
-			Height = height;
-		}
-	}
+        protected override Matrix4 CreateProjectionMatrix()
+        {
+            return Matrix4.CreateOrthographic(Width, Height, ZNear, ZFar);
+        }
+    }
 }

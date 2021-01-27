@@ -1,22 +1,84 @@
 ﻿using OpenTK.Mathematics;
+using System;
+using System.Net.Http.Json;
+using System.Reflection.PortableExecutable;
+using System.Runtime.InteropServices;
+using System.Transactions;
 using Vildmark.Graphics.Rendering;
+using Vildmark.Graphics.Resources;
 using Vildmark.Maths;
 
 namespace Vildmark.Graphics.Cameras
 {
     public abstract class Camera
     {
-        private Vector3 position;
-        private Vector3 rotation;
+        private Matrix4? projectionMatrix;
 
-        public ref Vector3 Position => ref position;
-        public ref Vector3 Rotation => ref rotation;
-        public float Scale { get; set; }
+        private int width;
+        private int height;
+        private float zNear;
+        private float zFar;
 
-        public abstract Matrix4 ProjectionMatrix { get; }
+        public Transform Transform { get; } = new Transform();
 
-        public Matrix4 ViewMatrix => MatrixHelper.CreateMatrix(-Position, -Rotation);
+        public int Width
+        {
+            get => width;
+            set => SetValue(ref width, value);
+        }
 
-        public abstract void Resize(int width, int height);
+        public int Height
+        {
+            get => height;
+            set => SetValue(ref height, value);
+        }
+
+        public float ZNear
+        {
+            get => zNear;
+            set => SetValue(ref zNear, value);
+        }
+
+        public float ZFar
+        {
+            get => zFar;
+            set => SetValue(ref zFar, value);
+        }
+
+        public Matrix4 ProjectionMatrix => projectionMatrix ??= CreateProjectionMatrix();
+
+        public Matrix4 ViewMatrix => Transform.Matrix;
+
+        public float AspectRatio => width / (float)height;
+
+        protected Camera(int width, int height, float zNear, float zFar)
+        {
+            Width = width;
+            Height = height;
+            ZNear = zNear;
+            ZFar = zFar;
+        }
+
+        public void Setup(MaterialShader shader)
+        {
+            shader.ProjectionMatrix.SetValue(ProjectionMatrix);
+            shader.ViewMatrix.SetValue(ViewMatrix);
+        }
+
+        protected abstract Matrix4 CreateProjectionMatrix();
+
+        protected void SetValue<T>(ref T field, T value)
+        {
+            field = value;
+            projectionMatrix = null;
+        }
+
+        private class CameraTransform : Transform
+        {
+            protected override Matrix4 CreateMatrix()
+            {
+                return MatrixHelper.CreateMatrix(-Position, -Rotation);
+            }
+        }
     }
 }

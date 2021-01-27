@@ -1,60 +1,66 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 using Vildmark.Graphics.GLObjects;
+using Vildmark.Graphics.Resources;
 
 namespace Vildmark.Graphics.Models
 {
-	public class Mesh
-	{
-		public GLBuffer<Vertex> VertexBuffer { get; private set; }
+    public class Mesh
+    {
+        public GLBuffer<Vertex> VertexBuffer { get; }
 
-		public GLBuffer<uint> IndexBuffer { get; private set; }
+        public GLBuffer<uint> IndexBuffer { get; }
 
-		public GLVertexArray VertexArray { get; }
+        public GLVertexArray VertexArray { get; }
 
-		public Mesh(Span<Vertex> vertices = default, Span<uint> indices = default)
-		{
-			VertexArray = new GLVertexArray();
-			VertexBuffer = new GLBuffer<Vertex>(vertices);
-			IndexBuffer = indices.Length > 0 ? new GLBuffer<uint>(indices, BufferTarget.ElementArrayBuffer) : default;
+        public Mesh(Span<Vertex> vertices = default, Span<uint> indices = default)
+        {
+            VertexArray = new GLVertexArray();
+            VertexBuffer = new GLBuffer<Vertex>(vertices);
+            IndexBuffer = indices.Length > 0 ? new GLBuffer<uint>(indices, BufferTarget.ElementArrayBuffer) : default;
+        }
 
-			using (VertexArray.Bind())
-			{
-				IndexBuffer?.Bind();
+        public IDisposable Setup(MaterialShader shader)
+        {
+            IDisposable result = VertexArray.Bind();
 
-				VertexBuffer.VertexAttribPointer(0, 3, stride: Vertex.SizeInBytes, offset: Vertex.PositionOffset);
-				VertexBuffer.VertexAttribPointer(1, 2, stride: Vertex.SizeInBytes, offset: Vertex.TexCoordOffset);
-				VertexBuffer.VertexAttribPointer(2, 4, stride: Vertex.SizeInBytes, offset: Vertex.ColorOffset);
-				VertexBuffer.VertexAttribPointer(3, 3, stride: Vertex.SizeInBytes, offset: Vertex.NormalOffset);
-			}
-		}
+            shader.Position.Setup(VertexBuffer, Vertex.PositionOffset);
+            shader.TexCoord.Setup(VertexBuffer, Vertex.TexCoordOffset);
+            shader.Color.Setup(VertexBuffer, Vertex.ColorOffset);
+            shader.Normal.Setup(VertexBuffer, Vertex.NormalOffset);
 
-		public void Render(PrimitiveType primitiveType = PrimitiveType.Triangles)
-		{
-			using (VertexArray.Bind())
-			{
-				if (IndexBuffer != default)
-				{
-					GL.DrawElements(primitiveType, IndexBuffer.Count, DrawElementsType.UnsignedInt, 0);
-				}
-				else
-				{
-					GL.DrawArrays(primitiveType, 0, VertexBuffer.Count);
-				}
-			}
-		}
+            return result;
+        }
 
-		public void UpdateVertices(Span<Vertex> vertices)
-		{
-			VertexBuffer?.SetData(vertices);
-		}
+        public void Render(PrimitiveType primitiveType = PrimitiveType.Triangles)
+        {
+            using (VertexArray.Bind())
+            {
+                IndexBuffer?.Bind();
 
-		public void UpdateIndices(Span<uint> indices)
-		{
-			IndexBuffer?.SetData(indices);
-		}
-	}
+                if (IndexBuffer != default)
+                {
+                    GL.DrawElements(primitiveType, IndexBuffer.Count, DrawElementsType.UnsignedInt, 0);
+                }
+                else
+                {
+                    GL.DrawArrays(primitiveType, 0, VertexBuffer.Count);
+                }
+            }
+        }
+
+        public void UpdateVertices(Span<Vertex> vertices)
+        {
+            VertexBuffer?.SetData(vertices);
+        }
+
+        public void UpdateIndices(Span<uint> indices)
+        {
+            IndexBuffer?.SetData(indices);
+        }
+    }
 }
 

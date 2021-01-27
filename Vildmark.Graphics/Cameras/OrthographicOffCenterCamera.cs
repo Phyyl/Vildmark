@@ -3,30 +3,16 @@ using Vildmark.Graphics.Rendering;
 
 namespace Vildmark.Graphics.Cameras
 {
-	public class OrthographicOffCenterCamera : Camera
-	{
-		public float Width { get; set; }
+    public class OrthographicOffCenterCamera : Camera
+    {
+        public OrthographicOffCenterCamera(int width, int height, float zNear = 1, float zFar = -1)
+            : base(width, height, zNear, zFar)
+        {
+        }
 
-		public float Height { get; set; }
-
-		public float ZNear { get; set; }
-
-		public float ZFar { get; set; }
-
-		public override Matrix4 ProjectionMatrix => Matrix4.CreateOrthographicOffCenter(0, Width, Height, 0, ZNear, ZFar);
-
-		public OrthographicOffCenterCamera(float width, float height, float zNear = 1, float zFar = -1)
-		{
-			Width = width;
-			Height = height;
-			ZNear = zNear;
-			ZFar = zFar;
-		}
-
-		public override void Resize(int width, int height)
-		{
-			Width = width;
-			Height = height;
-		}
-	}
+        protected override Matrix4 CreateProjectionMatrix()
+        {
+            return Matrix4.CreateOrthographicOffCenter(0, Width, Height, 0, ZNear, ZFar);
+        }
+    }
 }
