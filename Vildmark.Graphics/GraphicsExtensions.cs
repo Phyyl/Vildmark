@@ -15,5 +15,8 @@ namespace Vildmark.Graphics
         public static Vector2 GetBottomLeft(this RectangleF rectangle) => new Vector2(rectangle.Left, rectangle.Bottom);
         public static Vector2 GetBottomRight(this RectangleF rectangle) => new Vector2(rectangle.Right, rectangle.Bottom);
         public static Vector2 GetTopRight(this RectangleF rectangle) => new Vector2(rectangle.Right, rectangle.Top);
+
+        public static Vector2 ToVector(this SizeF size) => new Vector2(size.Width, size.Height);
+        public static Vector2 ToVector(this PointF size) => new Vector2(size.X, size.Y);
     }
 }

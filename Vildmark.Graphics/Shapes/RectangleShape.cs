@@ -10,7 +10,6 @@ using Vildmark.Graphics.Models;
 
 namespace Vildmark.Graphics.Shapes
 {
-    //TODO add source rect and tex coord like circle
     public class RectangleShape : Shape
     {
         private float width;
@@ -22,9 +21,8 @@ namespace Vildmark.Graphics.Shapes
         }
 
         public RectangleShape(Vector2 position, Vector2 size, Material material)
-             : base(material)
+             : base(material, new Vector3(position))
         {
-            Transform.Position = new Vector3(position);
             Width = size.X;
             Height = size.Y;
         }

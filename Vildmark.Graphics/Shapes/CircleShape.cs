@@ -10,7 +10,6 @@ using Vildmark.Graphics.Resources;
 
 namespace Vildmark.Graphics.Shapes
 {
-    // Add texture coordinate to the vertex data, checking source rect from Texture2D
     public class CircleShape : Shape
     {
         private int sides;
@@ -34,30 +33,39 @@ namespace Vildmark.Graphics.Shapes
             set => Material.Tint = value;
         }
 
-        public CircleShape(Vector2 position, float radius, Vector4 color, int sides = 36)
-            : base(new Material(Textures.WhitePixel, color))
+        public CircleShape(Vector2 position, float radius, Material material, int sides = 36)
+            : base(material, new Vector3(position))
         {
-            Transform.Position = new Vector3(position);
             Radius = radius;
             Sides = sides;
         }
 
         protected override IEnumerable<Vertex> GenerateVertices()
         {
+            Vector2 texSize = Material.Texture.SourceRectangle.Size.ToVector();
+            Vector2 texPos = Material.Texture.SourceRectangle.Location.ToVector();
+
             IEnumerable<Vertex> GetCircleVertices(int i)
             {
                 float angle = i / (float)Sides * MathHelper.TwoPi;
                 float angle2 = (i + 1) / (float)Sides * MathHelper.TwoPi;
 
-                if (i == 0)
+                Vertex GenerateVertex(float angle)
                 {
-                    yield return new Vertex(new Vector3(0, 0, 0));
+                    float cos = (float)Math.Cos(angle);
+                    float sin = (float)Math.Sin(angle);
+
+                    Vector2 pos = new Vector2(cos, sin);
+
+                    return new Vertex(new Vector3(pos) * Radius, ((pos + Vector2.One) / 2) * texSize + texPos);
                 }
 
-                yield return new Vertex(new Vector3((float)Math.Cos(angle), (float)Math.Sin(angle), 0) * Radius);
+                yield return new Vertex(new Vector3(0, 0, 0), texSize / 2 + texPos);
+                yield return GenerateVertex(i / (float)Sides * MathHelper.TwoPi);
+                yield return GenerateVertex((i + 1) / (float)Sides * MathHelper.TwoPi);
             }
 
-            return Enumerable.Range(0, Sides + 1).SelectMany(GetCircleVertices);
+            return Enumerable.Range(0, Sides).SelectMany(GetCircleVertices);
         }
     }
 }
