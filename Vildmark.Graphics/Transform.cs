@@ -14,6 +14,7 @@ namespace Vildmark.Graphics
 
         private Vector3 position;
         private Vector3 rotation;
+        private Vector3 rotationOrigin;
 
         public Vector3 Position
         {
@@ -25,6 +26,12 @@ namespace Vildmark.Graphics
         {
             get => rotation;
             set => SetValue(ref rotation, value);
+        }
+
+        public Vector3 RotationOrigin
+        {
+            get => rotationOrigin;
+            set => SetValue(ref rotationOrigin, value);
         }
 
         public float X
@@ -63,11 +70,29 @@ namespace Vildmark.Graphics
             set => SetValue(ref rotation.Z, value);
         }
 
+        public float RotationOriginX
+        {
+            get => rotationOrigin.X;
+            set => SetValue(ref rotationOrigin.X, value);
+        }
+
+        public float RotationOriginY
+        {
+            get => rotationOrigin.Y;
+            set => SetValue(ref rotationOrigin.Y, value);
+        }
+
+        public float RotationOriginZ
+        {
+            get => rotationOrigin.Z;
+            set => SetValue(ref rotationOrigin.Z, value);
+        }
+
         public Matrix4 Matrix => matrix ??= CreateMatrix();
 
         protected virtual Matrix4 CreateMatrix()
         {
-            return MatrixHelper.CreateMatrix(Position, Rotation);
+            return MatrixHelper.CreateMatrix(Position, Rotation, RotationOrigin);
         }
 
         private void SetValue<T>(ref T field, T value)
