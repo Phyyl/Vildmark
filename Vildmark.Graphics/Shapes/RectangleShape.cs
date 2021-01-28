@@ -15,11 +15,6 @@ namespace Vildmark.Graphics.Shapes
         private float width;
         private float height;
 
-        public RectangleShape(Vector2 position, Vector2 size, Vector4 color)
-            : this(position, size, new Material(color))
-        {
-        }
-
         public RectangleShape(Vector2 position, Vector2 size, Material material)
              : base(material, new Vector3(position))
         {
