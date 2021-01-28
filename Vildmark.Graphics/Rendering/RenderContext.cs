@@ -44,9 +44,14 @@ namespace Vildmark.Graphics.Rendering
             GL.Disable(EnableCap.DepthTest);
         }
 
-        public virtual void Render(Model model, Transform transform = default, MaterialShader shader = default)
+        public void Render(Model model, Transform transform = default, MaterialShader shader = default)
         {
-            if (model.Mesh.VertexBuffer.Count == 0)
+            Render(model.Mesh, model.Material, transform, shader);
+        }
+
+        public virtual void Render(Mesh mesh, Material material, Transform transform = default, MaterialShader shader = default)
+        {
+            if (mesh.VertexBuffer.Count == 0)
             {
                 return;
             }
@@ -55,13 +60,13 @@ namespace Vildmark.Graphics.Rendering
 
             using (shader.Use())
             {
-                model.Mesh.Setup(shader);
-                model.Material.Setup(shader);
+                mesh.Setup(shader);
+                material.Setup(shader);
                 Camera.Setup(shader);
 
                 shader.ModelMatrix.SetValue(transform.Matrix);
 
-                model.Mesh.Render();
+                mesh.Render();
             }
         }
 
