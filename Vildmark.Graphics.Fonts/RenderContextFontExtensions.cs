@@ -39,9 +39,9 @@ namespace Vildmark.Graphics.Fonts
                 stringMesh.UpdateVertices(vertices);
             }
 
-            Model model = new Model(stringMesh, new Material(font.Texture, color.Value), new Vector3(position));
+            Model model = new Model(stringMesh, new Material(font.Texture, color.Value));
 
-            renderContext.Render(model, Resources.Shaders.DistanceField);
+            renderContext.Render(model, new Transform { Position = new Vector3(position) }, Resources.Shaders.DistanceField);
         }
 
         public static Vector2 MeasureStringLine(this RenderContext2D renderContext, string str, float size = defaultSize, Font font = default)

@@ -8,13 +8,16 @@ using Vildmark.Maths;
 
 namespace Vildmark.Graphics
 {
-    public class Transform
+    public struct Transform
     {
+        internal bool Inverse { get; init; }
+
         private Matrix4? matrix;
 
+        private float scale;
         private Vector3 position;
         private Vector3 rotation;
-        private Vector3 rotationOrigin;
+        private Vector3 origin;
 
         public Vector3 Position
         {
@@ -28,10 +31,16 @@ namespace Vildmark.Graphics
             set => SetValue(ref rotation, value);
         }
 
-        public Vector3 RotationOrigin
+        public Vector3 Origin
         {
-            get => rotationOrigin;
-            set => SetValue(ref rotationOrigin, value);
+            get => origin;
+            set => SetValue(ref origin, value);
+        }
+
+        public float Scale
+        {
+            get => scale <= 0 ? (scale = 1) : scale;
+            set => SetValue(ref scale, value);
         }
 
         public float X
@@ -70,29 +79,29 @@ namespace Vildmark.Graphics
             set => SetValue(ref rotation.Z, value);
         }
 
-        public float RotationOriginX
+        public float OriginX
         {
-            get => rotationOrigin.X;
-            set => SetValue(ref rotationOrigin.X, value);
+            get => origin.X;
+            set => SetValue(ref origin.X, value);
         }
 
-        public float RotationOriginY
+        public float OriginY
         {
-            get => rotationOrigin.Y;
-            set => SetValue(ref rotationOrigin.Y, value);
+            get => origin.Y;
+            set => SetValue(ref origin.Y, value);
         }
 
-        public float RotationOriginZ
+        public float OriginZ
         {
-            get => rotationOrigin.Z;
-            set => SetValue(ref rotationOrigin.Z, value);
+            get => origin.Z;
+            set => SetValue(ref origin.Z, value);
         }
 
         public Matrix4 Matrix => matrix ??= CreateMatrix();
 
-        protected virtual Matrix4 CreateMatrix()
+        private Matrix4 CreateMatrix()
         {
-            return MatrixHelper.CreateMatrix(Position, Rotation, RotationOrigin);
+            return Inverse ? MatrixHelper.CreateMatrix(-Position, -Rotation, -Origin, Scale) : MatrixHelper.CreateMatrix(Position, Rotation, Origin, Scale);
         }
 
         private void SetValue<T>(ref T field, T value)

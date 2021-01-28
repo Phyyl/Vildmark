@@ -20,7 +20,7 @@ namespace Vildmark.Graphics.Rendering
 
         public override Camera Camera => OrthographicCamera;
 
-        public RenderContext2D(int width, int height)
+        public RenderContext2D(int width = 1920, int height = 1080)
         {
             OrthographicCamera = new OrthographicOffCenterCamera(width, height);
         }

@@ -28,8 +28,8 @@ namespace Vildmark.Graphics.Shapes
             }
         }
 
-        protected Shape(Material material, Vector3 position = default, Vector3 rotation = default)
-            : base(new Mesh(), material, position, rotation)
+        protected Shape(Material material)
+            : base(new Mesh(), material)
         {
         }
 

@@ -33,8 +33,10 @@ namespace Vildmark.Graphics.Shapes
             set => Material.Tint = value;
         }
 
-        public CircleShape(Vector2 position, float radius, Material material, int sides = 36)
-            : base(material, new Vector3(position))
+        public Vector3 Position { get; set; }
+
+        public CircleShape(float radius, Material material, int sides = 36)
+            : base(material)
         {
             Radius = radius;
             Sides = sides;

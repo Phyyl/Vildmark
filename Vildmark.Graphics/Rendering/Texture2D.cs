@@ -13,11 +13,11 @@ namespace Vildmark.Graphics.Rendering
 
         public RectangleF SourceRectangle { get; }
 
-        public int Width => GLTexture.Width;
+        public int Width => (int)(GLTexture.Width * SourceRectangle.Width);
 
-        public int Height => GLTexture.Height;
+        public int Height => (int)(GLTexture.Height * SourceRectangle.Width);
 
-        public Vector2 Size => GLTexture.Size;
+        public Vector2 Size => new Vector2(Width, Height);
 
         public Texture2D(GLTexture2D glTexture, RectangleF sourceRectangle = default)
         {
@@ -28,6 +28,17 @@ namespace Vildmark.Graphics.Rendering
         public Texture2D(int width, int height)
              : this(new GLTexture2D(width, height))
         {
+        }
+
+        public Texture2D CreateSubTexture(RectangleF sourceRectangle)
+        {
+            sourceRectangle = new RectangleF(
+                SourceRectangle.X + sourceRectangle.X * SourceRectangle.Width,
+                SourceRectangle.Y + sourceRectangle.Y * SourceRectangle.Height,
+                sourceRectangle.Width * SourceRectangle.Width,
+                sourceRectangle.Height * SourceRectangle.Height);
+
+            return new Texture2D(GLTexture, sourceRectangle);
         }
 
         public static implicit operator Texture2D(GLTexture2D texture)

@@ -15,11 +15,11 @@ namespace Vildmark.Graphics.Shapes
         private float width;
         private float height;
 
-        public RectangleShape(Vector2 position, Vector2 size, Material material)
-             : base(material, new Vector3(position))
+        public RectangleShape(float width, float height, Material material)
+             : base(material)
         {
-            Width = size.X;
-            Height = size.Y;
+            Width = width;
+            Height = height;
         }
 
         public float Width

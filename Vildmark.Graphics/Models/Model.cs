@@ -9,18 +9,14 @@ namespace Vildmark.Graphics.Models
 {
     public class Model
     {
-        public Transform Transform { get; } = new Transform();
-
         public virtual Mesh Mesh { get; }
 
         public Material Material { get; }
 
-        public Model(Mesh mesh, Material material, Vector3 position = default, Vector3 rotation = default)
+        public Model(Mesh mesh, Material material)
         {
             Mesh = mesh;
             Material = material;
-            Transform.Position = position;
-            Transform.Rotation = rotation;
         }
     }
 }

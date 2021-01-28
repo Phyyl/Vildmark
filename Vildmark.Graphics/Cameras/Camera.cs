@@ -19,7 +19,12 @@ namespace Vildmark.Graphics.Cameras
         private float zNear;
         private float zFar;
 
-        public Transform Transform { get; } = new Transform();
+        private Transform transform = new Transform
+        {
+            Inverse = true
+        };
+
+        public ref Transform Transform => ref transform;
 
         public int Width
         {
@@ -71,14 +76,6 @@ namespace Vildmark.Graphics.Cameras
         {
             field = value;
             projectionMatrix = null;
-        }
-
-        private class CameraTransform : Transform
-        {
-            protected override Matrix4 CreateMatrix()
-            {
-                return MatrixHelper.CreateMatrix(-Position, -Rotation);
-            }
         }
     }
 }

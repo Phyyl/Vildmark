@@ -44,7 +44,7 @@ namespace Vildmark.Graphics.Rendering
             GL.Disable(EnableCap.DepthTest);
         }
 
-        public virtual void Render(Model model, MaterialShader shader = default)
+        public virtual void Render(Model model, Transform transform = default, MaterialShader shader = default)
         {
             if (model.Mesh.VertexBuffer.Count == 0)
             {
@@ -59,7 +59,7 @@ namespace Vildmark.Graphics.Rendering
                 model.Material.Setup(shader);
                 Camera.Setup(shader);
 
-                shader.ModelMatrix.SetValue(model.Transform.Matrix);
+                shader.ModelMatrix.SetValue(transform.Matrix);
 
                 model.Mesh.Render();
             }
