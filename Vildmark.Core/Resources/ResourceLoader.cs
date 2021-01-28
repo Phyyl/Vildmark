@@ -13,12 +13,12 @@ namespace Vildmark.Resources
     {
         public static Stream GetEmbeddedStream(string name, Assembly assembly = default)
         {
+            assembly ??= Assembly.GetCallingAssembly();
+
             if (name is null)
             {
                 throw new ArgumentNullException(nameof(name));
             }
-
-            assembly ??= Assembly.GetCallingAssembly();
 
             return assembly.GetManifestResourceStream(name) ?? FindEmbeddedStream(name, assembly);
 
@@ -26,6 +26,8 @@ namespace Vildmark.Resources
 
         public static Stream FindEmbeddedStream(string name, Assembly assembly = default)
         {
+            assembly ??= Assembly.GetCallingAssembly();
+
             string[] names = assembly.GetManifestResourceNames();
 
             if (!names.Contains(name))
@@ -50,6 +52,8 @@ namespace Vildmark.Resources
 
         public static T LoadEmbedded<T>(string name, Assembly assembly = default) where T : class
         {
+            assembly ??= Assembly.GetCallingAssembly();
+
             return Service<IEmbeddedResourceLoader<T>>.Instance?.Load(name, assembly) ?? Load<T>(GetEmbeddedStream(name, assembly));
         }
 
