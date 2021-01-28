@@ -1,9 +1,12 @@
 ﻿using Newtonsoft.Json;
 using OpenTK.Graphics.OpenGL;
+using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Vildmark;
 using Vildmark.Graphics.GLObjects;
+using Vildmark.Graphics.Rendering;
 using Vildmark.Graphics.Resources;
 using Vildmark.Resources;
 
@@ -14,7 +17,7 @@ namespace Vildmark.Graphics.Fonts.Resources
     {
         public Font Load(string name, Assembly assembly = default)
         {
-            assembly ??= Assembly.GetCallingAssembly(); 
+            assembly ??= Assembly.GetCallingAssembly();
 
             string json = ResourceLoader.LoadEmbedded<string>($"{name}.json", assembly);
 
@@ -36,6 +39,11 @@ namespace Vildmark.Graphics.Fonts.Resources
             {
                 font.Texture.TextureMagFilter = TextureMagFilter.Linear;
                 font.Texture.TextureMinFilter = TextureMinFilter.Linear;
+            }
+
+            foreach (FontChar fontChar in font.Characters.Values)
+            {
+                fontChar.Texture = new Texture2D(font.Texture, new RectangleF(fontChar.X / font.Width, fontChar.Y / font.Height, fontChar.Width / font.Width, fontChar.Height / font.Height));
             }
 
             return font;

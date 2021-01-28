@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Vildmark.Graphics.GLObjects;
+using Vildmark.Graphics.Rendering;
 using Vildmark.Resources;
 
 namespace Vildmark.Graphics.Fonts
@@ -16,7 +17,7 @@ namespace Vildmark.Graphics.Fonts
 		public static Font Arial => arial ??= ResourceLoader.LoadEmbedded<Font>("arial");
 
 		[JsonIgnore]
-		public GLTexture2D Texture { get; set; }
+		public GLTexture2D Texture { get; internal set; }
 
 		[JsonProperty("name")]
 		public string Name { get; set; }
@@ -41,5 +42,7 @@ namespace Vildmark.Graphics.Fonts
 
 		[JsonIgnore]
 		public int BaseLine => (int)(Size * 0.75f);
+
+        public FontChar GetChar(char @char, char @default = ' ') => Characters.GetValueOrDefault(@char, Characters.GetValueOrDefault(@default));
 	}
 }

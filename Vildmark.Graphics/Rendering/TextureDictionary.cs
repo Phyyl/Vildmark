@@ -1,32 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using Vildmark.Graphics.GLObjects;
 
 namespace Vildmark.Graphics.Rendering
 {
-    public class TextureDictionary
+    public class TextureDictionary<TKey>
     {
-        private readonly Dictionary<string, RectangleF> rectangles = new Dictionary<string, RectangleF>();
+        private readonly Dictionary<TKey, Texture2D> rectangles = new Dictionary<TKey, Texture2D>();
 
         public GLTexture2D Texture { get; }
 
-        public TextureDictionary(GLTexture2D texture, params (string name, RectangleF rectangle)[] rectangles)
+        public TextureDictionary(GLTexture2D texture, params Entry[] entries)
         {
             Texture = texture;
-
-            foreach (var rectangle in rectangles)
-            {
-                Add(rectangle.name, rectangle.rectangle);
-            }
+            rectangles = entries.ToDictionary(e => e.key, e => new Texture2D(texture, e.SourceRectangle));
         }
 
-        public Texture2D this[string name] => rectangles.TryGetValue(name, out RectangleF rectangle) ? new Texture2D(Texture, rectangle) : null;
+        public Texture2D this[TKey key] => rectangles.GetValueOrDefault(key);
 
-        public bool Add(string name, RectangleF rectangle)
-        {
-            return rectangles.TryAdd(name, rectangle);
-        }
+        public record Entry(TKey key, RectangleF SourceRectangle);
     }
 }

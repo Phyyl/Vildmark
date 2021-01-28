@@ -2,11 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Vildmark.Graphics.Rendering;
 
 namespace Vildmark.Graphics.Fonts
 {
 	public class FontChar
 	{
+		[JsonIgnore]
+		public Texture2D Texture { get; internal set; }
+
 		[JsonProperty("x")]
 		public int X { get; set; }
 
