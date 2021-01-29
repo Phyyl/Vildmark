@@ -15,7 +15,7 @@ namespace Vildmark.Graphics.Rendering
 
         public int Width => (int)(GLTexture.Width * SourceRectangle.Width);
 
-        public int Height => (int)(GLTexture.Height * SourceRectangle.Width);
+        public int Height => (int)(GLTexture.Height * SourceRectangle.Height);
 
         public Vector2 Size => new Vector2(Width, Height);
 

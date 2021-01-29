@@ -18,21 +18,17 @@ namespace Vildmark.Graphics.GLObjects
             Span<byte> data = default,
             TextureMagFilter textureMagFilter = TextureMagFilter.Nearest,
             TextureMinFilter textureMinFilter = TextureMinFilter.Nearest,
-            TextureWrapMode wrapSMode = TextureWrapMode.ClampToEdge,
-            TextureWrapMode wrapTMode = TextureWrapMode.ClampToEdge,
+            TextureWrapMode wrapSMode = TextureWrapMode.Clamp,
+            TextureWrapMode wrapTMode = TextureWrapMode.Clamp,
             TextureTarget textureTarget = TextureTarget.Texture2D)
             : base(GL.GenTexture())
         {
             TextureTarget = textureTarget;
 
-            using (Bind())
-            {
-                TextureMagFilter = textureMagFilter;
-                TextureMinFilter = textureMinFilter;
-
-                WrapSMode = wrapSMode;
-                WrapTMode = wrapTMode;
-            }
+            TextureMagFilter = textureMagFilter;
+            TextureMinFilter = textureMinFilter;
+            WrapSMode = wrapSMode;
+            WrapTMode = wrapTMode;
 
             SetData(width, height, data);
         }
@@ -46,7 +42,10 @@ namespace Vildmark.Graphics.GLObjects
             }
             set
             {
-                GL.TexParameter(TextureTarget, TextureParameterName.TextureMagFilter, (int)value);
+                using (Bind())
+                {
+                    GL.TexParameter(TextureTarget, TextureParameterName.TextureMagFilter, (int)value);
+                }
             }
         }
 
@@ -59,7 +58,10 @@ namespace Vildmark.Graphics.GLObjects
             }
             set
             {
-                GL.TexParameter(TextureTarget, TextureParameterName.TextureMinFilter, (int)value);
+                using (Bind())
+                {
+                    GL.TexParameter(TextureTarget, TextureParameterName.TextureMinFilter, (int)value);
+                }
             }
         }
 
@@ -72,7 +74,10 @@ namespace Vildmark.Graphics.GLObjects
             }
             set
             {
-                GL.TexParameter(TextureTarget, TextureParameterName.TextureWrapS, (int)value);
+                using (Bind())
+                {
+                    GL.TexParameter(TextureTarget, TextureParameterName.TextureWrapS, (int)value);
+                }
             }
         }
 
@@ -85,7 +90,10 @@ namespace Vildmark.Graphics.GLObjects
             }
             set
             {
-                GL.TexParameter(TextureTarget, TextureParameterName.TextureWrapT, (int)value);
+                using (Bind())
+                {
+                    GL.TexParameter(TextureTarget, TextureParameterName.TextureWrapT, (int)value);
+                }
             }
         }
 
