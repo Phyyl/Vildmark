@@ -41,7 +41,7 @@ namespace Vildmark.Graphics.Fonts
 
             Model model = new Model(stringMesh, new Material(font.Texture, color.Value));
 
-            renderContext.Render(model, new Transform { Position = new Vector3(position) }, Resources.Shaders.DistanceField);
+            renderContext.Render(stringMesh, new Material(font.Texture, color.Value), Resources.Shaders.DistanceField, Matrix4.Identity, new Vector3(position));
         }
 
         public static Vector2 MeasureStringLine(this RenderContext2D renderContext, string str, float size = defaultSize, Font font = default)

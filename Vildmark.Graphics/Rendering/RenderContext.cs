@@ -55,19 +55,24 @@ namespace Vildmark.Graphics.Rendering
         {
         }
 
-        public void Render(Model model, Transform transform = default, MaterialShader shader = default)
+        public void Render(Mesh mesh, Material material, Vector3 offset = default)
         {
-            Render(model.Mesh, model.Material, transform, shader);
+            Render(mesh, material, Matrix4.Identity, offset);
         }
 
-        public void Render(Mesh mesh, Material material, Transform transform = default)
+        public void Render(Mesh mesh, Material material, Matrix4 modelMatrix, Vector3 offset = default)
         {
-            Render(mesh, material, transform, Resources.Shaders.Material);
+            Render(mesh, material, Resources.Shaders.Material, modelMatrix, offset);
         }
 
-        public virtual void Render(Mesh mesh, Material material, Transform transform, MaterialShader shader)
+        public void Render(Mesh mesh, Material material, MaterialShader shader, Vector3 offset = default)
         {
-            shader.Render(mesh, material, transform, Camera);
+            Render(mesh, material, shader, Matrix4.Identity, offset);
+        }
+
+        public virtual void Render(Mesh mesh, Material material, MaterialShader shader, Matrix4 modelMatrix, Vector3 offset = default)
+        {
+            shader.Render(mesh, material, Camera, modelMatrix, offset);
         }
 
         public void SetViewPort(int width, int height)

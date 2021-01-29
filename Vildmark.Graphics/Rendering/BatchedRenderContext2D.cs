@@ -16,15 +16,15 @@ namespace Vildmark.Graphics.Rendering
     {
         private readonly List<Batch> batches = new List<Batch>();
 
-        public override void Render(Mesh mesh, Material material, Transform transform, MaterialShader shader)
+        public override void Render(Mesh mesh, Material material, MaterialShader shader, Matrix4 modelMatrix, Vector3 offset)
         {
             Batch lastBatch = batches.LastOrDefault();
             Batch batch = new Batch(material.Texture.GLTexture, shader);
-            BatchItem item = new BatchItem(mesh, material, transform);
+            BatchItem item = new BatchItem(mesh, material, modelMatrix, offset);
 
             batch.Items.Add(item);
 
-            if (lastBatch == batch)
+            if (batch.Equals(lastBatch))
             {
                 lastBatch.Items.Add(item);
             }
@@ -49,17 +49,34 @@ namespace Vildmark.Graphics.Rendering
                 {
                     foreach (var item in batch.Items)
                     {
-                        batch.Shader.Render(item.Mesh, item.Material, item.Transform, Camera);
+                        batch.Shader.Render(item.Mesh, item.Material, Camera, item.ModelMatrix, item.Offset);
                     }
                 }
             }
         }
 
-        private record BatchItem(Mesh Mesh, Material Material, Transform Transform);
+        private record BatchItem(Mesh Mesh, Material Material, Matrix4 ModelMatrix, Vector3 Offset);
 
-        private record Batch(GLTexture2D Texture, MaterialShader Shader)
+        private class Batch
         {
+            public GLTexture2D Texture { get; }
+
+            public MaterialShader Shader { get; }
+
             public List<BatchItem> Items { get; } = new List<BatchItem>();
+
+            public Batch(GLTexture2D texture, MaterialShader shader)
+            {
+                Texture = texture;
+                Shader = shader;
+            }
+
+            public override bool Equals(object obj)
+            {
+                return obj is Batch other
+                    && other.Shader == Shader
+                    && other.Texture == Texture;
+            }
         }
     }
 }

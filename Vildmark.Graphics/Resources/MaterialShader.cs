@@ -30,29 +30,20 @@ namespace Vildmark.Graphics.Resources
 
         public Uniform<Vector4> SourceRect { get; } = new Uniform<Vector4>("source_rect");
 
-        public void Render(Mesh mesh, Material material, Transform transform, Camera camera)
+        public Uniform<Vector3> Offset { get; } = new Uniform<Vector3>("offset");
+
+        public void Render(Mesh mesh, Material material, Camera camera, Matrix4 modelMatrix, Vector3 offset)
         {
             using (Use())
             {
-                Setup(mesh, material, transform, camera);
+                Setup(material, camera, modelMatrix, offset);
 
                 mesh?.Render();
             }
         }
 
-        protected virtual void Setup(Mesh mesh, Material material, Transform transform, Camera camera)
+        protected virtual void Setup(Material material, Camera camera, Matrix4 modelMatrix, Vector3 offset)
         {
-            if (mesh is not null)
-            {
-                using (mesh.VertexArray.Bind())
-                {
-                    Position.Setup(mesh.VertexBuffer, Vertex.PositionOffset);
-                    TexCoord.Setup(mesh.VertexBuffer, Vertex.TexCoordOffset);
-                    Color.Setup(mesh.VertexBuffer, Vertex.ColorOffset);
-                    Normal.Setup(mesh.VertexBuffer, Vertex.NormalOffset);
-                }
-            }
-
             if (material is not null)
             {
                 Tint.SetValue(material.Tint);
@@ -66,7 +57,8 @@ namespace Vildmark.Graphics.Resources
                 ViewMatrix.SetValue(camera.Transform.Matrix);
             }
 
-            ModelMatrix.SetValue(transform.Matrix);
+            ModelMatrix.SetValue(modelMatrix);
+            Offset.SetValue(offset);
         }
     }
 }

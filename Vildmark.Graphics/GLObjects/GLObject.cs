@@ -1,26 +1,43 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Vildmark.Graphics.GLObjects
 {
-	public abstract class GLObject : IDisposable
-	{
-		protected GLObject(int id)
-		{
-			ID = id;
-		}
+    public abstract class GLObject : IDisposable
+    {
+#if DEBUG
+        private static readonly List<GLObject> glObjects = new List<GLObject>();
 
-		protected int ID { get; }
+        public static IEnumerable<GLObject> GLObjects => glObjects.ToArray();
+#endif
 
-		public void Dispose()
-		{
-			DisposeOpenGL();
-		}
+        protected GLObject(int id)
+        {
+            ID = id;
 
-		protected abstract void DisposeOpenGL();
+#if DEBUG
+            glObjects.Add(this);
+#endif
+        }
 
-		public static implicit operator int(GLObject obj)
-		{
-			return obj?.ID ?? 0;
-		}
-	}
+        protected int ID { get; }
+
+        public void Dispose()
+        {
+            DisposeOpenGL();
+        }
+
+        protected abstract void DisposeOpenGL();
+
+        public static implicit operator int(GLObject obj)
+        {
+            return obj?.ID ?? 0;
+        }
+
+        public override string ToString()
+        {
+            return $"{GetType().Name} ({ID})";
+        }
+    }
 }
