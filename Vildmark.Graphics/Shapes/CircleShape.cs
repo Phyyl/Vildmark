@@ -27,16 +27,7 @@ namespace Vildmark.Graphics.Shapes
             set => SetValue(ref sides, value);
         }
 
-        public Vector4 Color
-        {
-            get => Material.Tint;
-            set => Material.Tint = value;
-        }
-
-        public Vector3 Position { get; set; }
-
-        public CircleShape(float radius, Material material, int sides = 36)
-            : base(material)
+        public CircleShape(float radius, int sides = 36)
         {
             Radius = radius;
             Sides = sides;
@@ -44,9 +35,6 @@ namespace Vildmark.Graphics.Shapes
 
         protected override IEnumerable<Vertex> GenerateVertices()
         {
-            Vector2 texSize = Material.Texture.SourceRectangle.Size.ToVector();
-            Vector2 texPos = Material.Texture.SourceRectangle.Location.ToVector();
-
             IEnumerable<Vertex> GetCircleVertices(int i)
             {
                 float angle = i / (float)Sides * MathHelper.TwoPi;
@@ -59,10 +47,10 @@ namespace Vildmark.Graphics.Shapes
 
                     Vector2 pos = new Vector2(cos, sin);
 
-                    return new Vertex(new Vector3(pos) * Radius, ((pos + Vector2.One) / 2) * texSize + texPos);
+                    return new Vertex(new Vector3(pos) * Radius, pos);
                 }
 
-                yield return new Vertex(new Vector3(0, 0, 0), texSize / 2 + texPos);
+                yield return new Vertex(new Vector3(0, 0, 0), new Vector2(0.5f));
                 yield return GenerateVertex(i / (float)Sides * MathHelper.TwoPi);
                 yield return GenerateVertex((i + 1) / (float)Sides * MathHelper.TwoPi);
             }

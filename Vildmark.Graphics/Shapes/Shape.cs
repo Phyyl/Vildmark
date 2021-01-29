@@ -10,11 +10,13 @@ using Vildmark.Graphics.Resources;
 
 namespace Vildmark.Graphics.Shapes
 {
-    public abstract class Shape : Model
+    public abstract class Shape
     {
         protected bool needsUpdate = true;
 
-        public override Mesh Mesh
+        private Mesh mesh;
+
+        public Mesh Mesh
         {
             get
             {
@@ -24,20 +26,20 @@ namespace Vildmark.Graphics.Shapes
                     needsUpdate = false;
                 }
 
-                return base.Mesh;
+                return mesh;
             }
         }
 
-        protected Shape(Material material)
-            : base(new Mesh(), material)
+        protected Shape()
         {
+            mesh = new Mesh();
         }
 
         protected abstract IEnumerable<Vertex> GenerateVertices();
 
         private void UpdateMesh()
         {
-            base.Mesh.VertexBuffer.SetData(GenerateVertices().ToArray());
+            mesh.VertexBuffer.SetData(GenerateVertices().ToArray());
         }
 
         protected void SetValue<T>(ref T field, T value)

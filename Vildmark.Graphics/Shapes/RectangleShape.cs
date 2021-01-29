@@ -15,13 +15,6 @@ namespace Vildmark.Graphics.Shapes
         private float width;
         private float height;
 
-        public RectangleShape(float width, float height, Material material)
-             : base(material)
-        {
-            Width = width;
-            Height = height;
-        }
-
         public float Width
         {
             get => width;
@@ -34,16 +27,20 @@ namespace Vildmark.Graphics.Shapes
             set => SetValue(ref height, value);
         }
 
+        public RectangleShape(float width, float height)
+        {
+            Width = width;
+            Height = height;
+        }
+
         protected override IEnumerable<Vertex> GenerateVertices()
         {
-            RectangleF sourceRect = Material.Texture.SourceRectangle;
-
-            yield return new Vertex(new Vector3(0, 0, 0), sourceRect.GetTopLeft());
-            yield return new Vertex(new Vector3(0, Height, 0), sourceRect.GetBottomLeft());
-            yield return new Vertex(new Vector3(Width, Height, 0), sourceRect.GetBottomRight());
-            yield return new Vertex(new Vector3(0, 0, 0), sourceRect.GetTopLeft());
-            yield return new Vertex(new Vector3(Width, Height, 0), sourceRect.GetBottomRight());
-            yield return new Vertex(new Vector3(Width, 0, 0), sourceRect.GetTopRight());
+            yield return new Vertex(new Vector3(0, 0, 0), Vector2.Zero);
+            yield return new Vertex(new Vector3(0, Height, 0), Vector2.UnitY);
+            yield return new Vertex(new Vector3(Width, Height, 0), Vector2.One);
+            yield return new Vertex(new Vector3(0, 0, 0), Vector2.Zero);
+            yield return new Vertex(new Vector3(Width, Height, 0), Vector2.One);
+            yield return new Vertex(new Vector3(Width, 0, 0), Vector2.UnitX);
         }
     }
 }

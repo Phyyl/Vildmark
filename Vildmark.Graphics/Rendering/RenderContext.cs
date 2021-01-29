@@ -44,35 +44,50 @@ namespace Vildmark.Graphics.Rendering
             GL.Disable(EnableCap.DepthTest);
         }
 
+        public virtual IDisposable Begin()
+        {
+            Clear();
+
+            return new BeginContext(this);
+        }
+
+        public virtual void End()
+        {
+        }
+
         public void Render(Model model, Transform transform = default, MaterialShader shader = default)
         {
             Render(model.Mesh, model.Material, transform, shader);
         }
 
-        public virtual void Render(Mesh mesh, Material material, Transform transform = default, MaterialShader shader = default)
+        public void Render(Mesh mesh, Material material, Transform transform = default)
         {
-            if (mesh.VertexBuffer.Count == 0)
-            {
-                return;
-            }
+            Render(mesh, material, transform, Resources.Shaders.Material);
+        }
 
-            shader ??= Resources.Shaders.Material;
-
-            using (shader.Use())
-            {
-                mesh.Setup(shader);
-                material.Setup(shader);
-                Camera.Setup(shader);
-
-                shader.ModelMatrix.SetValue(transform.Matrix);
-
-                mesh.Render();
-            }
+        public virtual void Render(Mesh mesh, Material material, Transform transform, MaterialShader shader)
+        {
+            shader.Render(mesh, material, transform, Camera);
         }
 
         public void SetViewPort(int width, int height)
         {
             GL.Viewport(0, 0, width, height);
+        }
+
+        private class BeginContext : IDisposable
+        {
+            private readonly RenderContext renderContext;
+
+            public BeginContext(RenderContext renderContext)
+            {
+                this.renderContext = renderContext;
+            }
+
+            public void Dispose()
+            {
+                renderContext.End();
+            }
         }
     }
 }

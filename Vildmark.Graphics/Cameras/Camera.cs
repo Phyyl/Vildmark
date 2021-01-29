@@ -1,5 +1,6 @@
 ﻿using OpenTK.Mathematics;
 using System;
+using System.Drawing;
 using System.Net.Http.Json;
 using System.Reflection.PortableExecutable;
 using System.Runtime.InteropServices;
@@ -50,6 +51,8 @@ namespace Vildmark.Graphics.Cameras
             set => SetValue(ref zFar, value);
         }
 
+        public RectangleF Viewport => new RectangleF(transform.X * transform.Scale, transform.Y * transform.Scale, Width / transform.Scale, Height / transform.Scale);
+
         public Matrix4 ProjectionMatrix => projectionMatrix ??= CreateProjectionMatrix();
 
         public Matrix4 ViewMatrix => Transform.Matrix;
@@ -62,12 +65,6 @@ namespace Vildmark.Graphics.Cameras
             Height = height;
             ZNear = zNear;
             ZFar = zFar;
-        }
-
-        public void Setup(MaterialShader shader)
-        {
-            shader.ProjectionMatrix.SetValue(ProjectionMatrix);
-            shader.ViewMatrix.SetValue(ViewMatrix);
         }
 
         protected abstract Matrix4 CreateProjectionMatrix();

@@ -23,18 +23,6 @@ namespace Vildmark.Graphics.Models
             IndexBuffer = indices.Length > 0 ? new GLBuffer<uint>(indices, BufferTarget.ElementArrayBuffer) : default;
         }
 
-        public IDisposable Setup(MaterialShader shader)
-        {
-            IDisposable result = VertexArray.Bind();
-
-            shader.Position.Setup(VertexBuffer, Vertex.PositionOffset);
-            shader.TexCoord.Setup(VertexBuffer, Vertex.TexCoordOffset);
-            shader.Color.Setup(VertexBuffer, Vertex.ColorOffset);
-            shader.Normal.Setup(VertexBuffer, Vertex.NormalOffset);
-
-            return result;
-        }
-
         public void Render(PrimitiveType primitiveType = PrimitiveType.Triangles)
         {
             using (VertexArray.Bind())

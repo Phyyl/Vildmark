@@ -4,6 +4,7 @@ using Vildmark.Graphics.Resources;
 using System.Drawing;
 using Vildmark.Graphics.Rendering;
 using System;
+using Vildmark.Maths;
 
 namespace Vildmark.Graphics.Models
 {
@@ -28,12 +29,6 @@ namespace Vildmark.Graphics.Models
         {
             Texture = texture;
             Tint = tint;
-        }
-
-        public void Setup(MaterialShader shader)
-        {
-            shader.Tint.SetValue(Tint);
-            shader.Tex0.SetValue(Texture?.GLTexture);
         }
 
         public static implicit operator Material(Texture2D texture) => new Material(texture);

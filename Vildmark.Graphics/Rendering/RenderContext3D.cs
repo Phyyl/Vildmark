@@ -20,11 +20,11 @@ namespace Vildmark.Graphics.Rendering
             PerspectiveCamera = new PerspectiveCamera(fovY, width, height);
         }
 
-        public override void Render(Mesh mesh, Material material, Transform transform = default, MaterialShader shader = null)
+        public override IDisposable Begin()
         {
             EnableDepthTest();
 
-            base.Render(mesh, material, transform, shader);
+            return base.Begin();
         }
     }
 }

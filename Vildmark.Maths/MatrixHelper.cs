@@ -7,6 +7,7 @@ namespace Vildmark.Maths
 {
     public static class MatrixHelper
     {
+        //TODO: Check if rotation is scaled
         public static Matrix4 CreateMatrix(Vector3 position, Vector3 rotation, Vector3 origin = default, float scale = 1)
         {
             Matrix4 result = Matrix4.Identity;
