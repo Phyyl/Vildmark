@@ -33,6 +33,8 @@ namespace Vildmark
 
         public float Average => samples.Average();
 
+        public int MaxSamples { get; } = 10;
+
         public void Clear()
         {
             samples.Clear();
@@ -57,6 +59,11 @@ namespace Vildmark
             public void Dispose()
             {
                 benchmark.samples.Add(benchmark.stopwatch.ElapsedTicks / 10000f);
+
+                if (benchmark.samples.Count > benchmark.MaxSamples)
+                {
+                    benchmark.samples.RemoveAt(0);
+                }
             }
         }
     }
