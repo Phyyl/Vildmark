@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Vildmark.Maths;
 
 namespace Vildmark.Graphics
 {
@@ -18,5 +19,9 @@ namespace Vildmark.Graphics
 
         public static Vector2 ToVector(this SizeF size) => new Vector2(size.Width, size.Height);
         public static Vector2 ToVector(this PointF size) => new Vector2(size.X, size.Y);
+
+        public static Vector4 ToVector(this Color4 color) => new Vector4(color.R, color.G, color.B, color.A);
+
+        public static Color4 ToColor4(this Vector4 color) => new Color4(color.X, color.Y, color.Z, color.W);
     }
 }
