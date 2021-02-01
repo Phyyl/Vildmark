@@ -12,25 +12,34 @@ namespace Vildmark.Graphics.Shapes
 {
     public class RectangleShape : Shape
     {
-        private float width;
-        private float height;
+        private Vector2 size;
 
         public float Width
         {
-            get => width;
-            set => SetValue(ref width, value);
+            get => size.X;
+            set => SetValue(ref size.X, value);
         }
 
         public float Height
         {
-            get => height;
-            set => SetValue(ref height, value);
+            get => size.Y;
+            set => SetValue(ref size.Y, value);
+        }
+
+        public Vector2 Size
+        {
+            get => size;
+            set => SetValue(ref size, value);
+        }
+
+        public RectangleShape(Vector2 size)
+        {
+            Size = size;
         }
 
         public RectangleShape(float width, float height)
+            : this(new Vector2(width, height))
         {
-            Width = width;
-            Height = height;
         }
 
         protected override IEnumerable<Vertex> GenerateVertices()

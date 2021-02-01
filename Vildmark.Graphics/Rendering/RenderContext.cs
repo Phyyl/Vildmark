@@ -55,9 +55,29 @@ namespace Vildmark.Graphics.Rendering
         {
         }
 
-        public void Render(Mesh mesh, Material material, Vector3 offset = default)
+        public void Render(Mesh mesh, Material material)
+        {
+            Render(mesh, material, offset: default(Vector3));
+        }
+
+        public void Render(Mesh mesh, Material material, Vector2 offset)
+        {
+            Render(mesh, material, new Vector3(offset));
+        }
+
+        public void Render(Mesh mesh, Material material, Vector3 offset)
         {
             Render(mesh, material, Matrix4.Identity, offset);
+        }
+
+        public void Render(Mesh mesh, Material material, Matrix4 modelMatrix)
+        {
+            Render(mesh, material, modelMatrix, default(Vector3));
+        }
+
+        public void Render(Mesh mesh, Material material, Matrix4 modelMatrix, Vector2 offset = default)
+        {
+            Render(mesh, material, modelMatrix, new Vector3(offset));
         }
 
         public void Render(Mesh mesh, Material material, Matrix4 modelMatrix, Vector3 offset = default)
@@ -65,14 +85,36 @@ namespace Vildmark.Graphics.Rendering
             Render(mesh, material, Resources.Shaders.Material, modelMatrix, offset);
         }
 
+        public void Render(Mesh mesh, Material material, MaterialShader shader)
+        {
+            Render(mesh, material, shader, default(Vector3));
+        }
+
+        public void Render(Mesh mesh, Material material, MaterialShader shader, Vector2 offset = default)
+        {
+            Render(mesh, material, shader, new Vector3(offset));
+        }
+
         public void Render(Mesh mesh, Material material, MaterialShader shader, Vector3 offset = default)
         {
             Render(mesh, material, shader, Matrix4.Identity, offset);
         }
 
+        public virtual void Render(Mesh mesh, Material material, MaterialShader shader, Matrix4 modelMatrix)
+        {
+            Render(mesh, material, shader, modelMatrix, default(Vector3));
+        }
+
+        public virtual void Render(Mesh mesh, Material material, MaterialShader shader, Matrix4 modelMatrix, Vector2 offset = default)
+        {
+            Render(mesh, material, shader, modelMatrix, new Vector3(offset));
+        }
+
         public virtual void Render(Mesh mesh, Material material, MaterialShader shader, Matrix4 modelMatrix, Vector3 offset = default)
         {
-            shader.Render(mesh, material, Camera, modelMatrix, offset);
+            shader.Setup(material, Camera, modelMatrix, offset);
+
+            mesh.Render();
         }
 
         public void SetViewPort(int width, int height)

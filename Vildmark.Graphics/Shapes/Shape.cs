@@ -39,7 +39,7 @@ namespace Vildmark.Graphics.Shapes
 
         private void UpdateMesh()
         {
-            mesh.VertexBuffer.SetData(GenerateVertices().ToArray());
+            mesh.UpdateVertices(GenerateVertices().ToArray());
         }
 
         protected void SetValue<T>(ref T field, T value)

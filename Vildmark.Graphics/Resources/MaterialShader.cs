@@ -24,30 +24,17 @@ namespace Vildmark.Graphics.Resources
 
         public Uniform<Matrix4> ModelMatrix { get; } = new Uniform<Matrix4>("model_matrix");
 
-        public Uniform<GLTexture2D> Tex0 { get; } = new Uniform<GLTexture2D>("tex0");
-
         public Uniform<Vector4> Tint { get; } = new Uniform<Vector4>("tint");
 
         public Uniform<Vector4> SourceRect { get; } = new Uniform<Vector4>("source_rect");
 
         public Uniform<Vector3> Offset { get; } = new Uniform<Vector3>("offset");
 
-        public void Render(Mesh mesh, Material material, Camera camera, Matrix4 modelMatrix, Vector3 offset)
-        {
-            using (Use())
-            {
-                Setup(material, camera, modelMatrix, offset);
-
-                mesh?.Render();
-            }
-        }
-
-        protected virtual void Setup(Material material, Camera camera, Matrix4 modelMatrix, Vector3 offset)
+        public virtual void Setup(Material material, Camera camera, Matrix4 modelMatrix, Vector3 offset)
         {
             if (material is not null)
             {
                 Tint.SetValue(material.Tint);
-                Tex0.SetValue(material.Texture?.GLTexture);
                 SourceRect.SetValue(material.Texture?.SourceRectangle.ToVector() ?? new Vector4(0, 0, 1, 1));
             }
 

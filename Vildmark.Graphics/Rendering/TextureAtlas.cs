@@ -11,7 +11,9 @@ namespace Vildmark.Graphics.Rendering
 {
     public class TextureAtlas
     {
-        private readonly Vector2 tileSize;
+        public Vector2 TextureTileSize { get; }
+
+        public Vector2 TileSize { get; }
 
         public Texture2D Texture { get; }
 
@@ -19,9 +21,10 @@ namespace Vildmark.Graphics.Rendering
         {
             Texture = texture;
 
-            tileSize = new Vector2(tileWidth / (float)texture.Width, tileHeight / (float)texture.Height);
+            TileSize = new Vector2(tileWidth, tileHeight);
+            TextureTileSize = new Vector2(tileWidth / (float)texture.Width, tileHeight / (float)texture.Height);
         }
 
-        public Texture2D this[int x, int y] => Texture.CreateSubTexture(new RectangleF(x * tileSize.X, y * tileSize.Y, tileSize.X, tileSize.Y));
+        public Texture2D this[int x, int y] => Texture.CreateSubTexture(new RectangleF(x * TextureTileSize.X, y * TextureTileSize.Y, TextureTileSize.X, TextureTileSize.Y));
     }
 }

@@ -36,21 +36,19 @@ namespace Vildmark.Graphics.Models
 
         public void Render(PrimitiveType primitiveType = PrimitiveType.Triangles)
         {
-            using (VertexArray.Bind())
+            VertexArray.Bind();
+            IndexBuffer?.Bind();
+
+            if (IndexBuffer != default)
             {
-                IndexBuffer?.Bind();
-
-                if (IndexBuffer != default)
-                {
-                    GL.DrawElements(primitiveType, IndexBuffer.Count, DrawElementsType.UnsignedInt, 0);
-                }
-                else
-                {
-                    GL.DrawArrays(primitiveType, 0, VertexBuffer.Count);
-                }
-
-                GLHelper.LogError();
+                GL.DrawElements(primitiveType, IndexBuffer.Count, DrawElementsType.UnsignedInt, 0);
             }
+            else
+            {
+                GL.DrawArrays(primitiveType, 0, VertexBuffer.Count);
+            }
+
+            GLHelper.LogError();
         }
 
         public void UpdateVertices(Span<Vertex> vertices)

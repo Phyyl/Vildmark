@@ -45,12 +45,13 @@ namespace Vildmark.Graphics.Rendering
         {
             foreach (var batch in batches)
             {
-                using (batch.Shader.Use())
+                batch.Shader.Use();
+                batch.Texture.Bind();
+
+                foreach (var item in batch.Items)
                 {
-                    foreach (var item in batch.Items)
-                    {
-                        batch.Shader.Render(item.Mesh, item.Material, Camera, item.ModelMatrix, item.Offset);
-                    }
+                    batch.Shader.Setup(item.Material, Camera, item.ModelMatrix, item.Offset);
+                    item.Mesh.Render();
                 }
             }
         }
@@ -76,6 +77,11 @@ namespace Vildmark.Graphics.Rendering
                 return obj is Batch other
                     && other.Shader == Shader
                     && other.Texture == Texture;
+            }
+
+            public override int GetHashCode()
+            {
+                throw new NotImplementedException();
             }
         }
     }
