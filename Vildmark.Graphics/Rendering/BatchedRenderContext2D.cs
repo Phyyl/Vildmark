@@ -69,7 +69,7 @@ namespace Vildmark.Graphics.Rendering
             public Batch(GLTexture2D texture, MaterialShader shader)
             {
                 Texture = texture;
-                Shader = shader;
+                Shader = shader;e
             }
 
             public override bool Equals(object obj)

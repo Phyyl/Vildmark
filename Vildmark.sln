@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vildmark.Windowing", "Vildm
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vildmark.Maths", "Vildmark.Maths\Vildmark.Maths.csproj", "{8140A7FE-B0DF-45F7-844B-5D8B3A7D90D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vildmark.Graphics.Fonts", "Vildmark.Graphics.Fonts\Vildmark.Graphics.Fonts.csproj", "{9684C112-EA2D-4F96-8F99-59FEA0DFFD02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vildmark.Graphics.Fonts", "Vildmark.Graphics.Fonts\Vildmark.Graphics.Fonts.csproj", "{9684C112-EA2D-4F96-8F99-59FEA0DFFD02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vildmark", "Vildmark\Vildmark.csproj", "{2B8993D1-F1AA-487B-9047-0061A7255AF7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,6 +91,18 @@ Global
 		{9684C112-EA2D-4F96-8F99-59FEA0DFFD02}.Release|x64.Build.0 = Release|Any CPU
 		{9684C112-EA2D-4F96-8F99-59FEA0DFFD02}.Release|x86.ActiveCfg = Release|Any CPU
 		{9684C112-EA2D-4F96-8F99-59FEA0DFFD02}.Release|x86.Build.0 = Release|Any CPU
+		{2B8993D1-F1AA-487B-9047-0061A7255AF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B8993D1-F1AA-487B-9047-0061A7255AF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B8993D1-F1AA-487B-9047-0061A7255AF7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2B8993D1-F1AA-487B-9047-0061A7255AF7}.Debug|x64.Build.0 = Debug|Any CPU
+		{2B8993D1-F1AA-487B-9047-0061A7255AF7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2B8993D1-F1AA-487B-9047-0061A7255AF7}.Debug|x86.Build.0 = Debug|Any CPU
+		{2B8993D1-F1AA-487B-9047-0061A7255AF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B8993D1-F1AA-487B-9047-0061A7255AF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B8993D1-F1AA-487B-9047-0061A7255AF7}.Release|x64.ActiveCfg = Release|Any CPU
+		{2B8993D1-F1AA-487B-9047-0061A7255AF7}.Release|x64.Build.0 = Release|Any CPU
+		{2B8993D1-F1AA-487B-9047-0061A7255AF7}.Release|x86.ActiveCfg = Release|Any CPU
+		{2B8993D1-F1AA-487B-9047-0061A7255AF7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
