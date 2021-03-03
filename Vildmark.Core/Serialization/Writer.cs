@@ -77,12 +77,7 @@ namespace Vildmark.Serialization
 			}
 		}
 
-		private void WriteRaw<T>(Span<T> span) where T : unmanaged
-		{
-			BaseStream.Write(MemoryMarshal.Cast<T, byte>(span));
-		}
-
-		private bool WriteIsDefault<T>(T value)
+		public bool WriteIsDefault<T>(T value)
 		{
 			if (Equals(value, default))
 			{
@@ -93,6 +88,11 @@ namespace Vildmark.Serialization
 			WriteValue(false);
 
 			return false;
+		}
+
+		private void WriteRaw<T>(Span<T> span) where T : unmanaged
+		{
+			BaseStream.Write(MemoryMarshal.Cast<T, byte>(span));
 		}
 	}
 }

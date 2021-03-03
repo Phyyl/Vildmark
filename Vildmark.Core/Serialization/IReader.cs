@@ -6,6 +6,8 @@ namespace Vildmark.Serialization
 	public interface IReader
 	{
 		Stream BaseStream { get; }
+        
+        bool ReadIsDefault();
 
 		T ReadValue<T>() where T : unmanaged;
 		T[] ReadValues<T>() where T : unmanaged;

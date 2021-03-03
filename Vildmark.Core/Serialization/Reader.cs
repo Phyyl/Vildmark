@@ -89,7 +89,7 @@ namespace Vildmark.Serialization
 			return result;
 		}
 
-		private bool ReadIsDefault()
+		public bool ReadIsDefault()
 		{
 			return ReadValue<bool>();
 		}

@@ -6,6 +6,8 @@ namespace Vildmark.Serialization
 	public interface IWriter
 	{
 		Stream BaseStream { get; }
+        
+        bool WriteIsDefault<T>(T value);
 
 		void WriteValue<T>(T value) where T : unmanaged;
 		void WriteValues<T>(T[] values) where T : unmanaged;
