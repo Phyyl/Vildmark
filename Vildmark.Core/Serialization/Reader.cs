@@ -96,9 +96,10 @@ namespace Vildmark.Serialization
 
         private unsafe void ReadRaw<T>(Span<T> span) where T : unmanaged
         {
-            Span<byte> buffer = MemoryMarshal.Cast<T, byte>(span);
+            byte[] buffer = new byte[span.Length * sizeof(T)];
 
             BaseStream.Read(buffer);
+            MemoryMarshal.Cast<byte, T>(buffer).CopyTo(span);
         }
     }
 }
