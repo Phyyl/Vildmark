@@ -39,7 +39,7 @@ namespace Vildmark.Tests
 
             public void Serialize(IWriter writer)
             {
-                writer.WriteIsDefault(Value);
+                writer.WriteValue(Value);
                 writer.WriteString(Name);
             }
         }

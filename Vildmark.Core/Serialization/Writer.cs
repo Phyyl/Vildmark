@@ -25,6 +25,7 @@ namespace Vildmark.Serialization
                 return;
             }
 
+            WriteValue(values.Length);
             WriteRaw(values.AsSpan());
         }
 
@@ -54,12 +55,7 @@ namespace Vildmark.Serialization
 
         public unsafe void WriteString(string value)
         {
-            if (WriteIsDefault(value))
-            {
-                return;
-            }
-
-            WriteValues(value.ToCharArray());
+            WriteValues(value?.ToCharArray());
         }
 
         public void WriteStrings(string[] values)

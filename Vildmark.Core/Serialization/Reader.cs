@@ -13,8 +13,36 @@ namespace Vildmark.Serialization
             BaseStream = stream ?? throw new ArgumentNullException(nameof(stream));
         }
 
+        public unsafe T ReadValue<T>() where T : unmanaged
+        {
+            T result = new T();
+
+            ReadRaw(new Span<T>(&result, 1));
+
+            return result;
+        }
+
+        public T[] ReadValues<T>() where T : unmanaged
+        {
+            if (ReadIsDefault())
+            {
+                return default;
+            }
+
+            T[] result = new T[ReadValue<int>()];
+
+            ReadRaw(result.AsSpan());
+
+            return result;
+        }
+
         public T ReadObject<T>() where T : ISerializable, new()
         {
+            if (ReadIsDefault())
+            {
+                return default;
+            }
+
             T result = new T();
 
             result.Deserialize(this);
@@ -41,12 +69,9 @@ namespace Vildmark.Serialization
 
         public string ReadString()
         {
-            if (ReadIsDefault())
-            {
-                return default;
-            }
+            char[] chars = ReadValues<char>();
 
-            return new string(ReadValues<char>());
+            return chars != null ? new string(chars) : null;
         }
 
         public string[] ReadStrings()
@@ -62,29 +87,6 @@ namespace Vildmark.Serialization
             {
                 result[i] = ReadString();
             }
-
-            return result;
-        }
-
-        public unsafe T ReadValue<T>() where T : unmanaged
-        {
-            T result = new T();
-
-            ReadRaw(new Span<T>(&result, 1));
-
-            return result;
-        }
-
-        public T[] ReadValues<T>() where T : unmanaged
-        {
-            if (ReadIsDefault())
-            {
-                return default;
-            }
-
-            T[] result = new T[ReadValue<int>()];
-
-            ReadRaw(result.AsSpan());
 
             return result;
         }
