@@ -103,13 +103,13 @@ namespace Vildmark.Graphics.GLObjects
 
         public int Height { get; private set; }
 
-        public Vector2 Size => new Vector2(Width, Height);
+        public Vector2 Size => new(Width, Height);
 
         public float TexelWidth => 1 / (float)Width;
 
         public float TexelHeight => 1 / (float)Height;
 
-        public Vector2 TexelSize => new Vector2(TexelWidth, TexelHeight);
+        public Vector2 TexelSize => new(TexelWidth, TexelHeight);
 
         public void UpdateData<T>(int x, int y, int width, int height, Span<T> data) where T : unmanaged
         {

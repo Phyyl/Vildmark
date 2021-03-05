@@ -20,7 +20,7 @@ namespace Vildmark.Graphics.Cameras
         private float zNear;
         private float zFar;
 
-        private Transform transform = new Transform
+        private Transform transform = new()
         {
             Inverse = true
         };
@@ -51,7 +51,7 @@ namespace Vildmark.Graphics.Cameras
             set => SetValue(ref zFar, value);
         }
 
-        public RectangleF Viewport => new RectangleF(transform.X * transform.Scale, transform.Y * transform.Scale, Width / transform.Scale, Height / transform.Scale);
+        public RectangleF Viewport => new(transform.X * transform.Scale, transform.Y * transform.Scale, Width / transform.Scale, Height / transform.Scale);
 
         public Matrix4 ProjectionMatrix => projectionMatrix ??= CreateProjectionMatrix();
 

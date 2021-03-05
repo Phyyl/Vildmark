@@ -31,7 +31,7 @@ namespace Vildmark.Graphics.Models
             Tint = tint;
         }
 
-        public static implicit operator Material(Texture2D texture) => new Material(texture);
-        public static implicit operator Material(Vector4 color) => new Material(color);
+        public static implicit operator Material(Texture2D texture) => new(texture);
+        public static implicit operator Material(Vector4 color) => new(color);
     }
 }

@@ -39,7 +39,7 @@ namespace Vildmark.Graphics.Fonts
                 stringMesh.UpdateVertices(vertices);
             }
 
-            Model model = new Model(stringMesh, new Material(font.Texture, color.Value));
+            Model model = new(stringMesh, new Material(font.Texture, color.Value));
 
             renderContext.Render(stringMesh, new Material(font.Texture, color.Value), Resources.Shaders.DistanceField, Matrix4.Identity, new Vector3(position));
         }
@@ -83,9 +83,9 @@ namespace Vildmark.Graphics.Fonts
 
         private static Vertex[] CreateStringVertices(string str, Font font, Vector2 position, float size)
         {
-            List<Vertex> vertices = new List<Vertex>();
+            List<Vertex> vertices = new();
 
-            Vector2 cursor = new Vector2(0, size);
+            Vector2 cursor = new(0, size);
 
             foreach (var chr in str)
             {
@@ -97,13 +97,13 @@ namespace Vildmark.Graphics.Fonts
                 Vector2 glyphSize = new Vector2(fontChar.Width, fontChar.Height) / font.Size * size;
                 Vector2 glyphOrigin = new Vector2(-fontChar.OriginX, -fontChar.OriginY) / font.Size * size;
 
-                Vector3 vtl = new Vector3(glyphOrigin + cursor + position);
+                Vector3 vtl = new(glyphOrigin + cursor + position);
                 Vector3 vtr = vtl + new Vector3(glyphSize.X, 0, 0);
                 Vector3 vbl = vtl + new Vector3(0, glyphSize.Y, 0);
                 Vector3 vbr = vtl + new Vector3(glyphSize.X, glyphSize.Y, 0);
 
-                Vector2 ts = new Vector2(fontChar.Width / (float)font.Width, fontChar.Height / (float)font.Height);
-                Vector2 ttl = new Vector2(fontChar.X / (float)font.Width, fontChar.Y / (float)font.Height);
+                Vector2 ts = new(fontChar.Width / (float)font.Width, fontChar.Height / (float)font.Height);
+                Vector2 ttl = new(fontChar.X / (float)font.Width, fontChar.Y / (float)font.Height);
                 Vector2 ttr = ttl + new Vector2(ts.X, 0);
                 Vector2 tbl = ttl + new Vector2(0, ts.Y);
                 Vector2 tbr = ttl + ts;

@@ -7,7 +7,7 @@ namespace Vildmark.Graphics.GLObjects
     public abstract class GLObject : IDisposable
     {
 #if DEBUG
-        private static readonly List<GLObject> glObjects = new List<GLObject>();
+        private static readonly List<GLObject> glObjects = new();
 
         public static IEnumerable<GLObject> GLObjects => glObjects.ToArray();
 #endif

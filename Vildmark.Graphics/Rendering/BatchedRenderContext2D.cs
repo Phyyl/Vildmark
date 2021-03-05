@@ -14,13 +14,13 @@ namespace Vildmark.Graphics.Rendering
 {
     public class BatchedRenderContext2D : RenderContext2D
     {
-        private readonly List<Batch> batches = new List<Batch>();
+        private readonly List<Batch> batches = new();
 
         public override void Render(Mesh mesh, Material material, MaterialShader shader, Matrix4 modelMatrix, Vector3 offset)
         {
             Batch lastBatch = batches.LastOrDefault();
-            Batch batch = new Batch(material.Texture.GLTexture, shader);
-            BatchItem item = new BatchItem(mesh, material, modelMatrix, offset);
+            Batch batch = new(material.Texture.GLTexture, shader);
+            BatchItem item = new(mesh, material, modelMatrix, offset);
 
             batch.Items.Add(item);
 

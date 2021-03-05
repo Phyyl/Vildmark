@@ -11,7 +11,7 @@ namespace Vildmark.Maths.Physics
     {
         public static AABBIntersectionResult IntersectMovingAABBToAABB(AABB a, Vector3 movement, AABB b)
         {
-            LineSegment segment = new LineSegment(a.Center, a.Center + movement);
+            LineSegment segment = new(a.Center, a.Center + movement);
             AABB other = b.Inflate(a.Size);
 
             return IntersectLineSegmentToAABB(segment, other);

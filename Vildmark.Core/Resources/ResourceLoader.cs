@@ -69,7 +69,7 @@ namespace Vildmark.Resources
                 return null;
             }
 
-            MemoryStream ms = new MemoryStream();
+            MemoryStream ms = new();
 
             stream.CopyTo(ms);
 
@@ -83,7 +83,7 @@ namespace Vildmark.Resources
                 return null;
             }
 
-            using StreamReader reader = new StreamReader(stream);
+            using StreamReader reader = new(stream);
 
             return reader.ReadToEnd();
         }

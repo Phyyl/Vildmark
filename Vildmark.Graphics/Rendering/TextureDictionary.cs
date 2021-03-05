@@ -9,7 +9,7 @@ namespace Vildmark.Graphics.Rendering
 {
     public class TextureDictionary<TKey>
     {
-        private readonly Dictionary<TKey, Texture2D> rectangles = new Dictionary<TKey, Texture2D>();
+        private readonly Dictionary<TKey, Texture2D> rectangles = new();
 
         public GLTexture2D Texture { get; }
 

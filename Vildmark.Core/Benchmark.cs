@@ -9,7 +9,7 @@ namespace Vildmark
 {
     public class Benchmark
     {
-        private static readonly Dictionary<string, Benchmark> benchmarks = new Dictionary<string, Benchmark>();
+        private static readonly Dictionary<string, Benchmark> benchmarks = new();
 
         public static Benchmark Get(string name)
         {
@@ -29,7 +29,7 @@ namespace Vildmark
 
         private Stopwatch stopwatch = Stopwatch.StartNew();
 
-        private readonly List<float> samples = new List<float>();
+        private readonly List<float> samples = new();
 
         public float Average => samples.Average();
 

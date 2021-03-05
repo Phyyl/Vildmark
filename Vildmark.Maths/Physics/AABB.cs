@@ -39,7 +39,7 @@ namespace Vildmark.Maths.Physics
 
         public AABB Join(AABB b)
         {
-            Vector3 position = new Vector3(Math.Min(Left,b.Left), Math.Min(Bottom, b.Bottom), Math.Min(Back, b.Back));
+            Vector3 position = new(Math.Min(Left,b.Left), Math.Min(Bottom, b.Bottom), Math.Min(Back, b.Back));
             Vector3 size = new Vector3(Math.Max(Right, b.Right), Math.Max(Top, b.Top), Math.Max(Front, b.Front)) - position;
 
             return new AABB(position, size);

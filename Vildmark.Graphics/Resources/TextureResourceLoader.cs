@@ -29,11 +29,11 @@ namespace Vildmark.Graphics.Resources
 
         unsafe GLTexture2D IResourceLoader<GLTexture2D>.Load(Stream stream)
         {
-            Bitmap bitmap = new Bitmap(stream);
+            Bitmap bitmap = new(stream);
 
             BitmapData data = bitmap.LockBits(new Rectangle(Point.Empty, bitmap.Size), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-            GLTexture2D texture = new GLTexture2D(bitmap.Width, bitmap.Height, new Span<byte>(data.Scan0.ToPointer(), bitmap.Width * 4 * bitmap.Height), TextureMagFilter, TextureMinFilter, WrapSMode, WrapTMode);
+            GLTexture2D texture = new(bitmap.Width, bitmap.Height, new Span<byte>(data.Scan0.ToPointer(), bitmap.Width * 4 * bitmap.Height), TextureMagFilter, TextureMinFilter, WrapSMode, WrapTMode);
 
             bitmap.UnlockBits(data);
 

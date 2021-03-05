@@ -17,7 +17,7 @@ namespace Vildmark.Graphics.Shaders
         {
             assembly ??= Assembly.GetCallingAssembly();
 
-            T result = new T();
+            T result = new();
 
             string vertSource = ResourceLoader.LoadEmbedded<string>($"{name}.vert", assembly);
             string fragSource = ResourceLoader.LoadEmbedded<string>($"{name}.frag", assembly);

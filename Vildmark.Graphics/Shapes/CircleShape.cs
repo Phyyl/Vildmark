@@ -45,7 +45,7 @@ namespace Vildmark.Graphics.Shapes
                     float cos = (float)Math.Cos(angle);
                     float sin = (float)Math.Sin(angle);
 
-                    Vector2 pos = new Vector2(cos, sin);
+                    Vector2 pos = new(cos, sin);
 
                     return new Vertex(new Vector3(pos) * Radius, pos);
                 }

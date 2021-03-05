@@ -102,7 +102,7 @@ namespace Vildmark.Graphics.GLObjects
 
 		public unsafe IDisposable Map(BufferAccess bufferAccess, out Span<T> data)
 		{
-			MapContext mapContext = new MapContext(this, bufferAccess);
+			MapContext mapContext = new(this, bufferAccess);
 
 			GL.GetBufferParameter(BufferTarget, BufferParameterName.BufferSize, out int size);
 

@@ -36,7 +36,7 @@ namespace Vildmark.Graphics.GLObjects
                 return default;
             }
 
-            GLShader shader = new GLShader(shaderType, source);
+            GLShader shader = new(shaderType, source);
 
             if (!shader.Compiled)
             {

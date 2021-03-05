@@ -72,7 +72,7 @@ namespace Vildmark.Graphics.GLObjects
                 return null;
             }
 
-            GLShaderProgram shaderProgram = new GLShaderProgram(shaders);
+            GLShaderProgram shaderProgram = new(shaders);
 
             if (!shaderProgram.Linked)
             {

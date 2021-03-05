@@ -10,8 +10,8 @@ namespace Vildmark
 {
     public static class Service
     {
-        private static readonly Dictionary<Type, object> instances = new Dictionary<Type, object>();
-        private static readonly Dictionary<Type, ServiceTypeRegistration> registrations = new Dictionary<Type, ServiceTypeRegistration>();
+        private static readonly Dictionary<Type, object> instances = new();
+        private static readonly Dictionary<Type, ServiceTypeRegistration> registrations = new();
 
         static Service()
         {

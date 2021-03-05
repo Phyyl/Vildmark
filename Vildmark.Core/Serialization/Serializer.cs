@@ -19,7 +19,7 @@ namespace Vildmark.Serialization
 
         public virtual T Deserialize<T>(byte[] data) where T : ISerializable, new()
         {
-            using MemoryStream ms = new MemoryStream(data);
+            using MemoryStream ms = new(data);
             IReader reader = CreateReader(ms);
 
             return reader.ReadObject<T>();

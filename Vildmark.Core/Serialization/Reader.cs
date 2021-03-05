@@ -15,7 +15,7 @@ namespace Vildmark.Serialization
 
         public unsafe T ReadValue<T>() where T : unmanaged
         {
-            T result = new T();
+            T result = new();
 
             ReadRaw(new Span<T>(&result, 1));
 
@@ -43,7 +43,7 @@ namespace Vildmark.Serialization
                 return default;
             }
 
-            T result = new T();
+            T result = new();
 
             result.Deserialize(this);
 

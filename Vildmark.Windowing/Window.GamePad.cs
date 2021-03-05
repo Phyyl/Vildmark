@@ -13,9 +13,9 @@ namespace Vildmark.Windowing
     {
         public bool IsGamePadConnected(int index = 0) => gameWindow.JoystickStates[index] != null;
 
-        public Vector2 GetLeftThumbStick(int index = 0) => new Vector2(gameWindow.JoystickStates[index]?.GetAxis(0) ?? default, gameWindow.JoystickStates[index]?.GetAxis(1) ?? default);
+        public Vector2 GetLeftThumbStick(int index = 0) => new(gameWindow.JoystickStates[index]?.GetAxis(0) ?? default, gameWindow.JoystickStates[index]?.GetAxis(1) ?? default);
 
-        public Vector2 GetRightThumbStick(int index = 0) => new Vector2(gameWindow.JoystickStates[index]?.GetAxis(2) ?? default, gameWindow.JoystickStates[index]?.GetAxis(3) ?? default);
+        public Vector2 GetRightThumbStick(int index = 0) => new(gameWindow.JoystickStates[index]?.GetAxis(2) ?? default, gameWindow.JoystickStates[index]?.GetAxis(3) ?? default);
 
         public bool IsGamePadButtonDown(int button, int index = 0) => gameWindow.JoystickStates[index]?.IsButtonDown(button) ?? default;
 

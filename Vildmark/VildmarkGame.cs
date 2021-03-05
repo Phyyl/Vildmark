@@ -1,4 +1,4 @@
-﻿using OpenTK.Windowing.Desktop;
+using OpenTK.Windowing.Desktop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +22,7 @@ namespace Vildmark
 
         protected VildmarkGame()
         {
-            WindowSettings settings = new WindowSettings();
+            WindowSettings settings = new();
 
             InitializeWindowSettings(settings);
 

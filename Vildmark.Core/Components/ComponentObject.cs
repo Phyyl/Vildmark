@@ -7,7 +7,7 @@ namespace Vildmark.Components
 {
 	public class ComponentObject : IComponentObject
 	{
-		private readonly Dictionary<Type, object> components = new Dictionary<Type, object>();
+		private readonly Dictionary<Type, object> components = new();
 
 		public T GetComponent<T>()
 		{
@@ -35,7 +35,7 @@ namespace Vildmark.Components
 
 		public TInstance SetComponent<T, TInstance>() where TInstance : T, new()
 		{
-			TInstance value = new TInstance();
+			TInstance value = new();
 
 			SetComponent<T>(value);
 
