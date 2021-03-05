@@ -1,4 +1,4 @@
-﻿using OpenTK.Graphics.OpenGL;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using System;
 using System.Diagnostics;
@@ -31,14 +31,9 @@ namespace Vildmark.Graphics.GLObjects
             }
         }
 
-        public IDisposable Use()
+        public void Use()
         {
-            return new UseContext(this);
-        }
-
-        public void Unuse()
-        {
-            GL.UseProgram(0);
+            GL.UseProgram(this);
         }
 
         public int GetUniformLocation(string name)
@@ -63,6 +58,11 @@ namespace Vildmark.Graphics.GLObjects
             GL.DeleteProgram(this);
         }
 
+        public static void Unuse()
+        {
+            GL.UseProgram(0);
+        }
+
         public static GLShaderProgram Create(params GLShader[] shaders)
         {
             shaders = shaders.Where(s => s is { }).ToArray();
@@ -82,26 +82,6 @@ namespace Vildmark.Graphics.GLObjects
             }
 
             return shaderProgram;
-        }
-
-        private class UseContext : IDisposable
-        {
-            public GLShaderProgram ShaderProgram { get; }
-
-            public UseContext(GLShaderProgram shaderProgram, bool use = true)
-            {
-                ShaderProgram = shaderProgram;
-
-                if (use)
-                {
-                    GL.UseProgram(ShaderProgram);
-                }
-            }
-
-            public void Dispose()
-            {
-                ShaderProgram.Unuse();
-            }
         }
     }
 }

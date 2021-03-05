@@ -1,4 +1,4 @@
-﻿using OpenTK.Graphics.OpenGL;
+using OpenTK.Graphics.OpenGL;
 using System;
 
 namespace Vildmark.Graphics.GLObjects
@@ -11,10 +11,10 @@ namespace Vildmark.Graphics.GLObjects
 
 		}
 
-		public IDisposable Bind()
-		{
-			return new BindContext(this);
-		}
+		public void Bind()
+        {
+            GL.BindVertexArray(this);
+        }
 
 		public static void Unbind()
 		{
@@ -24,26 +24,6 @@ namespace Vildmark.Graphics.GLObjects
 		protected override void DisposeOpenGL()
 		{
 			GL.DeleteVertexArray(this);
-		}
-
-		private class BindContext : IDisposable
-		{
-			public GLVertexArray VertexArray { get; }
-
-			public BindContext(GLVertexArray vertexArray, bool bind = true)
-			{
-				VertexArray = vertexArray;
-
-				if (bind)
-				{
-					GL.BindVertexArray(VertexArray);
-				}
-			}
-
-			public virtual void Dispose()
-			{
-				Unbind();
-			}
 		}
 	}
 }

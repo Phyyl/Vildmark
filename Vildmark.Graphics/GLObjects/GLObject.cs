@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,7 +21,7 @@ namespace Vildmark.Graphics.GLObjects
 #endif
         }
 
-        protected int ID { get; }
+        public int ID { get; }
 
         public void Dispose()
         {
