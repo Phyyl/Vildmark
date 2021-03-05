@@ -13,7 +13,12 @@ namespace Vildmark.Tests
             TestObject test = new TestObject
             {
                 Value = 10,
-                Name = "name"
+                Name = "Parent",
+                Child = new TestObject
+                {
+                    Value = 9000,
+                    Name = " Child"
+                }
             };
 
             byte[] data = serializer.Serialize(test);
@@ -23,6 +28,10 @@ namespace Vildmark.Tests
             Assert.AreNotSame(test, serialized);
             Assert.AreEqual(test.Name, serialized.Name);
             Assert.AreEqual(test.Value, serialized.Value);
+            Assert.AreNotSame(test.Child, serialized.Child);
+            Assert.IsNotNull(serialized.Child);
+            Assert.AreEqual(test.Child.Value, serialized.Child.Value);
+            Assert.AreEqual(test.Child.Name, serialized.Child.Name);
         }
 
         private class TestObject : ISerializable
@@ -31,16 +40,20 @@ namespace Vildmark.Tests
 
             public string Name { get; set; }
 
+            public TestObject Child { get; set; }
+
             public void Deserialize(IReader reader)
             {
                 Value = reader.ReadValue<int>();
                 Name = reader.ReadString();
+                Child = reader.ReadObject<TestObject>();
             }
 
             public void Serialize(IWriter writer)
             {
                 writer.WriteValue(Value);
                 writer.WriteString(Name);
+                writer.WriteObject(Child);
             }
         }
     }
