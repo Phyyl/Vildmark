@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using Vildmark.Graphics.GLObjects;
 
 namespace Vildmark.Graphics.Rendering

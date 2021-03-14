@@ -1,11 +1,4 @@
-﻿using OpenTK.Graphics.OpenGL;
-using OpenTK.Mathematics;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Vildmark.Graphics.Cameras;
-using Vildmark.Graphics.Models;
-using Vildmark.Graphics.Resources;
 
 namespace Vildmark.Graphics.Rendering
 {
@@ -20,11 +13,11 @@ namespace Vildmark.Graphics.Rendering
             PerspectiveCamera = new PerspectiveCamera(fovY, width, height);
         }
 
-        public override IDisposable Begin()
+        public override void Begin()
         {
-            EnableDepthTest();
+            base.Begin();
 
-            return base.Begin();
+            EnableDepthTest();
         }
     }
 }

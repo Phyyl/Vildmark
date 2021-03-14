@@ -1,16 +1,9 @@
-﻿using OpenTK.Mathematics;
-using System;
+using OpenTK.Mathematics;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Transactions;
-using Vildmark.Graphics.Models;
 
 namespace Vildmark.Graphics.Shapes
 {
-    public class RectangleShape : Shape
+    public class RectangleShapeMesh : ShapeMesh
     {
         private Vector2 size;
 
@@ -32,12 +25,12 @@ namespace Vildmark.Graphics.Shapes
             set => SetValue(ref size, value);
         }
 
-        public RectangleShape(Vector2 size)
+        public RectangleShapeMesh(Vector2 size)
         {
             Size = size;
         }
 
-        public RectangleShape(float width, float height)
+        public RectangleShapeMesh(float width, float height)
             : this(new Vector2(width, height))
         {
         }

@@ -1,9 +1,7 @@
-﻿ using System;
-using System.Collections.Generic;
+using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace Vildmark.Resources
 {
@@ -50,16 +48,36 @@ namespace Vildmark.Resources
             return null;
         }
 
-        public static T LoadEmbedded<T>(string name, Assembly assembly = default) where T : class
+        public static TResource Load<TResource>(Stream stream)
         {
-            assembly ??= Assembly.GetCallingAssembly();
+            if (!Service.TryGet<IResourceLoader<TResource>>(out var loader))
+            {
+                return default;
+            }
 
-            return Service<IEmbeddedResourceLoader<T>>.Instance?.Load(name, assembly) ?? Load<T>(GetEmbeddedStream(name, assembly));
+            return loader.Load(stream);
         }
 
-        public static T Load<T>(Stream stream) where T : class
+        public static TResource Load<TResource, TLoaderOptions>(Stream stream, TLoaderOptions options)
         {
-            return Service<IResourceLoader<T>>.Instance?.Load(stream);
+            if (Service.TryGet<IResourceLoaderOptions<TResource, TLoaderOptions>>(out var loaderOptions))
+            {
+                loaderOptions.Options = options;
+            }
+
+            return Load<TResource>(stream);
+        }
+
+        public static TResource LoadEmbedded<TResource>(string name) => LoadEmbedded<TResource>(name, Assembly.GetCallingAssembly());
+        public static TResource LoadEmbedded<TResource>(string name, Assembly assembly)
+        {
+            return Load<TResource>(GetEmbeddedStream(name, assembly));
+        }
+
+        public static TResource LoadEmbedded<TResource, TLoaderOptions>(string name, TLoaderOptions options) => LoadEmbedded<TResource, TLoaderOptions>(name, options, Assembly.GetCallingAssembly());
+        public static TResource LoadEmbedded<TResource, TLoaderOptions>(string name, TLoaderOptions options, Assembly assembly)
+        {
+            return Load<TResource, TLoaderOptions>(GetEmbeddedStream(name, assembly), options);
         }
 
         byte[] IResourceLoader<byte[]>.Load(Stream stream)

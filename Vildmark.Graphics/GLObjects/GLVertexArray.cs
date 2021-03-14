@@ -1,9 +1,8 @@
 using OpenTK.Graphics.OpenGL;
-using System;
 
 namespace Vildmark.Graphics.GLObjects
 {
-	public class GLVertexArray : GLObject
+    public class GLVertexArray : GLObject
 	{
 		public GLVertexArray()
 			: base(GL.GenVertexArray())

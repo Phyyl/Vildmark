@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Vildmark.Attachments
 {
-	public class AttachmentObject : IAttachmentObject
+    public class AttachmentObject : IAttachmentObject
 	{
 		private readonly Dictionary<string, object> attachments = new();
 

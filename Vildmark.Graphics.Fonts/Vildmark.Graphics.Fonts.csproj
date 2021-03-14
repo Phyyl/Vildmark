@@ -1,17 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
     <None Remove="Resources\Fonts\arial.json" />
     <None Remove="Resources\Fonts\arial.png" />
-    <None Remove="Resources\Shaders\font.frag" />
-    <None Remove="Resources\Shaders\font.vert" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\Fonts\arial.json" />
     <EmbeddedResource Include="Resources\Fonts\arial.png" />
-    <EmbeddedResource Include="Resources\Shaders\font.frag" />
-    <EmbeddedResource Include="Resources\Shaders\font.vert" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,9 +1,5 @@
 ﻿using OpenTK.Mathematics;
 using System;
-using System.Collections.Generic;
-using System.Net.Mime;
-using System.Text;
-using System.Threading;
 
 namespace Vildmark.Maths.Physics
 {

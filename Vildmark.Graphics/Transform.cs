@@ -1,14 +1,9 @@
-﻿using OpenTK.Mathematics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OpenTK.Mathematics;
 using Vildmark.Maths;
 
 namespace Vildmark.Graphics
 {
-    public struct Transform
+    public class Transform
     {
         internal bool Inverse { get; init; }
 

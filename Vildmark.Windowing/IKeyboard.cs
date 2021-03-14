@@ -1,11 +1,8 @@
 ﻿using OpenTK.Windowing.GraphicsLibraryFramework;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Vildmark.Windowing
 {
-	public interface IKeyboard
+    public interface IKeyboard
 	{
 		bool IsKeyDown(Keys key);
 		bool IsKeyUp(Keys key);

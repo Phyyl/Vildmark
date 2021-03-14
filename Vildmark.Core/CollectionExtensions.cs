@@ -1,10 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 
 namespace Vildmark
 {
-    public static class Extensions
+    public static class CollectionExtensions
     {
         public delegate bool SetPredicate<T>(T currentValue, T newValue);
 

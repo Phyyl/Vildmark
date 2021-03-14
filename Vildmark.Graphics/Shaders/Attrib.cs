@@ -1,10 +1,5 @@
-﻿using OpenTK.Graphics.OpenGL;
-using OpenTK.Mathematics;
-using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
+using OpenTK.Graphics.OpenGL;
 using Vildmark.Graphics.GLObjects;
-using Vildmark.Graphics.Resources;
 
 namespace Vildmark.Graphics.Shaders
 {
@@ -18,26 +13,26 @@ namespace Vildmark.Graphics.Shaders
 
     public class Attrib<T> : Attrib where T : unmanaged
     {
-        private readonly int size;
+        private unsafe readonly int size = sizeof(T) / sizeof(float);
 
-        public unsafe Attrib(string name)
+        public int Size { get; }
+
+        public Attrib(string name)
             : base(name)
         {
-            size = sizeof(T) / sizeof(float);
         }
 
-        public unsafe void Setup<TVertex>(GLBuffer<TVertex> buffer, int offset) where TVertex : unmanaged
+        public unsafe void Setup<TVertex>(GLBuffer<TVertex> buffer, int offset = 0) where TVertex : unmanaged
         {
             if (!Defined || !Enabled)
             {
                 return;
             }
 
-            using (buffer.Bind())
-            {
-                GL.EnableVertexAttribArray(Location);
-                GL.VertexAttribPointer(Location, size, VertexAttribPointerType.Float, false, sizeof(TVertex), offset);
-            }
+            buffer.Bind();
+
+            GL.EnableVertexAttribArray(Location);
+            GL.VertexAttribPointer(Location, size, VertexAttribPointerType.Float, false, sizeof(TVertex), offset);
         }
 
         public void Disable()

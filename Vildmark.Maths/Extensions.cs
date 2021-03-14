@@ -1,13 +1,10 @@
-﻿using OpenTK.Mathematics;
+using OpenTK.Mathematics;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace Vildmark.Maths
 {
-	public static class Extensions
+    public static class Extensions
 	{
 		public static Vector2 Round(this Vector2 v, int digits = 0)
 		{
@@ -98,5 +95,16 @@ namespace Vildmark.Maths
         {
 			return new RectangleF(v.X, v.Y, v.Z, v.W);
 		}
-	}
+
+        public static Vector2 GetTopLeft(this RectangleF rectangle) => new(rectangle.Left, rectangle.Top);
+        public static Vector2 GetBottomLeft(this RectangleF rectangle) => new(rectangle.Left, rectangle.Bottom);
+        public static Vector2 GetBottomRight(this RectangleF rectangle) => new(rectangle.Right, rectangle.Bottom);
+        public static Vector2 GetTopRight(this RectangleF rectangle) => new(rectangle.Right, rectangle.Top);
+
+        public static Vector2 ToVector(this SizeF size) => new(size.Width, size.Height);
+        public static Vector2 ToVector(this PointF size) => new(size.X, size.Y);
+        public static Vector4 ToVector(this Color4 color) => new(color.R, color.G, color.B, color.A);
+
+        public static Color4 ToColor4(this Vector4 color) => new(color.X, color.Y, color.Z, color.W);
+    }
 }

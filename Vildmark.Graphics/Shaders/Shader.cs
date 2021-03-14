@@ -1,34 +1,28 @@
-﻿using OpenTK.Graphics.OpenGL;
-using OpenTK.Mathematics;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.GLObjects;
-using Vildmark.Graphics.Models;
-using Vildmark.Resources;
 
 namespace Vildmark.Graphics.Shaders
 {
     public abstract class Shader
     {
-        private GLShaderProgram shaderProgram;
+        public GLShaderProgram ShaderProgram { get; }
 
-        public GLShaderProgram ShaderProgram
+        protected Shader()
         {
-            get => shaderProgram;
-            internal set
+            ShaderProgram = GLShaderProgram.Create(GLShader.CreateVertex(VertexShaderSource), GLShader.CreateFragment(FragmentShaderSource), GLShader.CreateGeometry(GeometryShaderSource));
+
+            if (ShaderProgram is not null)
             {
-                shaderProgram = value;
                 InitializeUniforms();
                 InitializeAttributes();
             }
         }
 
-        public Shader()
-        {
-        }
+        protected abstract string VertexShaderSource { get; }
+        protected abstract string FragmentShaderSource { get; }
+        protected virtual string GeometryShaderSource => null;
 
         public int GetAttribLocation(string name)
         {
@@ -40,16 +34,14 @@ namespace Vildmark.Graphics.Shaders
             return ShaderProgram?.GetUniformLocation(name) ?? -1;
         }
 
-        public IDisposable Use()
+        public void Use()
         {
             if (ShaderProgram is null)
             {
-                return null;
+                return;
             }
 
-            IDisposable result = ShaderProgram.Use();
-
-            return result;
+            ShaderProgram.Use();
         }
 
         private void InitializeUniforms()
@@ -58,9 +50,7 @@ namespace Vildmark.Graphics.Shaders
 
             foreach (var prop in properties)
             {
-                Uniform uniform = prop.GetValue(this) as Uniform;
-
-                if (uniform is null || string.IsNullOrWhiteSpace(uniform.Name))
+                if (prop.GetValue(this) is not Uniform uniform || string.IsNullOrWhiteSpace(uniform.Name))
                 {
                     continue;
                 }

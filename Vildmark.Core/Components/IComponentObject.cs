@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Vildmark.Components
 {
-	public interface IComponentObject
+    public interface IComponentObject
 	{
 		T SetComponent<T>(T value);
 		TInstance SetComponent<T, TInstance>() where TInstance : T, new();

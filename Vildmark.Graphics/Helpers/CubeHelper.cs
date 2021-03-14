@@ -1,7 +1,5 @@
-﻿using OpenTK.Mathematics;
+using OpenTK.Mathematics;
 using System.Collections.Generic;
-using System.Linq;
-using Vildmark.Graphics.Models;
 
 namespace Vildmark.Graphics.Helpers
 {
@@ -64,12 +62,12 @@ namespace Vildmark.Graphics.Helpers
                 texCoord + new Vector2(1, 0) * texSize
             };
 
-            yield return new Vertex(new Vector3(0, 1, 0) * size + offset, texCoords[(0 + texCoordRotation) % texCoords.Length], color, new Vector3(0, 1, 0));
-            yield return new Vertex(new Vector3(0, 1, 1) * size + offset, texCoords[(1 + texCoordRotation) % texCoords.Length], color, new Vector3(0, 1, 0));
-            yield return new Vertex(new Vector3(1, 1, 1) * size + offset, texCoords[(2 + texCoordRotation) % texCoords.Length], color, new Vector3(0, 1, 0));
-            yield return new Vertex(new Vector3(0, 1, 0) * size + offset, texCoords[(0 + texCoordRotation) % texCoords.Length], color, new Vector3(0, 1, 0));
-            yield return new Vertex(new Vector3(1, 1, 1) * size + offset, texCoords[(2 + texCoordRotation) % texCoords.Length], color, new Vector3(0, 1, 0));
-            yield return new Vertex(new Vector3(1, 1, 0) * size + offset, texCoords[(3 + texCoordRotation) % texCoords.Length], color, new Vector3(0, 1, 0));
+            yield return new(new Vector3(0, 1, 0) * size + offset, texCoords[(0 + texCoordRotation) % texCoords.Length], color, new Vector3(0, 1, 0));
+            yield return new(new Vector3(0, 1, 1) * size + offset, texCoords[(1 + texCoordRotation) % texCoords.Length], color, new Vector3(0, 1, 0));
+            yield return new(new Vector3(1, 1, 1) * size + offset, texCoords[(2 + texCoordRotation) % texCoords.Length], color, new Vector3(0, 1, 0));
+            yield return new(new Vector3(0, 1, 0) * size + offset, texCoords[(0 + texCoordRotation) % texCoords.Length], color, new Vector3(0, 1, 0));
+            yield return new(new Vector3(1, 1, 1) * size + offset, texCoords[(2 + texCoordRotation) % texCoords.Length], color, new Vector3(0, 1, 0));
+            yield return new(new Vector3(1, 1, 0) * size + offset, texCoords[(3 + texCoordRotation) % texCoords.Length], color, new Vector3(0, 1, 0));
         }
 
         public static IEnumerable<Vertex> GetBottomVertices(Vector3 offset, Vector3 size, Vector4 color, Vector2 texCoord, Vector2 texSize, int texCoordRotation = 0)

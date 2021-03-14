@@ -1,16 +1,11 @@
-﻿using OpenTK.Mathematics;
+using OpenTK.Mathematics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Vildmark.Graphics.Models;
-using Vildmark.Graphics.Rendering;
-using Vildmark.Graphics.Resources;
 
 namespace Vildmark.Graphics.Shapes
 {
-    public class CircleShape : Shape
+    public class CircleShapeMesh : ShapeMesh
     {
         private int sides;
         private float radius;
@@ -27,7 +22,7 @@ namespace Vildmark.Graphics.Shapes
             set => SetValue(ref sides, value);
         }
 
-        public CircleShape(float radius, int sides = 36)
+        public CircleShapeMesh(float radius, int sides = 36)
         {
             Radius = radius;
             Sides = sides;
@@ -50,7 +45,7 @@ namespace Vildmark.Graphics.Shapes
                     return new Vertex(new Vector3(pos) * Radius, pos);
                 }
 
-                yield return new Vertex(new Vector3(0, 0, 0), new Vector2(0.5f));
+                yield return new Vertex(Vector3.Zero, new Vector2(0.5f));
                 yield return GenerateVertex(i / (float)Sides * MathHelper.TwoPi);
                 yield return GenerateVertex((i + 1) / (float)Sides * MathHelper.TwoPi);
             }

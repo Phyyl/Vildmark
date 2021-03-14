@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using Vildmark.Helpers;
 using Vildmark.Resources;
 
@@ -57,6 +56,13 @@ namespace Vildmark
         public static object Get(Type type)
         {
             return instances.GetValueOrDefault(type);
+        }
+
+        public static bool TryGet<T>(out T service) where T : class
+        {
+            service = Get<T>();
+
+            return service is not null;
         }
 
         public static object CreateInstance(Type type)

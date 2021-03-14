@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Vildmark.Coroutines
+﻿namespace Vildmark.Coroutines
 {
-	public interface IDeltaCoroutine : ICoroutine
+    public interface IDeltaCoroutine : ICoroutine
 	{
 		float Delta { get; set; }
 	}

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Vildmark.Components
 {
-	public class ComponentObject : IComponentObject
+    public class ComponentObject : IComponentObject
 	{
 		private readonly Dictionary<Type, object> components = new();
 

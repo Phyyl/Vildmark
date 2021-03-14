@@ -1,8 +1,5 @@
-﻿using OpenTK.Mathematics;
-using System;
-using System.Collections.Generic;
+using OpenTK.Mathematics;
 using System.Drawing;
-using System.Text;
 using Vildmark.Graphics.GLObjects;
 
 namespace Vildmark.Graphics.Rendering

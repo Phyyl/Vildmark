@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Vildmark.Attachments
+﻿namespace Vildmark.Attachments
 {
-	public interface IAttachmentObject
+    public interface IAttachmentObject
 	{
 		object SetAttachment(string name, object value);
 		T SetAttachment<T>(string name, T value);

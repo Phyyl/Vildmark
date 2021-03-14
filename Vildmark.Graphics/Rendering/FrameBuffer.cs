@@ -1,15 +1,14 @@
-﻿using System;
 using OpenTK.Graphics.OpenGL;
 using Vildmark.Graphics.GLObjects;
 
 namespace Vildmark.Graphics.Rendering
 {
-	public class FrameBuffer
+    public class FrameBuffer
 	{
 		public FrameBuffer(int width, int height)
 		{
 			GLFramebuffer = new GLFramebuffer();
-			GLTexture = new GLTexture2D(width, height, textureMagFilter: TextureMagFilter.Nearest, textureMinFilter: TextureMinFilter.Nearest);
+			GLTexture = new GLTexture2D(width, height, options: TextureLoadOptions.Nearest);
 			GLRenderbuffer = new GLRenderbuffer(width, height);
 
 			GLFramebuffer.SetRenderbuffer(GLRenderbuffer, FramebufferAttachment.DepthAttachment);
@@ -29,13 +28,11 @@ namespace Vildmark.Graphics.Rendering
 			GLRenderbuffer.Resize(width, height);
 		}
 
-		public IDisposable Bind()
+		public void Bind()
 		{
-			var context = GLFramebuffer.Bind();
+            GLFramebuffer.Bind();
 
 			GL.Viewport(0, 0, GLTexture.Width, GLTexture.Height);
-
-			return context;
 		}
 
 		public void Unbind()

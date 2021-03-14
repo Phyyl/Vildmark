@@ -1,11 +1,8 @@
 ﻿using OpenTK.Mathematics;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Vildmark.Windowing
 {
-	public interface IWindow
+    public interface IWindow
 	{
 		int Width { get; }
 

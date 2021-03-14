@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <PackageReference Include="OpenTK.Mathematics" Version="4.0.6" />
+    <PackageReference Include="OpenTK.Mathematics" Version="4.5.0" />
   </ItemGroup>
   
 </Project>

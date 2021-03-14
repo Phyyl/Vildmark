@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Vildmark.Windowing
+﻿namespace Vildmark.Windowing
 {
-	public interface IWindowHandler
+    public interface IWindowHandler
 	{
 		void Load();
 		void Unload();

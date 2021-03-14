@@ -2,7 +2,6 @@ using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using System;
 using System.Runtime.InteropServices;
-using Vildmark.Graphics.Rendering;
 
 namespace Vildmark.Graphics.GLObjects
 {
@@ -31,10 +30,10 @@ namespace Vildmark.Graphics.GLObjects
 
         }
 
-        public GLTexture2D(int width, int height, Span<byte> data = default, Options options = default)
+        public GLTexture2D(int width, int height, Span<byte> data = default, TextureLoadOptions options = default)
             : base(GL.GenTexture())
         {
-            options ??= Options.Default;
+            options ??= TextureLoadOptions.Default;
 
             MagFilter = options.MagFilter;
             MinFilter = options.MinFilter;
@@ -107,27 +106,6 @@ namespace Vildmark.Graphics.GLObjects
         {
             GL.ActiveTexture(TextureUnit.Texture0 + index);
             GL.BindTexture(textureTarget, 0);
-        }
-
-        public class Options
-        {
-            //TODO: Add options for backbuffer, zbuffer, etc
-            public static readonly Options Default = new();
-            public static readonly Options Linear = Default;
-            public static readonly Options Nearest = new()
-            {
-                MagFilter = TextureMagFilter.Nearest,
-                MinFilter = TextureMinFilter.Nearest
-            };
-
-            public TextureMagFilter MagFilter { get; init; } = TextureMagFilter.Linear;
-            public TextureMinFilter MinFilter { get; init; } = TextureMinFilter.Linear;
-            public TextureWrapMode WrapSMode { get; init; } = TextureWrapMode.ClampToEdge;
-            public TextureWrapMode WrapTMode { get; init; } = TextureWrapMode.ClampToEdge;
-            public TextureTarget Target { get; init; } = TextureTarget.Texture2D;
-            public PixelFormat PixelFormat { get; init; } = PixelFormat.Bgra;
-            public PixelType PixelType { get; init; } = PixelType.UnsignedByte;
-            public PixelInternalFormat PixelInternalFormat { get; init; } = PixelInternalFormat.Rgba;
         }
     }
 }

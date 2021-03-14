@@ -1,6 +1,4 @@
 ﻿using OpenTK.Mathematics;
-using System.Transactions;
-using Vildmark.Graphics.Rendering;
 
 namespace Vildmark.Graphics.Cameras
 {

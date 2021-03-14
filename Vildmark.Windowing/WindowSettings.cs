@@ -1,11 +1,8 @@
 ﻿using OpenTK.Windowing.Common;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Vildmark.Windowing
 {
-	public class WindowSettings
+    public class WindowSettings
 	{
 		public string Title { get; set; } = "Game";
 

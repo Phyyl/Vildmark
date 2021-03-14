@@ -1,12 +1,8 @@
-﻿using OpenTK.Graphics.ES11;
 using OpenTK.Mathematics;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Vildmark.Graphics.Cameras;
-using Vildmark.Graphics.Models;
 using Vildmark.Graphics.Rendering;
+using Vildmark.Graphics.Resources;
 
 namespace Vildmark.Graphics.Fonts
 {
@@ -14,7 +10,7 @@ namespace Vildmark.Graphics.Fonts
     public static class RenderContextFontExtensions
     {
         private const float defaultSize = 24;
-        private static Mesh stringMesh;
+        private static Mesh<Vertex> stringMesh;
 
         public static void RenderString(this RenderContext2D renderContext, string str, Vector2 position = default, float size = defaultSize, Vector4? color = default, Font font = default)
         {
@@ -32,16 +28,16 @@ namespace Vildmark.Graphics.Fonts
 
             if (stringMesh is null)
             {
-                stringMesh = new Mesh(vertices);
+                stringMesh = new Mesh<Vertex>(vertices);
             }
             else
             {
-                stringMesh.UpdateVertices(vertices);
+                stringMesh.VertexBuffer.SetData(vertices);
             }
 
-            Model model = new(stringMesh, new Material(font.Texture, color.Value));
+            stringMesh.Transform.Position = new Vector3(position);
 
-            renderContext.Render(stringMesh, new Material(font.Texture, color.Value), Resources.Shaders.DistanceField, Matrix4.Identity, new Vector3(position));
+            renderContext.Render(stringMesh, new TextureMaterial(font.Texture, color.Value));
         }
 
         public static Vector2 MeasureStringLine(this RenderContext2D renderContext, string str, float size = defaultSize, Font font = default)

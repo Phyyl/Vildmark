@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 
 namespace Vildmark.Coroutines
 {
-	public class CoroutineRunner<TCoroutine> where TCoroutine : ICoroutine
+    public class CoroutineRunner<TCoroutine> where TCoroutine : ICoroutine
 	{
 		private readonly bool autoReset;
 		private IEnumerator<bool> enumerator;

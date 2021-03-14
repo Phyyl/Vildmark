@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
-using System.Text;
 
 namespace Vildmark.Resources
 {
-    public interface IResourceLoader<T> where T : class
+    public interface IResourceLoader<T>
     {
         T Load(Stream stream);
     }

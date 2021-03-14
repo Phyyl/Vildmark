@@ -1,16 +1,13 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using Vildmark.Graphics.GLObjects;
-using Vildmark.Graphics.Rendering;
 using Vildmark.Resources;
 
 namespace Vildmark.Graphics.Fonts
 {
-	//Generator: https://evanw.github.io/font-texture-generator/
-	//Chars (include space): !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ ¡¢£¥▌"cª«¬-r_°±²3'µ·,1º»¼½_¿AAAAÄÅÆÇEÉEEIIIIDÑOOOOÖxOUUUÜY_ßàáâaäåæçèéêëìíîïdñòóôoö÷oùúûüy_ÿ
-	public class Font
+    //Generator: https://evanw.github.io/font-texture-generator/
+    //Chars (include space): !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ ¡¢£¥▌"cª«¬-r_°±²3'µ·,1º»¼½_¿AAAAÄÅÆÇEÉEEIIIIDÑOOOOÖxOUUUÜY_ßàáâaäåæçèéêëìíîïdñòóôoö÷oùúûüy_ÿ
+    public class Font
 	{
 		private static Font arial;
 

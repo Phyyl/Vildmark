@@ -1,11 +1,10 @@
-﻿using OpenTK.Mathematics;
-using System.Collections.Generic;
+using OpenTK.Mathematics;
 using System.Runtime.InteropServices;
 
 namespace Vildmark.Graphics
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct Vertex
+    public struct Vertex : IVertex, IPositionVertex, ITexCoodVertex, IColorVertex, INormalVertex
     {
         public static readonly int Size = Marshal.SizeOf<Vertex>();
         public static readonly int PositionOffset = (int)Marshal.OffsetOf<Vertex>(nameof(Position));
@@ -14,49 +13,27 @@ namespace Vildmark.Graphics
         public static readonly int NormalOffset = (int)Marshal.OffsetOf<Vertex>(nameof(Normal));
 
         public Vector3 Position;
-
         public Vector2 TexCoord;
-
         public Vector4 Color;
-
         public Vector3 Normal;
 
-        public Vertex(Vector3 position)
-            : this(position, Vector2.Zero, Vector4.One, Vector3.One)
-        {
-        }
+        int IVertex.Size => Size;
+        int IPositionVertex.PositionOffset => PositionOffset;
+        int ITexCoodVertex.TexCoordOffset => TexCoordOffset;
+        int IColorVertex.ColorOffset => ColorOffset;
+        int INormalVertex.NormalOffset => NormalOffset;
 
-        public Vertex(Vector3 position, Vector2 texCoord)
-            : this(position, texCoord, Vector4.One, Vector3.One)
-        {
-        }
-
-        public Vertex(Vector3 position, Vector3 normal)
-            : this(position, Vector2.Zero, normal)
-        {
-        }
-
-        public Vertex(Vector3 position, Vector4 color)
-            : this(position, Vector2.Zero, color, Vector3.One)
-        {
-        }
-
-        public Vertex(Vector3 position, Vector2 texCoord, Vector4 color)
-            : this(position, texCoord, color, Vector3.One)
-        {
-        }
-
-        public Vertex(Vector3 position, Vector2 texCoord, Vector3 normal)
-            : this(position, texCoord, Vector4.One, normal)
-        {
-        }
+        public Vertex(Vector3 position) : this(position, default, Vector4.One, default) { }
+        public Vertex(Vector3 position, Vector2 texCoord) : this(position, texCoord, Vector4.One, default) { }
+        public Vertex(Vector3 position, Vector2 texCoord, Vector4 color) : this(position, texCoord, color, default) { }
+        public Vertex(Vector3 position, Vector4 color) : this(position, default, color, default) { }
 
         public Vertex(Vector3 position, Vector2 texCoord, Vector4 color, Vector3 normal)
         {
             Position = position;
             TexCoord = texCoord;
             Color = color;
-            Normal = normal.Normalized();
+            Normal = normal;
         }
     }
 }

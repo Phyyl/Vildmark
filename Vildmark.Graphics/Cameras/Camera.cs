@@ -1,13 +1,5 @@
-﻿using OpenTK.Mathematics;
-using System;
+using OpenTK.Mathematics;
 using System.Drawing;
-using System.Net.Http.Json;
-using System.Reflection.PortableExecutable;
-using System.Runtime.InteropServices;
-using System.Transactions;
-using Vildmark.Graphics.Rendering;
-using Vildmark.Graphics.Resources;
-using Vildmark.Maths;
 
 namespace Vildmark.Graphics.Cameras
 {
@@ -20,12 +12,10 @@ namespace Vildmark.Graphics.Cameras
         private float zNear;
         private float zFar;
 
-        private Transform transform = new()
+        public Transform Transform { get; } = new Transform
         {
             Inverse = true
         };
-
-        public ref Transform Transform => ref transform;
 
         public int Width
         {
@@ -51,7 +41,7 @@ namespace Vildmark.Graphics.Cameras
             set => SetValue(ref zFar, value);
         }
 
-        public RectangleF Viewport => new(transform.X * transform.Scale, transform.Y * transform.Scale, Width / transform.Scale, Height / transform.Scale);
+        public RectangleF Viewport => new(Transform.X * Transform.Scale, Transform.Y * Transform.Scale, Width / Transform.Scale, Height / Transform.Scale);
 
         public Matrix4 ProjectionMatrix => projectionMatrix ??= CreateProjectionMatrix();
 
