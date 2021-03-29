@@ -2,6 +2,8 @@
 
     <PropertyGroup>
         <GeneratedFontsRootDirectory>$(IntermediateOutputPath)GeneratedFonts\</GeneratedFontsRootDirectory>
+        <FontGeneratorExecutable Condition="$([MSBuild]::IsOSPlatform('Linux'))">.\tools\linux\fontbm</FontGeneratorExecutable>
+        <FontGeneratorExecutable Condition="$([MSBuild]::IsOSPlatform('Windows'))">.\tools\windows\fontbm.exe</FontGeneratorExecutable>
     </PropertyGroup>
     
     <Target Name="GenerateFonts" BeforeTargets="BeforeBuild">
@@ -12,7 +14,7 @@
         </PropertyGroup>
         
         <MakeDir Directories="$(GeneratedFontDirectory)"></MakeDir>
-        <Exec Command=".\tools\windows\fontbm.exe --font-file %(Font.Identity) --output $(GeneratedFontFilename) --chars 0-255"></Exec>
+        <Exec Command="$(FontGeneratorExecutable) --font-file %(Font.Identity) --output $(GeneratedFontFilename) --chars 0-255"></Exec>
         
     </Target>
 
