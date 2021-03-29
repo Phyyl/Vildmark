@@ -1,11 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
     <ProjectReference Include="..\Vildmark.Core\Vildmark.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenTK" Version="4.5.0" />
+    <PackageReference Include="OpenTK" Version="$(OpenTKPackageVersion)" />
   </ItemGroup>
 
 </Project>
