@@ -50,6 +50,10 @@
         <Font Include="Resources\Fonts\Bouncy.otf" />
     </ItemGroup>
 
+    <PropertyGroup>
+        <IntermediateOutputPath>obj\$(Configuration)\$(TargetFramework)\</IntermediateOutputPath>
+    </PropertyGroup>
+    
     <Import Project="Vildmark.Graphics.Fonts.targets" />
 
 </Project>
