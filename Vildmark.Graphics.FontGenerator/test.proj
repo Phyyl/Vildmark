@@ -1,0 +1,19 @@
+<Project DefaultTargets="Process">
+    <PropertyGroup>
+        <FontGeneratorTaskAssembly>Vildmark.Graphics.FontGenerator.dll</FontGeneratorTaskAssembly>
+    </PropertyGroup>
+
+    <UsingTask AssemblyFile="$(FontGeneratorTaskAssembly)" TaskName="GenerateFont"></UsingTask>
+
+    <ItemGroup>
+        <Font Include="Arial.ttf"></Font>
+        <Font Include="consola"></Font>
+    </ItemGroup>
+    
+    <Target Name="Process">
+        <GenerateFont Input="@(Font)">
+            <Output PropertyName="EmbeddedResource" TaskParameter="Output" />
+        </GenerateFont>
+    </Target>
+
+</Project>

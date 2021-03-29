@@ -1,0 +1,14 @@
+{
+    "profiles": {
+        "Run": {
+            "commandName": "Executable",
+            "executablePath": "cmd.exe",
+            "commandLineArgs": "/K dotnet msbuild test.proj"
+        },
+        "Verbose": {
+            "commandName": "Executable",
+            "executablePath": "cmd.exe",
+            "commandLineArgs": "/K dotnet msbuild -v:d test.proj"
+        }
+    }
+}

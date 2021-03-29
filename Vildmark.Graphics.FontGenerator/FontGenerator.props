@@ -1,0 +1,10 @@
+<Project>
+    <PropertyGroup>
+        <FontGeneratorTaskAssembly>Vildmark.Graphics.FontGenerator.dll</FontGeneratorTaskAssembly>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <AvailableItemName Include="Font"></AvailableItemName>
+    </ItemGroup>
+
+</Project>

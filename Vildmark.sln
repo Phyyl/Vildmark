@@ -19,9 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vildmark.Maths", "Vildmark.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vildmark.Graphics.Fonts", "Vildmark.Graphics.Fonts\Vildmark.Graphics.Fonts.csproj", "{9684C112-EA2D-4F96-8F99-59FEA0DFFD02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vildmark", "Vildmark\Vildmark.csproj", "{2B8993D1-F1AA-487B-9047-0061A7255AF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vildmark", "Vildmark\Vildmark.csproj", "{2B8993D1-F1AA-487B-9047-0061A7255AF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vildmark.Tests", "Vildmark.Tests\Vildmark.Tests.csproj", "{64D5D49F-E317-47D9-A31D-1513FD1FEAC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vildmark.Tests", "Vildmark.Tests\Vildmark.Tests.csproj", "{64D5D49F-E317-47D9-A31D-1513FD1FEAC1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
