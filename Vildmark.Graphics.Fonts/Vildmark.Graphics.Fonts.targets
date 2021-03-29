@@ -1,11 +1,15 @@
 <Project>
 
+    <PropertyGroup Condition=" '$(FontToolsFolder)' == '' ">
+        <FontToolsFolder>$(MSBuildThisFileDirectory)..\..\tools\</FontToolsFolder>
+    </PropertyGroup>
+
     <PropertyGroup>
         <GeneratedFontsRootDirectory>$(IntermediateOutputPath)GeneratedFonts\</GeneratedFontsRootDirectory>
-        <FontGeneratorExecutable Condition="$([MSBuild]::IsOSPlatform('Linux'))">$(MSBuildThisFileDirectory)\tools\linux\fontbm</FontGeneratorExecutable>
-        <FontGeneratorExecutable Condition="$([MSBuild]::IsOSPlatform('Windows'))">$(MSBuildThisFileDirectory)\tools\windows\fontbm.exe</FontGeneratorExecutable>
+        <FontGeneratorExecutable Condition="$([MSBuild]::IsOSPlatform('Linux'))">$(FontToolsFolder)linux\fontbm</FontGeneratorExecutable>
+        <FontGeneratorExecutable Condition="$([MSBuild]::IsOSPlatform('Windows'))">$(FontToolsFolder)windows\fontbm.exe</FontGeneratorExecutable>
     </PropertyGroup>
-    
+
     <Target Name="GenerateFonts" BeforeTargets="BeforeBuild">
     
         <PropertyGroup>

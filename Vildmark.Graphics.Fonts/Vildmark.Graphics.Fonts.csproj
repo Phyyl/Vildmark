@@ -51,6 +51,7 @@
     </ItemGroup>
 
     <PropertyGroup>
+        <FontToolsFolder>tools\</FontToolsFolder>
         <IntermediateOutputPath>obj\$(Configuration)\$(TargetFramework)\</IntermediateOutputPath>
     </PropertyGroup>
     
