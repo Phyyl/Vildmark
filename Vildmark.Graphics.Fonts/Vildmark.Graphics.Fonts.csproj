@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <Import Project="Vildmark.Graphics.Fonts.props" />
-    
+
     <ItemGroup>
         <None Remove="Resources\Fonts\Bouncy.otf" />
         <None Remove="tools\linux\fontbm" />
@@ -13,34 +13,24 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="tools\linux\fontbm">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
-      <Content Include="tools\windows\bz2.dll">
-        <PackagePath>tools\</PackagePath>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        <Pack>True</Pack>
-      </Content>
-      <Content Include="tools\windows\fontbm.exe">
-        <PackagePath>tools\</PackagePath>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        <Pack>True</Pack>
-      </Content>
-      <Content Include="tools\windows\freetype.dll">
-        <PackagePath>tools\</PackagePath>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        <Pack>True</Pack>
-      </Content>
-      <Content Include="tools\windows\libpng16.dll">
-        <PackagePath>tools\</PackagePath>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        <Pack>True</Pack>
-      </Content>
-      <Content Include="tools\windows\zlib1.dll">
-        <PackagePath>tools\</PackagePath>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        <Pack>True</Pack>
-      </Content>
+        <None Include="tools\**\*">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <PackagePath>tools\</PackagePath>
+            <Pack>True</Pack>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="Vildmark.Graphics.Fonts.props">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <PackagePath>build\$(TargetFramework)</PackagePath>
+            <Pack>True</Pack>
+        </None>
+        <None Include="Vildmark.Graphics.Fonts.targets">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <PackagePath>build\$(TargetFramework)</PackagePath>
+            <Pack>True</Pack>
+        </None>
     </ItemGroup>
 
     <ItemGroup>
@@ -53,13 +43,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="tools\macos\" />
+        <Folder Include="tools\macos\" />
     </ItemGroup>
 
     <ItemGroup>
-      <Font Include="Resources\Fonts\Bouncy.otf" />
+        <Font Include="Resources\Fonts\Bouncy.otf" />
     </ItemGroup>
 
     <Import Project="Vildmark.Graphics.Fonts.targets" />
-    
+
 </Project>
