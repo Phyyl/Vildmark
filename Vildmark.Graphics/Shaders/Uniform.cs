@@ -1,4 +1,4 @@
-﻿using OpenTK.Graphics.OpenGL;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using Vildmark.Graphics.GLObjects;
 using Vildmark.Logging;
@@ -112,8 +112,9 @@ namespace Vildmark.Graphics.Shaders
                 return;
             }
 
-            GL.Uniform1(location, index);
+            GL.ActiveTexture(TextureUnit.Texture0 + index); 
             value.Bind(index);
+            GL.Uniform1(location, index);
         }
 
         protected static void SetValue<T>(int location, T value) => Setter<T>.Action?.Invoke(location, value);
@@ -159,13 +160,9 @@ namespace Vildmark.Graphics.Shaders
 
     public class IndexedUniform<T> : Uniform<T>
     {
-        public int Index { get; }
-
-        public IndexedUniform(string name, int index)
+        public IndexedUniform(string name)
             : base(name)
         {
-            Index = index;
-
             if (IndexedSetter<T>.Action == null)
             {
                 Service<ILogger>.Instance?.Warning($"No indexed setter action has been set for uniform type {typeof(T).Name}");

@@ -4,6 +4,8 @@
 
     <ItemGroup>
         <None Remove="Resources\Fonts\Bouncy.otf" />
+        <None Remove="Resources\Shaders\text.frag" />
+        <None Remove="Resources\Shaders\text.vert" />
         <None Remove="tools\linux\fontbm" />
         <None Remove="tools\windows\bz2.dll" />
         <None Remove="tools\windows\fontbm.exe" />
@@ -18,6 +20,11 @@
             <PackagePath>tools\</PackagePath>
             <Pack>True</Pack>
         </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="Resources\Shaders\text.frag" />
+      <EmbeddedResource Include="Resources\Shaders\text.vert" />
     </ItemGroup>
 
     <ItemGroup>

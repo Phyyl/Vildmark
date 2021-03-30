@@ -1,5 +1,7 @@
+using System;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -12,38 +14,37 @@ namespace Vildmark.Graphics.Fonts.Resources
     [Register(typeof(IResourceLoader<BitmapFont>))]
     public class FontResourceLoader : IResourceLoader<BitmapFont>
     {
-        private JsonSerializerOptions serializerOptions = new()
+        private readonly JsonSerializerOptions serializerOptions = new()
         {
             PropertyNameCaseInsensitive = true
         };
 
         public BitmapFont Load(Stream stream)
         {
-            string json = Service<IResourceLoader<string>>.Instance.Load(stream);
+            string json = ResourceLoader.Load<string>(stream);
 
             if (json is null)
             {
                 return default;
             }
 
-            FontDefinition fontDefinition = JsonSerializer.Deserialize<FontDefinition>(json, serializerOptions);
+            FontDefinition definition = JsonSerializer.Deserialize<FontDefinition>(json, serializerOptions);
 
-            if (fontDefinition is null)
+            if (definition is null)
             {
                 return default;
             }
 
-            //BitmapFont result = new BitmapFont
-            //{
+            BitmapFontChar[] chars = definition.Chars.Select(d => new BitmapFontChar((char)d.ID, d.X, d.Y, d.Width, d.Height, d.XOffset, d.YOffset, d.XAdvance, d.Page)).ToArray();
 
-            //}
-
-            //font.Texture = ResourceLoader.LoadEmbedded<GLTexture2D, TextureLoadOptions>($"{name}.png", TextureLoadOptions.Linear);
-
-            //foreach (BitmapFontChar fontChar in font.Characters.Values)
-            //{
-            //    fontChar.Texture = new Texture2D(font.Texture, new RectangleF(fontChar.X / font.Width, fontChar.Y / font.Height, fontChar.Width / font.Width, fontChar.Height / font.Height));
-            //}
+            BitmapFont result = new(chars)
+            {
+                Name = definition.Info.Face,
+                Pages = definition.Pages.Select(p => ResourceLoader.LoadEmbedded<GLTexture2D, TextureLoadOptions>(p, TextureLoadOptions.Linear)).ToArray(),
+                LineHeight = definition.Common.LineHeight,
+                Size = Math.Abs(definition.Info.Size),
+                Base = definition.Common.Base
+            };
 
             return null;
         }
@@ -102,9 +103,9 @@ namespace Vildmark.Graphics.Fonts.Resources
 
         private class KerningDefinition
         {
-            int First { get; set; }
-            int Second { get; set; }
-            int Amount { get; set; }
+            public int First { get; set; }
+            public int Second { get; set; }
+            public int Amount { get; set; }
         }
     }
 }
