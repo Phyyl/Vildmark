@@ -11,16 +11,32 @@
     </PropertyGroup>
 
     <Target Name="GenerateFonts" BeforeTargets="BeforeBuild">
+        
+        <PropertyGroup>
+            <GeneratedFontDirectory>$(GeneratedFontsRootDirectory)%(Font.RelativeDir)</GeneratedFontDirectory>
+            <GeneratedFontFilename>$(GeneratedFontDirectory)%(Font.Filename)</GeneratedFontFilename>
+            <FontGeneratorArguments>--font-file %(Font.Identity) --output $(GeneratedFontFilename) --data-format json</FontGeneratorArguments>
+        </PropertyGroup>
 
         <PropertyGroup>
-            <GeneratedFontDirectory>$(GeneratedFontsRootDirectory)%(Font.RelativeDir)\</GeneratedFontDirectory>
-            <GeneratedFontFilename>$(GeneratedFontDirectory)%(Font.Filename)</GeneratedFontFilename>
+            <FontTextureWidth Condition=" '%(Font.Width)' != '' ">%(Font.Width)</FontTextureWidth>
+            <FontTextureHeight Condition=" '%(Font.Height)' != '' ">%(Font.Height)</FontTextureHeight>
+            <FontTexturePadding Condition=" '%(Font.Padding)' != '' ">%(Font.Padding)</FontTexturePadding>
+            <FontChars Condition=" '%(Font.Chars)' != '' ">%(Font.Chars)</FontChars>
+        </PropertyGroup>
+
+        <PropertyGroup>
+            <FontTextureWidth Condition=" '$(FontTextureWidth)' == '' ">512</FontTextureWidth>
+            <FontTextureHeight Condition=" '$(FontTextureHeight)' == '' ">512</FontTextureHeight>
+            <FontTexturePadding Condition=" '$(FontTexturePadding)' == '' ">1</FontTexturePadding>
+            <FontChars Condition=" '$(FontChars)' == '' ">0-255</FontChars>
+            <FontGeneratorArguments>$(FontGeneratorArguments) --texture-width $(FontTextureWidth) --texture-height $(FontTextureHeight)</FontGeneratorArguments>
+            <FontGeneratorArguments>$(FontGeneratorArguments) --padding-left $(FontTexturePadding) --padding-right $(FontTexturePadding) --padding-down $(FontTexturePadding) --padding-up $(FontTexturePadding)</FontGeneratorArguments>
+            <FontGeneratorArguments>$(FontGeneratorArguments) --chars $(FontChars)</FontGeneratorArguments>
         </PropertyGroup>
 
         <MakeDir Directories="$(GeneratedFontDirectory)"></MakeDir>
-        <Exec IgnoreStandardErrorWarningFormat="true" Command="$(FontGeneratorExecutable) --font-file %(Font.Identity) --output $(GeneratedFontFilename) --data-format json --texture-width 512 --texture-height 512 --chars 0-255"></Exec>
-
-        <Message Text="GeneratedFontsRootDirectory: $(GeneratedFontsRootDirectory)"></Message>
+        <Exec IgnoreStandardErrorWarningFormat="true" Command="$(FontGeneratorExecutable) $(FontGeneratorArguments)"></Exec>
 
         <ItemGroup>
             <FontResources Include="$(GeneratedFontsRootDirectory)**\*"></FontResources>
