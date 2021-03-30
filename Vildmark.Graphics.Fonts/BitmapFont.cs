@@ -76,9 +76,8 @@ namespace Vildmark.Graphics.Fonts
 
                 Vector2 sourcePosition = new Vector2(fontChar.X / (float)page.Width, fontChar.Y / (float)page.Height);
                 Vector2 sourceSize = new Vector2(fontChar.Width / (float)page.Width, fontChar.Height / (float)page.Height);
-
-                Vector2 destinationPosition = new Vector2(fontChar.XOffset, -fontChar.YOffset) * size;
-                Vector2 destinationSize = new Vector2(fontChar.Width, fontChar.Width) * size;
+                Vector2 destinationPosition = new Vector2(fontChar.XOffset, fontChar.YOffset) * size;
+                Vector2 destinationSize = new Vector2(fontChar.Width, fontChar.Height) * size;
 
                 Vector2 vtl = cursor + destinationPosition;
                 Vector2 vtr = vtl + new Vector2(destinationSize.X, 0);

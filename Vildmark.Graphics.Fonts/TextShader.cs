@@ -27,6 +27,7 @@ namespace Vildmark.Graphics.Fonts
         public Uniform<Matrix4> ProjectionMatrix { get; } = new Uniform<Matrix4>("projection_matrix");
         public Uniform<Matrix4> ViewMatrix { get; } = new Uniform<Matrix4>("view_matrix");
         public Uniform<Matrix4> ModelMatrix { get; } = new Uniform<Matrix4>("model_matrix");
+        public Uniform<Vector4> Tint { get; } = new Uniform<Vector4>("tint");
         public IndexedUniform<Sampler2D> Texture { get; } = new IndexedUniform<Sampler2D>("textures");
 
         public void SetupCamera(Camera camera)
@@ -46,6 +47,8 @@ namespace Vildmark.Graphics.Fonts
             {
                 Texture.SetValue(i, material.Pages[i]);
             }
+
+            Tint.SetValue(material.Tint);
         }
 
         public void SetupMesh(Mesh<TextVertex> mesh)

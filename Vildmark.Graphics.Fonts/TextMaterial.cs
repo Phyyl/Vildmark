@@ -1,3 +1,4 @@
+using OpenTK.Mathematics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace Vildmark.Graphics.Fonts
     public class TextMaterial
     {
         public GLTexture2D[] Pages { get; init; }
+
+        public Vector4 Tint { get; set; }
 
         public TextMaterial(params GLTexture2D[] pages)
         {
