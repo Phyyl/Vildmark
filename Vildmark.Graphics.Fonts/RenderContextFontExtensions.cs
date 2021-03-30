@@ -6,115 +6,108 @@ using Vildmark.Graphics.Resources;
 
 namespace Vildmark.Graphics.Fonts
 {
-    //TODO: Switch to "shape" model. Add "PreparedText" and render that instead
+    //TODO: Switch to "shape" model.Add "PreparedText" and render that instead
     public static class RenderContextFontExtensions
     {
-        private const float defaultSize = 24;
-        private static Mesh<Vertex> stringMesh;
+        //private const float defaultSize = 24;
+        //private static Mesh<Vertex> stringMesh;
 
-        public static void RenderString(this RenderContext2D renderContext, string str, Vector2 position = default, float size = defaultSize, Vector4? color = default, Font font = default)
-        {
-            if (str == null || str.Length == 0)
-            {
-                return;
-            }
+        //public static void RenderString(this RenderContext2D renderContext, string str, BitmapFont font, Vector2 position, float size, Vector4 color)
+        //{
+        //    if (str == null || str.Length == 0)
+        //    {
+        //        return;
+        //    }
 
-            font ??= Font.Arial;
-            color ??= Vector4.One;
+        //    renderContext.DisableDepthTest();
 
-            renderContext.DisableDepthTest();
+        //    Vertex[] vertices = CreateStringVertices(str, font, position, size);
 
-            Vertex[] vertices = CreateStringVertices(str, font, position, size);
+        //    if (stringMesh is null)
+        //    {
+        //        stringMesh = new Mesh<Vertex>(vertices);
+        //    }
+        //    else
+        //    {
+        //        stringMesh.VertexBuffer.SetData(vertices);
+        //    }
 
-            if (stringMesh is null)
-            {
-                stringMesh = new Mesh<Vertex>(vertices);
-            }
-            else
-            {
-                stringMesh.VertexBuffer.SetData(vertices);
-            }
+        //    stringMesh.Transform.Position = new Vector3(position);
 
-            stringMesh.Transform.Position = new Vector3(position);
+        //    renderContext.Render(stringMesh, new TextureMaterial(font.Texture, color.Value));
+        //}
 
-            renderContext.Render(stringMesh, new TextureMaterial(font.Texture, color.Value));
-        }
+        //public static Vector2 MeasureStringLine(this RenderContext2D renderContext, string str, BitmapFont font, float size)
+        //{
+        //    if (str == null || str.Length == 0)
+        //    {
+        //        return new Vector2(0, size);
+        //    }
 
-        public static Vector2 MeasureStringLine(this RenderContext2D renderContext, string str, float size = defaultSize, Font font = default)
-        {
-            if (str == null || str.Length == 0)
-            {
-                return new Vector2(0, size);
-            }
+        //    Vertex[] vertices = CreateStringVertices(str, font, Vector2.Zero, size);
 
-            font ??= Font.Arial;
+        //    float width = vertices.Max(v => v.Position.X);
+        //    float height = vertices.Max(v => v.Position.Y);
 
-            Vertex[] vertices = CreateStringVertices(str, font, Vector2.Zero, size);
+        //    return new Vector2(width, height);
+        //}
 
-            float width = vertices.Max(v => v.Position.X);
-            float height = vertices.Max(v => v.Position.Y);
+        //public static Vector2 MeasureStringBounds(this RenderContext2D renderContext, string str, BitmapFont font, float size)
+        //{
+        //    if (str == null || str.Length == 0)
+        //    {
+        //        return new Vector2(0, size);
+        //    }
 
-            return new Vector2(width, height);
-        }
+        //    Vertex[] vertices = CreateStringVertices(str, font, Vector2.Zero, size);
 
-        public static Vector2 MeasureStringBounds(this RenderContext2D renderContext, string str, float size = defaultSize, Font font = default)
-        {
-            if (str == null || str.Length == 0)
-            {
-                return new Vector2(0, size);
-            }
+        //    float width = vertices.Max(v => v.Position.X);
+        //    float height = vertices.Max(v => v.Position.Y);
 
-            font ??= Font.Arial;
+        //    float x = vertices.Min(v => v.Position.X);
+        //    float y = vertices.Min(v => v.Position.Y);
 
-            Vertex[] vertices = CreateStringVertices(str, font, Vector2.Zero, size);
+        //    return new Vector2(width - x, height - y);
+        //}
 
-            float width = vertices.Max(v => v.Position.X);
-            float height = vertices.Max(v => v.Position.Y);
+        //private static Vertex[] CreateStringVertices(string str, BitmapFont font, Vector2 position, float size)
+        //{
+        //    List<Vertex> vertices = new();
 
-            float x = vertices.Min(v => v.Position.X);
-            float y = vertices.Min(v => v.Position.Y);
+        //    Vector2 cursor = new(0, size);
 
-            return new Vector2(width - x, height - y);
-        }
+        //    foreach (var chr in str)
+        //    {
+        //        if (!font.TryGetChar(chr, out BitmapFontChar fontChar) || font.TryGetChar()
+        //        {
+        //            continue;
+        //        }
 
-        private static Vertex[] CreateStringVertices(string str, Font font, Vector2 position, float size)
-        {
-            List<Vertex> vertices = new();
+        //        Vector2 glyphSize = new Vector2(fontChar.Width, fontChar.Height) / font.Size * size;
+        //        Vector2 glyphOrigin = new Vector2(-fontChar.OriginX, -fontChar.OriginY) / font.Size * size;
 
-            Vector2 cursor = new(0, size);
+        //        Vector3 vtl = new(glyphOrigin + cursor + position);
+        //        Vector3 vtr = vtl + new Vector3(glyphSize.X, 0, 0);
+        //        Vector3 vbl = vtl + new Vector3(0, glyphSize.Y, 0);
+        //        Vector3 vbr = vtl + new Vector3(glyphSize.X, glyphSize.Y, 0);
 
-            foreach (var chr in str)
-            {
-                if (!font.Characters.TryGetValue(chr, out FontChar fontChar))
-                {
-                    continue;
-                }
+        //        Vector2 ts = new(fontChar.Width / (float)font.Width, fontChar.Height / (float)font.Height);
+        //        Vector2 ttl = new(fontChar.X / (float)font.Width, fontChar.Y / (float)font.Height);
+        //        Vector2 ttr = ttl + new Vector2(ts.X, 0);
+        //        Vector2 tbl = ttl + new Vector2(0, ts.Y);
+        //        Vector2 tbr = ttl + ts;
 
-                Vector2 glyphSize = new Vector2(fontChar.Width, fontChar.Height) / font.Size * size;
-                Vector2 glyphOrigin = new Vector2(-fontChar.OriginX, -fontChar.OriginY) / font.Size * size;
+        //        vertices.Add(new Vertex(vtl, ttl));
+        //        vertices.Add(new Vertex(vbl, tbl));
+        //        vertices.Add(new Vertex(vbr, tbr));
+        //        vertices.Add(new Vertex(vtl, ttl));
+        //        vertices.Add(new Vertex(vbr, tbr));
+        //        vertices.Add(new Vertex(vtr, ttr));
 
-                Vector3 vtl = new(glyphOrigin + cursor + position);
-                Vector3 vtr = vtl + new Vector3(glyphSize.X, 0, 0);
-                Vector3 vbl = vtl + new Vector3(0, glyphSize.Y, 0);
-                Vector3 vbr = vtl + new Vector3(glyphSize.X, glyphSize.Y, 0);
+        //        cursor.X += fontChar.Advance / (float)font.Size * size;
+        //    }
 
-                Vector2 ts = new(fontChar.Width / (float)font.Width, fontChar.Height / (float)font.Height);
-                Vector2 ttl = new(fontChar.X / (float)font.Width, fontChar.Y / (float)font.Height);
-                Vector2 ttr = ttl + new Vector2(ts.X, 0);
-                Vector2 tbl = ttl + new Vector2(0, ts.Y);
-                Vector2 tbr = ttl + ts;
-
-                vertices.Add(new Vertex(vtl, ttl));
-                vertices.Add(new Vertex(vbl, tbl));
-                vertices.Add(new Vertex(vbr, tbr));
-                vertices.Add(new Vertex(vtl, ttl));
-                vertices.Add(new Vertex(vbr, tbr));
-                vertices.Add(new Vertex(vtr, ttr));
-
-                cursor.X += fontChar.Advance / (float)font.Size * size;
-            }
-
-            return vertices.ToArray();
-        }
+        //    return vertices.ToArray();
+        //}
     }
 }

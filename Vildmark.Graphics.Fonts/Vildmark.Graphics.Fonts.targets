@@ -11,24 +11,24 @@
     </PropertyGroup>
 
     <Target Name="GenerateFonts" BeforeTargets="BeforeBuild">
-    
+
         <PropertyGroup>
             <GeneratedFontDirectory>$(GeneratedFontsRootDirectory)%(Font.RelativeDir)\</GeneratedFontDirectory>
             <GeneratedFontFilename>$(GeneratedFontDirectory)%(Font.Filename)</GeneratedFontFilename>
         </PropertyGroup>
-        
+
         <MakeDir Directories="$(GeneratedFontDirectory)"></MakeDir>
-        <Exec Command="$(FontGeneratorExecutable) --font-file %(Font.Identity) --output $(GeneratedFontFilename) --chars 0-255"></Exec>
+        <Exec Command="$(FontGeneratorExecutable) --font-file %(Font.Identity) --output $(GeneratedFontFilename) --data-format json --texture-width 512 --texture-height 512 --chars 0-255"></Exec>
 
         <Message Text="GeneratedFontsRootDirectory: $(GeneratedFontsRootDirectory)"></Message>
 
-    <ItemGroup>
-        <FontResources Include="$(GeneratedFontsRootDirectory)**\*"></FontResources>
-        <EmbeddedResource Include="@(FontResources)">
-            <LogicalName>$([System.String]::Copy('%(RelativeDir)%(Filename)%(Extension)').Replace('$(GeneratedFontsRootDirectory)', '').Replace('\', '.'))</LogicalName>
-        </EmbeddedResource>
-    </ItemGroup>
-        
+        <ItemGroup>
+            <FontResources Include="$(GeneratedFontsRootDirectory)**\*"></FontResources>
+            <EmbeddedResource Include="@(FontResources)">
+                <LogicalName>$([System.String]::Copy('%(RelativeDir)%(Filename)%(Extension)').Replace('$(GeneratedFontsRootDirectory)', '').Replace('\', '.'))</LogicalName>
+            </EmbeddedResource>
+        </ItemGroup>
+
     </Target>
 
 </Project>

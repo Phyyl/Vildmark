@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -6,8 +7,9 @@ using System.Reflection;
 namespace Vildmark.Resources
 {
     [Register(typeof(IResourceLoader<string>))]
+    [Register(typeof(IResourceLoader<string[]>))]
     [Register(typeof(IResourceLoader<byte[]>))]
-    public class ResourceLoader : IResourceLoader<string>, IResourceLoader<byte[]>
+    public class ResourceLoader : IResourceLoader<string>, IResourceLoader<string[]>, IResourceLoader<byte[]>
     {
         public static Stream GetEmbeddedStream(string name, Assembly assembly = default)
         {
@@ -104,6 +106,26 @@ namespace Vildmark.Resources
             using StreamReader reader = new(stream);
 
             return reader.ReadToEnd();
+        }
+
+        string[] IResourceLoader<string[]>.Load(Stream stream)
+        {
+            if (stream is null)
+            {
+                return null;
+            }
+
+            using StreamReader reader = new(stream);
+
+            List<string> lines = new List<string>();
+            string line = null;
+
+            while ((line = reader.ReadLine()) != null)
+            {
+                lines.Add(line);
+            }
+
+            return lines.ToArray();
         }
     }
 }
