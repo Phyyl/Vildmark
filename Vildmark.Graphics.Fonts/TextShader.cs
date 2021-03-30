@@ -13,6 +13,7 @@ namespace Vildmark.Graphics.Fonts
     public class TextShader : Shader,
         IMaterialShader<TextMaterial>,
         IMeshShader<Mesh<TextVertex>>,
+        IModelMatrixShader,
         ICameraShader
     {
         private const int maxTextures = 8;
@@ -54,8 +55,6 @@ namespace Vildmark.Graphics.Fonts
                 return;
             }
 
-            ModelMatrix.SetValue(mesh.Transform.Matrix);
-
             if (mesh.VertexArray is null || mesh.VertexBuffer is null)
             {
                 return;
@@ -66,6 +65,11 @@ namespace Vildmark.Graphics.Fonts
             Position.Setup(mesh.VertexBuffer, TextVertex.PositionOffset);
             TexCoord.Setup(mesh.VertexBuffer, TextVertex.TexCoordOffset);
             TextureIndex.Setup(mesh.VertexBuffer, TextVertex.TextureIndexOffset);
+        }
+
+        public void SetupModelMatrix(Matrix4 modelMatrix)
+        {
+            ModelMatrix.SetValue(modelMatrix);
         }
     }
 }

@@ -8,6 +8,7 @@ namespace Vildmark.Graphics.Resources
     public class ColorShader : Shader,
         IMeshShader<Mesh<ColorVertex>>,
         IMaterialShader<ColorMaterial>,
+        IModelMatrixShader,
         ICameraShader
     {
         protected override string VertexShaderSource => ResourceLoader.LoadEmbedded<string>("color.vert");
@@ -27,8 +28,6 @@ namespace Vildmark.Graphics.Resources
             {
                 return;
             }
-
-            ModelMatrix.SetValue(mesh.Transform.Matrix);
 
             if (mesh.VertexArray is null || mesh.VertexBuffer is null)
             {

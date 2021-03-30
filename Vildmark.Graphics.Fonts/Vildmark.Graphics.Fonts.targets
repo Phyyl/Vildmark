@@ -18,7 +18,7 @@
         </PropertyGroup>
 
         <MakeDir Directories="$(GeneratedFontDirectory)"></MakeDir>
-        <Exec Command="$(FontGeneratorExecutable) --font-file %(Font.Identity) --output $(GeneratedFontFilename) --data-format json --texture-width 512 --texture-height 512 --chars 0-255"></Exec>
+        <Exec IgnoreStandardErrorWarningFormat="true" Command="$(FontGeneratorExecutable) --font-file %(Font.Identity) --output $(GeneratedFontFilename) --data-format json --texture-width 512 --texture-height 512 --chars 0-255"></Exec>
 
         <Message Text="GeneratedFontsRootDirectory: $(GeneratedFontsRootDirectory)"></Message>
 

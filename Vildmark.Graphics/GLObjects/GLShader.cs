@@ -1,4 +1,5 @@
 using OpenTK.Graphics.OpenGL;
+using System;
 using System.Diagnostics;
 
 namespace Vildmark.Graphics.GLObjects
@@ -40,7 +41,7 @@ namespace Vildmark.Graphics.GLObjects
 
             if (!shader.Compiled)
             {
-                Debug.WriteLine($"{shaderType} info log: {shader.InfoLog}");
+                Console.WriteLine($"{shaderType} info log: {shader.InfoLog}");
 
                 return null;
             }

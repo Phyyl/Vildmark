@@ -19,7 +19,7 @@ namespace Vildmark.Graphics.Fonts.Resources
             PropertyNameCaseInsensitive = true
         };
 
-        public BitmapFont Load(Stream stream)
+        public BitmapFont Load(Stream stream, Assembly assembly, string resourceName)
         {
             string json = ResourceLoader.Load<string>(stream);
 
@@ -37,7 +37,7 @@ namespace Vildmark.Graphics.Fonts.Resources
 
             BitmapFontChar[] chars = definition.Chars.Select(d => new BitmapFontChar((char)d.ID, d.X, d.Y, d.Width, d.Height, d.XOffset, d.YOffset, d.XAdvance, d.Page)).ToArray();
 
-            BitmapFont result = new(chars)
+            return new(chars)
             {
                 Name = definition.Info.Face,
                 Pages = definition.Pages.Select(p => ResourceLoader.LoadEmbedded<GLTexture2D, TextureLoadOptions>(p, TextureLoadOptions.Linear)).ToArray(),
@@ -45,8 +45,6 @@ namespace Vildmark.Graphics.Fonts.Resources
                 Size = Math.Abs(definition.Info.Size),
                 Base = definition.Common.Base
             };
-
-            return null;
         }
 
         private class FontDefinition

@@ -15,5 +15,5 @@ void main()
 {
 	gl_Position = projection_matrix * view_matrix * model_matrix * vec4(vert_position, 1.0);
     vert_frag_tex_coord = vert_tex_coord;
-    vert_frag_texture_index = vert_texture_index
+    vert_frag_texture_index = vert_texture_index;
 }

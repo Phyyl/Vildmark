@@ -54,17 +54,22 @@ namespace Vildmark.Graphics.Rendering
             GL.Viewport(0, 0, width, height);
         }
 
-        public void Render(Mesh<ColorVertex> colorMesh, ColorMaterial material)
-        {
+        //public void Render(Mesh<ColorVertex> colorMesh, ColorMaterial material)
+        //{
 
+        //}
+
+        //public void Render(Mesh<Vertex> mesh, TextureMaterial material)
+        //{
+
+        //}
+
+        public void Render(IModel model)
+        {
+            model.Render(this);
         }
 
-        public void Render(Mesh<Vertex> mesh, TextureMaterial material)
-        {
-
-        }
-
-        public void Render<TShader, TMesh, TMaterial>(TShader shader, TMesh mesh, TMaterial material)
+        public void Render<TShader, TMesh, TMaterial>(TShader shader, TMesh mesh, TMaterial material, Matrix4 modelMatrix)
             where TMesh : Mesh
             where TShader : Shader
         {
@@ -83,6 +88,11 @@ namespace Vildmark.Graphics.Rendering
             if (shader is IMeshShader<TMesh> meshShader)
             {
                 meshShader.SetupMesh(mesh);
+            }
+
+            if (shader is IModelMatrixShader modelMatrixShader)
+            {
+                modelMatrixShader.SetupModelMatrix(modelMatrix);
             }
 
             mesh.Render();

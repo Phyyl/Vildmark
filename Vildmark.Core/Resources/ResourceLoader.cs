@@ -57,7 +57,7 @@ namespace Vildmark.Resources
                 return default;
             }
 
-            return loader.Load(stream);
+            return loader.Load(stream, null, null);
         }
 
         public static TResource Load<TResource, TLoaderOptions>(Stream stream, TLoaderOptions options)
@@ -82,7 +82,7 @@ namespace Vildmark.Resources
             return Load<TResource, TLoaderOptions>(GetEmbeddedStream(name, assembly), options);
         }
 
-        byte[] IResourceLoader<byte[]>.Load(Stream stream)
+        byte[] IResourceLoader<byte[]>.Load(Stream stream, Assembly assembly, string resourceName)
         {
             if (stream is null)
             {
@@ -96,7 +96,7 @@ namespace Vildmark.Resources
             return ms.ToArray();
         }
 
-        string IResourceLoader<string>.Load(Stream stream)
+        string IResourceLoader<string>.Load(Stream stream, Assembly assembly, string resourceName)
         {
             if (stream is null)
             {
@@ -108,7 +108,7 @@ namespace Vildmark.Resources
             return reader.ReadToEnd();
         }
 
-        string[] IResourceLoader<string[]>.Load(Stream stream)
+        string[] IResourceLoader<string[]>.Load(Stream stream, Assembly assembly, string resourceName)
         {
             if (stream is null)
             {

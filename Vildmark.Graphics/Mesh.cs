@@ -6,8 +6,6 @@ namespace Vildmark.Graphics
 {
     public abstract class Mesh
     {
-        public Transform Transform { get; } = new();
-
         public GLVertexArray VertexArray { get; } = new GLVertexArray();
 
         public void Render(PrimitiveType primitiveType = PrimitiveType.Triangles)

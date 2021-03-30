@@ -10,8 +10,10 @@ namespace Vildmark.Graphics
 {
     public abstract class Model<TMesh, TMaterial, TShader> : IModel
         where TMesh : Mesh
-        where TShader : IMaterialShader<TMaterial>, IMeshShader<TMesh>
+        where TShader : Shader, IMaterialShader<TMaterial>, IMeshShader<TMesh>, IModelMatrixShader, ICameraShader
     {
+        public Transform Transform { get; } = new();
+
         public TMesh Mesh { get; init; }
         public TMaterial Material { get; init; }
         public TShader Shader { get; init; }
@@ -25,15 +27,7 @@ namespace Vildmark.Graphics
 
         public void Render(RenderContext renderContext)
         {
-            if (Shader is ICameraShader cameraShader)
-            {
-                cameraShader.SetupCamera(renderContext.Camera);
-            }
-
-            Shader.SetupMaterial(Material);
-            Shader.SetupMesh(Mesh);
-
-            Mesh.Render();
+            renderContext.Render(Shader, Mesh, Material, Transform.Matrix);
         }
     }
 }

@@ -27,14 +27,7 @@ namespace Vildmark.Graphics.Resources
         
         public void SetupMesh(Mesh<Vertex> mesh)
         {
-            if (mesh is null)
-            {
-                return;
-            }
-
-            ModelMatrix.SetValue(mesh.Transform.Matrix);
-
-            if (mesh.VertexArray is null || mesh.VertexBuffer is null)
+            if (mesh is null || mesh.VertexArray is null || mesh.VertexBuffer is null)
             {
                 return;
             }

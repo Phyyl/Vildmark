@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Reflection;
 using Vildmark.Graphics.GLObjects;
 using Vildmark.Resources;
 
@@ -18,7 +19,7 @@ namespace Vildmark.Graphics.Resources
             set => options = value ?? TextureLoadOptions.Default;
         }
 
-        public unsafe GLTexture2D Load(Stream stream)
+        public unsafe GLTexture2D Load(Stream stream, Assembly assembly, string resourceName)
         {
             Bitmap bitmap = new(stream);
             BitmapData data = bitmap.LockBits(new Rectangle(Point.Empty, bitmap.Size), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);

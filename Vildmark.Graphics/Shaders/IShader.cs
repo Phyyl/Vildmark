@@ -21,6 +21,11 @@ namespace Vildmark.Graphics.Shaders
         void Setup(TSetupInfo setupInfo);
     }
 
+    public interface IModelMatrixShader
+    {
+        void SetupModelMatrix(Matrix4 modelMatrix);
+    }
+
     public interface IMeshShader<TMesh>
         where TMesh : Mesh
     {

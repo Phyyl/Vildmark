@@ -1,5 +1,6 @@
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
+using System;
 using System.Diagnostics;
 using System.Linq;
 
@@ -75,7 +76,7 @@ namespace Vildmark.Graphics.GLObjects
 
             if (!shaderProgram.Linked)
             {
-                Debug.WriteLine($"Shader program info log: {shaderProgram.InfoLog}");
+                Console.WriteLine($"Shader program info log: {shaderProgram.InfoLog}");
 
                 return null;
             }
