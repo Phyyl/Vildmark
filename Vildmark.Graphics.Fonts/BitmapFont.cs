@@ -63,7 +63,7 @@ namespace Vildmark.Graphics.Fonts
 
             List<TextVertex> vertices = new();
 
-            Vector2 cursor = new Vector2(0, Base) * size;
+            Vector2 cursor = Vector2.Zero;
 
             foreach (var chr in str)
             {

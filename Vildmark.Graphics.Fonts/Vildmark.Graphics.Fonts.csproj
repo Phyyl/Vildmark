@@ -3,7 +3,6 @@
     <Import Project="Vildmark.Graphics.Fonts.props" />
 
     <ItemGroup>
-        <None Remove="Resources\Fonts\Bouncy.otf" />
         <None Remove="Resources\Shaders\text.frag" />
         <None Remove="Resources\Shaders\text.vert" />
         <None Remove="tools\linux\fontbm" />
@@ -47,10 +46,6 @@
 
     <ItemGroup>
         <Folder Include="tools\macos\" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Font Include="Resources\Fonts\Bouncy.otf" />
     </ItemGroup>
 
     <PropertyGroup>
