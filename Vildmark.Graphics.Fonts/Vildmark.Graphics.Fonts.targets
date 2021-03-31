@@ -10,7 +10,7 @@
         <FontGeneratorExecutable Condition="$([MSBuild]::IsOSPlatform('Windows'))">$(FontToolsFolder)windows\fontbm.exe</FontGeneratorExecutable>
     </PropertyGroup>
 
-    <Target Name="GenerateFonts" BeforeTargets="BeforeBuild">
+    <Target Name="GenerateFonts" BeforeTargets="BeforeBuild"  Condition=" '@(Font)' != '' ">
         
         <PropertyGroup>
             <GeneratedFontDirectory>$(GeneratedFontsRootDirectory)%(Font.RelativeDir)</GeneratedFontDirectory>
