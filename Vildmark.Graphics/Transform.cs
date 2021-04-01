@@ -1,12 +1,11 @@
 using OpenTK.Mathematics;
+using System;
 using Vildmark.Maths;
 
 namespace Vildmark.Graphics
 {
     public class Transform
     {
-        internal bool Inverse { get; init; }
-
         private Matrix4? matrix;
 
         private float scale;
@@ -92,11 +91,14 @@ namespace Vildmark.Graphics
             set => SetValue(ref origin.Z, value);
         }
 
+        public Vector3 ForwardVector => new(MathF.Sin(RotationY), 0, -MathF.Cos(RotationY));
+        public Vector3 RightVector => new Vector3(MathF.Cos(RotationY), 0, MathF.Sin(RotationY));
+
         public Matrix4 Matrix => matrix ??= CreateMatrix();
 
-        private Matrix4 CreateMatrix()
+        protected virtual Matrix4 CreateMatrix()
         {
-            return Inverse ? MatrixHelper.CreateMatrix(-Position, -Rotation, -Origin, Scale) : MatrixHelper.CreateMatrix(Position, Rotation, Origin, Scale);
+            return MatrixHelper.CreateMatrix(Position, Rotation, Origin, Scale);
         }
 
         private void SetValue<T>(ref T field, T value)

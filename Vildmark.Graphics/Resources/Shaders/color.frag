@@ -1,6 +1,6 @@
 #version 400
 
-uniform mat4 tint;
+uniform vec4 tint;
 
 in vec4 vert_frag_color;
 

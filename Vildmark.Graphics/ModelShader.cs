@@ -6,9 +6,10 @@ using Vildmark.Resources;
 
 namespace Vildmark.Graphics.Resources
 {
-    public class FontShader : Shader,
+    public class ModelShader : Shader,
         IMeshShader<Mesh<Vertex>>,
         ICameraShader,
+        IModelMatrixShader,
         IMaterialShader<TextureMaterial>
     {
         protected override string VertexShaderSource => ResourceLoader.LoadEmbedded<string>("texture.vert");
@@ -65,6 +66,11 @@ namespace Vildmark.Graphics.Resources
             }
 
             Tint.SetValue(material.Tint);
+        }
+
+        public void SetupModelMatrix(Matrix4 modelMatrix)
+        {
+            ModelMatrix.SetValue(modelMatrix);
         }
     }
 }

@@ -1,5 +1,6 @@
 using OpenTK.Mathematics;
 using System.Drawing;
+using Vildmark.Maths;
 
 namespace Vildmark.Graphics.Cameras
 {
@@ -12,10 +13,7 @@ namespace Vildmark.Graphics.Cameras
         private float zNear;
         private float zFar;
 
-        public Transform Transform { get; } = new Transform
-        {
-            Inverse = true
-        };
+        public Transform Transform { get; } = new CameraTransform();
 
         public int Width
         {
@@ -63,6 +61,14 @@ namespace Vildmark.Graphics.Cameras
         {
             field = value;
             projectionMatrix = null;
+        }
+
+        private class CameraTransform : Transform
+        {
+            protected override Matrix4 CreateMatrix()
+            {
+                return MatrixHelper.CreateMatrix(Origin, Rotation, Position, Scale);
+            }
         }
     }
 }

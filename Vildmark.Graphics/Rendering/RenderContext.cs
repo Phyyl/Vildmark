@@ -8,6 +8,9 @@ namespace Vildmark.Graphics.Rendering
 {
     public abstract class RenderContext
     {
+        private ModelShader modelShader;
+        private ColorShader colorShader;
+
         public Color4 ClearColor { get; set; } = Color4.CornflowerBlue;
 
         public abstract Camera Camera { get; }
@@ -42,6 +45,9 @@ namespace Vildmark.Graphics.Rendering
 
         public virtual void Begin()
         {
+            modelShader ??= new ModelShader();
+            colorShader ??= new ColorShader();
+
             Clear();
         }
 
@@ -54,15 +60,15 @@ namespace Vildmark.Graphics.Rendering
             GL.Viewport(0, 0, width, height);
         }
 
-        //public void Render(Mesh<ColorVertex> colorMesh, ColorMaterial material)
-        //{
+        public void Render(Mesh<ColorVertex> mesh, ColorMaterial material, Matrix4 modelMatrix)
+        {
+            Render(colorShader, mesh, material, modelMatrix);
+        }
 
-        //}
-
-        //public void Render(Mesh<Vertex> mesh, TextureMaterial material)
-        //{
-
-        //}
+        public void Render(Mesh<Vertex> mesh, TextureMaterial material, Matrix4 modelMatrix)
+        {
+            Render(modelShader, mesh, material, modelMatrix);
+        }
 
         public void Render(IModel model)
         {
@@ -71,7 +77,7 @@ namespace Vildmark.Graphics.Rendering
 
         public void Render<TShader, TMesh, TMaterial>(TShader shader, TMesh mesh, TMaterial material, Matrix4 modelMatrix)
             where TMesh : Mesh
-            where TShader : Shader
+            where TShader : Shader, IMeshShader<TMesh>, IModelMatrixShader, IMaterialShader<TMaterial>
         {
             shader.Use();
 
@@ -80,20 +86,9 @@ namespace Vildmark.Graphics.Rendering
                 cameraShader.SetupCamera(Camera);
             }
 
-            if (shader is IMaterialShader<TMaterial> materialShader)
-            {
-                materialShader.SetupMaterial(material);
-            }
-
-            if (shader is IMeshShader<TMesh> meshShader)
-            {
-                meshShader.SetupMesh(mesh);
-            }
-
-            if (shader is IModelMatrixShader modelMatrixShader)
-            {
-                modelMatrixShader.SetupModelMatrix(modelMatrix);
-            }
+            shader.SetupMaterial(material);
+            shader.SetupMesh(mesh);
+            shader.SetupModelMatrix(modelMatrix);
 
             mesh.Render();
         }

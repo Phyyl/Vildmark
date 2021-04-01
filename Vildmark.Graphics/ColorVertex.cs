@@ -16,5 +16,11 @@ namespace Vildmark.Graphics
         int IVertex.Size => Size;
         int IPositionVertex.PositionOffset => PositionOffset;
         int IColorVertex.ColorOffset => ColorOffset;
+
+        public ColorVertex(Vector3 position, Vector4 color)
+        {
+            Position = position;
+            Color = color;
+        }
     }
 }
