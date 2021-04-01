@@ -169,7 +169,7 @@ namespace Vildmark.Graphics.Shaders
             }
         }
 
-        public void SetValue(int index, T value)
+        public void SetValue(T value, int index)
         {
             if (!Defined || !Enabled)
             {

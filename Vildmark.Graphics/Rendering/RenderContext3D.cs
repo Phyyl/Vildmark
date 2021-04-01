@@ -1,16 +1,15 @@
+using OpenTK.Mathematics;
 using Vildmark.Graphics.Cameras;
 
 namespace Vildmark.Graphics.Rendering
 {
     public class RenderContext3D : RenderContext
     {
-        public PerspectiveCamera PerspectiveCamera { get; }
+        public override ICamera Camera { get; }
 
-        public override Camera Camera => PerspectiveCamera;
-
-        public RenderContext3D(int width, int height, float fovY)
+        private RenderContext3D(ICamera camera)
         {
-            PerspectiveCamera = new PerspectiveCamera(fovY, width, height);
+            Camera = camera;
         }
 
         public override void Begin()
@@ -19,5 +18,8 @@ namespace Vildmark.Graphics.Rendering
 
             EnableDepthTest();
         }
+
+        public static RenderContext3D CreateOrthographic(int width = 1920, int height = 1080, float zNear = 0.01f, float zFar = 1000) => new(new OrthographicCamera(width, height, zNear, zFar));
+        public static RenderContext3D CreatePerspective(float fovY = MathHelper.PiOver3, int width = 1920, int height = 1080, float zNear = 0.01f, float zFar = 1000) => new(new PerspectiveCamera(fovY, width, height, zNear, zFar));
     }
 }

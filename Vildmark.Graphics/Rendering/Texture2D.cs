@@ -6,6 +6,10 @@ namespace Vildmark.Graphics.Rendering
 {
     public class Texture2D
     {
+        private static Texture2D whitePixel;
+
+        public static Texture2D WhitePixel => whitePixel ??= new Texture2D(new GLTexture2D(1, 1, new byte[] { 255, 255, 255, 255 }));
+
         public GLTexture2D GLTexture { get; }
 
         public RectangleF SourceRectangle { get; }

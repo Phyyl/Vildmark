@@ -11,14 +11,14 @@ using Vildmark.Resources;
 
 namespace Vildmark.Qubicle
 {
-	[Register(typeof(IResourceLoader<QubicleModel>))]
-	public class QubicleMatrixLoader : IResourceLoader<QubicleModel>
+	[Register(typeof(IResourceLoader<QubicleMatrixCollection>))]
+	public class QubicleMatrixLoader : IResourceLoader<QubicleMatrixCollection>
 	{
-		public QubicleModel Load(Stream stream, Assembly assembly, string resourceName)
+		public QubicleMatrixCollection Load(Stream stream, Assembly assembly, string resourceName)
 		{
 			QubicleReader reader = new QubicleReader(stream);
 
-			return new QubicleModel(reader.ReadMatrices());
+			return new QubicleMatrixCollection(reader.ReadMatrices());
 		}
 
 		private class QubicleReader

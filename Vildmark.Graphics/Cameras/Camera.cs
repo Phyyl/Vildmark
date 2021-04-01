@@ -1,10 +1,11 @@
 using OpenTK.Mathematics;
 using System.Drawing;
+using Vildmark.Graphics.Shaders;
 using Vildmark.Maths;
 
 namespace Vildmark.Graphics.Cameras
 {
-    public abstract class Camera
+    public abstract class Camera : ICamera
     {
         private Matrix4? projectionMatrix;
 
@@ -61,6 +62,19 @@ namespace Vildmark.Graphics.Cameras
         {
             field = value;
             projectionMatrix = null;
+        }
+
+        public virtual void SetupShader(IShader shader)
+        {
+            if (shader is IProjectionMatrixShader projectionMatrixShader)
+            {
+                projectionMatrixShader.ProjectionMatrix.SetValue(ProjectionMatrix);
+            }
+
+            if (shader is IViewMatrixShader viewMatrixShader)
+            {
+                viewMatrixShader.ViewMatrix.SetValue(ViewMatrix);
+            }
         }
 
         private class CameraTransform : Transform

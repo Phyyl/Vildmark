@@ -9,11 +9,10 @@ namespace Vildmark.Graphics.Rendering
     public abstract class RenderContext
     {
         private ModelShader modelShader;
-        private ColorShader colorShader;
 
         public Color4 ClearColor { get; set; } = Color4.CornflowerBlue;
 
-        public abstract Camera Camera { get; }
+        public abstract ICamera Camera { get; }
 
         public RenderContext()
         {
@@ -45,8 +44,7 @@ namespace Vildmark.Graphics.Rendering
 
         public virtual void Begin()
         {
-            modelShader ??= new ModelShader();
-            colorShader ??= new ColorShader();
+            modelShader ??= new();
 
             Clear();
         }
@@ -60,99 +58,22 @@ namespace Vildmark.Graphics.Rendering
             GL.Viewport(0, 0, width, height);
         }
 
-        public void Render(Mesh<ColorVertex> mesh, ColorMaterial material, Matrix4 modelMatrix)
+        public void Render(IModel model, IShader shader = default)
         {
-            Render(colorShader, mesh, material, modelMatrix);
-        }
+            shader ??= modelShader;
 
-        public void Render(Mesh<Vertex> mesh, TextureMaterial material, Matrix4 modelMatrix)
-        {
-            Render(modelShader, mesh, material, modelMatrix);
-        }
-
-        public void Render(IModel model)
-        {
-            model.Render(this);
-        }
-
-        public void Render<TShader, TMesh, TMaterial>(TShader shader, TMesh mesh, TMaterial material, Matrix4 modelMatrix)
-            where TMesh : Mesh
-            where TShader : Shader, IMeshShader<TMesh>, IModelMatrixShader, IMaterialShader<TMaterial>
-        {
-            shader.Use();
-
-            if (shader is ICameraShader cameraShader)
+            if (shader is IModelMatrixShader modelMatrixShader)
             {
-                cameraShader.SetupCamera(Camera);
+                modelMatrixShader.ModelMatrix.SetValue(model.Transform.Matrix);
             }
 
-            shader.SetupMaterial(material);
-            shader.SetupMesh(mesh);
-            shader.SetupModelMatrix(modelMatrix);
+            shader.Use();
 
-            mesh.Render();
+            Camera.SetupShader(shader);
+
+            model.Mesh.SetupShader(shader);
+            model.Material.SetupShader(shader);
+            model.Mesh.Render();
         }
-
-        //public void Render(Mesh mesh, Material material)
-        //{
-        //    Render(mesh, material, offset: default(Vector3));
-        //}
-
-        //public void Render(Mesh mesh, Material material, Vector2 offset)
-        //{
-        //    Render(mesh, material, new Vector3(offset));
-        //}
-
-        //public void Render(Mesh mesh, Material material, Vector3 offset)
-        //{
-        //    Render(mesh, material, Matrix4.Identity, offset);
-        //}
-
-        //public void Render(Mesh mesh, Material material, Matrix4 modelMatrix)
-        //{
-        //    Render(mesh, material, modelMatrix, default(Vector3));
-        //}
-
-        //public void Render(Mesh mesh, Material material, Matrix4 modelMatrix, Vector2 offset = default)
-        //{
-        //    Render(mesh, material, modelMatrix, new Vector3(offset));
-        //}
-
-        //public void Render(Mesh mesh, Material material, Matrix4 modelMatrix, Vector3 offset = default)
-        //{
-        //    Render(mesh, material, Resources.Shaders.Material, modelMatrix, offset);
-        //}
-
-        //public void Render(Mesh mesh, Material material, TexturedShader shader)
-        //{
-        //    Render(mesh, material, shader, default(Vector3));
-        //}
-
-        //public void Render(Mesh mesh, Material material, TexturedShader shader, Vector2 offset = default)
-        //{
-        //    Render(mesh, material, shader, new Vector3(offset));
-        //}
-
-        //public void Render(Mesh mesh, Material material, TexturedShader shader, Vector3 offset = default)
-        //{
-        //    Render(mesh, material, shader, Matrix4.Identity, offset);
-        //}
-
-        //public virtual void Render(Mesh mesh, Material material, TexturedShader shader, Matrix4 modelMatrix)
-        //{
-        //    Render(mesh, material, shader, modelMatrix, default(Vector3));
-        //}
-
-        //public virtual void Render(Mesh mesh, Material material, TexturedShader shader, Matrix4 modelMatrix, Vector2 offset = default)
-        //{
-        //    Render(mesh, material, shader, modelMatrix, new Vector3(offset));
-        //}
-
-        //public virtual void Render(Mesh mesh, Material material, TexturedShader shader, Matrix4 modelMatrix, Vector3 offset = default)
-        //{
-        //    shader.Setup(material, Camera, modelMatrix, offset);
-
-        //    mesh.Render();
-        //}
     }
 }

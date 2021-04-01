@@ -1,10 +1,11 @@
 using OpenTK.Graphics.OpenGL;
 using System.Collections.Generic;
 using System.Linq;
+using Vildmark.Graphics.Meshes;
 
 namespace Vildmark.Graphics.Shapes
 {
-    public abstract class ShapeMesh : Mesh<Vertex>
+    public abstract class ShapeMesh : Mesh
     {
         protected bool needsUpdate = true;
 
@@ -15,7 +16,7 @@ namespace Vildmark.Graphics.Shapes
             base.VertexBuffer.SetData(GenerateVertices().ToArray());
         }
 
-        protected override void OnRender(PrimitiveType primitiveType = PrimitiveType.Triangles)
+        public override void Render(PrimitiveType primitiveType = PrimitiveType.Triangles)
         {
             if (needsUpdate)
             {
@@ -23,7 +24,7 @@ namespace Vildmark.Graphics.Shapes
                 needsUpdate = false;
             }
 
-            base.OnRender(primitiveType);
+            Render(primitiveType);
         }
 
         protected void SetValue<T>(ref T field, T value)

@@ -92,7 +92,7 @@ namespace Vildmark.Graphics
         }
 
         public Vector3 ForwardVector => new(MathF.Sin(RotationY), 0, -MathF.Cos(RotationY));
-        public Vector3 RightVector => new Vector3(MathF.Cos(RotationY), 0, MathF.Sin(RotationY));
+        public Vector3 RightVector => new(MathF.Cos(RotationY), 0, MathF.Sin(RotationY));
 
         public Matrix4 Matrix => matrix ??= CreateMatrix();
 

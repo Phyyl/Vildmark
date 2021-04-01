@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace Vildmark.Qubicle
 {
-	public class QubicleModel
+	public class QubicleMatrixCollection
 	{
 		private readonly Dictionary<string, QubicleMatrix> matrices;
 
@@ -13,7 +13,7 @@ namespace Vildmark.Qubicle
 
 		public QubicleMatrix this[string name] => matrices.GetValueOrDefault(name);
 
-		public QubicleModel(IEnumerable<QubicleMatrix> matrices)
+		public QubicleMatrixCollection(IEnumerable<QubicleMatrix> matrices)
 		{
 			this.matrices = matrices.ToDictionary(m => m.Name);
 		}

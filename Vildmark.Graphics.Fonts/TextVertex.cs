@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Vildmark.Graphics.Fonts
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct TextVertex : IVertex, IPositionVertex, ITexCoodVertex
+    public struct TextVertex
     {
         public static readonly int Size = Marshal.SizeOf<TextVertex>();
         public static readonly int PositionOffset = (int)Marshal.OffsetOf<TextVertex>(nameof(Position));
@@ -19,10 +19,6 @@ namespace Vildmark.Graphics.Fonts
         public Vector2 Position;
         public Vector2 TexCoord;
         public int TextureIndex;
-
-        int IVertex.Size => Size;
-        int IPositionVertex.PositionOffset => PositionOffset;
-        int ITexCoodVertex.TexCoordOffset => TexCoordOffset;
 
         public TextVertex(Vector2 position, Vector2 texCoord, int textureIndex)
         {

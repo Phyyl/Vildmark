@@ -3,42 +3,88 @@ using Vildmark.Graphics.Cameras;
 
 namespace Vildmark.Graphics.Shaders
 {
-    //public interface IShader<TMesh, TMaterial, TShaderSetupInfo>
-    //    where TMesh : Mesh
-    //    where TMaterial : Material
-    //{
-    //    void Setup(TMesh mesh, TMaterial material, Camera camera, TShaderSetupInfo setupInfo);
-    //}
-
-    //public interface IShader<TMesh, TMaterial> : IShader<TMesh, TMaterial, Matrix4>
-    //    where TMesh : Mesh
-    //    where TMaterial : Material
-    //{
-    //}
-
-    public interface ISetupShader<TSetupInfo>
+    public interface IShader
     {
-        void Setup(TSetupInfo setupInfo);
+        void Use();
     }
 
-    public interface IModelMatrixShader
+    public interface IColorShader : IShader
     {
-        void SetupModelMatrix(Matrix4 modelMatrix);
+        Attrib<Vector4> Color { get; }
     }
 
-    public interface IMeshShader<TMesh>
-        where TMesh : Mesh
+    public interface ITexCoordShader : IShader
     {
-        void SetupMesh(TMesh mesh);
+        Attrib<Vector2> TexCoord { get; }
     }
 
-    public interface ICameraShader
+    public interface IPositionShader : IShader
     {
-        void SetupCamera(Camera camera);
+        Attrib<Vector3> Position { get; }
     }
 
-    public interface IMaterialShader<TMaterial>
+    public interface INormalShader : IShader
     {
-        void SetupMaterial(TMaterial material);
+        Attrib<Vector3> Normal { get; }
+    }
+
+    public interface IModelMatrixShader : IShader
+    {
+        Uniform<Matrix4> ModelMatrix { get; }
+    }
+
+    public interface IViewMatrixShader : IShader
+    {
+        Uniform<Matrix4> ViewMatrix { get; }
+    }
+
+    public interface IProjectionMatrixShader : IShader
+    {
+        Uniform<Matrix4> ProjectionMatrix { get; }
+    }
+
+    public interface INormalMatrixShader : IShader
+    {
+        Uniform<Matrix4> NormalMatrix { get; }
+    }
+
+    public interface IModelViewProjectionMatrixShader : IProjectionMatrixShader, IViewMatrixShader, IModelMatrixShader
+    {
+    }
+
+    public interface ITextureShader : IShader
+    {
+        Uniform<Sampler2D> Texture { get; }
+    }
+
+    public interface ISourceRectShader : IShader
+    {
+        Uniform<Vector4> SourceRect { get; }
+    }
+
+    public interface ITexturesShader : IShader
+    {
+        int MaxTextures { get; }
+
+        IndexedUniform<Sampler2D> Textures { get; }
+    }
+
+    public interface ITextureIndexShader : IShader
+    {
+        Attrib<int> TextureIndex { get; }
+    }
+
+    public interface ITintShader : IShader
+    {
+        Uniform<Vector4> Tint { get; }
+    }
+
+    public interface IOffsetShader
+    {
+        Uniform<Vector3> Offset { get; }
+    }
+
+    public interface IVertexShader : IPositionShader, IColorShader, ITexCoordShader, INormalShader
+    {
     }
 }

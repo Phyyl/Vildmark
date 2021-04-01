@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 namespace Vildmark.Graphics
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct Vertex : IVertex, IPositionVertex, ITexCoodVertex, IColorVertex, INormalVertex
+    public struct Vertex
     {
         public static readonly int Size = Marshal.SizeOf<Vertex>();
         public static readonly int PositionOffset = (int)Marshal.OffsetOf<Vertex>(nameof(Position));
@@ -16,12 +16,6 @@ namespace Vildmark.Graphics
         public Vector2 TexCoord;
         public Vector4 Color;
         public Vector3 Normal;
-
-        int IVertex.Size => Size;
-        int IPositionVertex.PositionOffset => PositionOffset;
-        int ITexCoodVertex.TexCoordOffset => TexCoordOffset;
-        int IColorVertex.ColorOffset => ColorOffset;
-        int INormalVertex.NormalOffset => NormalOffset;
 
         public Vertex(Vector3 position) : this(position, default, Vector4.One, default) { }
         public Vertex(Vector3 position, Vector2 texCoord) : this(position, texCoord, Vector4.One, default) { }

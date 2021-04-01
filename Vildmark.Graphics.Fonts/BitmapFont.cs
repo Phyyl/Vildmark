@@ -51,9 +51,9 @@ namespace Vildmark.Graphics.Fonts
 
             TextVertex[] vertices = CreateStringVertices(text, size);
 
-            Mesh<TextVertex> mesh = new Mesh<TextVertex>(vertices);
+            TextMesh mesh = new(vertices);
 
-            return new TextModel(mesh, Pages, shader);
+            return new TextModel(mesh, Pages);
         }
 
         private TextVertex[] CreateStringVertices(string str, float size)

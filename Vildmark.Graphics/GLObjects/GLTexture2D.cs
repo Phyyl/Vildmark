@@ -27,7 +27,6 @@ namespace Vildmark.Graphics.GLObjects
         public GLTexture2D()
             : this(0, 0)
         {
-
         }
 
         public GLTexture2D(int width, int height, Span<byte> data = default, TextureLoadOptions options = default)
