@@ -5,7 +5,7 @@ using Vildmark.Resources;
 
 namespace Vildmark.Graphics.Shaders
 {
-    public class ColorShader : Shader, IColorShader, IPositionShader, IModelViewProjectionMatrixShader, ITintShader
+    public class ColorShader : Shader, IColorShader, INormalShader, IPositionShader, IModelViewProjectionMatrixShader, ITintShader
     {
         protected override string VertexShaderSource => ResourceLoader.LoadEmbedded<string>("color.vert");
         protected override string FragmentShaderSource => ResourceLoader.LoadEmbedded<string>("color.frag");
@@ -17,5 +17,6 @@ namespace Vildmark.Graphics.Shaders
 
         public Attrib<Vector3> Position { get; } = new Attrib<Vector3>("vert_position");
         public Attrib<Vector4> Color { get; } = new Attrib<Vector4>("vert_color");
+        public Attrib<Vector3> Normal { get; } = new Attrib<Vector3>("vert_normal");
     }
 }

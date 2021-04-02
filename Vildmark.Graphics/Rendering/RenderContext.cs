@@ -44,6 +44,8 @@ namespace Vildmark.Graphics.Rendering
 
         public virtual void Begin()
         {
+            GL.Viewport(0, 0, Camera.Width, Camera.Height);
+
             modelShader ??= new();
 
             Clear();
@@ -53,27 +55,11 @@ namespace Vildmark.Graphics.Rendering
         {
         }
 
-        public void SetViewPort(int width, int height)
-        {
-            GL.Viewport(0, 0, width, height);
-        }
-
         public void Render(IModel model, IShader shader = default)
         {
             shader ??= modelShader;
 
-            if (shader is IModelMatrixShader modelMatrixShader)
-            {
-                modelMatrixShader.ModelMatrix.SetValue(model.Transform.Matrix);
-            }
-
-            shader.Use();
-
-            Camera.SetupShader(shader);
-
-            model.Mesh.SetupShader(shader);
-            model.Material.SetupShader(shader);
-            model.Mesh.Render();
+            model.Render(shader, Camera);
         }
     }
 }

@@ -1,3 +1,4 @@
+using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.Materials;
 using Vildmark.Graphics.Meshes;
 using Vildmark.Graphics.Rendering;
@@ -12,6 +13,8 @@ namespace Vildmark.Graphics
         IMesh Mesh { get; }
 
         IMaterial Material { get; }
+
+        void Render(IShader shader, ICamera camera);
     }
 
     public interface IModel<TMesh, TMaterial> : IModel

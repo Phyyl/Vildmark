@@ -1,5 +1,6 @@
 using OpenTK.Mathematics;
 using Vildmark.Graphics.Cameras;
+using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Materials;
 using Vildmark.Graphics.Meshes;
 using Vildmark.Maths;
@@ -24,7 +25,7 @@ namespace Vildmark.Graphics.Shaders
         public Uniform<Vector4> Tint { get; } = new Uniform<Vector4>("tint");
 
         public Uniform<Vector4> SourceRect { get; } = new Uniform<Vector4>("source_rect");
-        public Uniform<Sampler2D> Texture { get; } = new Uniform<Sampler2D>("texture");
+        public Uniform<GLTexture2D> Texture { get; } = new Uniform<GLTexture2D>("tex");
 
         public Uniform<Vector3> Offset { get; } = new Uniform<Vector3>("offset");
     }

@@ -88,7 +88,7 @@ namespace Vildmark.Graphics.GLObjects
         public void Bind(int index = 0)
         {
             GL.ActiveTexture(TextureUnit.Texture0 + index);
-            GL.BindTexture(TextureTarget, 0);
+            GL.BindTexture(TextureTarget, this);
         }
 
         public void Unbind(int index = 0)

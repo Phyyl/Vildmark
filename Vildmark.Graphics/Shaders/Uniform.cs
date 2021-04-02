@@ -112,7 +112,6 @@ namespace Vildmark.Graphics.Shaders
                 return;
             }
 
-            GL.ActiveTexture(TextureUnit.Texture0 + index); 
             value.Bind(index);
             GL.Uniform1(location, index);
         }

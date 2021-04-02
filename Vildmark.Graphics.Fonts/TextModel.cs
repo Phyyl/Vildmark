@@ -3,23 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.Materials;
 using Vildmark.Graphics.Meshes;
+using Vildmark.Graphics.Shaders;
 
 namespace Vildmark.Graphics.Fonts
 {
-    public class TextModel : IModel<TextMesh, TextMaterial>
+    public class TextModel : Model<TextMesh, TextMaterial>
     {
         public TextModel(TextMesh mesh, TextMaterial material)
+            : base(mesh, material)
         {
-            Mesh = mesh;
-            Material = material;
         }
-
-        public Transform Transform { get; } = new();
-
-        public TextMaterial Material { get; }
-        
-        public TextMesh Mesh { get; }
     }
 }

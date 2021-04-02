@@ -1,5 +1,6 @@
 using OpenTK.Mathematics;
 using Vildmark.Graphics.Cameras;
+using Vildmark.Graphics.GLObjects;
 
 namespace Vildmark.Graphics.Shaders
 {
@@ -54,7 +55,7 @@ namespace Vildmark.Graphics.Shaders
 
     public interface ITextureShader : IShader
     {
-        Uniform<Sampler2D> Texture { get; }
+        Uniform<GLTexture2D> Texture { get; }
     }
 
     public interface ISourceRectShader : IShader
@@ -66,7 +67,7 @@ namespace Vildmark.Graphics.Shaders
     {
         int MaxTextures { get; }
 
-        IndexedUniform<Sampler2D> Textures { get; }
+        IndexedUniform<GLTexture2D> Textures { get; }
     }
 
     public interface ITextureIndexShader : IShader

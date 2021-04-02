@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Vildmark.Graphics.Cameras;
+using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Shaders;
 using Vildmark.Resources;
 
@@ -22,7 +23,7 @@ namespace Vildmark.Graphics.Fonts
         public Uniform<Matrix4> ViewMatrix { get; } = new Uniform<Matrix4>("view_matrix");
         public Uniform<Matrix4> ModelMatrix { get; } = new Uniform<Matrix4>("model_matrix");
         public Uniform<Vector4> Tint { get; } = new Uniform<Vector4>("tint");
-        public IndexedUniform<Sampler2D> Textures { get; } = new IndexedUniform<Sampler2D>("textures");
+        public IndexedUniform<GLTexture2D> Textures { get; } = new IndexedUniform<GLTexture2D>("textures");
 
         public int MaxTextures => 8;
     }
