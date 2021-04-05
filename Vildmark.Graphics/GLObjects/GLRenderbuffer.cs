@@ -4,7 +4,7 @@ namespace Vildmark.Graphics.GLObjects
 {
     public class GLRenderbuffer : GLObject
     {
-        public GLRenderbuffer(int width, int height, RenderbufferTarget renderbufferTarget = RenderbufferTarget.Renderbuffer, RenderbufferStorage renderbufferStorage = RenderbufferStorage.DepthComponent)
+        public GLRenderbuffer(int width, int height, RenderbufferTarget renderbufferTarget = RenderbufferTarget.Renderbuffer, RenderbufferStorage renderbufferStorage = RenderbufferStorage.Rgba8)
             : base(GL.GenRenderbuffer())
         {
             RenderbufferTarget = renderbufferTarget;

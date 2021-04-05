@@ -29,10 +29,10 @@ namespace Vildmark.Graphics.GLObjects
         {
         }
 
-        public GLTexture2D(int width, int height, Span<byte> data = default, TextureLoadOptions options = default)
+        public GLTexture2D(int width, int height, Span<byte> data = default, TextureOptions options = default)
             : base(GL.GenTexture())
         {
-            options ??= TextureLoadOptions.Default;
+            options ??= TextureOptions.Default;
 
             MagFilter = options.MagFilter;
             MinFilter = options.MinFilter;

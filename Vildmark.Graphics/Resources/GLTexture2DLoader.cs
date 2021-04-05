@@ -9,14 +9,14 @@ using Vildmark.Resources;
 namespace Vildmark.Graphics.Resources
 {
     [Register(typeof(IResourceLoader<GLTexture2D>))]
-    internal class GLTexture2DLoader : IResourceLoader<GLTexture2D>, IResourceLoaderOptions<GLTexture2D, TextureLoadOptions>
+    internal class GLTexture2DLoader : IResourceLoader<GLTexture2D>, IResourceLoaderOptions<GLTexture2D, TextureOptions>
     {
-        private TextureLoadOptions options;
+        private TextureOptions options;
 
-        public TextureLoadOptions Options
+        public TextureOptions Options
         {
             get => options;
-            set => options = value ?? TextureLoadOptions.Default;
+            set => options = value ?? TextureOptions.Default;
         }
 
         public unsafe GLTexture2D Load(Stream stream, Assembly assembly, string resourceName)

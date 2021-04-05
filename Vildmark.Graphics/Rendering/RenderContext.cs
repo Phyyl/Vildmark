@@ -10,6 +10,8 @@ namespace Vildmark.Graphics.Rendering
     {
         private ModelShader modelShader;
 
+        public FrameBuffer FrameBuffer { get; private set; }
+
         public Color4 ClearColor { get; set; } = Color4.CornflowerBlue;
 
         public abstract ICamera Camera { get; }
@@ -42,17 +44,33 @@ namespace Vildmark.Graphics.Rendering
             GL.Disable(EnableCap.DepthTest);
         }
 
-        public virtual void Begin()
+        public virtual void Begin(FrameBuffer frameBuffer = default, bool clear = true)
         {
-            GL.Viewport(0, 0, Camera.Width, Camera.Height);
-
             modelShader ??= new();
 
-            Clear();
+            FrameBuffer = frameBuffer;
+
+            if (FrameBuffer is not null)
+            {
+                FrameBuffer.Bind();
+            }
+            else
+            {
+                GL.Viewport(0, 0, Camera.Width, Camera.Height);
+            }
+
+            if (clear)
+            {
+                Clear();
+            }
         }
 
         public virtual void End()
         {
+            if (FrameBuffer is not null)
+            {
+                FrameBuffer.Unbind();
+            }
         }
 
         public void Render(IModel model, IShader shader = default)

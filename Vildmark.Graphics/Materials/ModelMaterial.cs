@@ -7,7 +7,7 @@ namespace Vildmark.Graphics.Materials
 {
     public class ModelMaterial : ColorMaterial
     {
-        public Texture2D Texture { get; init; }
+        public Texture2D Texture { get; set; }
 
         public Vector3 Offset { get; set; }
 

@@ -39,10 +39,14 @@ namespace Vildmark.Graphics.GLObjects
             GL.FramebufferTexture(FramebufferTarget, framebufferAttachment, texture, 0);
         }
 
-        public void DrawBuffer(GLRenderbuffer renderbuffer, DrawBufferMode drawBufferMode)
+        public void DrawBuffer(DrawBufferMode drawBufferMode)
         {
-            renderbuffer.Bind();
             GL.DrawBuffer(drawBufferMode);
+        }
+
+        public void ReadBuffer(ReadBufferMode readBufferMode)
+        {
+            GL.ReadBuffer(readBufferMode);
         }
 
         public static void Unbind(FramebufferTarget target)

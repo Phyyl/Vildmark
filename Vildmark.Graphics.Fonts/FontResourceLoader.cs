@@ -40,7 +40,7 @@ namespace Vildmark.Graphics.Fonts.Resources
             return new(chars)
             {
                 Name = definition.Info.Face,
-                Pages = definition.Pages.Select(p => ResourceLoader.LoadEmbedded<GLTexture2D, TextureLoadOptions>(p, TextureLoadOptions.Linear)).ToArray(),
+                Pages = definition.Pages.Select(p => ResourceLoader.LoadEmbedded<GLTexture2D, TextureOptions>(p, TextureOptions.Linear)).ToArray(),
                 LineHeight = definition.Common.LineHeight,
                 Size = Math.Abs(definition.Info.Size),
                 Base = definition.Common.Base

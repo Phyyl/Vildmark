@@ -12,9 +12,9 @@ namespace Vildmark.Graphics.Rendering
             Camera = camera;
         }
 
-        public override void Begin()
+        public override void Begin(FrameBuffer frameBuffer = default, bool clear = true)
         {
-            base.Begin();
+            base.Begin(frameBuffer, clear);
 
             EnableDepthTest();
         }

@@ -4,13 +4,18 @@ namespace Vildmark.Graphics.Rendering
 {
     public class RenderContext2D : RenderContext
     {
-        public OrthographicOffCenterCamera OrthographicCamera { get; }
+        private readonly ICamera camera;
 
-        public override Camera Camera => OrthographicCamera;
+        public override ICamera Camera => camera;
 
-        public RenderContext2D(int width = 1920, int height = 1080)
+        private RenderContext2D(ICamera camera)
         {
-            OrthographicCamera = new OrthographicOffCenterCamera(width, height);
+            this.camera = camera;
+        }
+
+        public static RenderContext2D Create(int width = 1920, int height = 1080, float zNear = 1, float zFar = -1)
+        {
+            return new RenderContext2D(new OrthographicOffCenterCamera(width, height, zNear, zFar));
         }
     }
 }
