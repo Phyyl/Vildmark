@@ -24,6 +24,19 @@ namespace Vildmark.Graphics.Meshes
         public virtual void SetupShader(IShader shader)
         {
             VertexArray.Bind();
+        }
+    }
+
+    public class Mesh : Mesh<Vertex>
+    {
+        public Mesh(Span<Vertex> vertices = default)
+            : base(vertices)
+        {
+        }
+
+        public override void SetupShader(IShader shader)
+        {
+            base.SetupShader(shader);
 
             if (shader is IColorShader colorShader)
             {
@@ -44,14 +57,6 @@ namespace Vildmark.Graphics.Meshes
             {
                 texCoordShader.TexCoord.Setup(VertexBuffer, Vertex.TexCoordOffset);
             }
-        }
-    }
-
-    public class Mesh : Mesh<Vertex>
-    {
-        public Mesh(Span<Vertex> vertices = default)
-            : base(vertices)
-        {
         }
     }
 }

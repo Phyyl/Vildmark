@@ -19,12 +19,22 @@ namespace Vildmark.Graphics.Fonts
 
         public override void SetupShader(IShader shader)
         {
+            base.SetupShader(shader);
+
             if (shader is ITextureIndexShader textureIndexShader)
             {
                 textureIndexShader.TextureIndex.Setup(VertexBuffer, TextVertex.TextureIndexOffset);
             }
 
-            base.SetupShader(shader);
+            if (shader is IPosition2Shader positionShader)
+            {
+                positionShader.Position.Setup(VertexBuffer, TextVertex.PositionOffset);
+            }
+
+            if (shader is ITexCoordShader texCoordShader)
+            {
+                texCoordShader.TexCoord.Setup(VertexBuffer, Vertex.TexCoordOffset);
+            }
         }
     }
 }

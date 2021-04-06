@@ -24,6 +24,11 @@ namespace Vildmark.Graphics.Shaders
         Attrib<Vector3> Position { get; }
     }
 
+    public interface IPosition2Shader : IShader
+    {
+        Attrib<Vector2> Position { get; }
+    }
+
     public interface INormalShader : IShader
     {
         Attrib<Vector3> Normal { get; }
