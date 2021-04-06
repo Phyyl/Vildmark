@@ -52,22 +52,12 @@ namespace Vildmark.Resources
 
         public static TResource Load<TResource>(Stream stream)
         {
-            if (!Service.TryGet<IResourceLoader<TResource>>(out var loader))
-            {
-                return default;
-            }
-
-            return loader.Load(stream, null, null);
+            return Load<TResource>(stream, null, null);
         }
 
         public static TResource Load<TResource, TLoaderOptions>(Stream stream, TLoaderOptions options)
         {
-            if (Service.TryGet<IResourceLoaderOptions<TResource, TLoaderOptions>>(out var loaderOptions))
-            {
-                loaderOptions.Options = options;
-            }
-
-            return Load<TResource>(stream);
+            return Load<TResource, TLoaderOptions>(stream, options, null, null);
         }
 
         public static TResource LoadEmbedded<TResource>(string name) => LoadEmbedded<TResource>(name, Assembly.GetCallingAssembly());
@@ -80,6 +70,26 @@ namespace Vildmark.Resources
         public static TResource LoadEmbedded<TResource, TLoaderOptions>(string name, TLoaderOptions options, Assembly assembly)
         {
             return Load<TResource, TLoaderOptions>(GetEmbeddedStream(name, assembly), options);
+        }
+
+        private static TResource Load<TResource>(Stream stream, Assembly assembly, string resourceName)
+        {
+            if (!Service.TryGet<IResourceLoader<TResource>>(out var loader))
+            {
+                return default;
+            }
+
+            return loader.Load(stream, assembly, resourceName);
+        }
+
+        private static TResource Load<TResource, TLoaderOptions>(Stream stream, TLoaderOptions options, Assembly assembly, string resourceName)
+        {
+            if (Service.TryGet<IResourceLoaderOptions<TResource, TLoaderOptions>>(out var loaderOptions))
+            {
+                loaderOptions.Options = options;
+            }
+
+            return Load<TResource>(stream);
         }
 
         byte[] IResourceLoader<byte[]>.Load(Stream stream, Assembly assembly, string resourceName)
