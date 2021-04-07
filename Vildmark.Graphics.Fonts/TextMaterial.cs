@@ -11,25 +11,26 @@ using Vildmark.Graphics.Shaders;
 
 namespace Vildmark.Graphics.Fonts
 {
-    public class TextMaterial : IMaterial
+    public class TextMaterial : ColorMaterial
     {
         public GLTexture2D[] Pages { get; init; }
 
-        public Vector4 Tint { get; set; }
-
-        public TextMaterial(params GLTexture2D[] pages)
+        public TextMaterial(Vector4 tint, params GLTexture2D[] pages)
+            : base(tint)
         {
             Pages = pages;
         }
 
+        public TextMaterial(params GLTexture2D[] pages)
+            : this(Vector4.One, pages)
+        {
+        }
+
         public static implicit operator TextMaterial(GLTexture2D[] pages) => new(pages);
 
-        public void SetupShader(IShader shader)
+        public override void SetupShader(IShader shader)
         {
-            if (shader is ITintShader tintShader)
-            {
-                tintShader.Tint.SetValue(Tint);
-            }
+            base.SetupShader(shader);
 
             if (shader is ITexturesShader texturesShader)
             {
