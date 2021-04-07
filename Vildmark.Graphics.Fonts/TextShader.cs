@@ -11,7 +11,7 @@ using Vildmark.Resources;
 
 namespace Vildmark.Graphics.Fonts
 {
-    public class TextShader : Shader, IPosition2Shader, ITexCoordShader, ITextureIndexShader, IProjectionMatrixShader, ITintShader, ITexturesShader
+    public class TextShader : Shader, IPosition2Shader, ITexCoordShader, ITextureIndexShader, IModelViewProjectionMatrixShader, ITintShader, ITexturesShader
     {
         protected override string VertexShaderSource => ResourceLoader.LoadEmbedded<string>("text.vert");
         protected override string FragmentShaderSource => ResourceLoader.LoadEmbedded<string>("text.frag");
