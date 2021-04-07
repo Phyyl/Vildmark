@@ -33,7 +33,7 @@ namespace Vildmark.Graphics.Fonts
 
             if (shader is ITexCoordShader texCoordShader)
             {
-                texCoordShader.TexCoord.Setup(VertexBuffer, Vertex.TexCoordOffset);
+                texCoordShader.TexCoord.Setup(VertexBuffer, TextVertex.TexCoordOffset);
             }
         }
     }
