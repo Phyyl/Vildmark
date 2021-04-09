@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Vildmark.Graphics.Shapes
 {
-    public class RectangleShapeMesh : ShapeMesh
+    public class RectangleModel : ShapeModel
     {
         private Vector2 size;
 
@@ -25,12 +25,12 @@ namespace Vildmark.Graphics.Shapes
             set => SetValue(ref size, value);
         }
 
-        public RectangleShapeMesh(Vector2 size)
+        public RectangleModel(Vector2 size)
         {
             Size = size;
         }
 
-        public RectangleShapeMesh(float width, float height)
+        public RectangleModel(float width, float height)
             : this(new Vector2(width, height))
         {
         }

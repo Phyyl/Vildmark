@@ -28,7 +28,7 @@ namespace Vildmark.Graphics
             Material = material;
         }
 
-        public void Render(IShader shader, ICamera camera)
+        public virtual void Render(IShader shader, ICamera camera)
         {
             shader.Use();
 

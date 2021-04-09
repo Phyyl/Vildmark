@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Vildmark.Graphics.Shapes
 {
-    public class CircleShapeMesh : ShapeMesh
+    public class CircleModel : ShapeModel
     {
         private int sides;
         private float radius;
@@ -22,7 +22,7 @@ namespace Vildmark.Graphics.Shapes
             set => SetValue(ref sides, value);
         }
 
-        public CircleShapeMesh(float radius, int sides = 36)
+        public CircleModel(float radius, int sides = 36)
         {
             Radius = radius;
             Sides = sides;

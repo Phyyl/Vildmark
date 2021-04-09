@@ -10,10 +10,6 @@ namespace Vildmark.Graphics
     {
         Transform Transform { get; }
 
-        IMesh Mesh { get; }
-
-        IMaterial Material { get; }
-
         void Render(IShader shader, ICamera camera);
     }
 
@@ -21,12 +17,8 @@ namespace Vildmark.Graphics
         where TMesh : IMesh
         where TMaterial : IMaterial
     {
-        new TMesh Mesh { get; }
+        TMesh Mesh { get; }
 
-        new TMaterial Material { get; }
-
-        IMesh IModel.Mesh => Mesh;
-
-        IMaterial IModel.Material => Material;
+        TMaterial Material { get; }
     }
 }
