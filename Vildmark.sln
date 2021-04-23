@@ -26,6 +26,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vildmark.Tests", "Vildmark.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vildmark.Qubicle", "Vildmark.Qubicle\Vildmark.Qubicle.csproj", "{EFAF5B9C-E63E-44C2-B81D-5C4C9D7EEAFC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vildmark.Audio", "Vildmark.Audio\Vildmark.Audio.csproj", "{7DB38478-AC8E-455B-B434-961EC530E52C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -132,6 +134,18 @@ Global
 		{EFAF5B9C-E63E-44C2-B81D-5C4C9D7EEAFC}.Release|x64.Build.0 = Release|Any CPU
 		{EFAF5B9C-E63E-44C2-B81D-5C4C9D7EEAFC}.Release|x86.ActiveCfg = Release|Any CPU
 		{EFAF5B9C-E63E-44C2-B81D-5C4C9D7EEAFC}.Release|x86.Build.0 = Release|Any CPU
+		{7DB38478-AC8E-455B-B434-961EC530E52C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DB38478-AC8E-455B-B434-961EC530E52C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DB38478-AC8E-455B-B434-961EC530E52C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7DB38478-AC8E-455B-B434-961EC530E52C}.Debug|x64.Build.0 = Debug|Any CPU
+		{7DB38478-AC8E-455B-B434-961EC530E52C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7DB38478-AC8E-455B-B434-961EC530E52C}.Debug|x86.Build.0 = Debug|Any CPU
+		{7DB38478-AC8E-455B-B434-961EC530E52C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DB38478-AC8E-455B-B434-961EC530E52C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DB38478-AC8E-455B-B434-961EC530E52C}.Release|x64.ActiveCfg = Release|Any CPU
+		{7DB38478-AC8E-455B-B434-961EC530E52C}.Release|x64.Build.0 = Release|Any CPU
+		{7DB38478-AC8E-455B-B434-961EC530E52C}.Release|x86.ActiveCfg = Release|Any CPU
+		{7DB38478-AC8E-455B-B434-961EC530E52C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

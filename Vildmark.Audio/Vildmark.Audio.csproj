@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="OpenTK.OpenAL" Version="$(OpenTKPackageVersion)" />
+  </ItemGroup>
+</Project>
