@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Vildmark.Resources
 {
-    public interface IResourceLoaderOptions<TResource, TOptions>
+    public interface IResourceLoaderOptions<TResource, TOptions> : IResourceLoader<TResource>
     {
         TOptions Options { get; set; }
     }

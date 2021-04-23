@@ -87,6 +87,8 @@ namespace Vildmark.Resources
             if (Service.TryGet<IResourceLoaderOptions<TResource, TLoaderOptions>>(out var loaderOptions))
             {
                 loaderOptions.Options = options;
+
+                return loaderOptions.Load(stream, assembly, resourceName);
             }
 
             return Load<TResource>(stream);

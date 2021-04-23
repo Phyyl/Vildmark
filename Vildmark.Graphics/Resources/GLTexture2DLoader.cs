@@ -9,6 +9,7 @@ using Vildmark.Resources;
 namespace Vildmark.Graphics.Resources
 {
     [Register(typeof(IResourceLoader<GLTexture2D>))]
+    [Register(typeof(IResourceLoaderOptions<GLTexture2D, TextureOptions>))]
     internal class GLTexture2DLoader : IResourceLoader<GLTexture2D>, IResourceLoaderOptions<GLTexture2D, TextureOptions>
     {
         private TextureOptions options;
