@@ -5,7 +5,7 @@ namespace Vildmark.Graphics.Materials
 {
     public class ColorMaterial : IMaterial
     {
-        public Vector4 Tint { get; init; }
+        public Vector4 Tint { get; set; }
 
         public ColorMaterial()
             : this(Vector4.One)
