@@ -2,4 +2,7 @@
   <ItemGroup>
     <PackageReference Include="OpenTK.OpenAL" Version="$(OpenTKPackageVersion)" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Vildmark.Core\Vildmark.Core.csproj" />
+  </ItemGroup>
 </Project>
