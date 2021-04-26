@@ -1,19 +1,26 @@
-﻿using OpenTK.Mathematics;
+using OpenTK.Mathematics;
 using System;
 
 namespace Vildmark.Maths.Physics
 {
     public static class CollisionDetection
     {
-        public static AABBIntersectionResult IntersectMovingAABBToAABB(AABB a, Vector3 movement, AABB b)
+        public static AABB3DIntersectionResult IntersectMovingAABBToAABB(AABB3D a, Vector3 movement, AABB3D b)
         {
-            LineSegment segment = new(a.Center, a.Center + movement);
-            AABB other = b.Inflate(a.Size);
+            LineSegment3D segment = new(a.Center, a.Center + movement);
+            AABB3D other = b.Inflate(a.Size);
+
+            return IntersectLineSegmentToAABB(segment, other);
+        }
+        public static AABB2DIntersectionResult IntersectMovingAABBToAABB(AABB2D a, Vector2 movement, AABB2D b)
+        {
+            LineSegment2D segment = new(a.Center, a.Center + movement);
+            AABB2D other = b.Inflate(a.Size);
 
             return IntersectLineSegmentToAABB(segment, other);
         }
 
-        public static AABBIntersectionResult IntersectLineSegmentToAABB(LineSegment line, AABB box)
+        public static AABB3DIntersectionResult IntersectLineSegmentToAABB(LineSegment3D line, AABB3D box)
         {
             float tMax = 1;
             float tMin = 0;
@@ -23,7 +30,7 @@ namespace Vildmark.Maths.Physics
             {
                 if (Math.Abs(direction[i]) < float.Epsilon)
                 {
-                    if (line.Start[i] < box.Min[i] || line.Start[i] > box.Max[i])
+                    if (line.Start[i] <= box.Min[i] || line.Start[i] >= box.Max[i])
                     {
                         return default;
                     }
@@ -63,7 +70,59 @@ namespace Vildmark.Maths.Physics
                 return AABBFace.None;
             }
 
-            return new AABBIntersectionResult(position, movement, GetFace(), box);
+            return new AABB3DIntersectionResult(position, movement, GetFace(), box);
+        }
+
+        public static AABB2DIntersectionResult IntersectLineSegmentToAABB(LineSegment2D line, AABB2D box)
+        {
+            float tMax = 1;
+            float tMin = float.Epsilon;
+            Vector2 direction = line.Movement;
+
+            for (int i = 0; i < 2; i++)
+            {
+                if (Math.Abs(direction[i]) < float.Epsilon)
+                {
+                    if (line.Start[i] <= box.Min[i] || line.Start[i] >= box.Max[i])
+                    {
+                        return default;
+                    }
+                }
+                else
+                {
+                    float ood = 1 / direction[i];
+                    float t1 = (box.Min[i] - line.Start[i]) * ood;
+                    float t2 = (box.Max[i] - line.Start[i]) * ood;
+
+                    if (t1 > t2)
+                    {
+                        (t1, t2) = (t2, t1);
+                    }
+
+                    tMin = Math.Max(tMin, t1);
+                    tMax = Math.Min(tMax, t2);
+
+                    if (tMin > tMax)
+                    {
+                        return default;
+                    }
+                }
+            }
+
+            Vector2 movement = direction * tMin;
+            Vector2 position = line.Start + movement;
+
+            AABBFace GetFace()
+            {
+                if (position.X == box.Left) return AABBFace.Left;
+                if (position.X == box.Right) return AABBFace.Right;
+                if (position.Y == box.Bottom) return AABBFace.Bottom;
+                if (position.Y == box.Top) return AABBFace.Top;
+
+                return AABBFace.None;
+            }
+
+            return new AABB2DIntersectionResult(position, movement, GetFace(), box);
         }
     }
 }

@@ -1,8 +1,8 @@
-﻿using OpenTK.Mathematics;
+using OpenTK.Mathematics;
 
 namespace Vildmark.Maths.Physics
 {
-    public struct LineSegment
+    public struct LineSegment3D
     {
         public Vector3 Start;
         public Vector3 End;
@@ -11,7 +11,7 @@ namespace Vildmark.Maths.Physics
         public Vector3 Movement => End - Start;
         public float Length => Movement.Length;
 
-        public LineSegment(Vector3 start, Vector3 end)
+        public LineSegment3D(Vector3 start, Vector3 end)
         {
             Start = start;
             End = end;

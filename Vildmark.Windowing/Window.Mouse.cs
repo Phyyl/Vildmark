@@ -1,4 +1,5 @@
-﻿using OpenTK.Mathematics;
+using OpenTK.Mathematics;
+using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace Vildmark.Windowing
@@ -6,9 +7,10 @@ namespace Vildmark.Windowing
     public partial class Window : IMouse
 	{
 		public Vector2 Delta { get; private set; }
-		public Vector2 Position { get; private set; }
+        public Vector2 Position { get; private set; }
+        public Vector2 Wheel { get; private set; }
 
-		public bool IsMouseGrabbed
+        public bool IsMouseGrabbed
 		{
 			get => gameWindow.CursorGrabbed;
 			set
@@ -37,5 +39,23 @@ namespace Vildmark.Windowing
 		{
 			return !gameWindow.IsMouseButtonDown(mouseButton);
 		}
-	}
+
+        private void GameWindow_MouseWheel(MouseWheelEventArgs e)
+        {
+            Wheel = e.Offset;
+        }
+
+        private void BeginUpdateMouse()
+        {
+            Vector2 previousPosition = Position;
+
+            Position = gameWindow.MousePosition;
+            Delta = Position - previousPosition;
+        }
+
+        private void EndUpdateMouse()
+        {
+            Wheel = Vector2.Zero;
+        }
+    }
 }
