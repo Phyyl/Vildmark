@@ -56,6 +56,8 @@ namespace Vildmark.Windowing
         {
             gameWindow.MakeCurrent();
 
+            Size = new Vector2i(gameWindow.ClientSize.X, gameWindow.ClientSize.Y);
+
             WindowHandler?.Load();
         }
 
