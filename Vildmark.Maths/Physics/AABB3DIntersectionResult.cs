@@ -29,4 +29,15 @@ namespace Vildmark.Maths.Physics
             };
         }
     }
+
+    public class AABB3DIntersectionResult<T> : AABB3DIntersectionResult
+    {
+        public T Target { get; }
+
+        public AABB3DIntersectionResult(Vector3 position, Vector3 movement, AABBFace face, AABB3D other, T target)
+            : base(position, movement, face, other)
+        {
+            Target = target;
+        }
+    }
 }

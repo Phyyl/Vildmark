@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-      <OpenTKPackageVersion>4.6.3</OpenTKPackageVersion>
+      <OpenTKPackageVersion>4.6.4</OpenTKPackageVersion>
   </PropertyGroup>
   
 </Project>

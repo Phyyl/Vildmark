@@ -32,4 +32,15 @@ namespace Vildmark.Maths.Physics
             };
         }
     }
+
+    public class AABB2DIntersectionResult<T> : AABB2DIntersectionResult
+    {
+        public T Target { get; }
+
+        public AABB2DIntersectionResult(Vector2 position, Vector2 movement, AABBFace face, AABB2D other, T target)
+            : base(position, movement, face, other)
+        {
+            Target = target;
+        }
+    }
 }
