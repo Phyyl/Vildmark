@@ -40,8 +40,10 @@ namespace Vildmark.Graphics.GLObjects
         }
     }
 
-    public class GLBuffer<T> : GLBuffer where T : unmanaged
+    public unsafe class GLBuffer<T> : GLBuffer where T : unmanaged
     {
+        public int ElementSize => sizeof(T);
+
         public GLBuffer(int size = default, BufferTarget bufferTarget = BufferTarget.ArrayBuffer, BufferUsageHint bufferUsageHint = BufferUsageHint.StaticDraw)
             : this(new Span<T>(new T[size]), bufferTarget, bufferUsageHint)
         {

@@ -46,6 +46,8 @@ namespace Vildmark.Graphics.Cameras
 
         public Matrix4 ViewMatrix => Transform.Matrix;
 
+        public Matrix4 Matrix => ViewMatrix * ProjectionMatrix;
+
         public float AspectRatio => width / (float)height;
 
         protected Camera(int width, int height, float zNear, float zFar)
@@ -62,6 +64,12 @@ namespace Vildmark.Graphics.Cameras
         {
             field = value;
             projectionMatrix = null;
+        }
+
+        public virtual void Resize(int width, int height)
+        {
+            Width = width;
+            Height = height;
         }
 
         public virtual void SetupShader(IShader shader)

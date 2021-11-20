@@ -18,7 +18,7 @@ namespace Vildmark.Graphics.Meshes
 
         public virtual void Render(PrimitiveType primitiveType = PrimitiveType.Triangles)
         {
-            GL.DrawArrays(primitiveType, 0, VertexBuffer.Count);
+            VertexArray.DrawArrays(primitiveType, 0, VertexBuffer.Count);
         }
 
         public virtual void SetupShader(IShader shader)

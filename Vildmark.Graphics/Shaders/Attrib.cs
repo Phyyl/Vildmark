@@ -11,6 +11,7 @@ namespace Vildmark.Graphics.Shaders
         }
     }
 
+    //TODO: Refactor to use VertexArray.VertexAttribArray
     public class Attrib<T> : Attrib where T : unmanaged
     {
         private unsafe readonly int size = sizeof(T) / sizeof(float);
