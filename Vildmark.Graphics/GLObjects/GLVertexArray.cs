@@ -21,7 +21,7 @@ namespace Vildmark.Graphics.GLObjects
         {
             Bind();
             GL.VertexAttribPointer(index, size, type, false, stride, offset);
-            GL.EnableVertexAttribArray(index); 
+            GL.EnableVertexAttribArray(index);
         }
 
         public void VertexAttribPointer<T>(int index, int size, VertexAttribPointerType type, GLBuffer<T> buffer, int offset)
@@ -35,6 +35,17 @@ namespace Vildmark.Graphics.GLObjects
         public void VertexAttribPointer(int index, GLBuffer<Vector2> buffer) => VertexAttribPointer(index, 2, VertexAttribPointerType.Float, buffer, 0);
         public void VertexAttribPointer(int index, GLBuffer<Vector3> buffer) => VertexAttribPointer(index, 3, VertexAttribPointerType.Float, buffer, 0);
         public void VertexAttribPointer(int index, GLBuffer<Vector4> buffer) => VertexAttribPointer(index, 4, VertexAttribPointerType.Float, buffer, 0);
+
+        public void VertexAttribPointers<T>(GLBuffer<T> buffer)
+            where T : unmanaged, IAttribPointers
+        {
+            buffer.Bind();
+
+            foreach (var attrib in new T().GetAttribPointers())
+            {
+                VertexAttribPointer(attrib.Index, attrib.Size, attrib.Type, attrib.Stride, attrib.Offset);
+            }
+        }
 
         public void DrawArrays(PrimitiveType primitiveType, int first, int count)
         {
@@ -53,6 +64,14 @@ namespace Vildmark.Graphics.GLObjects
         protected override void DisposeOpenGL()
         {
             GL.DeleteVertexArray(this);
+        }
+
+        public static GLVertexArray Create<T>(GLBuffer<T> buffer)
+            where T : unmanaged, IAttribPointers
+        {
+            GLVertexArray vertexArray = new GLVertexArray();
+            vertexArray.VertexAttribPointers(buffer);
+            return vertexArray;
         }
     }
 }

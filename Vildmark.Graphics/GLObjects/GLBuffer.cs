@@ -12,6 +12,8 @@ namespace Vildmark.Graphics.GLObjects
 
         public int Count { get; protected set; }
 
+        public abstract int ElementSize { get; }
+
         protected GLBuffer(BufferTarget bufferTarget, BufferUsageHint bufferUsageHint)
             : base(GL.GenBuffer())
         {
@@ -42,7 +44,7 @@ namespace Vildmark.Graphics.GLObjects
 
     public unsafe class GLBuffer<T> : GLBuffer where T : unmanaged
     {
-        public int ElementSize => sizeof(T);
+        public override int ElementSize => sizeof(T);
 
         public GLBuffer(int size = default, BufferTarget bufferTarget = BufferTarget.ArrayBuffer, BufferUsageHint bufferUsageHint = BufferUsageHint.StaticDraw)
             : this(new Span<T>(new T[size]), bufferTarget, bufferUsageHint)
