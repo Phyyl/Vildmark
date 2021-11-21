@@ -1,4 +1,4 @@
-using OpenTK.Graphics.OpenGL;
+using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using Vildmark.Graphics.GLObjects;
 using Vildmark.Logging;
@@ -33,25 +33,8 @@ namespace Vildmark.Graphics.Shaders
             Setter<Vector4>.Action = Set;
 
             Setter<Matrix2>.Action = Set;
-            Setter<Matrix2d>.Action = Set;
-            Setter<Matrix2x3>.Action = Set;
-            Setter<Matrix2x3d>.Action = Set;
-            Setter<Matrix2x4>.Action = Set;
-            Setter<Matrix2x4d>.Action = Set;
-
             Setter<Matrix3>.Action = Set;
-            Setter<Matrix3d>.Action = Set;
-            Setter<Matrix3x2>.Action = Set;
-            Setter<Matrix3x2d>.Action = Set;
-            Setter<Matrix3x4>.Action = Set;
-            Setter<Matrix3x4d>.Action = Set;
-
             Setter<Matrix4>.Action = Set;
-            Setter<Matrix4d>.Action = Set;
-            Setter<Matrix4x2>.Action = Set;
-            Setter<Matrix4x2d>.Action = Set;
-            Setter<Matrix4x3>.Action = Set;
-            Setter<Matrix4x3d>.Action = Set;
 
             Setter<GLTexture2D>.Action = Set;
             IndexedSetter<GLTexture2D>.Action = Set;
@@ -84,25 +67,8 @@ namespace Vildmark.Graphics.Shaders
         private static void Set(int location, Vector4 value) => GL.Uniform4(location, value);
 
         private static void Set(int location, Matrix2 value) => GL.UniformMatrix2(location, false, ref value);
-        private static void Set(int location, Matrix2d value) => GL.UniformMatrix2(location, false, ref value);
-        private static void Set(int location, Matrix2x3 value) => GL.UniformMatrix2x3(location, false, ref value);
-        private static void Set(int location, Matrix2x3d value) => GL.UniformMatrix2x3(location, false, ref value);
-        private static void Set(int location, Matrix2x4 value) => GL.UniformMatrix2x4(location, false, ref value);
-        private static void Set(int location, Matrix2x4d value) => GL.UniformMatrix2x4(location, false, ref value);
-
         private static void Set(int location, Matrix3 value) => GL.UniformMatrix3(location, false, ref value);
-        private static void Set(int location, Matrix3d value) => GL.UniformMatrix3(location, false, ref value);
-        private static void Set(int location, Matrix3x2 value) => GL.UniformMatrix3x2(location, false, ref value);
-        private static void Set(int location, Matrix3x2d value) => GL.UniformMatrix3x2(location, false, ref value);
-        private static void Set(int location, Matrix3x4 value) => GL.UniformMatrix3x4(location, false, ref value);
-        private static void Set(int location, Matrix3x4d value) => GL.UniformMatrix3x4(location, false, ref value);
-
         private static void Set(int location, Matrix4 value) => GL.UniformMatrix4(location, false, ref value);
-        private static void Set(int location, Matrix4d value) => GL.UniformMatrix4(location, false, ref value);
-        private static void Set(int location, Matrix4x2 value) => GL.UniformMatrix4x2(location, false, ref value);
-        private static void Set(int location, Matrix4x2d value) => GL.UniformMatrix4x2(location, false, ref value);
-        private static void Set(int location, Matrix4x3 value) => GL.UniformMatrix4x3(location, false, ref value);
-        private static void Set(int location, Matrix4x3d value) => GL.UniformMatrix4x3(location, false, ref value);
 
         private static void Set(int location, GLTexture2D value) => Set(location, 0, value);
         private static void Set(int location, int index, GLTexture2D value)

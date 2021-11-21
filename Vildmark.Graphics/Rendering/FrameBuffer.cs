@@ -1,4 +1,4 @@
-using OpenTK.Graphics.OpenGL;
+using OpenTK.Graphics.OpenGL4;
 using Vildmark.Graphics.GLObjects;
 
 namespace Vildmark.Graphics.Rendering

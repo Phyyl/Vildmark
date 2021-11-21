@@ -1,4 +1,4 @@
-using OpenTK.Graphics.OpenGL;
+using OpenTK.Graphics.OpenGL4;
 using System;
 using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Shaders;
