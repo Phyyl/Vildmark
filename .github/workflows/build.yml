@@ -24,7 +24,7 @@ jobs:
 
     - name: Pack
       if: ${{ github.event_name == 'release' }}
-      run: dotnet pack -c Release -o nuget-output -p:Version=${{ github.event.inputs.version }}
+      run: dotnet pack -c Release -o nuget-output -p:Version=${{ github.event.release.tag_name }}
 
     - name: Push
       if: ${{ github.event_name == 'release' }}
