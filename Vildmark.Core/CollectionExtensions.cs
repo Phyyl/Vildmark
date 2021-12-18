@@ -12,6 +12,11 @@ namespace Vildmark
             return dictionary.TryGetValue(key, out TValue value) ? value : default;
         }
 
+        public static void AddRange<T>(this IList<T> list, params T[] values)
+        {
+            list.AddRange(values);
+        }
+
         public static TValue AddOrSet<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue value)
         {
             if (dictionary.ContainsKey(key))
