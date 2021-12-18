@@ -1,21 +1,23 @@
 <Project>
-  <PropertyGroup>
-    <LangVersion>9.0</LangVersion>
-    <TargetFramework>net5.0</TargetFramework>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Company />
-    <Authors>Phyyl</Authors>
-    <PackageProjectUrl>https://github.com/Phyyl/Vildmark</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/Phyyl/Vildmark</RepositoryUrl>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-  </PropertyGroup>
+    <PropertyGroup>
+        <LangVersion>9.0</LangVersion>
+        <TargetFramework>net5.0</TargetFramework>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Company />
+        <Authors>Phyyl</Authors>
+        <PackageProjectUrl>https://github.com/Phyyl/Vildmark</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/Phyyl/Vildmark</RepositoryUrl>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    </PropertyGroup>
 
-  <PropertyGroup>
-      <OpenTKPackageVersion>4.6.4</OpenTKPackageVersion>
-  </PropertyGroup>
-  
+    <PropertyGroup>
+        <OpenTKPackageVersion>4.6.4</OpenTKPackageVersion>
+    </PropertyGroup>
+
 </Project>
