@@ -65,9 +65,7 @@ namespace Vildmark.Graphics.Shaders
 
             foreach (var prop in properties)
             {
-                Attrib attrib = prop.GetValue(this) as Attrib;
-
-                if (attrib is null || string.IsNullOrWhiteSpace(attrib.Name))
+                if (prop.GetValue(this) is not Attrib attrib || string.IsNullOrWhiteSpace(attrib.Name))
                 {
                     continue;
                 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -25,7 +25,7 @@ namespace Vildmark
             return Get(name).Start();
         }
 
-        private Stopwatch stopwatch = Stopwatch.StartNew();
+        private readonly Stopwatch stopwatch = Stopwatch.StartNew();
 
         private readonly List<float> samples = new();
 
@@ -47,7 +47,7 @@ namespace Vildmark
 
         private class StartContext : IDisposable
         {
-            private Benchmark benchmark;
+            private readonly Benchmark benchmark;
 
             public StartContext(Benchmark benchmark)
             {

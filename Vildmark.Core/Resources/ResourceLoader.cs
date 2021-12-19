@@ -129,7 +129,7 @@ namespace Vildmark.Resources
 
             using StreamReader reader = new(stream);
 
-            List<string> lines = new List<string>();
+            List<string> lines = new();
             string line = null;
 
             while ((line = reader.ReadLine()) != null)
