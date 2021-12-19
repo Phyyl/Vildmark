@@ -4,9 +4,7 @@ namespace Vildmark
 {
     public abstract class VildmarkGame : IWindowHandler
     {
-        private Window window;
-
-        public IWindow Window { get; }
+        public Window Window { get; }
 
         public IGamePad GamePad { get; }
 
@@ -20,7 +18,7 @@ namespace Vildmark
 
             InitializeWindowSettings(settings);
 
-            Window = window = new Window(settings, this);
+            Window = new Window(settings, this);
             GamePad = InitializeGamePad();
             Keyboard = InitializeKeyboard();
             Mouse = InitializeMouse();
@@ -28,7 +26,7 @@ namespace Vildmark
 
         public void Run()
         {
-            window.Run();
+            Window.Run();
         }
 
         public virtual void Load()
@@ -51,9 +49,9 @@ namespace Vildmark
         {
         }
 
-        protected virtual IKeyboard InitializeKeyboard() => window;
-        protected virtual IMouse InitializeMouse() => window;
-        protected virtual IGamePad InitializeGamePad() => window;
+        protected virtual IKeyboard InitializeKeyboard() => Window;
+        protected virtual IMouse InitializeMouse() => Window;
+        protected virtual IGamePad InitializeGamePad() => Window;
 
         protected virtual void InitializeWindowSettings(WindowSettings settings)
         {
