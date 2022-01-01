@@ -11,7 +11,7 @@ namespace Vildmark.Resources
     [Register(typeof(IResourceLoader<byte[]>))]
     public class ResourceLoader : IResourceLoader<string>, IResourceLoader<string[]>, IResourceLoader<byte[]>
     {
-        public static Stream GetEmbeddedStream(string name, Assembly assembly = default)
+        public static Stream? GetEmbeddedStream(string name, Assembly? assembly = default)
         {
             assembly ??= Assembly.GetCallingAssembly();
 
@@ -24,7 +24,7 @@ namespace Vildmark.Resources
 
         }
 
-        public static Stream FindEmbeddedStream(string name, Assembly assembly = default)
+        public static Stream? FindEmbeddedStream(string name, Assembly? assembly = default)
         {
             assembly ??= Assembly.GetCallingAssembly();
 
@@ -32,11 +32,16 @@ namespace Vildmark.Resources
 
             if (!names.Contains(name))
             {
-                string closeName = names.FirstOrDefault(n => string.Equals(name, n, StringComparison.InvariantCultureIgnoreCase));
+                string? closeName = names.FirstOrDefault(n => string.Equals(name, n, StringComparison.InvariantCultureIgnoreCase));
 
                 if (closeName is null)
                 {
                     closeName = names.FirstOrDefault(n => n.EndsWith(name, StringComparison.InvariantCultureIgnoreCase));
+                }
+
+                if (closeName is null)
+                {
+                    return null;
                 }
 
                 name = closeName;
@@ -50,30 +55,35 @@ namespace Vildmark.Resources
             return null;
         }
 
-        public static TResource Load<TResource>(Stream stream)
+        public static TResource? Load<TResource>(Stream stream)
         {
             return Load<TResource>(stream, null, null);
         }
 
-        public static TResource Load<TResource, TLoaderOptions>(Stream stream, TLoaderOptions options)
+        public static TResource? Load<TResource, TLoaderOptions>(Stream stream, TLoaderOptions options)
         {
             return Load<TResource, TLoaderOptions>(stream, options, null, null);
         }
 
-        public static TResource LoadEmbedded<TResource>(string name) => LoadEmbedded<TResource>(name, Assembly.GetCallingAssembly());
-        public static TResource LoadEmbedded<TResource>(string name, Assembly assembly)
+        public static TResource? LoadEmbedded<TResource>(string name) => LoadEmbedded<TResource>(name, Assembly.GetCallingAssembly());
+        public static TResource? LoadEmbedded<TResource>(string name, Assembly? assembly)
         {
             return Load<TResource>(GetEmbeddedStream(name, assembly), assembly, name);
         }
 
-        public static TResource LoadEmbedded<TResource, TLoaderOptions>(string name, TLoaderOptions options) => LoadEmbedded<TResource, TLoaderOptions>(name, options, Assembly.GetCallingAssembly());
-        public static TResource LoadEmbedded<TResource, TLoaderOptions>(string name, TLoaderOptions options, Assembly assembly)
+        public static TResource? LoadEmbedded<TResource, TLoaderOptions>(string name, TLoaderOptions options) => LoadEmbedded<TResource, TLoaderOptions>(name, options, Assembly.GetCallingAssembly());
+        public static TResource? LoadEmbedded<TResource, TLoaderOptions>(string name, TLoaderOptions options, Assembly assembly)
         {
             return Load<TResource, TLoaderOptions>(GetEmbeddedStream(name, assembly), options, assembly, name);
         }
 
-        private static TResource Load<TResource>(Stream stream, Assembly assembly, string resourceName)
+        private static TResource? Load<TResource>(Stream? stream, Assembly? assembly, string resourceName)
         {
+            if (stream is null)
+            {
+                return default;
+            }
+
             if (!Service.TryGet<IResourceLoader<TResource>>(out var loader))
             {
                 return default;
@@ -82,7 +92,7 @@ namespace Vildmark.Resources
             return loader.Load(stream, assembly, resourceName);
         }
 
-        private static TResource Load<TResource, TLoaderOptions>(Stream stream, TLoaderOptions options, Assembly assembly, string resourceName)
+        private static TResource? Load<TResource, TLoaderOptions>(Stream stream, TLoaderOptions options, Assembly assembly, string resourceName)
         {
             if (Service.TryGet<IResourceLoaderOptions<TResource, TLoaderOptions>>(out var loaderOptions))
             {
@@ -94,7 +104,7 @@ namespace Vildmark.Resources
             return Load<TResource>(stream);
         }
 
-        byte[] IResourceLoader<byte[]>.Load(Stream stream, Assembly assembly, string resourceName)
+        byte[]? IResourceLoader<byte[]>.Load(Stream stream, Assembly assembly, string resourceName)
         {
             if (stream is null)
             {
@@ -108,7 +118,7 @@ namespace Vildmark.Resources
             return ms.ToArray();
         }
 
-        string IResourceLoader<string>.Load(Stream stream, Assembly assembly, string resourceName)
+        string? IResourceLoader<string>.Load(Stream stream, Assembly assembly, string resourceName)
         {
             if (stream is null)
             {
@@ -120,7 +130,7 @@ namespace Vildmark.Resources
             return reader.ReadToEnd();
         }
 
-        string[] IResourceLoader<string[]>.Load(Stream stream, Assembly assembly, string resourceName)
+        string[]? IResourceLoader<string[]>.Load(Stream stream, Assembly assembly, string resourceName)
         {
             if (stream is null)
             {

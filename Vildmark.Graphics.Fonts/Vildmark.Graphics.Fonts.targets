@@ -15,7 +15,7 @@
         <PropertyGroup>
             <GeneratedFontDirectory>$(GeneratedFontsRootDirectory)%(Font.RelativeDir)</GeneratedFontDirectory>
             <GeneratedFontFilename>$(GeneratedFontDirectory)%(Font.Filename)</GeneratedFontFilename>
-            <FontGeneratorArguments>--font-file %(Font.Identity) --output $(GeneratedFontFilename) --data-format json</FontGeneratorArguments>
+            <FontGeneratorArguments>--font-file "%(Font.Identity)" --output "$(GeneratedFontFilename)" --data-format json</FontGeneratorArguments>
         </PropertyGroup>
 
         <PropertyGroup>
@@ -26,15 +26,19 @@
         </PropertyGroup>
 
         <PropertyGroup>
-            <FontTextureWidth Condition=" '$(FontTextureWidth)' == '' ">512</FontTextureWidth>
-            <FontTextureHeight Condition=" '$(FontTextureHeight)' == '' ">512</FontTextureHeight>
+            <FontSize Condition=" '$(FontSize)' == '' ">128</FontSize>
+            <FontTextureWidth Condition=" '$(FontTextureWidth)' == '' ">1024</FontTextureWidth>
+            <FontTextureHeight Condition=" '$(FontTextureHeight)' == '' ">1024</FontTextureHeight>
             <FontTexturePadding Condition=" '$(FontTexturePadding)' == '' ">1</FontTexturePadding>
             <FontChars Condition=" '$(FontChars)' == '' ">0-255</FontChars>
             <FontGeneratorArguments>$(FontGeneratorArguments) --texture-width $(FontTextureWidth) --texture-height $(FontTextureHeight)</FontGeneratorArguments>
             <FontGeneratorArguments>$(FontGeneratorArguments) --padding-left $(FontTexturePadding) --padding-right $(FontTexturePadding) --padding-down $(FontTexturePadding) --padding-up $(FontTexturePadding)</FontGeneratorArguments>
             <FontGeneratorArguments>$(FontGeneratorArguments) --chars $(FontChars)</FontGeneratorArguments>
+            <FontGeneratorArguments>$(FontGeneratorArguments) --font-size $(FontSize)</FontGeneratorArguments>
         </PropertyGroup>
 
+        <Message Text="Generating Fonts"></Message>
+        
         <MakeDir Directories="$(GeneratedFontDirectory)"></MakeDir>
         <Exec IgnoreStandardErrorWarningFormat="true" Command="$(FontGeneratorExecutable) $(FontGeneratorArguments)"></Exec>
 

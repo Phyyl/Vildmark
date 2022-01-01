@@ -6,25 +6,27 @@ using System.Text;
 using System.Threading.Tasks;
 using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.GLObjects;
+using Vildmark.Graphics.Meshes;
+using Vildmark.Graphics.Rendering;
 using Vildmark.Graphics.Shaders;
 using Vildmark.Resources;
 
 namespace Vildmark.Graphics.Fonts
 {
-    public class TextShader : Shader, IPosition2Shader, ITexCoordShader, ITextureIndexShader, IModelViewProjectionMatrixShader, ITintShader, ITexturesShader
+    public class TextShader : EmbeddedShader<TextVertex, TextMaterial>
     {
-        protected override string VertexShaderSource => ResourceLoader.LoadEmbedded<string>("text.vert");
-        protected override string FragmentShaderSource => ResourceLoader.LoadEmbedded<string>("text.frag");
+        public TextShader()
+            : base("text")
+        {
+        }
 
-        public Attrib<Vector2> Position { get; } = new Attrib<Vector2>("vert_position");
-        public Attrib<Vector2> TexCoord { get; } = new Attrib<Vector2>("vert_tex_coord");
-        public Attrib<int> TextureIndex { get; } = new Attrib<int>("texture_index");
-        public Uniform<Matrix4> ProjectionMatrix { get; } = new Uniform<Matrix4>("projection_matrix");
-        public Uniform<Matrix4> ViewMatrix { get; } = new Uniform<Matrix4>("view_matrix");
-        public Uniform<Matrix4> ModelMatrix { get; } = new Uniform<Matrix4>("model_matrix");
-        public Uniform<Vector4> Tint { get; } = new Uniform<Vector4>("tint");
-        public IndexedUniform<GLTexture2D> Textures { get; } = new IndexedUniform<GLTexture2D>("textures");
-
-        public int MaxTextures => 8;
+        protected override void Setup(TextMaterial material, Camera camera, Transform transform)
+        {
+            Uniform("tint", material.Tint);
+            Uniform("textures", material.Textures);
+            Uniform("projection_matrix", camera.ProjectionMatrix);
+            Uniform("view_matrix", camera.ViewMatrix);
+            Uniform("model_matrix", transform.Matrix);
+        }
     }
 }

@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <Import Project="Vildmark.Graphics.Fonts.props" />
+    <Import Project="$(MSBuildThisFileDirectory)Vildmark.Graphics.Fonts.props" />
 
     <ItemGroup>
         <None Remove="Resources\Shaders\text.frag" />
@@ -44,15 +44,11 @@
         <ProjectReference Include="..\Vildmark.Graphics\Vildmark.Graphics.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-        <Folder Include="tools\macos\" />
-    </ItemGroup>
-
     <PropertyGroup>
         <FontToolsFolder>tools\</FontToolsFolder>
         <IntermediateOutputPath>obj\$(Configuration)\$(TargetFramework)\</IntermediateOutputPath>
     </PropertyGroup>
     
-    <Import Project="Vildmark.Graphics.Fonts.targets" />
+    <Import Project="$(MSBuildThisFileDirectory)Vildmark.Graphics.Fonts.targets" />
 
 </Project>

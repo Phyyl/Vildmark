@@ -5,7 +5,7 @@ using Vildmark.Maths;
 
 namespace Vildmark.Graphics.Cameras
 {
-    public abstract class Camera : ICamera
+    public abstract class Camera
     {
         private Matrix4? projectionMatrix;
 
@@ -70,19 +70,6 @@ namespace Vildmark.Graphics.Cameras
         {
             Width = width;
             Height = height;
-        }
-
-        public virtual void SetupShader(IShader shader)
-        {
-            if (shader is IProjectionMatrixShader projectionMatrixShader)
-            {
-                projectionMatrixShader.ProjectionMatrix.SetValue(ProjectionMatrix);
-            }
-
-            if (shader is IViewMatrixShader viewMatrixShader)
-            {
-                viewMatrixShader.ViewMatrix.SetValue(ViewMatrix);
-            }
         }
 
         private class CameraTransform : Transform

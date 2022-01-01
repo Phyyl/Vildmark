@@ -1,62 +1,34 @@
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
 using System;
+using System.Runtime.InteropServices;
 using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Shaders;
 
 namespace Vildmark.Graphics.Meshes
 {
-    public class Mesh<TVertex> : IMesh<TVertex> where TVertex : unmanaged
+    public class Mesh<TVertex> : IMesh<TVertex>
+        where TVertex : unmanaged
     {
-        public GLVertexArray VertexArray { get; } = new GLVertexArray();
+        internal GLBuffer<TVertex> VertexBuffer { get; }
 
-        public GLBuffer<TVertex> VertexBuffer { get; }
+        public int ElementSize { get; } = Marshal.SizeOf<TVertex>();
+
+        public virtual int Count => VertexBuffer.Count;
 
         public Mesh(Span<TVertex> vertices = default)
         {
             VertexBuffer = new GLBuffer<TVertex>(vertices);
         }
 
-        public virtual void Render(PrimitiveType primitiveType = PrimitiveType.Triangles)
+        public void UpdateVertices(Span<TVertex> vertices)
         {
-            VertexArray.DrawArrays(primitiveType, 0, VertexBuffer.Count);
+            VertexBuffer.SetData(vertices);
         }
 
-        public virtual void SetupShader(IShader shader)
+        public virtual void Draw(PrimitiveType primitiveType = PrimitiveType.Triangles)
         {
-            VertexArray.Bind();
-        }
-    }
-
-    public class Mesh : Mesh<Vertex>
-    {
-        public Mesh(Span<Vertex> vertices = default)
-            : base(vertices)
-        {
-        }
-
-        public override void SetupShader(IShader shader)
-        {
-            base.SetupShader(shader);
-
-            if (shader is IColorShader colorShader)
-            {
-                colorShader.Color.Setup(VertexBuffer, Vertex.ColorOffset);
-            }
-
-            if (shader is IPositionShader positionShader)
-            {
-                positionShader.Position.Setup(VertexBuffer, Vertex.PositionOffset);
-            }
-
-            if (shader is INormalShader normalShader)
-            {
-                normalShader.Normal.Setup(VertexBuffer, Vertex.NormalOffset);
-            }
-
-            if (shader is ITexCoordShader texCoordShader)
-            {
-                texCoordShader.TexCoord.Setup(VertexBuffer, Vertex.TexCoordOffset);
-            }
+            GL.DrawArrays(primitiveType, 0, Count);
         }
     }
 }

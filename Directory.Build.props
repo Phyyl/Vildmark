@@ -5,6 +5,7 @@
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
         <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
         <Company />
         <Authors>Phyyl</Authors>
         <PackageProjectUrl>https://github.com/Phyyl/Vildmark</PackageProjectUrl>

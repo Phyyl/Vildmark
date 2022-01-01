@@ -5,40 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Vildmark.Graphics.GLObjects;
-using Vildmark.Graphics.Materials;
 using Vildmark.Graphics.Rendering;
 using Vildmark.Graphics.Shaders;
 
 namespace Vildmark.Graphics.Fonts
 {
-    public class TextMaterial : ColorMaterial
+    public record class TextMaterial
     {
-        public GLTexture2D[] Pages { get; init; }
+        public Texture2D[] Textures { get; init; } = new Texture2D[8];
 
-        public TextMaterial(Vector4 tint, params GLTexture2D[] pages)
-            : base(tint)
-        {
-            Pages = pages;
-        }
-
-        public TextMaterial(params GLTexture2D[] pages)
-            : this(Vector4.One, pages)
-        {
-        }
-
-        public static implicit operator TextMaterial(GLTexture2D[] pages) => new(pages);
-
-        public override void SetupShader(IShader shader)
-        {
-            base.SetupShader(shader);
-
-            if (shader is ITexturesShader texturesShader)
-            {
-                for (int i = 0; i < Pages.Length && i < texturesShader.MaxTextures; i++)
-                {
-                    texturesShader.Textures.SetValue(Pages[i], i);
-                }
-            }
-        }
+        public Color4 Tint { get; init; } = Color4.White;
     }
 }

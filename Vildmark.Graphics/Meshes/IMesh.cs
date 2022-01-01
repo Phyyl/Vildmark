@@ -1,28 +1,18 @@
 using OpenTK.Graphics.OpenGL4;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Vildmark.Graphics.GLObjects;
-using Vildmark.Graphics.Shaders;
 
 namespace Vildmark.Graphics.Meshes
 {
-    public interface IMesh : IShaderSetup
+    public interface IMesh
     {
-        GLVertexArray VertexArray { get; }
+        int Count { get; }
+        int ElementSize { get; }
 
-        void Render(PrimitiveType primitiveType = PrimitiveType.Triangles);
+        void Draw(PrimitiveType primitiveType = PrimitiveType.Triangles);
     }
 
-    public interface IMesh<TVertex> : IMesh where TVertex : unmanaged
+    public interface IMesh<TVertex> : IMesh
+        where TVertex : unmanaged
     {
-        GLBuffer<TVertex> VertexBuffer { get; }
-    }
-
-    public interface IIndexedMesh : IMesh
-    {
-        GLBuffer<uint> IndexBuffer { get; }
+        void UpdateVertices(Span<TVertex> vertices);
     }
 }

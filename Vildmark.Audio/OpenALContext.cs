@@ -25,7 +25,7 @@ namespace Vildmark.Audio
             //}
 
             device = ALC.OpenDevice(null);
-            context = ALC.CreateContext(device, (int[])null);
+            context = ALC.CreateContext(device, (int[])null!);
             ALC.MakeContextCurrent(context);
         }
 

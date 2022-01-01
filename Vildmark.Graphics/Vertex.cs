@@ -2,11 +2,12 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using Vildmark.Graphics.Shaders;
 
 namespace Vildmark.Graphics
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct Vertex : IAttribPointers
+    public struct Vertex
     {
         public static readonly int Size = Marshal.SizeOf<Vertex>();
         public static readonly int PositionOffset = (int)Marshal.OffsetOf<Vertex>(nameof(Position));
@@ -34,14 +35,6 @@ namespace Vildmark.Graphics
             TexCoord = texCoord;
             Color = color;
             Normal = normal;
-        }
-
-        public IEnumerable<AttribPointer> GetAttribPointers()
-        {
-            yield return new(0, 3, VertexAttribPointerType.Float, Size, PositionOffset);
-            yield return new(1, 2, VertexAttribPointerType.Float, Size, TexCoordOffset);
-            yield return new(2, 4, VertexAttribPointerType.Float, Size, ColorOffset);
-            yield return new(3, 3, VertexAttribPointerType.Float, Size, NormalOffset);
         }
     }
 }

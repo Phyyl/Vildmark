@@ -1,76 +1,75 @@
+using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.GLObjects;
 
 namespace Vildmark.Graphics.Shaders
 {
-    public abstract class Shader
+    public abstract class Shader<TMaterial> : IShader<TMaterial>
     {
-        public GLShaderProgram ShaderProgram { get; }
+        private record class Attrib(int Size, VertexAttribPointerType Type);
 
-        protected Shader()
+        private readonly Dictionary<string, Attrib> attribs = new();
+        private readonly GLShaderProgram shaderProgram;
+
+        protected Shader(string vertexShaderSource, string fragmentShaderSource, string? geometryShaderSource = default)
         {
-            ShaderProgram = GLShaderProgram.Create(GLShader.CreateVertex(VertexShaderSource), GLShader.CreateFragment(FragmentShaderSource), GLShader.CreateGeometry(GeometryShaderSource));
+            shaderProgram = GLShaderProgram.Create(
+                GLShader.CreateVertex(vertexShaderSource),
+                GLShader.CreateFragment(fragmentShaderSource),
+                GLShader.CreateGeometry(geometryShaderSource)) ??
+                throw new Exception("Could not create shader program");
 
-            if (ShaderProgram is not null)
+            InitializeAttribs();
+        }
+
+        public void Use() => shaderProgram?.Use();
+
+        public void Uniform<T>(string name, T value) => shaderProgram.Uniform(name, value);
+        public void Uniform<T>(int location, T value) => shaderProgram.Uniform(location, value);
+
+        public int GetAttribLocation(string name) => shaderProgram?.GetAttribLocation(name) ?? -1;
+        public int GetUniformLocation(string name) => shaderProgram?.GetUniformLocation(name) ?? -1;
+
+        protected abstract void Setup(TMaterial material, Camera camera, Transform transform);
+
+        public void Begin(TMaterial material, Camera camera, Transform transform)
+        {
+            Use();
+            Setup(material, camera, transform);
+        }
+
+        public VertexAttribPointerType GetAttribType(string name)
+        {
+            return attribs.GetValueOrDefault(name)?.Type ?? VertexAttribPointerType.Float;
+        }
+
+        public int GetAttribSize(string name)
+        {
+            return attribs.GetValueOrDefault(name)?.Size ?? 1;
+        }
+
+        private void InitializeAttribs()
+        {
+            GL.GetProgram(shaderProgram.ID, GetProgramParameterName.ActiveAttributes, out int count);
+
+            for (int i = 0; i < count; i++)
             {
-                InitializeUniforms();
-                InitializeAttributes();
-            }
-        }
+                GL.GetActiveAttrib(shaderProgram.ID, i, 256, out int length, out int size, out ActiveAttribType activeAttribType, out string name);
 
-        protected abstract string VertexShaderSource { get; }
-        protected abstract string FragmentShaderSource { get; }
-        protected virtual string GeometryShaderSource => null;
-
-        public int GetAttribLocation(string name)
-        {
-            return ShaderProgram?.GetAttribLocation(name) ?? -1;
-        }
-
-        public int GetUniformLocation(string name)
-        {
-            return ShaderProgram?.GetUniformLocation(name) ?? -1;
-        }
-
-        public void Use()
-        {
-            if (ShaderProgram is null)
-            {
-                return;
-            }
-
-            ShaderProgram.Use();
-        }
-
-        private void InitializeUniforms()
-        {
-            IEnumerable<PropertyInfo> properties = GetType().GetProperties().Where(p => typeof(Uniform).IsAssignableFrom(p.PropertyType));
-
-            foreach (var prop in properties)
-            {
-                if (prop.GetValue(this) is not Uniform uniform || string.IsNullOrWhiteSpace(uniform.Name))
+                attribs[name] = activeAttribType switch
                 {
-                    continue;
-                }
-
-                uniform.Location = GetUniformLocation(uniform.Name);
-            }
-        }
-
-        private void InitializeAttributes()
-        {
-            IEnumerable<PropertyInfo> properties = GetType().GetProperties().Where(p => typeof(Attrib).IsAssignableFrom(p.PropertyType));
-
-            foreach (var prop in properties)
-            {
-                if (prop.GetValue(this) is not Attrib attrib || string.IsNullOrWhiteSpace(attrib.Name))
-                {
-                    continue;
-                }
-
-                attrib.Location = GetAttribLocation(attrib.Name);
+                    ActiveAttribType.FloatVec2 => new(2, VertexAttribPointerType.Float),
+                    ActiveAttribType.FloatVec3 => new(3, VertexAttribPointerType.Float),
+                    ActiveAttribType.FloatVec4 => new(4, VertexAttribPointerType.Float),
+                    ActiveAttribType.Int => new(1, VertexAttribPointerType.Int),
+                    ActiveAttribType.UnsignedInt => new(1, VertexAttribPointerType.UnsignedInt),
+                    _ => new(1, VertexAttribPointerType.Float),
+                };
             }
         }
     }

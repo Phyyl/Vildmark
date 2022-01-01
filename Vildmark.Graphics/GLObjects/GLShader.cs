@@ -30,7 +30,7 @@ namespace Vildmark.Graphics.GLObjects
             GL.DeleteShader(this);
         }
 
-        public static GLShader Create(ShaderType shaderType, string source)
+        public static GLShader? Create(ShaderType shaderType, string? source)
         {
             if (source is null)
             {
@@ -49,8 +49,8 @@ namespace Vildmark.Graphics.GLObjects
             return shader;
         }
 
-        public static GLShader CreateVertex(string source) => Create(ShaderType.VertexShader, source);
-        public static GLShader CreateFragment(string source) => Create(ShaderType.FragmentShader, source);
-        public static GLShader CreateGeometry(string source) => Create(ShaderType.GeometryShader, source);
+        public static GLShader? CreateVertex(string? source) => Create(ShaderType.VertexShader, source);
+        public static GLShader? CreateFragment(string? source) => Create(ShaderType.FragmentShader, source);
+        public static GLShader? CreateGeometry(string? source) => Create(ShaderType.GeometryShader, source);
     }
 }

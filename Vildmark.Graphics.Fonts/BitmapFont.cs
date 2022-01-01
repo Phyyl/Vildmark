@@ -1,8 +1,10 @@
 using OpenTK.Mathematics;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Reflection.Metadata;
 using Vildmark.Graphics.GLObjects;
+using Vildmark.Graphics.Rendering;
 using Vildmark.Resources;
 
 namespace Vildmark.Graphics.Fonts
@@ -15,7 +17,7 @@ namespace Vildmark.Graphics.Fonts
 
         private readonly Dictionary<char, BitmapFontChar> characters;
 
-        public GLTexture2D[] Pages { get; internal init; }
+        public Texture2D[] Pages { get; internal init; }
 
         public string Name { get; internal init; }
 
@@ -42,22 +44,25 @@ namespace Vildmark.Graphics.Fonts
             return TryGetChar(character, out bitmapChar) || TryGetChar(fallback, out bitmapChar);
         }
 
-        public TextModel CreateModel(string text, float size)
+        public TextModel CreateModel(string text, float size, Color4 color)
         {
-            if (text == null || text.Length == 0)
-            {
-                return null;
-            }
-
-            TextVertex[] vertices = CreateStringVertices(text, size);
-
-            TextMesh mesh = new(vertices);
-
-            return new TextModel(mesh, Pages);
+            return new TextModel(new(CreateStringVertices(text, size)), new TextMaterial { Textures = Pages, Tint = color });
         }
 
-        private TextVertex[] CreateStringVertices(string str, float size)
+        public void UpdateModel(TextModel model, string text, float size, Color4 color)
         {
+            model.Mesh.UpdateVertices(CreateStringVertices(text, size));
+            model.Material = new TextMaterial()
+            {
+                Textures = Pages,
+                Tint = color
+            };
+        }
+
+        private TextVertex[] CreateStringVertices(string text, float size)
+        {
+            text ??= "";
+
             // Convert to 0..1
             size /= Size;
 
@@ -65,14 +70,14 @@ namespace Vildmark.Graphics.Fonts
 
             Vector2 cursor = new Vector2(0, Base);
 
-            foreach (var chr in str)
+            foreach (var chr in text)
             {
                 if (!TryGetChar(chr, ' ', out BitmapFontChar fontChar))
                 {
                     continue;
                 }
 
-                GLTexture2D page = Pages[fontChar.Page];
+                Texture2D page = Pages[fontChar.Page];
 
                 Vector2 sourcePosition = new Vector2(fontChar.X / (float)page.Width, fontChar.Y / (float)page.Height);
                 Vector2 sourceSize = new Vector2(fontChar.Width / (float)page.Width, fontChar.Height / (float)page.Height);

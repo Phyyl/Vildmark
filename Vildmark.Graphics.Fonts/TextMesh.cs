@@ -16,25 +16,5 @@ namespace Vildmark.Graphics.Fonts
             : base(vertices)
         {
         }
-
-        public override void SetupShader(IShader shader)
-        {
-            base.SetupShader(shader);
-
-            if (shader is ITextureIndexShader textureIndexShader)
-            {
-                textureIndexShader.TextureIndex.Setup(VertexBuffer, TextVertex.TextureIndexOffset);
-            }
-
-            if (shader is IPosition2Shader positionShader)
-            {
-                positionShader.Position.Setup(VertexBuffer, TextVertex.PositionOffset);
-            }
-
-            if (shader is ITexCoordShader texCoordShader)
-            {
-                texCoordShader.TexCoord.Setup(VertexBuffer, TextVertex.TexCoordOffset);
-            }
-        }
     }
 }

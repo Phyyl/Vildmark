@@ -61,5 +61,10 @@ namespace Vildmark
     public abstract class VildmarkGame<T> : VildmarkGame where T : VildmarkGame, new()
     {
         public static readonly T Instance = new();
+
+        public static new void Run()
+        {
+            Instance.Run();
+        }
     }
 }

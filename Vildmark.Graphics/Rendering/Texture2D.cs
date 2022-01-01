@@ -41,10 +41,5 @@ namespace Vildmark.Graphics.Rendering
 
             return new Texture2D(GLTexture, sourceRectangle);
         }
-
-        public static implicit operator Texture2D(GLTexture2D texture)
-        {
-            return new Texture2D(texture);
-        }
     }
 }

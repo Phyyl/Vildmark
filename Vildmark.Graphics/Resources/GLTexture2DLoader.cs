@@ -12,12 +12,12 @@ namespace Vildmark.Graphics.Resources
     [Register(typeof(IResourceLoaderOptions<GLTexture2D, TextureOptions>))]
     internal class GLTexture2DLoader : IResourceLoader<GLTexture2D>, IResourceLoaderOptions<GLTexture2D, TextureOptions>
     {
-        private TextureOptions options;
+        private TextureOptions? options;
 
         public TextureOptions Options
         {
-            get => options;
-            set => options = value ?? TextureOptions.Default;
+            get => options ??= TextureOptions.Default;
+            set => options = value;
         }
 
         public unsafe GLTexture2D Load(Stream stream, Assembly assembly, string resourceName)

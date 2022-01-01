@@ -1,4 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <Compile Remove="Resources\**" />
+    <EmbeddedResource Remove="Resources\**" />
+    <None Remove="Resources\**" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Vildmark.Core\Vildmark.Core.csproj" />
     <ProjectReference Include="..\Vildmark.Graphics.Fonts\Vildmark.Graphics.Fonts.csproj" />
