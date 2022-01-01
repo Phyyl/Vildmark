@@ -31,7 +31,7 @@ namespace Vildmark.Graphics.Fonts
                 font.UpdateModel(model, text, size, color);
             }
 
-            model.Transform.Position = new(position + new Vector2(0, -(font.Base / (float)font.Size) * size));
+            model.Transform.Position = new Vector3(position);
 
             renderContext.Render(model);
         }
