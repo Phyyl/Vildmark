@@ -26,7 +26,7 @@
         </PropertyGroup>
 
         <PropertyGroup>
-            <FontSize Condition=" '$(FontSize)' == '' ">128</FontSize>
+            <FontSize Condition=" '$(FontSize)' == '' ">64</FontSize>
             <FontTextureWidth Condition=" '$(FontTextureWidth)' == '' ">1024</FontTextureWidth>
             <FontTextureHeight Condition=" '$(FontTextureHeight)' == '' ">1024</FontTextureHeight>
             <FontTexturePadding Condition=" '$(FontTexturePadding)' == '' ">1</FontTexturePadding>
