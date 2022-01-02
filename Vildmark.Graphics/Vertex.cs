@@ -20,6 +20,11 @@ namespace Vildmark.Graphics
         public Vector4 Color;
         public Vector3 Normal;
 
+        public Vertex(Vector2 position) : this(new Vector3(position)) { }
+        public Vertex(Vector2 position, Vector2 texCoord) : this(new Vector3(position), texCoord) { }
+        public Vertex(Vector2 position, Vector2 texCoord, Vector4 color) : this(new Vector3(position), texCoord, color) { }
+        public Vertex(Vector2 position, Vector4 color) : this(new Vector3(position), color) { }
+
         public Vertex(Vector3 position) : this(position, default, Vector4.One, default) { }
         public Vertex(Vector3 position, Vector2 texCoord) : this(position, texCoord, Vector4.One, default) { }
         public Vertex(Vector3 position, Vector2 texCoord, Vector4 color) : this(position, texCoord, color, default) { }

@@ -14,30 +14,20 @@ namespace Vildmark.Graphics.Fonts
 
     public class BitmapFont
     {
-        static BitmapFont()
-        {
-            Service<IResourceLoader<BitmapFont>>.Instance = new BitmapFontLoader();
-        }
-
-        private readonly TextShader shader;
-
+        private readonly BitmapTextModel model;
         private readonly Dictionary<char, BitmapFontChar> characters;
 
         public Texture2D[] Pages { get; internal init; }
-
         public string Name { get; internal init; }
-
         public int Size { get; internal init; }
-
         public int LineHeight { get; internal init; }
-
         public int Base { get; internal init; }
 
         internal BitmapFont(BitmapFontChar[] chars)
         {
             characters = chars.ToDictionary(c => c.Character);
 
-            shader = new TextShader();
+            model = new();
         }
 
         public bool TryGetChar(char character, out BitmapFontChar bitmapChar)
@@ -69,9 +59,34 @@ namespace Vildmark.Graphics.Fonts
             };
         }
 
+        public RectangleF GetBounds(string text, float size, Vector2 position = default)
+        {
+            BitmapTextVertex[] vertices = CreateStringVertices(text, size);
+
+            float minX = vertices.Min(v => v.Position.X);
+            float minY = vertices.Min(v => v.Position.Y);
+            float maxX = vertices.Max(v => v.Position.X);
+            float maxY = vertices.Max(v => v.Position.Y);
+
+            return new RectangleF(minX + position.X, minY + position.Y, maxX - minX, maxY - minY);
+        }
+
+        public void RenderString(RenderContext renderContext, string text, Vector2 position, float size, Color4 color)
+        {
+            UpdateModel(model, text, size, color);
+            model.Transform.Position = new Vector3(position);
+
+            renderContext.Blending = true;
+            renderContext.DepthTest = false;
+            model.Render(renderContext);
+        }
+
         private BitmapTextVertex[] CreateStringVertices(string text, float size)
         {
-            text ??= "";
+            if (text is null)
+            {
+                return Array.Empty<BitmapTextVertex>();
+            }
 
             // Convert to 0..1
             size /= Size;

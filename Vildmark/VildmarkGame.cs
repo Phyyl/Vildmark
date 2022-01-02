@@ -72,7 +72,7 @@ namespace Vildmark
                 new OrthographicCamera(Window.Width, Window.Height, zNear, zFar));
         }
 
-        protected RenderContext Create3DRenderContext(float fovY = MathsHelper.PiOver3, float zNear = 0.01f, float zFar = 1000)
+        protected RenderContext Create3DRenderContext(float fovY = MathF.PI / 3f, float zNear = 0.01f, float zFar = 1000)
         {
             return CreateRenderContext(new PerspectiveCamera(Window.Width, Window.Height, fovY, zNear, zFar));
         }

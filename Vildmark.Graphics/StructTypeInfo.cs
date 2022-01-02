@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Rendering;
+using Vildmark.Logging;
 
 namespace Vildmark.Graphics
 {
@@ -31,7 +32,9 @@ namespace Vildmark.Graphics
 
             Storage<Vector4>.UniformSetter = (l, v, i) => GL.Uniform4(l, v);
             Storage<Vector4>.AttribSize = 4;
+
             Storage<Matrix4>.UniformSetter = (l, v, i) => GL.UniformMatrix4(l, false, ref v);
+            Storage<Transform>.UniformSetter = (l, v, i) => SetUniform(l, v.Matrix, i);
 
             Storage<Color4>.UniformSetter = (l, v, i) => GL.Uniform4(l, v);
             Storage<Color4>.AttribSize = 4;
@@ -51,6 +54,7 @@ namespace Vildmark.Graphics
                     SetUniform(l + i + j, v[j], j);
                 }
             };
+
         }
 
         public static bool SetUniform<T>(int location, T value, int index = 0)
@@ -59,6 +63,10 @@ namespace Vildmark.Graphics
             {
                 setter(location, value, index);
                 return true;
+            }
+            else
+            {
+                Console.WriteLine($"Uniform setter for type {typeof(T).Name} not found");
             }
 
             return false;
