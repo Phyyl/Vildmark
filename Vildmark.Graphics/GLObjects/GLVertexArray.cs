@@ -17,18 +17,6 @@ namespace Vildmark.Graphics.GLObjects
             GL.BindVertexArray(this);
         }
 
-        public void AttribPointer(int index, int size, VertexAttribPointerType type, int stride, int offset)
-        {
-            GL.VertexAttribPointer(index, size, type, false, stride, offset);
-            GL.EnableVertexAttribArray(index);
-        }
-
-        public void AttribPointer<T>(int index, int stride, int offset)
-            where T : unmanaged
-        {
-            AttribPointer(index, StructTypeInfo.GetAttribSize<T>(), StructTypeInfo.GetAttribType<T>(), stride, offset);
-        }
-
         public void DrawArrays(int count, PrimitiveType primitiveType = PrimitiveType.Triangles) => DrawArrays(0, count, primitiveType);
         public void DrawArrays(int first, int count, PrimitiveType primitiveType = PrimitiveType.Triangles)
         {

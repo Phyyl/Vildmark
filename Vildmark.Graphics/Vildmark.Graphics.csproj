@@ -17,4 +17,8 @@
     <ProjectReference Include="..\Vildmark.Maths\Vildmark.Maths.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Defaults\" />
+  </ItemGroup>
+
 </Project>

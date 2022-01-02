@@ -14,46 +14,39 @@ namespace Vildmark.Graphics.Models
 {
     public abstract class Model<TVertex, TMaterial, TShader> : IModel
         where TVertex : unmanaged
+        where TMaterial : new()
         where TShader : IShader<TMaterial>, new()
     {
+        private static TShader? shaderInstance;
+        public static TShader ShaderInstance => shaderInstance ??= new();
+
         private readonly GLVertexArray vertexArray;
 
         public IMesh<TVertex> Mesh { get; }
         public TMaterial Material { get; set; }
-        public TShader Shader { get; }
+        public TShader Shader => ShaderInstance;
         public Transform Transform { get; set; } = new();
 
         protected Model(IMesh<TVertex> mesh, TMaterial material, TShader shader)
         {
             Mesh = mesh;
             Material = material;
-            Shader = shader;
 
             vertexArray = new();
             vertexArray.Bind();
-            SetupAttribs();
+            shader.Initialize(vertexArray);
         }
 
-        public Model(TMaterial material)
-            : this(new Mesh<TVertex>(), material, new())
+        public Model()
+            : this(new Mesh<TVertex>(), new(), new())
         {
         }
-
-        protected abstract void SetupAttribs();
 
         public virtual void Render(RenderContext renderContext)
         {
             Shader.Begin(Material, renderContext.Camera, Transform);
             vertexArray.Bind();
             Mesh.Draw();
-        }
-
-        protected unsafe void AttribPointer(string attribName, string fieldName)
-        {
-            VertexAttribPointerType type = Shader.GetAttribType(attribName);
-            int size = Shader.GetAttribSize(attribName);
-
-            vertexArray.AttribPointer(Shader.GetAttribLocation(attribName), size, type, sizeof(TVertex), (int)Marshal.OffsetOf<TVertex>(fieldName));
         }
     }
 }

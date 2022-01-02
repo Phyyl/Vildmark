@@ -19,5 +19,7 @@ namespace Vildmark.Graphics.Shaders
 
         int GetAttribLocation(string name);
         int GetUniformLocation(string name);
+
+        void Initialize(GLVertexArray vertexArray);
     }
 }

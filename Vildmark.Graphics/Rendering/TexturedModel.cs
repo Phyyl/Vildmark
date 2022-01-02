@@ -8,16 +8,24 @@ using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Meshes;
 using Vildmark.Graphics.Models;
-using Vildmark.Graphics.Rendering;
 using Vildmark.Graphics.Shaders;
 
-namespace Vildmark.Graphics.Defaults
+namespace Vildmark.Graphics.Rendering
 {
-    public record class TexturedMaterial(Texture2D Texture, Color4 Color);
-
-    internal class TexturedModel : Model<Vertex, TexturedMaterial, TexturedShader>
+    public record struct TexturedMaterial(Texture2D Texture, Color4 Color);
+    public class TexturedModel : Model<Vertex, TexturedMaterial, TexturedShader> { }
+    public class TexturedShader : EmbeddedShader<Vertex, TexturedMaterial>
     {
-        public TexturedModel(TexturedMaterial material) : base(material) { }
+        public TexturedShader() : base("model") { }
+
+        protected override void SetupUniforms(TexturedMaterial material, Camera camera, Transform transform)
+        {
+            Uniform("tint", material.Color);
+            Uniform("tex", material.Texture);
+            Uniform("projection_matrix", camera.ProjectionMatrix);
+            Uniform("view_matrix", camera.ViewMatrix);
+            Uniform("model_matrix", transform);
+        }
 
         protected override void SetupAttribs()
         {
@@ -27,19 +35,4 @@ namespace Vildmark.Graphics.Defaults
             AttribPointer("vert_normal", "Normal");
         }
     }
-
-    public class TexturedShader : EmbeddedShader<Vertex, TexturedMaterial>
-    {
-        public TexturedShader() : base("model") { }
-
-        protected override void Setup(TexturedMaterial material, Camera camera, Transform transform)
-        {
-            Uniform("tint", material.Color);
-            Uniform("tex", material.Texture);
-            Uniform("projection_matrix", camera.ProjectionMatrix);
-            Uniform("view_matrix", camera.ViewMatrix);
-            Uniform("model_matrix", transform);
-        }
-    }
-
 }

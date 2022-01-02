@@ -9,7 +9,7 @@ using Vildmark.Resources;
 
 namespace Vildmark.Graphics.Shaders
 {
-    public abstract class EmbeddedShader<TVertex, TMaterial> : Shader<TMaterial>
+    public abstract class EmbeddedShader<TVertex, TMaterial> : Shader<TVertex, TMaterial>
         where TVertex : unmanaged
     {
         protected EmbeddedShader(string resourceName)

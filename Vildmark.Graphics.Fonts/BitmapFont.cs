@@ -46,7 +46,11 @@ namespace Vildmark.Graphics.Fonts
 
         public TextModel CreateModel(string text, float size, Color4 color)
         {
-            return new TextModel(new(CreateStringVertices(text, size)), new TextMaterial { Textures = Pages, Tint = color });
+            TextModel model = new();
+
+            UpdateModel(model, text, size, color);
+
+            return model;
         }
 
         public void UpdateModel(TextModel model, string text, float size, Color4 color)
