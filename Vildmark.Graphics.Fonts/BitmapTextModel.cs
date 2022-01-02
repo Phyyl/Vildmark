@@ -12,8 +12,8 @@ using Vildmark.Graphics.Shaders;
 namespace Vildmark.Graphics.Fonts
 {
     public record struct TextMaterial(Texture2D[] Textures, Color4 Tint);
-    public class TextModel : Model<TextVertex, TextMaterial, TextShader> { }
-    public class TextShader : EmbeddedShader<TextVertex, TextMaterial>
+    public class BitmapTextModel : Model<BitmapTextVertex, TextMaterial, TextShader> { }
+    public class TextShader : EmbeddedShader<BitmapTextVertex, TextMaterial>
     {
         public TextShader()
             : base("text")
@@ -22,9 +22,9 @@ namespace Vildmark.Graphics.Fonts
 
         protected override void SetupAttribs()
         {
-            AttribPointer("vert_position", nameof(TextVertex.Position));
-            AttribPointer("vert_texcoord", nameof(TextVertex.TexCoord));
-            AttribPointer("vert_texture_index", nameof(TextVertex.TextureIndex));
+            AttribPointer("vert_position", nameof(BitmapTextVertex.Position));
+            AttribPointer("vert_texcoord", nameof(BitmapTextVertex.TexCoord));
+            AttribPointer("vert_texture_index", nameof(BitmapTextVertex.TextureIndex));
         }
 
         protected override void SetupUniforms(TextMaterial material, Camera camera, Transform transform)

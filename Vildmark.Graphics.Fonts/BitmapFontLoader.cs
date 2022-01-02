@@ -12,7 +12,7 @@ using Vildmark.Resources;
 namespace Vildmark.Graphics.Fonts.Resources
 {
     [Register(typeof(IResourceLoader<BitmapFont>))]
-    public class FontResourceLoader : IResourceLoader<BitmapFont>
+    public class BitmapFontLoader : IResourceLoader<BitmapFont>
     {
         private readonly JsonSerializerOptions serializerOptions = new()
         {

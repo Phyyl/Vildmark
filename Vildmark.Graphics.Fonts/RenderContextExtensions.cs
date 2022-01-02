@@ -13,7 +13,7 @@ namespace Vildmark.Graphics.Fonts
     public static class RenderContextExtensions
     {
         private static TextShader shader;
-        private static TextModel model;
+        private static BitmapTextModel model;
 
         public static void RenderText(this RenderContext renderContext, BitmapFont font, Vector2 position, string text, float size, Color4 color)
         {
