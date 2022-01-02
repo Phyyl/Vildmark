@@ -29,6 +29,11 @@ namespace Vildmark
             Window.Run();
         }
 
+        public void Stop()
+        {
+            Window.Close();
+        }
+
         public virtual void Load()
         {
         }
@@ -65,6 +70,11 @@ namespace Vildmark
         public static new void Run()
         {
             Instance.Run();
+        }
+
+        public static new void Stop()
+        {
+            Instance.Stop();
         }
     }
 }
