@@ -1,5 +1,6 @@
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
+using System.Drawing;
 using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.Meshes;
 using Vildmark.Graphics.Models;
@@ -8,7 +9,7 @@ using Vildmark.Graphics.Shaders;
 
 namespace Vildmark.Graphics.Rendering
 {
-    public class RenderContext
+    public partial class RenderContext
     {
         private FrameBuffer? frameBuffer;
 
@@ -16,16 +17,42 @@ namespace Vildmark.Graphics.Rendering
 
         public Camera Camera { get; }
 
+        public bool DepthTest
+        {
+            get => GL.IsEnabled(EnableCap.DepthTest);
+            set
+            {
+                if (value)
+                {
+                    GL.Enable(EnableCap.DepthTest);
+                }
+                else
+                {
+                    GL.Disable(EnableCap.DepthTest);
+                }
+            }
+        }
+
+        public bool Blending
+        {
+            get => GL.IsEnabled(EnableCap.DepthTest);
+            set
+            {
+                if (value)
+                {
+                    GL.Enable(EnableCap.Blend);
+                    GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+                }
+                else
+                {
+                    GL.Disable(EnableCap.Blend);
+                }
+            }
+        }
+
         public RenderContext(Camera camera)
         {
             Camera = camera;
-
-            EnableDepthTest();
-        }
-
-        public virtual void Initialize()
-        {
-
         }
 
         public virtual void Resize(int width, int height)
@@ -38,27 +65,6 @@ namespace Vildmark.Graphics.Rendering
         {
             GL.ClearColor(ClearColor);
             GL.Clear(ClearBufferMask.DepthBufferBit | ClearBufferMask.ColorBufferBit);
-        }
-
-        public virtual void EnableDepthTest()
-        {
-            GL.Enable(EnableCap.DepthTest);
-        }
-
-        public virtual void EnableBlending()
-        {
-            GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
-        }
-
-        public virtual void DisableBlending()
-        {
-            GL.Disable(EnableCap.Blend);
-        }
-
-        public virtual void DisableDepthTest()
-        {
-            GL.Disable(EnableCap.DepthTest);
         }
 
         public virtual void Begin(FrameBuffer? frameBuffer = default, bool clear = true)
@@ -86,11 +92,6 @@ namespace Vildmark.Graphics.Rendering
             {
                 frameBuffer.Unbind();
             }
-        }
-
-        public virtual void Render(IModel model)
-        {
-            model.Render(this);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Vildmark.Graphics.Cameras
             set => SetValue(ref fovY, value);
         }
 
-        public PerspectiveCamera(int width, int height, float fovY = MathsHelper.PiOver3, float zNear = 0.01f, float zFar = 1000)
+        public PerspectiveCamera(int width, int height, float fovY = MathF.PI / 3f, float zNear = 0.01f, float zFar = 1000)
             : base(width, height, zNear, zFar)
         {
             FovY = fovY;

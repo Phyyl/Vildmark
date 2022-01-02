@@ -71,12 +71,14 @@ namespace Vildmark.Graphics.Shaders
             AttribPointer(GetAttribLocation(attribName), size, type, sizeof(TVertex), (int)Marshal.OffsetOf<TVertex>(fieldName));
         }
 
+        protected void AttribPointer(string attribName, int size, VertexAttribPointerType type, int stride, int offset) => AttribPointer(GetAttribLocation(attribName), size, type, stride, offset);
         protected void AttribPointer(int index, int size, VertexAttribPointerType type, int stride, int offset)
         {
             GL.VertexAttribPointer(index, size, type, false, stride, offset);
             GL.EnableVertexAttribArray(index);
         }
 
+        protected void AttribPointer<T>(string attribName, int stride, int offset) where T : unmanaged => AttribPointer<T>(GetAttribLocation(attribName), stride, offset);
         protected void AttribPointer<T>(int index, int stride, int offset)
             where T : unmanaged
         {

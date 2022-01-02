@@ -12,7 +12,12 @@ using Vildmark.Graphics.Shaders;
 
 namespace Vildmark.Graphics.Rendering
 {
-    public record struct TexturedMaterial(Texture2D Texture, Color4 Color);
+    public class TexturedMaterial
+    {
+        public Texture2D? Texture { get; set; }
+        public Color4 Color { get; set; }
+    }
+
     public class TexturedModel : Model<Vertex, TexturedMaterial, TexturedShader> { }
     public class TexturedShader : EmbeddedShader<Vertex, TexturedMaterial>
     {
@@ -21,7 +26,7 @@ namespace Vildmark.Graphics.Rendering
         protected override void SetupUniforms(TexturedMaterial material, Camera camera, Transform transform)
         {
             Uniform("tint", material.Color);
-            Uniform("tex", material.Texture);
+            Uniform("tex", material.Texture ?? Texture2D.WhitePixel);
             Uniform("projection_matrix", camera.ProjectionMatrix);
             Uniform("view_matrix", camera.ViewMatrix);
             Uniform("model_matrix", transform);
@@ -29,10 +34,10 @@ namespace Vildmark.Graphics.Rendering
 
         protected override void SetupAttribs()
         {
-            AttribPointer("vert_position", "Position");
-            AttribPointer("vert_color", "Color");
-            AttribPointer("vert_texcoord", "TexCoord");
-            AttribPointer("vert_normal", "Normal");
+            AttribPointer("vert_position", nameof(Vertex.Position));
+            AttribPointer("vert_color", nameof(Vertex.Color));
+            AttribPointer("vert_texcoord", nameof(Vertex.TexCoord));
+            AttribPointer("vert_normal", nameof(Vertex.Normal));
         }
     }
 }

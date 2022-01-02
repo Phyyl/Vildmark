@@ -42,11 +42,11 @@ namespace Vildmark.Graphics.Models
         {
         }
 
-        public virtual void Render(RenderContext renderContext)
+        public virtual void Render(RenderContext renderContext, PrimitiveType primitiveType = PrimitiveType.Triangles)
         {
             Shader.Begin(Material, renderContext.Camera, Transform);
             vertexArray.Bind();
-            Mesh.Draw();
+            Mesh.Draw(primitiveType);
         }
     }
 }
