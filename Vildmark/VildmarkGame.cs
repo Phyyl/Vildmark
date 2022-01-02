@@ -1,3 +1,6 @@
+using Vildmark.Graphics.Cameras;
+using Vildmark.Graphics.Rendering;
+using Vildmark.Maths;
 using Vildmark.Windowing;
 
 namespace Vildmark
@@ -61,20 +64,30 @@ namespace Vildmark
         protected virtual void InitializeWindowSettings(WindowSettings settings)
         {
         }
-    }
 
-    public abstract class VildmarkGame<T> : VildmarkGame where T : VildmarkGame, new()
-    {
-        public static readonly T Instance = new();
-
-        public static new void Run()
+        protected RenderContext Create2DRenderContext(bool offcenter = true, float zNear = 1, float zFar = -1)
         {
-            Instance.Run();
+            return CreateRenderContext(offcenter ?
+                new OrthographicOffCenterCamera(Window.Width, Window.Height, zNear, zFar) :
+                new OrthographicCamera(Window.Width, Window.Height, zNear, zFar));
         }
 
-        public static new void Stop()
+        protected RenderContext Create3DRenderContext(float fovY = MathsHelper.PiOver3, float zNear = 0.01f, float zFar = 1000)
         {
-            Instance.Stop();
+            return CreateRenderContext(new PerspectiveCamera(Window.Width, Window.Height, fovY, zNear, zFar));
+        }
+
+        private RenderContext CreateRenderContext(Camera camera)
+        {
+            Window.OnResize += camera.Resize;
+
+            return new RenderContext(camera);
+        }
+
+        public static void Run<T>()
+            where T : VildmarkGame, new()
+        {
+            new T().Run();
         }
     }
 }

@@ -1,4 +1,5 @@
 using OpenTK.Mathematics;
+using Vildmark.Maths;
 
 namespace Vildmark.Graphics.Cameras
 {
@@ -12,7 +13,7 @@ namespace Vildmark.Graphics.Cameras
             set => SetValue(ref fovY, value);
         }
 
-        public PerspectiveCamera(float fovY, int width, int height, float zNear = 0.01f, float zFar = 1000)
+        public PerspectiveCamera(int width, int height, float fovY = MathsHelper.PiOver3, float zNear = 0.01f, float zFar = 1000)
             : base(width, height, zNear, zFar)
         {
             FovY = fovY;

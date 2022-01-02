@@ -8,7 +8,7 @@ using Vildmark.Graphics.Shaders;
 
 namespace Vildmark.Graphics.Rendering
 {
-    public abstract class RenderContext
+    public class RenderContext
     {
         private FrameBuffer? frameBuffer;
 
@@ -16,7 +16,7 @@ namespace Vildmark.Graphics.Rendering
 
         public Camera Camera { get; }
 
-        protected RenderContext(Camera camera)
+        public RenderContext(Camera camera)
         {
             Camera = camera;
 

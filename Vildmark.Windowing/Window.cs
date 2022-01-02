@@ -10,6 +10,8 @@ namespace Vildmark.Windowing
         private readonly GameWindow gameWindow;
         private readonly WindowSettings settings;
 
+        public event ResizeEventHandler? OnResize;
+
         public IWindowHandler WindowHandler { get; set; }
 
         public int Width => Size.X;
@@ -71,6 +73,8 @@ namespace Vildmark.Windowing
             Size = new Vector2i(obj.Width, obj.Height);
 
             WindowHandler?.Resize(obj.Width, obj.Height);
+
+            OnResize?.Invoke(obj.Width, obj.Height);
         }
 
         private void GameWindow_UpdateFrame(FrameEventArgs obj)

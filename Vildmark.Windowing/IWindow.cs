@@ -1,9 +1,13 @@
-﻿using OpenTK.Mathematics;
+using OpenTK.Mathematics;
 
 namespace Vildmark.Windowing
 {
+    public delegate void ResizeEventHandler(int width, int height);
+
     public interface IWindow
 	{
+        event ResizeEventHandler? OnResize;
+
 		int Width { get; }
 
 		int Height { get; }
