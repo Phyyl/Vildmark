@@ -13,7 +13,8 @@ namespace Vildmark.Graphics.Rendering
 {
     public partial class RenderContext
     {
-        private ColoredModel colorModel = new();
+        private ColoredModel coloredModel = new();
+        private TexturedModel texturedModel = new();
 
         public void RenderRectangle(RectangleF rectangle, Color4 color)
         {
@@ -49,11 +50,30 @@ namespace Vildmark.Graphics.Rendering
             Render(vertices, color, PrimitiveType.TriangleFan);
         }
 
+        public void RenderTexture(Texture2D texture, Vector2 position, Vector2 size) => RenderTexture(texture, position, size, Color4.White);
+        public void RenderTexture(Texture2D texture, Vector2 position, Vector2 size, Color4 tint)
+        {
+            texturedModel.Material.Color = tint;
+            texturedModel.Material.Texture = texture;
+
+            texturedModel.Mesh.UpdateVertices(new Vertex[]
+            {
+                new Vertex(position, Vector2.Zero),
+                new Vertex(position + size * Vector2.UnitY, Vector2.UnitY),
+                new Vertex(position + size, Vector2.One),
+                new Vertex(position, Vector2.Zero),
+                new Vertex(position + size, Vector2.One),
+                new Vertex(position + size * Vector2.UnitX, Vector2.UnitX)
+            });
+
+            texturedModel.Render(this);
+        }
+
         public virtual void Render(Span<Vector2> vertices, Color4 color, PrimitiveType primitiveType = PrimitiveType.Triangles)
         {
-            colorModel.Mesh.UpdateVertices(vertices);
-            colorModel.Material = color;
-            colorModel.Render(this, primitiveType);
+            coloredModel.Mesh.UpdateVertices(vertices);
+            coloredModel.Material = color;
+            coloredModel.Render(this, primitiveType);
         }
     }
 }

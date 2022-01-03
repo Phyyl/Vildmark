@@ -6,6 +6,7 @@ using Vildmark.Graphics.GLObjects;
 namespace Vildmark.Graphics.Rendering
 {
     public class TextureDictionary<TKey>
+        where TKey : notnull
     {
         private readonly Dictionary<TKey, Texture2D> rectangles = new();
 

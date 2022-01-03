@@ -9,6 +9,7 @@ using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Meshes;
 using Vildmark.Graphics.Models;
 using Vildmark.Graphics.Shaders;
+using Vildmark.Maths;
 
 namespace Vildmark.Graphics.Rendering
 {
@@ -25,11 +26,14 @@ namespace Vildmark.Graphics.Rendering
 
         protected override void SetupUniforms(TexturedMaterial material, Camera camera, Transform transform)
         {
-            Uniform("tint", material.Color);
-            Uniform("tex", material.Texture ?? Texture2D.WhitePixel);
+            Texture2D texture = material.Texture ?? Texture2D.WhitePixel;
+
             Uniform("projection_matrix", camera.ProjectionMatrix);
             Uniform("view_matrix", camera.ViewMatrix);
             Uniform("model_matrix", transform);
+            Uniform("source_rect", texture.SourceRectangle.ToVector());
+            Uniform("tex", texture);
+            Uniform("tint", material.Color);
         }
 
         protected override void SetupAttribs()
