@@ -50,20 +50,34 @@ namespace Vildmark.Graphics.Rendering
             Render(vertices, color, PrimitiveType.TriangleFan);
         }
 
-        public void RenderTexture(Texture2D texture, Vector2 position, Vector2 size) => RenderTexture(texture, position, size, Color4.White);
-        public void RenderTexture(Texture2D texture, Vector2 position, Vector2 size, Color4 tint)
+        public void RenderTexture(Texture2D texture, Vector2 position, Vector2 size, Color4? tint = default, bool flipX = false, bool flipY = false)
         {
-            texturedModel.Material.Color = tint;
+            texturedModel.Material.Color = tint ?? Color4.White;
             texturedModel.Material.Texture = texture;
+
+            Vector2 topLeft = new(0, 0);
+            Vector2 bottomLeft = new(0, 1);
+            Vector2 bottomRight = new(1, 1);
+            Vector2 topRight = new(1, 0);
+
+            if (flipX)
+            {
+                (topLeft, bottomLeft, bottomRight, topRight) = (topRight, bottomRight, bottomLeft, topLeft);
+            }
+
+            if (flipY)
+            {
+                (topLeft, bottomLeft, bottomRight, topRight) = (bottomLeft, topLeft, topRight, bottomRight);
+            }
 
             texturedModel.Mesh.UpdateVertices(new Vertex[]
             {
-                new Vertex(position, Vector2.Zero),
-                new Vertex(position + size * Vector2.UnitY, Vector2.UnitY),
-                new Vertex(position + size, Vector2.One),
-                new Vertex(position, Vector2.Zero),
-                new Vertex(position + size, Vector2.One),
-                new Vertex(position + size * Vector2.UnitX, Vector2.UnitX)
+                new Vertex(position, topLeft),
+                new Vertex(position + size * Vector2.UnitY, bottomLeft),
+                new Vertex(position + size, bottomRight),
+                new Vertex(position, topLeft),
+                new Vertex(position + size, bottomRight),
+                new Vertex(position + size * Vector2.UnitX, topRight)
             });
 
             texturedModel.Render(this);
