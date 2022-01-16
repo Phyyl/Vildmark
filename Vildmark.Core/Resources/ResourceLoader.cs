@@ -96,15 +96,13 @@ namespace Vildmark.Resources
         {
             if (Service.TryGet<IResourceLoaderOptions<TResource, TLoaderOptions>>(out var loaderOptions))
             {
-                loaderOptions.Options = options;
-
-                return loaderOptions.Load(stream, assembly, resourceName);
+                return loaderOptions.Load(stream, assembly, resourceName, options);
             }
 
             return Load<TResource>(stream);
         }
 
-        byte[]? IResourceLoader<byte[]>.Load(Stream stream, Assembly assembly, string resourceName)
+        byte[]? IResourceLoader<byte[]>.Load(Stream stream, Assembly? assembly, string resourceName)
         {
             if (stream is null)
             {
@@ -118,7 +116,7 @@ namespace Vildmark.Resources
             return ms.ToArray();
         }
 
-        string? IResourceLoader<string>.Load(Stream stream, Assembly assembly, string resourceName)
+        string? IResourceLoader<string>.Load(Stream stream, Assembly? assembly, string resourceName)
         {
             if (stream is null)
             {
@@ -130,7 +128,7 @@ namespace Vildmark.Resources
             return reader.ReadToEnd();
         }
 
-        string[]? IResourceLoader<string[]>.Load(Stream stream, Assembly assembly, string resourceName)
+        string[]? IResourceLoader<string[]>.Load(Stream stream, Assembly? assembly, string resourceName)
         {
             if (stream is null)
             {
@@ -140,9 +138,8 @@ namespace Vildmark.Resources
             using StreamReader reader = new(stream);
 
             List<string> lines = new();
-            string line = null;
 
-            while ((line = reader.ReadLine()) != null)
+            while (reader.ReadLine() is { } line)
             {
                 lines.Add(line);
             }

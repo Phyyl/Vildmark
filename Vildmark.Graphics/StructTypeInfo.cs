@@ -34,7 +34,7 @@ namespace Vildmark.Graphics
             Storage<Vector4>.AttribSize = 4;
 
             Storage<Matrix4>.UniformSetter = (l, v, i) => GL.UniformMatrix4(l, false, ref v);
-            Storage<Transform>.UniformSetter = (l, v, i) => SetUniform(l, v.Matrix, i);
+            Storage<Transform?>.UniformSetter = (l, v, i) => SetUniform(l, v?.Matrix ?? Matrix4.Identity, i);
 
             Storage<Color4>.UniformSetter = (l, v, i) => GL.Uniform4(l, v);
             Storage<Color4>.AttribSize = 4;
@@ -45,16 +45,14 @@ namespace Vildmark.Graphics
                 GL.Uniform1(l, i);
             };
 
-            Storage<Texture2D>.UniformSetter = (l, v, i) => SetUniform(l, v.GLTexture);
+            Storage<Texture2D>.UniformSetter = (l, v, i) => SetUniform(l, v.GLTexture, i);
             Storage<Texture2D[]>.UniformSetter = (l, v, i) =>
             {
                 for (int j = 0; j < v.Length; j++)
                 {
-                    GL.ActiveTexture(TextureUnit.Texture0 + j);
                     SetUniform(l + i + j, v[j], j);
                 }
             };
-
         }
 
         public static bool SetUniform<T>(int location, T value, int index = 0)
@@ -74,6 +72,30 @@ namespace Vildmark.Graphics
 
         public static int GetAttribSize<T>() => Storage<T>.AttribSize;
         public static VertexAttribPointerType GetAttribType<T>() => Storage<T>.AttribType;
+
+        public static bool TryGetAttribSize(Type type, out int size)
+        {
+            if (typeof(Storage<>).MakeGenericType(type).GetField(nameof(Storage<float>.AttribSize))?.GetValue(null) is int i)
+            {
+                size = i;
+                return true;
+            }
+
+            size = 0;
+            return false;
+        }
+
+        public static bool TryGetAttribType(Type type, out VertexAttribPointerType attribType)
+        {
+            if (typeof(Storage<>).MakeGenericType(type).GetField(nameof(Storage<float>.AttribType))?.GetValue(null) is VertexAttribPointerType t)
+            {
+                attribType = t;
+                return true;
+            }
+
+            attribType = VertexAttribPointerType.Float;
+            return false;
+        }
 
         private static class Storage<T>
         {

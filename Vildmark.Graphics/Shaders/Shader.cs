@@ -7,11 +7,11 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.GLObjects;
+using Vildmark.Resources;
 
 namespace Vildmark.Graphics.Shaders
 {
-    public abstract class Shader<TVertex, TMaterial> : IShader<TMaterial>
-        where TVertex : unmanaged
+    public class Shader : IShader
     {
         private record class Attrib(int Size, VertexAttribPointerType Type);
 
@@ -37,53 +37,8 @@ namespace Vildmark.Graphics.Shaders
         public int GetAttribLocation(string name) => shaderProgram?.GetAttribLocation(name) ?? -1;
         public int GetUniformLocation(string name) => shaderProgram?.GetUniformLocation(name) ?? -1;
 
-        protected abstract void SetupUniforms(TMaterial material, Camera camera, Transform transform);
-        protected abstract void SetupAttribs();
-
-        public void Begin(TMaterial material, Camera camera, Transform transform)
-        {
-            Use();
-            SetupUniforms(material, camera, transform);
-        }
-
-        public void Initialize(GLVertexArray vertexArray)
-        {
-            Use();
-            vertexArray.Bind();
-            SetupAttribs();
-        }
-
-        public VertexAttribPointerType GetAttribType(string name)
-        {
-            return attribs.GetValueOrDefault(name)?.Type ?? VertexAttribPointerType.Float;
-        }
-
-        public int GetAttribSize(string name)
-        {
-            return attribs.GetValueOrDefault(name)?.Size ?? 1;
-        }
-
-        protected unsafe void AttribPointer(string attribName, string fieldName)
-        {
-            VertexAttribPointerType type = GetAttribType(attribName);
-            int size = GetAttribSize(attribName);
-
-            AttribPointer(GetAttribLocation(attribName), size, type, sizeof(TVertex), (int)Marshal.OffsetOf<TVertex>(fieldName));
-        }
-
-        protected void AttribPointer(string attribName, int size, VertexAttribPointerType type, int stride, int offset) => AttribPointer(GetAttribLocation(attribName), size, type, stride, offset);
-        protected void AttribPointer(int index, int size, VertexAttribPointerType type, int stride, int offset)
-        {
-            GL.VertexAttribPointer(index, size, type, false, stride, offset);
-            GL.EnableVertexAttribArray(index);
-        }
-
-        protected void AttribPointer<T>(string attribName, int stride, int offset) where T : unmanaged => AttribPointer<T>(GetAttribLocation(attribName), stride, offset);
-        protected void AttribPointer<T>(int index, int stride, int offset)
-            where T : unmanaged
-        {
-            AttribPointer(index, StructTypeInfo.GetAttribSize<T>(), StructTypeInfo.GetAttribType<T>(), stride, offset);
-        }
+        public VertexAttribPointerType GetAttribType(string name) => attribs.GetValueOrDefault(name)?.Type ?? VertexAttribPointerType.Float;
+        public int GetAttribSize(string name) => attribs.GetValueOrDefault(name)?.Size ?? 1;
 
         private void InitializeAttribs()
         {

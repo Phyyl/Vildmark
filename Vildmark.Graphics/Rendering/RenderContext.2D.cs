@@ -6,30 +6,39 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Vildmark.Graphics.Models;
+using Vildmark.Graphics.Materials;
+using Vildmark.Graphics.Meshes;
+using Vildmark.Graphics.Shaders;
 using Vildmark.Maths;
 
 namespace Vildmark.Graphics.Rendering
 {
     public partial class RenderContext
     {
-        private ColoredModel coloredModel = new();
-        private TexturedModel texturedModel = new();
+        private Mesh mesh = new();
 
-        public void RenderRectangle(RectangleF rectangle, Color4 color)
+        public void RenderRectangle(RectangleF rectangle, Color4 color, Transform? transform = default, PrimitiveType primitiveType = PrimitiveType.Triangles, IShader? shader = default) => RenderRectangle(rectangle, new ColorMaterial(color), transform, primitiveType, shader);
+        public void RenderRectangle(RectangleF rectangle, Texture2D texture, Transform? transform = default, PrimitiveType primitiveType = PrimitiveType.Triangles, IShader? shader = default) => RenderRectangle(rectangle, new TextureMaterial(texture), transform, primitiveType, shader);
+        public void RenderRectangle<TMaterial>(RectangleF rectangle, TMaterial material, Transform? transform = default, PrimitiveType primitiveType = PrimitiveType.Triangles, IShader? shader = default)
+            where TMaterial : IMaterial
         {
-            Render(new Vector2[]
+            mesh.UpdateVertices(new Vertex[]
             {
-                rectangle.GetTopLeft(),
-                rectangle.GetBottomLeft(),
-                rectangle.GetBottomRight(),
-                rectangle.GetTopLeft(),
-                rectangle.GetBottomRight(),
-                rectangle.GetTopRight(),
-            }, color);
+                new(rectangle.GetTopLeft(), Vector2.Zero),
+                new(rectangle.GetBottomLeft(), Vector2.UnitY),
+                new(rectangle.GetBottomRight(), Vector2.One),
+                new(rectangle.GetTopLeft(), Vector2.Zero),
+                new(rectangle.GetBottomRight(), Vector2.One),
+                new(rectangle.GetTopRight(), Vector2.UnitX),
+            });
+
+            Render(mesh, material, transform, primitiveType, shader);
         }
 
-        public void RenderCircle(Vector2 center, float radius, Color4 color, int sides = 0)
+        public void RenderCircle(Vector2 center, float radius, Color4 color, int sides = 0, Transform? transform = default, PrimitiveType primitiveType = PrimitiveType.TriangleStrip, IShader? shader = default) => RenderCircle(center, radius, new ColorMaterial(color), sides, transform, primitiveType, shader);
+        public void RenderCircle(Vector2 center, float radius, Texture2D texture, int sides = 0, Transform? transform = default, PrimitiveType primitiveType = PrimitiveType.TriangleStrip, IShader? shader = default) => RenderCircle(center, radius, new TextureMaterial(texture), sides, transform, primitiveType, shader);
+        public void RenderCircle<TMaterial>(Vector2 center, float radius, TMaterial material, int sides = 0, Transform? transform = default, PrimitiveType primitiveType = PrimitiveType.TriangleStrip, IShader? shader = default)
+            where TMaterial : IMaterial
         {
             if (sides <= 0)
             {
@@ -37,57 +46,21 @@ namespace Vildmark.Graphics.Rendering
             }
 
             float angleStep = 1f / sides * MathF.Tau;
+            Vertex[] vertices = new Vertex[sides + 2];
 
-            Vector2[] vertices = new Vector2[sides + 2];
-
-            vertices[0] = center;
+            vertices[0] = new Vertex(center, new Vector2(0.5f, 0.5f));
 
             for (int i = 0; i <= sides; i++)
             {
-                vertices[i + 1] = center + new Vector2(MathF.Cos(angleStep * i), MathF.Sin(angleStep * i)) * radius;
+                float cos = MathF.Cos(angleStep * i);
+                float sin = MathF.Sin(angleStep * i);
+
+                vertices[i + 1] = new Vertex(center + new Vector2(cos, sin) * radius, new Vector2(cos, sin) / 2f + new Vector2(0.5f, 0.5f));
             }
 
-            Render(vertices, color, PrimitiveType.TriangleFan);
-        }
+            mesh.UpdateVertices(vertices);
 
-        public void RenderTexture(Texture2D texture, Vector2 position, Vector2 size, Color4? tint = default, bool flipX = false, bool flipY = false)
-        {
-            texturedModel.Material.Color = tint ?? Color4.White;
-            texturedModel.Material.Texture = texture;
-
-            Vector2 topLeft = new(0, 0);
-            Vector2 bottomLeft = new(0, 1);
-            Vector2 bottomRight = new(1, 1);
-            Vector2 topRight = new(1, 0);
-
-            if (flipX)
-            {
-                (topLeft, bottomLeft, bottomRight, topRight) = (topRight, bottomRight, bottomLeft, topLeft);
-            }
-
-            if (flipY)
-            {
-                (topLeft, bottomLeft, bottomRight, topRight) = (bottomLeft, topLeft, topRight, bottomRight);
-            }
-
-            texturedModel.Mesh.UpdateVertices(new Vertex[]
-            {
-                new Vertex(position, topLeft),
-                new Vertex(position + size * Vector2.UnitY, bottomLeft),
-                new Vertex(position + size, bottomRight),
-                new Vertex(position, topLeft),
-                new Vertex(position + size, bottomRight),
-                new Vertex(position + size * Vector2.UnitX, topRight)
-            });
-
-            texturedModel.Render(this);
-        }
-
-        public virtual void Render(Span<Vector2> vertices, Color4 color, PrimitiveType primitiveType = PrimitiveType.Triangles)
-        {
-            coloredModel.Mesh.UpdateVertices(vertices);
-            coloredModel.Material = color;
-            coloredModel.Render(this, primitiveType);
+            Render(mesh, material, transform, primitiveType, shader);
         }
     }
 }

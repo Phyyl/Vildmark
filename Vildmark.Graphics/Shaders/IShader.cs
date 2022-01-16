@@ -5,12 +5,10 @@ using Vildmark.Graphics.Meshes;
 
 namespace Vildmark.Graphics.Shaders
 {
-    public interface IShader<TMaterial>
+    public interface IShader
     {
         VertexAttribPointerType GetAttribType(string name);
         int GetAttribSize(string name);
-
-        void Begin(TMaterial material, Camera camera, Transform transform);
 
         void Use();
 
@@ -19,7 +17,10 @@ namespace Vildmark.Graphics.Shaders
 
         int GetAttribLocation(string name);
         int GetUniformLocation(string name);
+    }
 
-        void Initialize(GLVertexArray vertexArray);
+    public interface IShaderSetup<TInput>
+    {
+        void Setup(TInput input);
     }
 }

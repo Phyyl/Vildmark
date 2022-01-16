@@ -1,6 +1,9 @@
 using OpenTK.Mathematics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using Vildmark.Graphics.GLObjects;
+using Vildmark.Logging;
+using Vildmark.Resources;
 
 namespace Vildmark.Graphics.Rendering
 {

@@ -79,7 +79,7 @@ namespace Vildmark.Qubicle
                 }
             }
 
-            return new Mesh<Vertex>(vertices.ToArray());
+            return new Mesh(vertices.ToArray());
         }
     }
 }

@@ -1,4 +1,5 @@
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
 using System;
 using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Shaders;
@@ -12,10 +13,10 @@ namespace Vildmark.Graphics.Meshes
 
         public override int Count => IndexBuffer.Count;
 
-        public IndexedMesh(Span<TVertex> vertices = default)
+        public IndexedMesh(Span<TVertex> vertices = default, Span<uint> indices = default)
             : base(vertices)
         {
-            IndexBuffer = new GLBuffer<uint>(0, BufferTarget.ElementArrayBuffer);
+            IndexBuffer = new GLBuffer<uint>(indices, BufferTarget.ElementArrayBuffer);
         }
 
         public void UpdateIndices(Span<uint> indices)
@@ -23,9 +24,26 @@ namespace Vildmark.Graphics.Meshes
             IndexBuffer.SetData(indices);
         }
 
+        protected override void InitializeAttribs()
+        {
+            base.InitializeAttribs();
+
+            IndexBuffer.Bind();
+        }
+
         public override void Draw(PrimitiveType primitiveType = PrimitiveType.Triangles)
         {
+            VertexArray.Bind();
+
             GL.DrawElements(primitiveType, Count, DrawElementsType.UnsignedInt, 0);
+        }
+    }
+
+    public class IndexedMesh : IndexedMesh<Vertex>
+    {
+        public IndexedMesh(Span<Vertex> vertices = default, Span<uint> indices = default)
+            : base(vertices, indices)
+        {
         }
     }
 }

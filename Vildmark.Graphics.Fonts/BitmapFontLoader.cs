@@ -19,9 +19,9 @@ namespace Vildmark.Graphics.Fonts.Resources
             PropertyNameCaseInsensitive = true
         };
 
-        public BitmapFont Load(Stream stream, Assembly assembly, string resourceName)
+        public BitmapFont? Load(Stream stream, Assembly? assembly, string resourceName)
         {
-            string json = ResourceLoader.Load<string>(stream);
+            string? json = ResourceLoader.Load<string>(stream);
 
             if (json is null)
             {
@@ -40,7 +40,7 @@ namespace Vildmark.Graphics.Fonts.Resources
             return new(chars)
             {
                 Name = definition.Info.Face,
-                Pages = definition.Pages.Select(p => new Texture2D(ResourceLoader.LoadEmbedded<GLTexture2D, TextureOptions>(p, TextureOptions.Linear, assembly))).ToArray(),
+                Pages = definition.Pages.Select(p => new Texture2D(ResourceLoader.LoadEmbedded<GLTexture2D, Texture2DMode>(p, Texture2DMode.Linear, assembly))).ToArray(),
                 LineHeight = definition.Common.LineHeight,
                 Size = Math.Abs(definition.Info.Size),
                 Base = definition.Common.Base

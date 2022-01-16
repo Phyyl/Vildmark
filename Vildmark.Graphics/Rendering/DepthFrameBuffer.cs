@@ -11,7 +11,7 @@ namespace Vildmark.Graphics.Rendering
     public class DepthFrameBuffer : FrameBuffer
     {
         public DepthFrameBuffer(int width, int height)
-            : base(width, height, FramebufferAttachment.DepthAttachment, TextureOptions.Depth)
+            : base(width, height, FramebufferAttachment.DepthAttachment, Texture2DFormat.Depth)
         {
         }
 

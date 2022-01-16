@@ -7,51 +7,51 @@ namespace Vildmark.Graphics.GLObjects
 {
     public class GLTexture2D : GLObject
     {
-        public TextureMagFilter MagFilter { get; }
-        public TextureMinFilter MinFilter { get; }
-        public TextureWrapMode WrapSMode { get; }
-        public TextureWrapMode WrapTMode { get; }
-        public PixelFormat PixelFormat { get; }
-        public PixelInternalFormat PixelInternalFormat { get; }
-        public PixelType PixelType { get; }
+        private readonly PixelFormat pixelFormat = PixelFormat.Bgra;
+        private readonly PixelInternalFormat pixelInternalFormat = PixelInternalFormat.Rgba;
+        private readonly PixelType pixelType = PixelType.UnsignedByte;
+
         public TextureTarget TextureTarget { get; }
 
         public int Width { get; private set; }
         public int Height { get; private set; }
-        public Vector2 Size => new(Width, Height);
 
+        public Vector2 Size => new(Width, Height);
         public float TexelWidth => 1 / (float)Width;
         public float TexelHeight => 1 / (float)Height;
         public Vector2 TexelSize => new(TexelWidth, TexelHeight);
 
-        public GLTexture2D()
-            : this(0, 0)
-        {
-        }
-
-        public GLTexture2D(int width, int height, Span<byte> data = default, TextureOptions options = default)
+        public GLTexture2D(
+            int width = 0,
+            int height = 0,
+            Span<byte> data = default,
+            PixelFormat pixelFormat = PixelFormat.Bgra,
+            PixelInternalFormat pixelInternalFormat = PixelInternalFormat.Rgba,
+            PixelType pixelType = PixelType.UnsignedByte,
+            TextureMagFilter magFilter = TextureMagFilter.Linear,
+            TextureMinFilter minFilter = TextureMinFilter.Linear,
+            TextureWrapMode wrapS = TextureWrapMode.ClampToEdge,
+            TextureWrapMode wrapT = TextureWrapMode.ClampToEdge,
+            TextureTarget textureTarget = TextureTarget.Texture2D)
             : base(GL.GenTexture())
         {
-            options ??= TextureOptions.Default;
+            this.pixelFormat = pixelFormat;
+            this.pixelInternalFormat = pixelInternalFormat;
+            this.pixelType = pixelType;
 
-            MagFilter = options.MagFilter;
-            MinFilter = options.MinFilter;
-            WrapSMode = options.WrapSMode;
-            WrapTMode = options.WrapTMode;
-            TextureTarget = options.Target;
-            PixelFormat = options.PixelFormat;
-            PixelType = options.PixelType;
-            PixelInternalFormat = options.PixelInternalFormat;
+            TextureTarget = textureTarget;
 
+            SetData(width, height, data);
+            Configure(magFilter, minFilter, wrapS, wrapT);
+        }
+
+        public void Configure(TextureMagFilter magFilter, TextureMinFilter minFilter, TextureWrapMode wrapS, TextureWrapMode wrapT)
+        {
             Bind();
-            {
-                GL.TexParameter(TextureTarget, TextureParameterName.TextureMagFilter, (int)MagFilter);
-                GL.TexParameter(TextureTarget, TextureParameterName.TextureMinFilter, (int)MinFilter);
-                GL.TexParameter(TextureTarget, TextureParameterName.TextureWrapS, (int)WrapSMode);
-                GL.TexParameter(TextureTarget, TextureParameterName.TextureWrapT, (int)WrapTMode);
-
-                SetData(width, height, data);
-            }
+            GL.TexParameter(TextureTarget, TextureParameterName.TextureMagFilter, (int)magFilter);
+            GL.TexParameter(TextureTarget, TextureParameterName.TextureMinFilter, (int)minFilter);
+            GL.TexParameter(TextureTarget, TextureParameterName.TextureWrapS, (int)wrapS);
+            GL.TexParameter(TextureTarget, TextureParameterName.TextureWrapT, (int)wrapT);
             Unbind();
         }
 
@@ -62,22 +62,24 @@ namespace Vildmark.Graphics.GLObjects
                 return;
             }
 
-            GL.TexSubImage2D(TextureTarget, 0, x, y, width, height, PixelFormat, PixelType, ref MemoryMarshal.GetReference(data));
+            GL.TexSubImage2D(TextureTarget, 0, x, y, width, height, pixelFormat, pixelType, ref MemoryMarshal.GetReference(data));
         }
 
         public void SetData<T>(int width, int height, Span<T> data) where T : unmanaged
         {
+            Bind();
             if (data.IsEmpty)
             {
-                GL.TexImage2D(TextureTarget, 0, PixelInternalFormat, width, height, 0, PixelFormat, PixelType, IntPtr.Zero);
+                GL.TexImage2D(TextureTarget, 0, pixelInternalFormat, width, height, 0, pixelFormat, pixelType, IntPtr.Zero);
             }
             else
             {
-                GL.TexImage2D(TextureTarget, 0, PixelInternalFormat, width, height, 0, PixelFormat, PixelType, ref MemoryMarshal.GetReference(data));
+                GL.TexImage2D(TextureTarget, 0, pixelInternalFormat, width, height, 0, pixelFormat, pixelType, ref MemoryMarshal.GetReference(data));
             }
 
             Width = width;
             Height = height;
+            Unbind();
         }
 
         public void Resize(int width, int height)

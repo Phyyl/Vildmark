@@ -1,10 +1,13 @@
+using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Linq;
 using System.Reflection.Metadata;
 using Vildmark.Graphics.Fonts.Resources;
 using Vildmark.Graphics.GLObjects;
+using Vildmark.Graphics.Meshes;
 using Vildmark.Graphics.Rendering;
 using Vildmark.Resources;
 
@@ -14,8 +17,9 @@ namespace Vildmark.Graphics.Fonts
 
     public class BitmapFont
     {
-        private readonly BitmapTextModel model;
+        private readonly IMesh<BitmapFontVertex> mesh;
         private readonly Dictionary<char, BitmapFontChar> characters;
+        private readonly BitmapFontShader shader;
 
         public Texture2D[] Pages { get; internal init; }
         public string Name { get; internal init; }
@@ -27,41 +31,25 @@ namespace Vildmark.Graphics.Fonts
         {
             characters = chars.ToDictionary(c => c.Character);
 
-            model = new();
+            mesh = new Mesh<BitmapFontVertex>();
+            Pages = new Texture2D[0];
+            Name = "";
+            shader = new();
         }
 
-        public bool TryGetChar(char character, out BitmapFontChar bitmapChar)
+        public bool TryGetChar(char character, [NotNullWhen(true)] out BitmapFontChar? bitmapChar)
         {
             return characters.TryGetValue(character, out bitmapChar);
         }
 
-        public bool TryGetChar(char character, char fallback, out BitmapFontChar bitmapChar)
+        public bool TryGetChar(char character, char fallback, [NotNullWhen(true)] out BitmapFontChar? bitmapChar)
         {
             return TryGetChar(character, out bitmapChar) || TryGetChar(fallback, out bitmapChar);
         }
 
-        public BitmapTextModel CreateModel(string text, float size, Color4 color)
-        {
-            BitmapTextModel model = new();
-
-            UpdateModel(model, text, size, color);
-
-            return model;
-        }
-
-        public void UpdateModel(BitmapTextModel model, string text, float size, Color4 color)
-        {
-            model.Mesh.UpdateVertices(CreateStringVertices(text, size));
-            model.Material = new TextMaterial()
-            {
-                Textures = Pages,
-                Tint = color
-            };
-        }
-
         public RectangleF GetBounds(string text, float size, Vector2 position = default)
         {
-            BitmapTextVertex[] vertices = CreateStringVertices(text, size);
+            BitmapFontVertex[] vertices = CreateStringVertices(text, size);
 
             float minX = vertices.Min(v => v.Position.X);
             float minY = vertices.Min(v => v.Position.Y);
@@ -71,33 +59,38 @@ namespace Vildmark.Graphics.Fonts
             return new RectangleF(minX + position.X, minY + position.Y, maxX - minX, maxY - minY);
         }
 
-        public void RenderString(RenderContext renderContext, string text, Vector2 position, float size, Color4 color)
+        public void RenderString(RenderContext renderContext, string text, Vector2 position, float size, Color4 color, PrimitiveType primitiveType = PrimitiveType.Triangles)
         {
-            UpdateModel(model, text, size, color);
-            model.Transform.Position = new Vector3(position);
+            UpdateMesh(mesh, text, size);
 
             renderContext.Blending = true;
             renderContext.DepthTest = false;
-            model.Render(renderContext);
+
+            renderContext.Render(mesh, new BitmapFontMaterial(Pages, color), new Transform { Position = new Vector3(position) }, primitiveType, shader);
         }
 
-        private BitmapTextVertex[] CreateStringVertices(string text, float size)
+        public void UpdateMesh(IMesh<BitmapFontVertex> mesh, string text, float size)
         {
-            if (text is null)
+            mesh.UpdateVertices(CreateStringVertices(text, size));
+        }
+
+        private BitmapFontVertex[] CreateStringVertices(string text, float size)
+        {
+            if (text is null || size <= 0)
             {
-                return Array.Empty<BitmapTextVertex>();
+                return Array.Empty<BitmapFontVertex>();
             }
 
             // Convert to 0..1
             size /= Size;
 
-            List<BitmapTextVertex> vertices = new();
+            List<BitmapFontVertex> vertices = new();
 
             Vector2 cursor = new Vector2(0, Base / (float)LineHeight * size);
 
             foreach (var chr in text)
             {
-                if (!TryGetChar(chr, ' ', out BitmapFontChar fontChar))
+                if (!TryGetChar(chr, ' ', out BitmapFontChar? fontChar))
                 {
                     continue;
                 }
@@ -119,12 +112,12 @@ namespace Vildmark.Graphics.Fonts
                 Vector2 tbl = ttl + new Vector2(0, sourceSize.Y);
                 Vector2 tbr = ttl + sourceSize;
 
-                vertices.Add(new BitmapTextVertex(vtl, ttl, fontChar.Page));
-                vertices.Add(new BitmapTextVertex(vbl, tbl, fontChar.Page));
-                vertices.Add(new BitmapTextVertex(vbr, tbr, fontChar.Page));
-                vertices.Add(new BitmapTextVertex(vtl, ttl, fontChar.Page));
-                vertices.Add(new BitmapTextVertex(vbr, tbr, fontChar.Page));
-                vertices.Add(new BitmapTextVertex(vtr, ttr, fontChar.Page));
+                vertices.Add(new BitmapFontVertex(vtl, ttl, fontChar.Page));
+                vertices.Add(new BitmapFontVertex(vbl, tbl, fontChar.Page));
+                vertices.Add(new BitmapFontVertex(vbr, tbr, fontChar.Page));
+                vertices.Add(new BitmapFontVertex(vtl, ttl, fontChar.Page));
+                vertices.Add(new BitmapFontVertex(vbr, tbr, fontChar.Page));
+                vertices.Add(new BitmapFontVertex(vtr, ttr, fontChar.Page));
 
                 cursor.X += fontChar.XAdvance * size;
             }

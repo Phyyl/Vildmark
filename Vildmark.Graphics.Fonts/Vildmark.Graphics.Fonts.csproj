@@ -3,8 +3,8 @@
     <Import Project="$(MSBuildThisFileDirectory)Vildmark.Graphics.Fonts.props" />
 
     <ItemGroup>
-        <None Remove="Resources\Shaders\text.frag" />
-        <None Remove="Resources\Shaders\text.vert" />
+        <None Remove="Resources\Shaders\bitmapfont.frag" />
+        <None Remove="Resources\Shaders\bitmapfont.vert" />
         <None Remove="tools\linux\fontbm" />
         <None Remove="tools\windows\bz2.dll" />
         <None Remove="tools\windows\fontbm.exe" />
@@ -22,8 +22,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Include="Resources\Shaders\text.frag" />
-      <EmbeddedResource Include="Resources\Shaders\text.vert" />
+      <EmbeddedResource Include="Resources\Shaders\bitmapfont.frag" />
+      <EmbeddedResource Include="Resources\Shaders\bitmapfont.vert" />
     </ItemGroup>
 
     <ItemGroup>

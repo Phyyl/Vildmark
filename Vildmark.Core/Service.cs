@@ -48,7 +48,7 @@ namespace Vildmark
             return Set(new T());
         }
 
-        public static T CreateInstance<T>() where T : class
+        public static T? CreateInstance<T>() where T : class
         {
             return CreateInstance(typeof(T)) is T value ? value : default;
         }
@@ -65,7 +65,7 @@ namespace Vildmark
             return service is not null;
         }
 
-        public static object CreateInstance(Type type)
+        public static object? CreateInstance(Type type)
         {
             foreach (var constructor in type.GetConstructors(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic).OrderBy(c => c.IsPublic ? 0 : 1))
             {
@@ -95,9 +95,9 @@ namespace Vildmark
             return default;
         }
 
-        private static T Instanciate<T>() where T : class
+        private static T? Instanciate<T>() where T : class
         {
-            if (registrations.TryGetValue(typeof(T), out ServiceTypeRegistration registration))
+            if (registrations.TryGetValue(typeof(T), out ServiceTypeRegistration? registration))
             {
                 return CreateInstance(registration.DeclaringType) as T;
             }
@@ -107,7 +107,7 @@ namespace Vildmark
 
         private static class Storage<T> where T : class
         {
-            public static T Instance;
+            public static T? Instance;
         }
 
         private record ServiceTypeRegistration(Type DeclaringType, RegisterAttribute Attribute);

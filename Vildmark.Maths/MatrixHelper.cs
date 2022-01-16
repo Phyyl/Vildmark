@@ -1,4 +1,4 @@
-﻿using OpenTK.Mathematics;
+using OpenTK.Mathematics;
 
 namespace Vildmark.Maths
 {
@@ -37,6 +37,11 @@ namespace Vildmark.Maths
             if (position != default)
             {
                 result *= Matrix4.CreateTranslation(position);
+            }
+
+            if (origin != default)
+            {
+                result *= Matrix4.CreateTranslation(origin);
             }
 
             return result;
