@@ -1,6 +1,7 @@
 using OpenTK.Mathematics;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,10 +25,15 @@ namespace Vildmark.Graphics.Rendering
         {
             if (input is ITextureMaterial textureMaterial)
             {
-                Texture2D texture = textureMaterial.Texture ?? Texture2D.WhitePixel;
-                Uniform("source_rect", texture.SourceRectangle.ToVector());
-                Uniform("tex", texture);
+                Uniform("source_rect", textureMaterial.Texture.SourceRectangle);
+                Uniform("tex", textureMaterial.Texture);
             }
+            else
+            {
+                Uniform("source_rect", new RectangleF(0, 0, 1, 1));
+                Uniform("tex", Texture2D.WhitePixel);
+            }
+
 
             if (input is IColorMaterial colorMaterial)
             {

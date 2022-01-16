@@ -35,9 +35,9 @@ namespace Vildmark.Graphics.Rendering
             Render(mesh, material, transform, primitiveType, shader);
         }
 
-        public void RenderCircle(Vector2 center, float radius, Color4 color, int sides = 0, Transform? transform = default, PrimitiveType primitiveType = PrimitiveType.TriangleStrip, IShader? shader = default) => RenderCircle(center, radius, new ColorMaterial(color), sides, transform, primitiveType, shader);
-        public void RenderCircle(Vector2 center, float radius, Texture2D texture, int sides = 0, Transform? transform = default, PrimitiveType primitiveType = PrimitiveType.TriangleStrip, IShader? shader = default) => RenderCircle(center, radius, new TextureMaterial(texture), sides, transform, primitiveType, shader);
-        public void RenderCircle<TMaterial>(Vector2 center, float radius, TMaterial material, int sides = 0, Transform? transform = default, PrimitiveType primitiveType = PrimitiveType.TriangleStrip, IShader? shader = default)
+        public void RenderCircle(Vector2 center, float radius, Color4 color, int sides = 0, Transform? transform = default, PrimitiveType primitiveType = PrimitiveType.TriangleFan, IShader? shader = default) => RenderCircle(center, radius, new ColorMaterial(color), sides, transform, primitiveType, shader);
+        public void RenderCircle(Vector2 center, float radius, Texture2D texture, int sides = 0, Transform? transform = default, PrimitiveType primitiveType = PrimitiveType.TriangleFan, IShader? shader = default) => RenderCircle(center, radius, new TextureMaterial(texture), sides, transform, primitiveType, shader);
+        public void RenderCircle<TMaterial>(Vector2 center, float radius, TMaterial material, int sides = 0, Transform? transform = default, PrimitiveType primitiveType = PrimitiveType.TriangleFan, IShader? shader = default)
             where TMaterial : IMaterial
         {
             if (sides <= 0)

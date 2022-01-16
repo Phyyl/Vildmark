@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Rendering;
 using Vildmark.Logging;
+using System.Drawing;
+using Vildmark.Maths;
 
 namespace Vildmark.Graphics
 {
@@ -32,6 +34,9 @@ namespace Vildmark.Graphics
 
             Storage<Vector4>.UniformSetter = (l, v, i) => GL.Uniform4(l, v);
             Storage<Vector4>.AttribSize = 4;
+
+            Storage<RectangleF>.UniformSetter = (l, v, i) => SetUniform(l, v.ToVector(), i);
+            Storage<RectangleF>.AttribSize = 4;
 
             Storage<Matrix4>.UniformSetter = (l, v, i) => GL.UniformMatrix4(l, false, ref v);
             Storage<Transform?>.UniformSetter = (l, v, i) => SetUniform(l, v?.Matrix ?? Matrix4.Identity, i);
