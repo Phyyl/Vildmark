@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Vildmark.Graphics.Rendering
 {
+    //TODO: Add options for backbuffer, zbuffer, etc
     public record class Texture2DFormat
     {
         public static readonly Texture2DFormat Default = new();

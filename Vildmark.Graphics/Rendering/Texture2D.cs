@@ -10,8 +10,10 @@ namespace Vildmark.Graphics.Rendering
     public class Texture2D
     {
         private static Texture2D? whitePixel;
+        private static Texture2D? transparentPixel;
 
         public static Texture2D WhitePixel => whitePixel ??= new Texture2D(new GLTexture2D(1, 1, new byte[] { 255, 255, 255, 255 }));
+        public static Texture2D TransparentPixel => transparentPixel ??= new Texture2D(new GLTexture2D(1, 1, new byte[] { 0, 0, 0, 0 }));
 
         public GLTexture2D GLTexture { get; }
 

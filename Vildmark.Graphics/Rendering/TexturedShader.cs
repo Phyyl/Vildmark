@@ -25,8 +25,8 @@ namespace Vildmark.Graphics.Rendering
         {
             if (input is ITextureMaterial textureMaterial)
             {
-                Uniform("source_rect", textureMaterial.Texture.SourceRectangle);
-                Uniform("tex", textureMaterial.Texture);
+                Uniform("source_rect", textureMaterial.Texture?.SourceRectangle ?? new RectangleF(0, 0, 1, 1));
+                Uniform("tex", textureMaterial.Texture ?? Texture2D.TransparentPixel);
             }
             else
             {

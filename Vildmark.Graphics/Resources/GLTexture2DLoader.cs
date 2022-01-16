@@ -22,7 +22,7 @@ namespace Vildmark.Graphics.Resources
         public unsafe GLTexture2D Load(Stream stream, Assembly? assembly, string resourceName, Texture2DMode options)
         {
             Bitmap bitmap = new(stream);
-            BitmapData data = bitmap.LockBits(new Rectangle(Point.Empty, bitmap.Size), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            BitmapData data = bitmap.LockBits(new Rectangle(Point.Empty, bitmap.Size), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
             Span<byte> span = new(data.Scan0.ToPointer(), bitmap.Width * 4 * bitmap.Height);
             GLTexture2D texture = new(bitmap.Width, bitmap.Height, span);
 
