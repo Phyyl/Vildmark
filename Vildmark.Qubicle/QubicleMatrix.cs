@@ -30,7 +30,7 @@ namespace Vildmark.Qubicle
             Voxels = voxels;
         }
 
-        public IMesh CreateMesh(float scale = 1)
+        public IMesh<Vertex> CreateMesh(float scale = 1)
         {
             List<Vertex> vertices = new();
 
