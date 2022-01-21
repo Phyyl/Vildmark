@@ -1,6 +1,5 @@
 using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.Rendering;
-using Vildmark.Maths;
 using Vildmark.Windowing;
 
 namespace Vildmark

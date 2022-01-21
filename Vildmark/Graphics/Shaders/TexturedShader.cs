@@ -1,18 +1,10 @@
 using OpenTK.Mathematics;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Vildmark.Graphics.Cameras;
-using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Materials;
-using Vildmark.Graphics.Meshes;
-using Vildmark.Graphics.Shaders;
-using Vildmark.Maths;
+using Vildmark.Graphics.Textures;
 
-namespace Vildmark.Graphics.Rendering
+namespace Vildmark.Graphics.Shaders
 {
     public class TexturedShader : EmbeddedShader, IShaderSetup<Camera>, IShaderSetup<IMaterial>, IShaderSetup<Transform?>
     {

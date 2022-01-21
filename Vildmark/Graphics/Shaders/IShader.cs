@@ -1,7 +1,4 @@
 using OpenTK.Graphics.OpenGL4;
-using Vildmark.Graphics.Cameras;
-using Vildmark.Graphics.GLObjects;
-using Vildmark.Graphics.Meshes;
 
 namespace Vildmark.Graphics.Shaders
 {

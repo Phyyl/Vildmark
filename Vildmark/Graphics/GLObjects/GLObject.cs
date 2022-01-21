@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace Vildmark.Graphics.GLObjects
 {
     public abstract class GLObject : IDisposable

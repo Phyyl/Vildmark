@@ -1,11 +1,8 @@
 using OpenTK.Mathematics;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Vildmark.Qubicle
 {
-	public struct QubicleVoxel
+    public struct QubicleVoxel
 	{
 		public byte R, G, B, A;
 

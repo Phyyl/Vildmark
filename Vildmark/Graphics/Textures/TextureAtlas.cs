@@ -1,7 +1,7 @@
 using OpenTK.Mathematics;
 using System.Drawing;
 
-namespace Vildmark.Graphics.Rendering
+namespace Vildmark.Graphics.Textures
 {
     public class TextureAtlas
     {
@@ -15,6 +15,6 @@ namespace Vildmark.Graphics.Rendering
             TileSize = new Vector2(tileWidth, tileHeight);
         }
 
-        public Texture2D this[int x, int y] => Texture.CreateSubTexture(new RectangleF((x * TileSize.X) / Texture.Width, (y * TileSize.Y) / Texture.Height, TileSize.X / Texture.Width, TileSize.Y / Texture.Height));
+        public Texture2D this[int x, int y] => Texture.CreateSubTexture(new RectangleF(x * TileSize.X / Texture.Width, y * TileSize.Y / Texture.Height, TileSize.X / Texture.Width, TileSize.Y / Texture.Height));
     }
 }

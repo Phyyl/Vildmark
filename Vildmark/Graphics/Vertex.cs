@@ -1,9 +1,5 @@
-using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using Vildmark.Graphics.Rendering;
-using Vildmark.Graphics.Shaders;
 
 namespace Vildmark.Graphics
 {

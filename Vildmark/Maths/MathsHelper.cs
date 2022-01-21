@@ -1,5 +1,4 @@
 using OpenTK.Mathematics;
-using System;
 
 namespace Vildmark.Maths
 {
@@ -20,14 +19,14 @@ namespace Vildmark.Maths
         public static Vector3 Max(Vector3 a, Vector3 b) => new(MathF.Max(a.X, b.X), MathF.Max(a.Y, b.Y), MathF.Max(a.Z, b.Z));
         public static Vector4 Max(Vector4 a, Vector4 b) => new(MathF.Max(a.X, b.X), MathF.Max(a.Y, b.Y), MathF.Max(a.Z, b.Z), MathF.Max(a.W, b.W));
 
-        public static int Mod(int x, int mod) => ((x % mod) + mod) % mod;
-        public static float Mod(float x, float mod) => ((x % mod) + mod) % mod;
-        public static double Mod(double x, double mod) => ((x % mod) + mod) % mod;
+        public static int Mod(int x, int mod) => (x % mod + mod) % mod;
+        public static float Mod(float x, float mod) => (x % mod + mod) % mod;
+        public static double Mod(double x, double mod) => (x % mod + mod) % mod;
 
         public static void ConvertTo3DIndex(int index, int height, int depth, out int x, out int y, out int z)
         {
             x = index / (height * depth);
-            y = (index / depth) % height;
+            y = index / depth % height;
             z = index % depth;
         }
 

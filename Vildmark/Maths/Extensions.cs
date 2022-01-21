@@ -1,5 +1,4 @@
 using OpenTK.Mathematics;
-using System;
 using System.Drawing;
 
 namespace Vildmark.Maths

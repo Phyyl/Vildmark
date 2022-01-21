@@ -1,8 +1,9 @@
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using Vildmark.Graphics.GLObjects;
+using Vildmark.Graphics.Textures;
 
-namespace Vildmark.Graphics.Rendering
+namespace Vildmark.Graphics.FrameBuffers
 {
     public abstract class FrameBuffer
     {

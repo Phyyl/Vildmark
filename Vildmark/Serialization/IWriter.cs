@@ -1,5 +1,3 @@
-using System.IO;
-
 namespace Vildmark.Serialization
 {
     public interface IWriter

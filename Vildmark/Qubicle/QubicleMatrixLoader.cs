@@ -1,17 +1,11 @@
 using OpenTK.Mathematics;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.IO;
 using System.Reflection;
-using System.Security.Cryptography;
 using System.Text;
-using Vildmark.Graphics.Resources;
 using Vildmark.Resources;
 
 namespace Vildmark.Qubicle
 {
-	[Register(typeof(IResourceLoader<QubicleMatrixCollection>))]
+    [Register(typeof(IResourceLoader<QubicleMatrixCollection>))]
 	public class QubicleMatrixLoader : IResourceLoader<QubicleMatrixCollection>
 	{
 		public QubicleMatrixCollection Load(Stream stream, Assembly? assembly, string? resourceName)

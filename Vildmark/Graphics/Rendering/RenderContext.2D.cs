@@ -1,14 +1,10 @@
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Vildmark.Graphics.Materials;
 using Vildmark.Graphics.Meshes;
 using Vildmark.Graphics.Shaders;
+using Vildmark.Graphics.Textures;
 using Vildmark.Maths;
 
 namespace Vildmark.Graphics.Rendering

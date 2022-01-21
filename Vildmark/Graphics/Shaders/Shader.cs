@@ -1,13 +1,5 @@
 using OpenTK.Graphics.OpenGL4;
-using OpenTK.Mathematics;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.GLObjects;
-using Vildmark.Resources;
 
 namespace Vildmark.Graphics.Shaders
 {

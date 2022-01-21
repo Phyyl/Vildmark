@@ -1,10 +1,4 @@
 using OpenTK.Graphics.OpenGL4;
-using OpenTK.Mathematics;
-using System;
-using System.Collections.Immutable;
-using System.Diagnostics;
-using System.Linq;
-using Vildmark.Graphics.Rendering;
 
 namespace Vildmark.Graphics.GLObjects
 {

@@ -1,6 +1,6 @@
 using OpenTK.Graphics.OpenGL4;
 
-namespace Vildmark.Graphics.Rendering
+namespace Vildmark.Graphics.Textures
 {
     public record Texture2DMode
     {

@@ -1,11 +1,6 @@
 using OpenTK.Graphics.OpenGL4;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Vildmark.Graphics.Rendering
+namespace Vildmark.Graphics.Textures
 {
     //TODO: Add options for backbuffer, zbuffer, etc
     public record class Texture2DFormat

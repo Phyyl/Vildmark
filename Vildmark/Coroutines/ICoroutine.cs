@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Vildmark.Coroutines
+﻿namespace Vildmark.Coroutines
 {
     public interface ICoroutine
 	{

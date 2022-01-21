@@ -1,15 +1,10 @@
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
-using System.Linq;
-using System.Reflection.Metadata;
-using Vildmark.Graphics.Fonts.Resources;
-using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Meshes;
 using Vildmark.Graphics.Rendering;
-using Vildmark.Resources;
+using Vildmark.Graphics.Textures;
 
 namespace Vildmark.Graphics.Fonts
 {

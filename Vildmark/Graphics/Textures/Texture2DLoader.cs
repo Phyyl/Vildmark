@@ -1,13 +1,10 @@
-using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
 using System.Reflection;
 using Vildmark.Graphics.GLObjects;
-using Vildmark.Graphics.Rendering;
 using Vildmark.Resources;
 
-namespace Vildmark.Graphics.Resources
+namespace Vildmark.Graphics.Textures
 {
     [Register(typeof(IResourceLoader<GLTexture2D>))]
     [Register(typeof(IResourceLoaderOptions<GLTexture2D, Texture2DMode>))]

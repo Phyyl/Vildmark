@@ -1,7 +1,7 @@
 using OpenTK.Mathematics;
-using System.Collections.Generic;
+using Vildmark.Graphics;
 
-namespace Vildmark.Graphics.Helpers
+namespace Vildmark.Helpers
 {
     public static class CubeHelper
     {

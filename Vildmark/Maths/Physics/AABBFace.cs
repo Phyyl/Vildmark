@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Vildmark.Maths.Physics
+﻿namespace Vildmark.Maths.Physics
 {
     [Flags]
     public enum AABBFace

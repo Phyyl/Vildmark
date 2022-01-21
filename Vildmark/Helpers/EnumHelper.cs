@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Vildmark.Helpers
+﻿namespace Vildmark.Helpers
 {
     public static class EnumHelper
     {

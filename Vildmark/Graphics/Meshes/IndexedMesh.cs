@@ -1,8 +1,5 @@
 using OpenTK.Graphics.OpenGL4;
-using OpenTK.Mathematics;
-using System;
 using Vildmark.Graphics.GLObjects;
-using Vildmark.Graphics.Shaders;
 
 namespace Vildmark.Graphics.Meshes
 {

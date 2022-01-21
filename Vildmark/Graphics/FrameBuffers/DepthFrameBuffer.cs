@@ -1,12 +1,8 @@
 using OpenTK.Graphics.OpenGL4;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Vildmark.Graphics.GLObjects;
+using Vildmark.Graphics.Textures;
 
-namespace Vildmark.Graphics.Rendering
+namespace Vildmark.Graphics.FrameBuffers
 {
     public class DepthFrameBuffer : FrameBuffer
     {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Vildmark.Resources
+﻿namespace Vildmark.Resources
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class RegisterAttribute : Attribute

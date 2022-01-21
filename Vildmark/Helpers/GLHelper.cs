@@ -1,7 +1,6 @@
 using OpenTK.Graphics.OpenGL4;
-using Vildmark.Logging;
 
-namespace Vildmark.Graphics.Helpers
+namespace Vildmark.Helpers
 {
     public static class GLHelper
     {

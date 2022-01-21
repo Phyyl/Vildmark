@@ -1,16 +1,11 @@
-using System;
-using System.Drawing;
-using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text.Json;
-using System.Text.Json.Serialization;
+using Vildmark;
 using Vildmark.Graphics.GLObjects;
-using Vildmark.Graphics.Rendering;
-using Vildmark.Logging;
+using Vildmark.Graphics.Textures;
 using Vildmark.Resources;
 
-namespace Vildmark.Graphics.Fonts.Resources
+namespace Vildmark.Graphics.Fonts
 {
     [Register(typeof(IResourceLoader<BitmapFont>))]
     public class BitmapFontLoader : IResourceLoader<BitmapFont>

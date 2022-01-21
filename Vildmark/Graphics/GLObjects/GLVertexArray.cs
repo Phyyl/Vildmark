@@ -1,6 +1,4 @@
 using OpenTK.Graphics.OpenGL4;
-using OpenTK.Mathematics;
-using Vildmark.Helpers;
 
 namespace Vildmark.Graphics.GLObjects
 {

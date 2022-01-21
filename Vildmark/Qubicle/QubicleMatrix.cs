@@ -1,12 +1,7 @@
 using OpenTK.Mathematics;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
 using Vildmark.Graphics;
-using Vildmark.Graphics.Helpers;
 using Vildmark.Graphics.Meshes;
-using OpenTK.Graphics.ES20;
+using Vildmark.Helpers;
 
 namespace Vildmark.Qubicle
 {

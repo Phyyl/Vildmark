@@ -1,9 +1,7 @@
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using Vildmark.Graphics.GLObjects;
 
-namespace Vildmark.Graphics.Rendering
+namespace Vildmark.Graphics.Textures
 {
     public class TextureDictionary<TKey>
         where TKey : notnull

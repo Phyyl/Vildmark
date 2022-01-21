@@ -1,12 +1,10 @@
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
-using System.Drawing;
 using Vildmark.Graphics.Cameras;
+using Vildmark.Graphics.FrameBuffers;
 using Vildmark.Graphics.Materials;
 using Vildmark.Graphics.Meshes;
-using Vildmark.Graphics.Resources;
 using Vildmark.Graphics.Shaders;
-using Vildmark.Resources;
 using Vildmark.Windowing;
 
 namespace Vildmark.Graphics.Rendering

@@ -1,6 +1,6 @@
 using OpenTK.Mathematics;
 using Vildmark.Graphics.Materials;
-using Vildmark.Graphics.Rendering;
+using Vildmark.Graphics.Textures;
 
 namespace Vildmark.Graphics.Fonts
 {

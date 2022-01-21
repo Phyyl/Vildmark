@@ -1,8 +1,4 @@
-using System;
-using System.Threading.Tasks;
-using Vildmark.Resources;
-
-namespace Vildmark.Logging
+namespace Vildmark
 {
     public delegate void LogEventHandler(LogEntry entry);
 

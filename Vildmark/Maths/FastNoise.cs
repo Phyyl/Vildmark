@@ -35,7 +35,6 @@ using FN_DECIMAL = System.Double;
 using FN_DECIMAL = System.Single;
 #endif
 
-using System;
 using System.Runtime.CompilerServices;
 
 namespace Vildmark.Maths
@@ -266,10 +265,10 @@ namespace Vildmark.Maths
     };
 
         [MethodImpl(FN_INLINE)]
-        private static int FastFloor(FN_DECIMAL f) { return (f >= 0 ? (int)f : (int)f - 1); }
+        private static int FastFloor(FN_DECIMAL f) { return f >= 0 ? (int)f : (int)f - 1; }
 
         [MethodImpl(FN_INLINE)]
-        private static int FastRound(FN_DECIMAL f) { return (f >= 0) ? (int)(f + (FN_DECIMAL)0.5) : (int)(f - (FN_DECIMAL)0.5); }
+        private static int FastRound(FN_DECIMAL f) { return f >= 0 ? (int)(f + (FN_DECIMAL)0.5) : (int)(f - (FN_DECIMAL)0.5); }
 
         [MethodImpl(FN_INLINE)]
         private static FN_DECIMAL Lerp(FN_DECIMAL a, FN_DECIMAL b, FN_DECIMAL t) { return a + t * (b - a); }
@@ -283,8 +282,8 @@ namespace Vildmark.Maths
         [MethodImpl(FN_INLINE)]
         private static FN_DECIMAL CubicLerp(FN_DECIMAL a, FN_DECIMAL b, FN_DECIMAL c, FN_DECIMAL d, FN_DECIMAL t)
         {
-            FN_DECIMAL p = (d - c) - (a - b);
-            return t * t * t * p + t * t * ((a - b) - p) + t * (c - a) + b;
+            FN_DECIMAL p = d - c - (a - b);
+            return t * t * t * p + t * t * (a - b - p) + t * (c - a) + b;
         }
 
         private void CalculateFractalBounding()
@@ -313,7 +312,7 @@ namespace Vildmark.Maths
             hash ^= Y_PRIME * y;
 
             hash = hash * hash * hash * 60493;
-            hash = (hash >> 13) ^ hash;
+            hash = hash >> 13 ^ hash;
 
             return hash;
         }
@@ -327,7 +326,7 @@ namespace Vildmark.Maths
             hash ^= Z_PRIME * z;
 
             hash = hash * hash * hash * 60493;
-            hash = (hash >> 13) ^ hash;
+            hash = hash >> 13 ^ hash;
 
             return hash;
         }
@@ -342,7 +341,7 @@ namespace Vildmark.Maths
             hash ^= W_PRIME * w;
 
             hash = hash * hash * hash * 60493;
-            hash = (hash >> 13) ^ hash;
+            hash = hash >> 13 ^ hash;
 
             return hash;
         }
@@ -354,7 +353,7 @@ namespace Vildmark.Maths
             n ^= X_PRIME * x;
             n ^= Y_PRIME * y;
 
-            return (n * n * n * 60493) / (FN_DECIMAL)2147483648.0;
+            return n * n * n * 60493 / (FN_DECIMAL)2147483648.0;
         }
 
         [MethodImpl(FN_INLINE)]
@@ -365,7 +364,7 @@ namespace Vildmark.Maths
             n ^= Y_PRIME * y;
             n ^= Z_PRIME * z;
 
-            return (n * n * n * 60493) / (FN_DECIMAL)2147483648.0;
+            return n * n * n * 60493 / (FN_DECIMAL)2147483648.0;
         }
 
         [MethodImpl(FN_INLINE)]
@@ -377,7 +376,7 @@ namespace Vildmark.Maths
             n ^= Z_PRIME * z;
             n ^= W_PRIME * w;
 
-            return (n * n * n * 60493) / (FN_DECIMAL)2147483648.0;
+            return n * n * n * 60493 / (FN_DECIMAL)2147483648.0;
         }
 
         [MethodImpl(FN_INLINE)]
@@ -388,7 +387,7 @@ namespace Vildmark.Maths
             hash ^= Y_PRIME * y;
 
             hash = hash * hash * hash * 60493;
-            hash = (hash >> 13) ^ hash;
+            hash = hash >> 13 ^ hash;
 
             Float2 g = GRAD_2D[hash & 7];
 
@@ -404,7 +403,7 @@ namespace Vildmark.Maths
             hash ^= Z_PRIME * z;
 
             hash = hash * hash * hash * 60493;
-            hash = (hash >> 13) ^ hash;
+            hash = hash >> 13 ^ hash;
 
             Float3 g = GRAD_3D[hash & 15];
 
@@ -421,7 +420,7 @@ namespace Vildmark.Maths
             hash ^= W_PRIME * w;
 
             hash = hash * hash * hash * 60493;
-            hash = (hash >> 13) ^ hash;
+            hash = hash >> 13 ^ hash;
 
             hash &= 31;
             FN_DECIMAL a = yd, b = zd, c = wd;            // X,Y,Z
@@ -539,7 +538,7 @@ namespace Vildmark.Maths
         {
             var i = BitConverter.DoubleToInt64Bits(f);
 
-            return (int)(i ^ (i >> 32));
+            return (int)(i ^ i >> 32);
         }
 
         public FN_DECIMAL GetWhiteNoise(FN_DECIMAL x, FN_DECIMAL y, FN_DECIMAL z, FN_DECIMAL w)
@@ -1391,12 +1390,12 @@ namespace Vildmark.Maths
             FN_DECIMAL z0 = z - Z0;
             FN_DECIMAL w0 = w - W0;
 
-            int c = (x0 > y0) ? 32 : 0;
-            c += (x0 > z0) ? 16 : 0;
-            c += (y0 > z0) ? 8 : 0;
-            c += (x0 > w0) ? 4 : 0;
-            c += (y0 > w0) ? 2 : 0;
-            c += (z0 > w0) ? 1 : 0;
+            int c = x0 > y0 ? 32 : 0;
+            c += x0 > z0 ? 16 : 0;
+            c += y0 > z0 ? 8 : 0;
+            c += x0 > w0 ? 4 : 0;
+            c += y0 > w0 ? 2 : 0;
+            c += z0 > w0 ? 1 : 0;
             c <<= 2;
 
             int i1 = SIMPLEX_4D[c] >= 3 ? 1 : 0;
@@ -1567,9 +1566,9 @@ namespace Vildmark.Maths
             int y3 = y1 + 2;
             int z3 = z1 + 2;
 
-            FN_DECIMAL xs = x - (FN_DECIMAL)x1;
-            FN_DECIMAL ys = y - (FN_DECIMAL)y1;
-            FN_DECIMAL zs = z - (FN_DECIMAL)z1;
+            FN_DECIMAL xs = x - x1;
+            FN_DECIMAL ys = y - y1;
+            FN_DECIMAL zs = z - z1;
 
             return CubicLerp(
                 CubicLerp(
@@ -1693,8 +1692,8 @@ namespace Vildmark.Maths
             int x3 = x1 + 2;
             int y3 = y1 + 2;
 
-            FN_DECIMAL xs = x - (FN_DECIMAL)x1;
-            FN_DECIMAL ys = y - (FN_DECIMAL)y1;
+            FN_DECIMAL xs = x - x1;
+            FN_DECIMAL ys = y - y1;
 
             return CubicLerp(
                        CubicLerp(ValCoord2D(seed, x0, y0), ValCoord2D(seed, x1, y0), ValCoord2D(seed, x2, y0), ValCoord2D(seed, x3, y0),
@@ -1798,7 +1797,7 @@ namespace Vildmark.Maths
                                 FN_DECIMAL vecY = yi - y + vec.y * m_cellularJitter;
                                 FN_DECIMAL vecZ = zi - z + vec.z * m_cellularJitter;
 
-                                FN_DECIMAL newDistance = (Math.Abs(vecX) + Math.Abs(vecY) + Math.Abs(vecZ)) + (vecX * vecX + vecY * vecY + vecZ * vecZ);
+                                FN_DECIMAL newDistance = Math.Abs(vecX) + Math.Abs(vecY) + Math.Abs(vecZ) + (vecX * vecX + vecY * vecY + vecZ * vecZ);
 
                                 if (newDistance < distance)
                                 {
@@ -1896,7 +1895,7 @@ namespace Vildmark.Maths
                                 FN_DECIMAL vecY = yi - y + vec.y * m_cellularJitter;
                                 FN_DECIMAL vecZ = zi - z + vec.z * m_cellularJitter;
 
-                                FN_DECIMAL newDistance = (Math.Abs(vecX) + Math.Abs(vecY) + Math.Abs(vecZ)) + (vecX * vecX + vecY * vecY + vecZ * vecZ);
+                                FN_DECIMAL newDistance = Math.Abs(vecX) + Math.Abs(vecY) + Math.Abs(vecZ) + (vecX * vecX + vecY * vecY + vecZ * vecZ);
 
                                 for (int i = m_cellularDistanceIndex1; i > 0; i--)
                                     distance[i] = Math.Max(Math.Min(distance[i], newDistance), distance[i - 1]);
@@ -1974,7 +1973,7 @@ namespace Vildmark.Maths
                             FN_DECIMAL vecX = xi - x + vec.x * m_cellularJitter;
                             FN_DECIMAL vecY = yi - y + vec.y * m_cellularJitter;
 
-                            FN_DECIMAL newDistance = (Math.Abs(vecX) + Math.Abs(vecY));
+                            FN_DECIMAL newDistance = Math.Abs(vecX) + Math.Abs(vecY);
 
                             if (newDistance < distance)
                             {
@@ -1995,7 +1994,7 @@ namespace Vildmark.Maths
                             FN_DECIMAL vecX = xi - x + vec.x * m_cellularJitter;
                             FN_DECIMAL vecY = yi - y + vec.y * m_cellularJitter;
 
-                            FN_DECIMAL newDistance = (Math.Abs(vecX) + Math.Abs(vecY)) + (vecX * vecX + vecY * vecY);
+                            FN_DECIMAL newDistance = Math.Abs(vecX) + Math.Abs(vecY) + (vecX * vecX + vecY * vecY);
 
                             if (newDistance < distance)
                             {
@@ -2080,7 +2079,7 @@ namespace Vildmark.Maths
                             FN_DECIMAL vecX = xi - x + vec.x * m_cellularJitter;
                             FN_DECIMAL vecY = yi - y + vec.y * m_cellularJitter;
 
-                            FN_DECIMAL newDistance = (Math.Abs(vecX) + Math.Abs(vecY)) + (vecX * vecX + vecY * vecY);
+                            FN_DECIMAL newDistance = Math.Abs(vecX) + Math.Abs(vecY) + (vecX * vecX + vecY * vecY);
 
                             for (int i = m_cellularDistanceIndex1; i > 0; i--)
                                 distance[i] = Math.Max(Math.Min(distance[i], newDistance), distance[i - 1]);
