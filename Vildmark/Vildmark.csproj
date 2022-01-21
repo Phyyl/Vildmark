@@ -22,14 +22,10 @@
             <Visible>False</Visible>
         </None>
     </ItemGroup>
-    
+
     <ItemGroup>
-      <PackageReference Include="OpenTK" Version="4.6.7" />
-      <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
-    </ItemGroup>
-    
-    <ItemGroup>
-      <Folder Include="Logging\" />
+        <PackageReference Include="OpenTK" Version="4.6.7" />
+        <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
     </ItemGroup>
 
     <Import Project="$(MSBuildThisFileDirectory)Vildmark.targets" />
