@@ -88,11 +88,6 @@ namespace Vildmark
             return new RenderContext(camera, Window);
         }
 
-        private void ResizeCamera()
-        {
-
-        }
-
         public static void Run<T>()
             where T : VildmarkGame, new()
         {
