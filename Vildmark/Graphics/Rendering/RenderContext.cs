@@ -22,8 +22,8 @@ namespace Vildmark.Graphics.Rendering
         public Color4 ClearColor { get; set; } = Color4.Black;
         public Camera Camera { get; }
 
-        public int Width => window.Width;
-        public int Height => window.Height;
+        public int Width { get; private set; }
+        public int Height { get; private set; }
         public Vector2 Size => new(Width, Height);
 
         public event RenderContextBeginEventHandler? OnBegin;
@@ -79,14 +79,14 @@ namespace Vildmark.Graphics.Rendering
         {
             this.frameBuffer = frameBuffer;
 
-            int width = frameBuffer?.Width ?? window.Width;
-            int height = frameBuffer?.Height ?? window.Height;
+            Width = frameBuffer?.Width ?? window.Width;
+            Height = frameBuffer?.Height ?? window.Height;
 
             frameBuffer?.Bind();
 
-            OnBegin?.Invoke(width, height);
+            OnBegin?.Invoke(Width, Height);
 
-            GL.Viewport(0, 0, width, height);
+            GL.Viewport(0, 0, Width, Height);
 
             if (clear)
             {
