@@ -46,7 +46,7 @@ namespace Vildmark.Graphics.Shaders
 
             for (int i = 0; i < count; i++)
             {
-                GL.GetActiveAttrib(shaderProgram.ID, i, 256, out int length, out int size, out ActiveAttribType activeAttribType, out string name);
+                GL.GetActiveAttrib(shaderProgram.ID, i, 256, out _, out _, out ActiveAttribType activeAttribType, out string name);
 
                 attribs[name] = activeAttribType switch
                 {

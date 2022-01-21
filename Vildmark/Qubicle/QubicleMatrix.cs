@@ -34,7 +34,7 @@ namespace Vildmark.Qubicle
         {
             List<Vertex> vertices = new();
 
-            Vector3 size = new Vector3(scale);
+            Vector3 size = new(scale);
 
             for (int z = 0; z < Size.Z; z++)
             {

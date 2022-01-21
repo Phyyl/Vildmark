@@ -17,12 +17,12 @@ namespace Vildmark.Qubicle
 		public bool FrontVisible => (A & 32) == 32;
 		public bool BackVisible => (A & 64) == 64;
 
-		public Vector4 Color => new Vector4(R / 255f, G / 255f, B / 255f, 1);
+		public Vector4 Color => new(R / 255f, G / 255f, B / 255f, 1);
 
 		public static QubicleVoxel FromRGBA(uint rgba)
 		{
-			QubicleVoxel result = new QubicleVoxel
-			{
+			QubicleVoxel result = new()
+            {
 				R = (byte)((rgba >> 0) & 0xFF),
 				G = (byte)((rgba >> 8) & 0xFF),
 				B = (byte)((rgba >> 16) & 0xFF),
@@ -34,8 +34,8 @@ namespace Vildmark.Qubicle
 
 		public static QubicleVoxel FromBGRA(uint bgra)
 		{
-			QubicleVoxel result = new QubicleVoxel
-			{
+			QubicleVoxel result = new()
+            {
 				B = (byte)((bgra >> 0) & 0xFF),
 				G = (byte)((bgra >> 8) & 0xFF),
 				R = (byte)((bgra >> 16) & 0xFF),

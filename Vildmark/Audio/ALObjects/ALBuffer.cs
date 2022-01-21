@@ -22,12 +22,12 @@ namespace Vildmark.Audio.ALObjects
 
         public void SetData<T>(Span<T> data, int channels, int bitsPerSample, int sampleRate = 44100) where T : unmanaged
         {
-            SetData<T>(data, GetFormat(channels, bitsPerSample), sampleRate);
+            SetData(data, GetFormat(channels, bitsPerSample), sampleRate);
         }
 
         public void SetData<T>(Span<T> data, ALFormat format = ALFormat.Stereo16, int sampleRate = 44100) where T : unmanaged
         {
-            AL.BufferData<T>(this, format, data, sampleRate);
+            AL.BufferData(this, format, data, sampleRate);
         }
 
         protected override void DisposeOpenAL()

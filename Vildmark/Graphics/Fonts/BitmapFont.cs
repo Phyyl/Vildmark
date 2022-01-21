@@ -86,7 +86,7 @@ namespace Vildmark.Graphics.Fonts
 
             List<BitmapFontVertex> vertices = new();
 
-            Vector2 cursor = new Vector2(0, Base / (float)LineHeight * size);
+            Vector2 cursor = new(0, Base / (float)LineHeight * size);
 
             foreach (var chr in text)
             {
@@ -97,8 +97,8 @@ namespace Vildmark.Graphics.Fonts
 
                 Texture2D page = Pages[fontChar.Page];
 
-                Vector2 sourcePosition = new Vector2(fontChar.X / (float)page.Width, fontChar.Y / (float)page.Height);
-                Vector2 sourceSize = new Vector2(fontChar.Width / (float)page.Width, fontChar.Height / (float)page.Height);
+                Vector2 sourcePosition = new(fontChar.X / (float)page.Width, fontChar.Y / (float)page.Height);
+                Vector2 sourceSize = new(fontChar.Width / (float)page.Width, fontChar.Height / (float)page.Height);
                 Vector2 destinationPosition = new Vector2(fontChar.XOffset, fontChar.YOffset) * size;
                 Vector2 destinationSize = new Vector2(fontChar.Width, fontChar.Height) * size;
 

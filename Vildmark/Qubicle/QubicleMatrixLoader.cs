@@ -16,7 +16,7 @@ namespace Vildmark.Qubicle
 	{
 		public QubicleMatrixCollection Load(Stream stream, Assembly? assembly, string? resourceName)
 		{
-			QubicleReader reader = new QubicleReader(stream);
+			QubicleReader reader = new(stream);
 
 			return new QubicleMatrixCollection(reader.ReadMatrices());
 		}
@@ -56,7 +56,7 @@ namespace Vildmark.Qubicle
 			private int ReadInt() => reader.ReadInt32();
 			private byte ReadByte() => reader.ReadByte();
 			private byte[] ReadBytes(int length) => reader.ReadBytes(length);
-			private Version ReadVersion() => new Version(ReadByte(), ReadByte(), ReadByte(), ReadByte());
+			private Version ReadVersion() => new(ReadByte(), ReadByte(), ReadByte(), ReadByte());
 			private QubicleVoxel GetVoxel(uint value) => Bgra ? QubicleVoxel.FromBGRA(value) : QubicleVoxel.FromRGBA(value);
 			private QubicleVoxel ReadVoxel() => GetVoxel(ReadUInt());
 
@@ -71,8 +71,8 @@ namespace Vildmark.Qubicle
 			private QubicleMatrix ReadMatrix()
 			{
 				string name = ReadString();
-				Vector3i size = new Vector3i((int)ReadUInt(), (int)ReadUInt(), (int)ReadUInt());
-				Vector3i position = new Vector3i(ReadInt(), ReadInt(), ReadInt());
+				Vector3i size = new((int)ReadUInt(), (int)ReadUInt(), (int)ReadUInt());
+				Vector3i position = new(ReadInt(), ReadInt(), ReadInt());
 				QubicleVoxel[,,] voxels = Compressed ? ReadCompressedVoxels(size) : ReadUncompressed(size);
 
 				return new QubicleMatrix(name, size, position, voxels);

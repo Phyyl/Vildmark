@@ -15,7 +15,7 @@ namespace Vildmark.Graphics.Rendering
 {
     public partial class RenderContext
     {
-        private Mesh mesh = new();
+        private readonly Mesh mesh = new();
 
         public void RenderRectangle(RectangleF rectangle, Color4 color, Transform? transform = default, PrimitiveType primitiveType = PrimitiveType.Triangles, IShader? shader = default) => RenderRectangle(rectangle, new ColorMaterial(color), transform, primitiveType, shader);
         public void RenderRectangle(RectangleF rectangle, Texture2D texture, Transform? transform = default, PrimitiveType primitiveType = PrimitiveType.Triangles, IShader? shader = default) => RenderRectangle(rectangle, new TextureMaterial(texture), transform, primitiveType, shader);

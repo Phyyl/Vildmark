@@ -67,8 +67,8 @@ namespace Vildmark
 
         protected RenderContext Create2DRenderContext(float zNear = 1, float zFar = -1)
         {
-            OrthographicCamera camera = new OrthographicCamera(Window.Width, Window.Height, zNear, zFar);
-            RenderContext renderContext = new RenderContext(camera, Window);
+            OrthographicCamera camera = new(Window.Width, Window.Height, zNear, zFar);
+            RenderContext renderContext = new(camera, Window);
 
             renderContext.OnBegin += (width, height) => (camera.Right, camera.Bottom) = (width, height);
 
@@ -77,8 +77,8 @@ namespace Vildmark
 
         protected RenderContext Create3DRenderContext(float fovY = MathF.PI / 3f, float zNear = 0.01f, float zFar = 1000)
         {
-            PerspectiveCamera camera = new PerspectiveCamera(Window.Width / (float)Window.Height, fovY, zNear, zFar);
-            RenderContext renderContext = new RenderContext(camera, Window);
+            PerspectiveCamera camera = new(Window.Width / (float)Window.Height, fovY, zNear, zFar);
+            RenderContext renderContext = new(camera, Window);
 
             renderContext.OnBegin += (width, height) => camera.AspectRatio = width / (float)height;
 
