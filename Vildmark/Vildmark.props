@@ -2,4 +2,18 @@
     <ItemGroup>
         <AvailableItemName Include="Font"></AvailableItemName>
     </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="Resources\**\*.frag" />
+        <EmbeddedResource Include="Resources\**\*.vert" />
+        <EmbeddedResource Include="Resources\**\*.geom" />
+        <EmbeddedResource Include="Resources\**\*.png" />
+        <EmbeddedResource Include="Resources\**\*.jpg" />
+        <EmbeddedResource Include="Resources\**\*.jpeg" />
+        <EmbeddedResource Include="Resources\**\*.jpeg" />
+        <EmbeddedResource Include="Resources\**\*.otf" />
+        <EmbeddedResource Include="Resources\**\*.ttf" />
+        <EmbeddedResource Include="Resources\**\*.wav" />
+    </ItemGroup>
+
 </Project>

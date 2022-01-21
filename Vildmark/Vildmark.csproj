@@ -3,18 +3,6 @@
     <Import Project="$(MSBuildThisFileDirectory)Vildmark.props" />
 
     <ItemGroup>
-        <EmbeddedResource Include="Resources\**\*.frag" />
-        <EmbeddedResource Include="Resources\**\*.vert" />
-        <EmbeddedResource Include="Resources\**\*.geom" />
-        <EmbeddedResource Include="Resources\**\*.png" />
-        <EmbeddedResource Include="Resources\**\*.jpg" />
-        <EmbeddedResource Include="Resources\**\*.jpeg" />
-        <EmbeddedResource Include="Resources\**\*.jpeg" />
-        <EmbeddedResource Include="Resources\**\*.otf" />
-        <EmbeddedResource Include="Resources\**\*.ttf" />
-    </ItemGroup>
-
-    <ItemGroup>
         <None Include="tools\**\*">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <PackagePath>tools\</PackagePath>
@@ -25,17 +13,22 @@
 
     <ItemGroup>
         <None Include="Vildmark.props">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <PackagePath>build\$(TargetFramework)</PackagePath>
             <Pack>True</Pack>
         </None>
         <None Include="Vildmark.targets">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <PackagePath>build\$(TargetFramework)</PackagePath>
             <Pack>True</Pack>
         </None>
     </ItemGroup>
 
+    <ItemGroup>
+        <None Include="libs\**\*">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <PackagePath>libs\</PackagePath>
+            <Pack>True</Pack>
+        </None>
+    </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="OpenTK" Version="4.6.7" />

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Vildmark.Helpers;
 
 namespace Vildmark.Audio
 {
@@ -23,6 +24,8 @@ namespace Vildmark.Audio
             //        deviceName = name;
             //    }
             //}
+
+            NativeLibraryHelper.LoadNativeLibrary("openal32");
 
             device = ALC.OpenDevice(null);
             context = ALC.CreateContext(device, (int[])null!);
