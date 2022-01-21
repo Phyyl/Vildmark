@@ -24,6 +24,20 @@
     </ItemGroup>
 
     <ItemGroup>
+        <None Include="Vildmark.props">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <PackagePath>build\$(TargetFramework)</PackagePath>
+            <Pack>True</Pack>
+        </None>
+        <None Include="Vildmark.targets">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <PackagePath>build\$(TargetFramework)</PackagePath>
+            <Pack>True</Pack>
+        </None>
+    </ItemGroup>
+
+
+    <ItemGroup>
         <PackageReference Include="OpenTK" Version="4.6.7" />
         <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
     </ItemGroup>
