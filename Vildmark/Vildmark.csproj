@@ -1,14 +1,37 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <ItemGroup>
-    <Compile Remove="Resources\**" />
-    <EmbeddedResource Remove="Resources\**" />
-    <None Remove="Resources\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Vildmark.Core\Vildmark.Core.csproj" />
-    <ProjectReference Include="..\Vildmark.Graphics.Fonts\Vildmark.Graphics.Fonts.csproj" />
-    <ProjectReference Include="..\Vildmark.Graphics\Vildmark.Graphics.csproj" />
-    <ProjectReference Include="..\Vildmark.Maths\Vildmark.Maths.csproj" />
-    <ProjectReference Include="..\Vildmark.Windowing\Vildmark.Windowing.csproj" />
-  </ItemGroup>
+
+    <Import Project="$(MSBuildThisFileDirectory)Vildmark.props" />
+
+    <ItemGroup>
+        <EmbeddedResource Include="Resources\**\*.frag" />
+        <EmbeddedResource Include="Resources\**\*.vert" />
+        <EmbeddedResource Include="Resources\**\*.geom" />
+        <EmbeddedResource Include="Resources\**\*.png" />
+        <EmbeddedResource Include="Resources\**\*.jpg" />
+        <EmbeddedResource Include="Resources\**\*.jpeg" />
+        <EmbeddedResource Include="Resources\**\*.jpeg" />
+        <EmbeddedResource Include="Resources\**\*.otf" />
+        <EmbeddedResource Include="Resources\**\*.ttf" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="tools\**\*">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <PackagePath>tools\</PackagePath>
+            <Pack>True</Pack>
+            <Visible>False</Visible>
+        </None>
+    </ItemGroup>
+    
+    <ItemGroup>
+      <PackageReference Include="OpenTK" Version="4.6.7" />
+      <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <Folder Include="Logging\" />
+    </ItemGroup>
+
+    <Import Project="$(MSBuildThisFileDirectory)Vildmark.targets" />
+
 </Project>

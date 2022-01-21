@@ -15,9 +15,4 @@
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     </PropertyGroup>
-
-    <PropertyGroup>
-        <OpenTKPackageVersion>4.6.7</OpenTKPackageVersion>
-    </PropertyGroup>
-
 </Project>

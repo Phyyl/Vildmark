@@ -3,10 +3,6 @@
   <PropertyGroup>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
-  
-  <ItemGroup>
-    <ProjectReference Include="../Vildmark.Core/Vildmark.Core.csproj"></ProjectReference>
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
@@ -16,6 +12,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Vildmark\Vildmark.csproj" />
   </ItemGroup>
 
 </Project>
