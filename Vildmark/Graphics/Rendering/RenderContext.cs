@@ -11,6 +11,8 @@ using Vildmark.Windowing;
 
 namespace Vildmark.Graphics.Rendering
 {
+    public delegate void RenderContextBeginEventHandler(int width, int height);
+
     public partial class RenderContext
     {
         private readonly TexturedShader texturedShader;
@@ -23,6 +25,8 @@ namespace Vildmark.Graphics.Rendering
         public int Width => window.Width;
         public int Height => window.Height;
         public Vector2 Size => new(Width, Height);
+
+        public event RenderContextBeginEventHandler? OnBegin;
 
         public bool DepthTest
         {
@@ -75,14 +79,14 @@ namespace Vildmark.Graphics.Rendering
         {
             this.frameBuffer = frameBuffer;
 
-            if (this.frameBuffer is not null)
-            {
-                this.frameBuffer.Bind();
-            }
-            else
-            {
-                GL.Viewport(0, 0, window.Width, window.Height);
-            }
+            int width = frameBuffer?.Width ?? window.Width;
+            int height = frameBuffer?.Height ?? window.Height;
+
+            frameBuffer?.Bind();
+
+            OnBegin?.Invoke(width, height);
+
+            GL.Viewport(0, 0, width, height);
 
             if (clear)
             {
@@ -92,10 +96,7 @@ namespace Vildmark.Graphics.Rendering
 
         public virtual void End()
         {
-            if (frameBuffer is not null)
-            {
-                frameBuffer.Unbind();
-            }
+            frameBuffer?.Unbind();
         }
 
         public virtual void Render<TMaterial>(IMesh mesh, TMaterial material, Transform? transform = default, PrimitiveType primitiveType = PrimitiveType.Triangles, IShader? shader = default)

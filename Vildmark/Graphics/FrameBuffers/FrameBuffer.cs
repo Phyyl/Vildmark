@@ -41,8 +41,6 @@ namespace Vildmark.Graphics.Rendering
         public void Bind()
         {
             GLFramebuffer.Bind();
-
-            GL.Viewport(0, 0, GLTexture.Width, GLTexture.Height);
         }
 
         public void Unbind()
