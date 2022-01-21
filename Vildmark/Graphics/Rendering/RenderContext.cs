@@ -7,20 +7,21 @@ using Vildmark.Graphics.Meshes;
 using Vildmark.Graphics.Resources;
 using Vildmark.Graphics.Shaders;
 using Vildmark.Resources;
+using Vildmark.Windowing;
 
 namespace Vildmark.Graphics.Rendering
 {
     public partial class RenderContext
     {
         private readonly TexturedShader texturedShader;
-
+        private readonly IWindow window;
         private FrameBuffer? frameBuffer;
 
         public Color4 ClearColor { get; set; } = Color4.Black;
         public Camera Camera { get; }
 
-        public int Width => Camera.Width;
-        public int Height => Camera.Height;
+        public int Width => window.Width;
+        public int Height => window.Height;
         public Vector2 Size => new(Width, Height);
 
         public bool DepthTest
@@ -56,16 +57,12 @@ namespace Vildmark.Graphics.Rendering
             }
         }
 
-        public RenderContext(Camera camera)
+        public RenderContext(Camera camera, IWindow window)
         {
+            this.window = window;
+
             Camera = camera;
             texturedShader = new TexturedShader();
-        }
-
-        public virtual void Resize(int width, int height)
-        {
-            Camera.Width = width;
-            Camera.Height = height;
         }
 
         public virtual void Clear()
@@ -84,7 +81,7 @@ namespace Vildmark.Graphics.Rendering
             }
             else
             {
-                GL.Viewport(0, 0, Camera.Width, Camera.Height);
+                GL.Viewport(0, 0, window.Width, window.Height);
             }
 
             if (clear)

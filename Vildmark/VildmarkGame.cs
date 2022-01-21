@@ -65,23 +65,32 @@ namespace Vildmark
         {
         }
 
-        protected RenderContext Create2DRenderContext(bool offcenter = true, float zNear = 1, float zFar = -1)
+        protected RenderContext Create2DRenderContext(float zNear = 1, float zFar = -1)
         {
-            return CreateRenderContext(offcenter ?
-                new OrthographicOffCenterCamera(Window.Width, Window.Height, zNear, zFar) :
-                new OrthographicCamera(Window.Width, Window.Height, zNear, zFar));
+            OrthographicCamera camera = new OrthographicCamera(Window.Width, Window.Height, zNear, zFar);
+
+            Window.OnResize += (width, height) => (camera.Right, camera.Bottom) = (width, height);
+
+            return CreateRenderContext(camera);
         }
 
         protected RenderContext Create3DRenderContext(float fovY = MathF.PI / 3f, float zNear = 0.01f, float zFar = 1000)
         {
-            return CreateRenderContext(new PerspectiveCamera(Window.Width, Window.Height, fovY, zNear, zFar));
+            PerspectiveCamera camera = new PerspectiveCamera(Window.Width / (float)Window.Height, fovY, zNear, zFar);
+
+            Window.OnResize += (width, height) => camera.AspectRatio = width / (float)height;
+
+            return CreateRenderContext(camera);
         }
 
         private RenderContext CreateRenderContext(Camera camera)
         {
-            Window.OnResize += camera.Resize;
+            return new RenderContext(camera, Window);
+        }
 
-            return new RenderContext(camera);
+        private void ResizeCamera()
+        {
+
         }
 
         public static void Run<T>()

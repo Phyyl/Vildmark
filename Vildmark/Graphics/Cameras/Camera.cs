@@ -9,24 +9,10 @@ namespace Vildmark.Graphics.Cameras
     {
         private Matrix4? projectionMatrix;
 
-        private int width;
-        private int height;
         private float zNear;
         private float zFar;
 
         public Transform Transform { get; } = new CameraTransform();
-
-        public int Width
-        {
-            get => width;
-            set => SetValue(ref width, value);
-        }
-
-        public int Height
-        {
-            get => height;
-            set => SetValue(ref height, value);
-        }
 
         public float ZNear
         {
@@ -40,20 +26,12 @@ namespace Vildmark.Graphics.Cameras
             set => SetValue(ref zFar, value);
         }
 
-        public RectangleF Viewport => new(Transform.X * Transform.Scale, Transform.Y * Transform.Scale, Width / Transform.Scale, Height / Transform.Scale);
-
         public Matrix4 ProjectionMatrix => projectionMatrix ??= CreateProjectionMatrix();
-
         public Matrix4 ViewMatrix => Transform.Matrix;
-
         public Matrix4 Matrix => ViewMatrix * ProjectionMatrix;
 
-        public float AspectRatio => width / (float)height;
-
-        protected Camera(int width, int height, float zNear, float zFar)
+        protected Camera(float zNear, float zFar)
         {
-            Width = width;
-            Height = height;
             ZNear = zNear;
             ZFar = zFar;
         }
@@ -64,12 +42,6 @@ namespace Vildmark.Graphics.Cameras
         {
             field = value;
             projectionMatrix = null;
-        }
-
-        public virtual void Resize(int width, int height)
-        {
-            Width = width;
-            Height = height;
         }
 
         private class CameraTransform : Transform
