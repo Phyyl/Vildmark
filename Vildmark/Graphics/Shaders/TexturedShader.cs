@@ -25,15 +25,18 @@ namespace Vildmark.Graphics.Rendering
         {
             if (input is ITextureMaterial textureMaterial)
             {
-                Uniform("source_rect", textureMaterial.Texture?.SourceRectangle ?? new RectangleF(0, 0, 1, 1));
-                Uniform("tex", textureMaterial.Texture ?? Texture2D.TransparentPixel);
+                Texture2D texture = textureMaterial.Texture ?? Texture2D.TransparentPixel;
+                Vector2 texelSize = new(1f / texture.GLTexture.Width, 1f / texture.GLTexture.Height);
+
+                Uniform("source_rect", texture.SourceRectangle);
+                Uniform("tex", texture);
+                Uniform("texel_size", texelSize);
             }
             else
             {
                 Uniform("source_rect", new RectangleF(0, 0, 1, 1));
                 Uniform("tex", Texture2D.WhitePixel);
             }
-
 
             if (input is IColorMaterial colorMaterial)
             {
