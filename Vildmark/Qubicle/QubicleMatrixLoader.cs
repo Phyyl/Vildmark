@@ -14,7 +14,7 @@ namespace Vildmark.Qubicle
 	[Register(typeof(IResourceLoader<QubicleMatrixCollection>))]
 	public class QubicleMatrixLoader : IResourceLoader<QubicleMatrixCollection>
 	{
-		public QubicleMatrixCollection Load(Stream stream, Assembly? assembly, string resourceName)
+		public QubicleMatrixCollection Load(Stream stream, Assembly? assembly, string? resourceName)
 		{
 			QubicleReader reader = new QubicleReader(stream);
 
@@ -25,7 +25,7 @@ namespace Vildmark.Qubicle
 		{
 			private readonly BinaryReader reader;
 
-			public Version Version { get; private set; }
+			public Version? Version { get; private set; }
 
 			public bool Bgra { get; private set; }
 

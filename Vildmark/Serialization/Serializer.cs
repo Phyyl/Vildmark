@@ -7,7 +7,7 @@ namespace Vildmark.Serialization
         protected virtual IReader CreateReader(Stream stream) => new Reader(stream);
         protected virtual IWriter CreateWriter(Stream stream) => new Writer(stream);
 
-        public virtual byte[] Serialize<T>(T value) where T : ISerializable, new()
+        public virtual byte[] Serialize<T>(T? value) where T : ISerializable, new()
         {
             using MemoryStream ms = new();
             IWriter writer = CreateWriter(ms);
@@ -17,7 +17,7 @@ namespace Vildmark.Serialization
             return ms.ToArray();
         }
 
-        public virtual T Deserialize<T>(byte[] data) where T : ISerializable, new()
+        public virtual T? Deserialize<T>(byte[] data) where T : ISerializable, new()
         {
             using MemoryStream ms = new(data);
             IReader reader = CreateReader(ms);

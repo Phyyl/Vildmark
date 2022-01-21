@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Vildmark.Logging;
 
 namespace Vildmark.Helpers
 {
@@ -16,7 +17,15 @@ namespace Vildmark.Helpers
                 return;
             }
 
-            foreach (var assemblyName in Assembly.GetEntryAssembly().GetReferencedAssemblies())
+            Assembly? assembly = Assembly.GetEntryAssembly();
+
+            if (assembly is null)
+            {
+                Logger.Info($"{nameof(Assembly.GetEntryAssembly)} returned null");
+                return;
+            }
+
+            foreach (var assemblyName in assembly.GetReferencedAssemblies())
             {
                 try
                 {

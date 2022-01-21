@@ -1,4 +1,4 @@
-﻿// FastNoise.cs
+// FastNoise.cs
 //
 // MIT License
 //
@@ -65,7 +65,7 @@ namespace Vildmark.Maths
 
 		private CellularDistanceFunction m_cellularDistanceFunction = CellularDistanceFunction.Euclidean;
 		private CellularReturnType m_cellularReturnType = CellularReturnType.CellValue;
-		private FastNoise m_cellularNoiseLookup = null;
+		private FastNoise? m_cellularNoiseLookup = null;
 		private int m_cellularDistanceIndex0 = 0;
 		private int m_cellularDistanceIndex1 = 1;
 		private float m_cellularJitter = 0.45f;
@@ -1917,7 +1917,7 @@ namespace Vildmark.Maths
 
 				case CellularReturnType.NoiseLookup:
 					Float3 vec = CELL_3D[Hash3D(m_seed, xc, yc, zc) & 255];
-					return m_cellularNoiseLookup.GetNoise(xc + vec.x * m_cellularJitter, yc + vec.y * m_cellularJitter, zc + vec.z * m_cellularJitter);
+					return m_cellularNoiseLookup?.GetNoise(xc + vec.x * m_cellularJitter, yc + vec.y * m_cellularJitter, zc + vec.z * m_cellularJitter) ?? default;
 
 				case CellularReturnType.Distance:
 					return distance;
@@ -2122,7 +2122,7 @@ namespace Vildmark.Maths
 
 				case CellularReturnType.NoiseLookup:
 					Float2 vec = CELL_2D[Hash2D(m_seed, xc, yc) & 255];
-					return m_cellularNoiseLookup.GetNoise(xc + vec.x * m_cellularJitter, yc + vec.y * m_cellularJitter);
+					return m_cellularNoiseLookup?.GetNoise(xc + vec.x * m_cellularJitter, yc + vec.y * m_cellularJitter) ?? default;
 
 				case CellularReturnType.Distance:
 					return distance;

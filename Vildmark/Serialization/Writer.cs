@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.InteropServices;
 
@@ -32,23 +33,23 @@ namespace Vildmark.Serialization
             }
         }
 
-        public void WriteObject<T>(T value) where T : ISerializable, new()
+        public void WriteObject<T>(T? value) where T : ISerializable, new()
         {
             if (WriteIsDefault(value))
             {
                 return;
             }
 
-            value.Serialize(this);
+            value!.Serialize(this);
         }
-        public void WriteObjects<T>(T[] values) where T : ISerializable, new()
+        public void WriteObjects<T>(T?[]? values) where T : ISerializable, new()
         {
             if (WriteIsDefault(values))
             {
                 return;
             }
 
-            WriteValue(values.Length);
+            WriteValue(values!.Length);
 
             for (int i = 0; i < values.Length; i++)
             {
@@ -56,19 +57,19 @@ namespace Vildmark.Serialization
             }
         }
 
-        public unsafe void WriteString(string value)
+        public unsafe void WriteString(string? value)
         {
             WriteValues(value?.ToCharArray());
         }
 
-        public void WriteStrings(string[] values)
+        public void WriteStrings(string?[]? values)
         {
             if (WriteIsDefault(values))
             {
                 return;
             }
 
-            WriteValue(values.Length);
+            WriteValue(values!.Length);
 
             for (int i = 0; i < values.Length; i++)
             {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -9,7 +9,7 @@ namespace Vildmark.Helpers
     {
         private static bool staticConstructorsRan;
 
-        private static Type[] typeCache;
+        private static Type[]? typeCache;
 
         static TypeHelper()
         {
@@ -38,15 +38,15 @@ namespace Vildmark.Helpers
             staticConstructorsRan = true;
         }
 
-        public static IEnumerable<Type> TypesOf<T>() => typeCache.Where(typeof(T).IsAssignableFrom);
+        public static IEnumerable<Type> TypesOf<T>() => typeCache?.Where(typeof(T).IsAssignableFrom) ?? Array.Empty<Type>();
 
-        public static IEnumerable<Type> TypesOf<T, TAttribute>() => typeCache.Where(typeof(T).IsAssignableFrom);
+        public static IEnumerable<Type> TypesOf<T, TAttribute>() => typeCache?.Where(typeof(T).IsAssignableFrom) ?? Array.Empty<Type>();
 
         public static IEnumerable<Type> ConcreteTypesOf<T>() => TypesOf<T>().Where(t => !t.IsAbstract);
 
         public static IEnumerable<Type> ConcreteTypesOf<T, TAttribute>() => ConcreteTypesOf<T>().Where(HasAttribute<TAttribute>);
 
-        public static IEnumerable<Type> TypesWith<TAttribute>() => typeCache.Where(HasAttribute<TAttribute>);
+        public static IEnumerable<Type> TypesWith<TAttribute>() => typeCache?.Where(HasAttribute<TAttribute>) ?? Array.Empty<Type>();
 
         public static bool HasAttribute<T, TAttribute>() => HasAttribute(typeof(T), typeof(TAttribute));
 
@@ -54,7 +54,7 @@ namespace Vildmark.Helpers
 
         public static bool HasAttribute(Type type, Type attributeType) => Attribute.IsDefined(type, attributeType);
 
-        public static object CreateInstanceOrDefault(Type type)
+        public static object? CreateInstanceOrDefault(Type type)
         {
             try
             {

@@ -22,7 +22,7 @@ namespace Vildmark.Serialization
             return result;
         }
 
-        public T[] ReadValues<T>() where T : unmanaged
+        public T[]? ReadValues<T>() where T : unmanaged
         {
             if (ReadIsDefault())
             {
@@ -36,7 +36,7 @@ namespace Vildmark.Serialization
             return result;
         }
 
-        public T ReadObject<T>() where T : ISerializable, new()
+        public T? ReadObject<T>() where T : ISerializable, new()
         {
             if (ReadIsDefault())
             {
@@ -50,14 +50,14 @@ namespace Vildmark.Serialization
             return result;
         }
 
-        public T[] ReadObjects<T>() where T : ISerializable, new()
+        public T?[]? ReadObjects<T>() where T : ISerializable, new()
         {
             if (ReadIsDefault())
             {
                 return default;
             }
 
-            T[] result = new T[ReadValue<int>()];
+            T?[] result = new T[ReadValue<int>()];
 
             for (int i = 0; i < result.Length; i++)
             {
@@ -67,21 +67,21 @@ namespace Vildmark.Serialization
             return result;
         }
 
-        public string ReadString()
+        public string? ReadString()
         {
-            char[] chars = ReadValues<char>();
+            char[]? chars = ReadValues<char>();
 
             return chars != null ? new string(chars) : null;
         }
 
-        public string[] ReadStrings()
+        public string?[]? ReadStrings()
         {
             if (ReadIsDefault())
             {
                 return default;
             }
 
-            string[] result = new string[ReadValue<int>()];
+            string?[] result = new string[ReadValue<int>()];
 
             for (int i = 0; i < result.Length; i++)
             {

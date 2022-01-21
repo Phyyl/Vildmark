@@ -19,7 +19,7 @@ namespace Vildmark.Graphics.Resources
         IResourceLoader<Texture2D>,
         IResourceLoaderOptions<Texture2D, Texture2DMode>
     {
-        public unsafe GLTexture2D Load(Stream stream, Assembly? assembly, string resourceName, Texture2DMode options)
+        public unsafe GLTexture2D Load(Stream stream, Assembly? assembly, string? resourceName, Texture2DMode options)
         {
 #pragma warning disable CA1416 // Validate platform compatibility
             Bitmap bitmap = new(stream);
@@ -35,17 +35,17 @@ namespace Vildmark.Graphics.Resources
             return texture;
         }
 
-        public unsafe GLTexture2D Load(Stream stream, Assembly? assembly, string resourceName)
+        public unsafe GLTexture2D Load(Stream stream, Assembly? assembly, string? resourceName)
         {
             return Load(stream, assembly, resourceName, Texture2DMode.Default);
         }
 
-        Texture2D IResourceLoader<Texture2D>.Load(Stream stream, Assembly? assembly, string resourceName)
+        Texture2D IResourceLoader<Texture2D>.Load(Stream stream, Assembly? assembly, string? resourceName)
         {
             return new Texture2D(Load(stream, assembly, resourceName));
         }
 
-        Texture2D IResourceLoaderOptions<Texture2D, Texture2DMode>.Load(Stream stream, Assembly? assembly, string resourceName, Texture2DMode options)
+        Texture2D IResourceLoaderOptions<Texture2D, Texture2DMode>.Load(Stream stream, Assembly? assembly, string? resourceName, Texture2DMode options)
         {
             return new Texture2D(Load(stream, assembly, resourceName, options));
         }

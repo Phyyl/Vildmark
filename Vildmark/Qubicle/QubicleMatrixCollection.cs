@@ -11,7 +11,7 @@ namespace Vildmark.Qubicle
 
 		public IEnumerable<QubicleMatrix> Matrices => matrices.Values.ToArray();
 
-		public QubicleMatrix this[string name] => matrices.GetValueOrDefault(name);
+		public QubicleMatrix? this[string name] => matrices.GetValueOrDefault(name);
 
 		public QubicleMatrixCollection(IEnumerable<QubicleMatrix> matrices)
 		{

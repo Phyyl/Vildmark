@@ -17,7 +17,7 @@ namespace Vildmark.Serialization
             writer.WriteValue(value.Revision);
         }
         
-        public static Version ReadVersion(this IReader reader)
+        public static Version? ReadVersion(this IReader reader)
         {
             if (reader.ReadIsDefault())
             {

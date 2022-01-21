@@ -20,7 +20,7 @@ namespace Vildmark.Graphics.Fonts.Resources
             PropertyNameCaseInsensitive = true
         };
 
-        public BitmapFont? Load(Stream stream, Assembly assembly, string resourceName)
+        public BitmapFont? Load(Stream stream, Assembly? assembly, string? resourceName)
         {
             string? json = ResourceLoader.Load<string>(stream);
 

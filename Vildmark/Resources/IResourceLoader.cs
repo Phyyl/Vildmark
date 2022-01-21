@@ -5,6 +5,6 @@ namespace Vildmark.Resources
 {
     public interface IResourceLoader<T>
     {
-        T? Load(Stream stream, Assembly assembly, string resourceName);
+        T? Load(Stream stream, Assembly? assembly, string? resourceName);
     }
 }

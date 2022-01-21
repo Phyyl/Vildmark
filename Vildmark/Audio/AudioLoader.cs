@@ -13,7 +13,7 @@ namespace Vildmark.Audio
     [Register(typeof(IResourceLoader<ALBuffer>))]
     public class AudioLoader : IResourceLoader<ALBuffer>
     {
-        public ALBuffer Load(Stream stream, Assembly assembly, string resourceName)
+        public ALBuffer Load(Stream stream, Assembly? assembly, string? resourceName)
         {
             byte[] data = LoadWav(stream, out int channels, out int bitsPerSample, out int sampleRate);
             ALBuffer buffer = new();
