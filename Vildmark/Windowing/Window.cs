@@ -18,7 +18,11 @@ namespace Vildmark.Windowing
 
         public int Height => Size.Y;
 
-        public Vector2i Size { get; private set; }
+        public Vector2i Size
+        {
+            get => gameWindow.ClientRectangle.Size;
+            set => gameWindow.ClientRectangle = new Box2i(gameWindow.ClientRectangle.Min, gameWindow.ClientRectangle.Min + value);
+        }
 
         public Window(WindowSettings settings, IWindowHandler windowHandler)
         {

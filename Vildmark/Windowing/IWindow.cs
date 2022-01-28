@@ -12,7 +12,7 @@ namespace Vildmark.Windowing
 
 		int Height { get; }
 
-		Vector2i Size { get; }
+		Vector2i Size { get; set; }
 
 		IWindowHandler WindowHandler { get; set; }
 
