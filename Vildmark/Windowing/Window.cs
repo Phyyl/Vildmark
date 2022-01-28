@@ -43,6 +43,8 @@ namespace Vildmark.Windowing
             gameWindow.UpdateFrame += GameWindow_UpdateFrame;
             gameWindow.RenderFrame += GameWindow_RenderFrame;
             gameWindow.MouseWheel += GameWindow_MouseWheel;
+            gameWindow.KeyDown += GameWindow_KeyDown;
+            gameWindow.KeyUp += GameWindow_KeyUp;
             WindowHandler = windowHandler;
 
             this.settings = settings;
