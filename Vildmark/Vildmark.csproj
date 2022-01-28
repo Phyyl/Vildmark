@@ -23,9 +23,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="libs\**\*">
+        <None Include="libs\windows\*">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <PackagePath>libs\</PackagePath>
+            <PackagePath>runtimes\win-x64\native</PackagePath>
             <Pack>True</Pack>
         </None>
     </ItemGroup>
