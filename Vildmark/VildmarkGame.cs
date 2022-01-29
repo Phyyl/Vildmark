@@ -14,6 +14,18 @@ namespace Vildmark
 
         public IKeyboard Keyboard { get; }
 
+        public double UpdateFrequency
+        {
+            get => Window.UpdateFrequency;
+            set => Window.UpdateFrequency = value;
+        }
+
+        public double RenderFrequency
+        {
+            get => Window.RenderFrequency;
+            set => Window.RenderFrequency = value;
+        }
+
         protected VildmarkGame()
         {
             WindowSettings settings = new();

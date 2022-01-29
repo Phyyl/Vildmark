@@ -17,6 +17,7 @@ namespace Vildmark.Windowing
 		IWindowHandler WindowHandler { get; set; }
 
 		void Run();
+
         void Close();
     }
 }

@@ -1,19 +1,23 @@
-﻿using OpenTK.Windowing.Common;
+using OpenTK.Windowing.Common;
 
 namespace Vildmark.Windowing
 {
     public class WindowSettings
-	{
-		public string Title { get; set; } = "Game";
+    {
+        public string Title { get; set; } = "Game";
 
-		public int Width { get; set; } = 1280;
+        public int Width { get; set; } = 1280;
 
-		public int Height { get; set; } = 720;
+        public int Height { get; set; } = 720;
 
-		public WindowState State { get; set; } = WindowState.Normal;
+        public WindowState State { get; set; } = WindowState.Normal;
 
-		public WindowBorder Border { get; set; } = WindowBorder.Resizable;
+        public WindowBorder Border { get; set; } = WindowBorder.Resizable;
 
-		public int Samples { get; set; } = 4;
-	}
+        public int Samples { get; set; } = 4;
+
+        public double UpdateFrequency { get; set; } = 60;
+
+        public double RenderFrequency { get; set; } = 60;
+    }
 }

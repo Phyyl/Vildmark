@@ -24,6 +24,18 @@ namespace Vildmark.Windowing
             set => gameWindow.ClientRectangle = new Box2i(gameWindow.ClientRectangle.Min, gameWindow.ClientRectangle.Min + value);
         }
 
+        public double UpdateFrequency
+        {
+            get => gameWindow.UpdateFrequency;
+            set => gameWindow.UpdateFrequency = value;
+        }
+
+        public double RenderFrequency
+        {
+            get => gameWindow.RenderFrequency;
+            set => gameWindow.RenderFrequency = value;
+        }
+
         public Window(WindowSettings settings, IWindowHandler windowHandler)
         {
             NativeWindowSettings nativeSettings = NativeWindowSettings.Default;
@@ -36,6 +48,9 @@ namespace Vildmark.Windowing
             nativeSettings.Flags = ContextFlags.ForwardCompatible;
 
             gameWindow = new GameWindow(GameWindowSettings.Default, nativeSettings);
+
+            UpdateFrequency = settings.UpdateFrequency;
+            RenderFrequency = settings.RenderFrequency;
 
             gameWindow.Load += GameWindow_Load;
             gameWindow.Unload += GameWindow_Unload;
