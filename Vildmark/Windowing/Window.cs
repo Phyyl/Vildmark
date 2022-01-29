@@ -15,8 +15,15 @@ namespace Vildmark.Windowing
         public IWindowHandler WindowHandler { get; set; }
 
         public int Width => Size.X;
-
         public int Height => Size.Y;
+
+        public bool IsFocused => gameWindow.IsFocused;
+
+        public bool CursorVisible
+        {
+            get => gameWindow.CursorVisible;
+            set => gameWindow.CursorVisible = value;
+        }
 
         public Vector2i Size
         {
@@ -73,6 +80,11 @@ namespace Vildmark.Windowing
         public void Close()
         {
             gameWindow.Close();
+        }
+
+        public void Focus()
+        {
+            gameWindow.Focus();
         }
 
         private void GameWindow_Load()

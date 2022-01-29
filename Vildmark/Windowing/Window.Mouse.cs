@@ -15,7 +15,6 @@ namespace Vildmark.Windowing
 			get => gameWindow.CursorGrabbed;
 			set
 			{
-				gameWindow.CursorVisible = !value;
 				gameWindow.CursorGrabbed = value;
 			}
 		}
