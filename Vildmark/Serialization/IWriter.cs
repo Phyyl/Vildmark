@@ -8,6 +8,7 @@ namespace Vildmark.Serialization
 
         void WriteValue<T>(T value) where T : unmanaged;
         void WriteValues<T>(T[]? values) where T : unmanaged;
+        public void WriteValues<T>(Span<T> span) where T : unmanaged;
 
         void WriteObject<T>(T? value) where T : ISerializable, new();
         void WriteObjects<T>(T?[]? values) where T : ISerializable, new();

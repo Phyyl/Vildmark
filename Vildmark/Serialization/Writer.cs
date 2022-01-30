@@ -13,7 +13,7 @@ namespace Vildmark.Serialization
 
         public unsafe void WriteValue<T>(T value) where T : unmanaged
         {
-            WriteRaw(new Span<T>(&value, 1));
+            WriteValues(new Span<T>(&value, 1));
         }
 
         public void WriteValues<T>(T[]? values) where T : unmanaged
@@ -26,8 +26,13 @@ namespace Vildmark.Serialization
             if (values is not null)
             {
                 WriteValue(values.Length);
-                WriteRaw(values.AsSpan());
+                WriteValues(values.AsSpan());
             }
+        }
+
+        public void WriteValues<T>(Span<T> span) where T : unmanaged
+        {
+            BaseStream.Write(MemoryMarshal.Cast<T, byte>(span));
         }
 
         public void WriteObject<T>(T? value) where T : ISerializable, new()
@@ -85,11 +90,6 @@ namespace Vildmark.Serialization
             WriteValue(false);
 
             return false;
-        }
-
-        private void WriteRaw<T>(Span<T> span) where T : unmanaged
-        {
-            BaseStream.Write(MemoryMarshal.Cast<T, byte>(span));
         }
     }
 }
