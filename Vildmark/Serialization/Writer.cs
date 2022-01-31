@@ -1,14 +1,17 @@
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Vildmark.Serialization
 {
     public class Writer : IWriter
     {
         public Stream BaseStream { get; }
+        public Encoding Encoding { get; }
 
-        public Writer(Stream stream)
+        public Writer(Stream stream, Encoding? encoding = default)
         {
             BaseStream = stream ?? throw new ArgumentNullException(nameof(stream));
+            Encoding = encoding ?? Encoding.UTF8;
         }
 
         public unsafe void WriteValue<T>(T value) where T : unmanaged
@@ -73,7 +76,7 @@ namespace Vildmark.Serialization
                 return;
             }
 
-            WriteString(includeType ? value!.GetType().Name : null);
+            WriteString(includeType ? value!.GetType().AssemblyQualifiedName : null);
 
             value!.Serialize(this);
         }
@@ -95,7 +98,7 @@ namespace Vildmark.Serialization
 
         public unsafe void WriteString(string? value)
         {
-            WriteValues(value?.ToCharArray());
+            WriteValues(value is null ? null : Encoding.GetBytes(value));
         }
 
         public void WriteStrings(string?[]? values)

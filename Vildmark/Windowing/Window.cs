@@ -66,6 +66,7 @@ namespace Vildmark.Windowing
             gameWindow.MouseWheel += GameWindow_MouseWheel;
             gameWindow.KeyDown += GameWindow_KeyDown;
             gameWindow.KeyUp += GameWindow_KeyUp;
+            gameWindow.Closed += GameWindow_Closed;
             WindowHandler = windowHandler;
         }
 
@@ -121,6 +122,11 @@ namespace Vildmark.Windowing
             WindowHandler?.Render((float)obj.Time);
 
             gameWindow.SwapBuffers();
+        }
+
+        private void GameWindow_Closed()
+        {
+            WindowHandler?.Close();
         }
     }
 }

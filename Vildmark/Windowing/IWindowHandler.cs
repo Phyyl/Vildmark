@@ -1,4 +1,4 @@
-﻿namespace Vildmark.Windowing
+namespace Vildmark.Windowing
 {
     public interface IWindowHandler
 	{
@@ -7,5 +7,6 @@
 		void Resize(int width, int height);
 		void Update(float delta);
 		void Render(float delta);
+        void Close();
 	}
 }

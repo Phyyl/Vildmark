@@ -30,10 +30,24 @@ namespace Vildmark.Helpers
 
             foreach (var type in AssemblyHelper.GetAllLoadedUserAssemblies().SelectMany(a => a.GetTypes()))
             {
-                type.TypeInitializer?.Invoke(null, null);
+                RunStaticConstructor(type);
             }
 
             staticConstructorsRan = true;
+        }
+
+        public static void RunStaticConstructor<T>() => RunStaticConstructor(typeof(T));
+
+        public static void RunStaticConstructor(Type type)
+        {
+            try
+            {
+                type.TypeInitializer?.Invoke(null, null);
+            }
+            catch (Exception ex)
+            {
+                Logger.Exception(ex);
+            }
         }
 
         public static IEnumerable<Type> TypesOf<T>() => typeCache?.Where(typeof(T).IsAssignableFrom) ?? Array.Empty<Type>();
@@ -62,7 +76,7 @@ namespace Vildmark.Helpers
                 }
                 else
                 {
-                    return Activator.CreateInstance(type, false);
+                    return Activator.CreateInstance(type, true);
                 }
             }
             catch (Exception ex)

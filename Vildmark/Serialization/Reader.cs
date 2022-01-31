@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.InteropServices;
+using System.Text;
 using Vildmark.Helpers;
 
 namespace Vildmark.Serialization
@@ -7,10 +8,12 @@ namespace Vildmark.Serialization
     public class Reader : IReader
     {
         public Stream BaseStream { get; }
+        public Encoding Encoding { get; }
 
-        public Reader(Stream stream)
+        public Reader(Stream stream, Encoding? encoding = default)
         {
             BaseStream = stream ?? throw new ArgumentNullException(nameof(stream));
+            Encoding = encoding ?? Encoding.UTF8;
         }
 
         public unsafe T ReadValue<T>() where T : unmanaged
@@ -134,9 +137,9 @@ namespace Vildmark.Serialization
 
         public string? ReadString()
         {
-            char[]? chars = ReadValues<char>();
+            byte[]? data = ReadValues<byte>();
 
-            return chars != null ? new string(chars) : null;
+            return data is null ? null : Encoding.GetString(data);
         }
 
         public string?[]? ReadStrings()

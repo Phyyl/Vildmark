@@ -41,6 +41,7 @@ namespace Vildmark
         public void Run()
         {
             Window.Run();
+            Stop();
         }
 
         public void Stop()
@@ -66,6 +67,11 @@ namespace Vildmark
 
         public virtual void Render(float delta)
         {
+        }
+
+        public virtual void Close()
+        {
+
         }
 
         protected virtual IKeyboard InitializeKeyboard() => Window;
@@ -99,7 +105,9 @@ namespace Vildmark
         public static void Run<T>()
             where T : VildmarkGame, new()
         {
-            new T().Run();
+            T instance = new T();
+
+            instance.Run();
         }
     }
 }

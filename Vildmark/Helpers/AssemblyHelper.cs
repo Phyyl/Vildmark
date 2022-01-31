@@ -13,26 +13,33 @@ namespace Vildmark.Helpers
                 return;
             }
 
-            Assembly? assembly = Assembly.GetEntryAssembly();
-
-            if (assembly is null)
+            try
             {
-                Logger.Info($"{nameof(Assembly.GetEntryAssembly)} returned null");
-                return;
-            }
+                Assembly? assembly = Assembly.GetEntryAssembly();
 
-            foreach (var assemblyName in assembly.GetReferencedAssemblies())
+                if (assembly is null)
+                {
+                    Logger.Info($"{nameof(Assembly.GetEntryAssembly)} returned null");
+                    return;
+                }
+
+                foreach (var assemblyName in assembly.GetReferencedAssemblies())
+                {
+                    try
+                    {
+                        Assembly.LoadFrom($"{assemblyName.Name}.dll");
+                    }
+                    catch // miam
+                    {
+                    }
+                }
+
+                loaded = true;
+            }
+            catch (Exception ex)
             {
-                try
-                {
-                    Assembly.LoadFrom($"{assemblyName.Name}.dll");
-                }
-                catch // miam
-                {
-                }
+                Logger.Exception(ex);
             }
-
-            loaded = true;
         }
 
         public static IEnumerable<Assembly> GetAllLoadedUserAssemblies()
