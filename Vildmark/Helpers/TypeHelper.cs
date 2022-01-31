@@ -56,7 +56,14 @@ namespace Vildmark.Helpers
         {
             try
             {
-                return Activator.CreateInstance(type, BindingFlags.Public | BindingFlags.NonPublic, null, parameters, null);
+                if (parameters is { Length: > 0 })
+                {
+                    return Activator.CreateInstance(type, BindingFlags.Public | BindingFlags.NonPublic, null, parameters, null);
+                }
+                else
+                {
+                    return Activator.CreateInstance(type, false);
+                }
             }
             catch (Exception ex)
             {

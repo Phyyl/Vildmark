@@ -8,7 +8,6 @@ namespace Vildmark.Windowing
     public partial class Window : IWindow
     {
         private readonly GameWindow gameWindow;
-        private readonly WindowSettings settings;
 
         public event ResizeEventHandler? OnResize;
 
@@ -68,8 +67,6 @@ namespace Vildmark.Windowing
             gameWindow.KeyDown += GameWindow_KeyDown;
             gameWindow.KeyUp += GameWindow_KeyUp;
             WindowHandler = windowHandler;
-
-            this.settings = settings;
         }
 
         public void Run()

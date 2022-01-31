@@ -92,6 +92,11 @@ namespace Vildmark.Serialization
                     return default;
                 }
 
+                if (t is IDeserializable deserializable)
+                {
+                    deserializable.Deserialize(this);
+                }
+
                 return t;
             }
             else if (TypeHelper.TryCreateIsntance(type, out result, this))

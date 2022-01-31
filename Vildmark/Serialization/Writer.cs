@@ -41,7 +41,7 @@ namespace Vildmark.Serialization
             {
                 WriteValue(values.GetLength(0));
                 WriteValue(values.GetLength(1));
-                WriteValues(MemoryMarshal.CreateSpan(ref values[0,0], values.Length));
+                WriteValues(MemoryMarshal.CreateSpan(ref values[0, 0], values.Length));
             }
         }
 
@@ -73,10 +73,7 @@ namespace Vildmark.Serialization
                 return;
             }
 
-            if (includeType)
-            {
-                WriteString(value!.GetType().Name);
-            }
+            WriteString(includeType ? value!.GetType().Name : null);
 
             value!.Serialize(this);
         }

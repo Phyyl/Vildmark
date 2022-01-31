@@ -9,8 +9,8 @@ namespace Vildmark.Tests
         [TestMethod]
         public void RoundTrip()
         {
-            Serializer serializer = new Serializer();
-            TestObject test = new TestObject
+            Serializer serializer = new ();
+            TestObject test = new()
             {
                 Value = 10,
                 Name = "Parent",
@@ -22,9 +22,9 @@ namespace Vildmark.Tests
             };
 
             byte[] data = serializer.Serialize(test);
-            
+
             TestObject serialized = serializer.Deserialize<TestObject>(data);
-            
+
             Assert.AreNotSame(test, serialized);
             Assert.AreEqual(test.Name, serialized.Name);
             Assert.AreEqual(test.Value, serialized.Value);
@@ -34,7 +34,7 @@ namespace Vildmark.Tests
             Assert.AreEqual(test.Child.Name, serialized.Child.Name);
         }
 
-        private class TestObject : ISerializable
+        private class TestObject : ISerializable, IDeserializable
         {
             public int Value { get; set; }
 
