@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace Vildmark.Helpers
@@ -51,16 +52,24 @@ namespace Vildmark.Helpers
 
         public static bool HasAttribute(Type type, Type attributeType) => Attribute.IsDefined(type, attributeType);
 
-        public static object? CreateInstanceOrDefault(Type type)
+        public static object? CreateInstanceOrDefault(Type type, params object?[]? parameters)
         {
             try
             {
-                return Activator.CreateInstance(type, true);
+                return Activator.CreateInstance(type, BindingFlags.Public | BindingFlags.NonPublic, null, parameters, null);
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.Exception(ex);
                 return null;
             }
+        }
+
+        public static bool TryCreateIsntance(Type type, [NotNullWhen(true)] out object? result, params object?[]? parameters)
+        {
+            result = CreateInstanceOrDefault(type, parameters);
+
+            return result is not null;
         }
     }
 }

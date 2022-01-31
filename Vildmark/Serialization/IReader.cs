@@ -8,9 +8,11 @@ namespace Vildmark.Serialization
 
         T ReadValue<T>() where T : unmanaged;
         T[]? ReadValues<T>() where T : unmanaged;
+        T[,]? Read2DValues<T>() where T : unmanaged;
+        T[,,]? Read3DValues<T>() where T : unmanaged;
 
-        T? ReadObject<T>() where T : ISerializable, new();
-        T?[]? ReadObjects<T>() where T : ISerializable, new();
+        T? ReadObject<T>(bool includeType = false);
+        T?[]? ReadObjects<T>(bool includeType = false);
 
         string? ReadString();
         string?[]? ReadStrings();
