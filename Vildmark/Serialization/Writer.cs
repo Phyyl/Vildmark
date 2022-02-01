@@ -6,12 +6,12 @@ namespace Vildmark.Serialization
     public class Writer : IWriter
     {
         public Stream BaseStream { get; }
-        public Encoding Encoding { get; }
+        public Encoding Encoding { get; init; } = Encoding.UTF8;
+        public TypeNameSerializationOptions TypeNameSerializationOptions { get; init; } = TypeNameSerializationOptions.Name;
 
-        public Writer(Stream stream, Encoding? encoding = default)
+        public Writer(Stream stream)
         {
             BaseStream = stream ?? throw new ArgumentNullException(nameof(stream));
-            Encoding = encoding ?? Encoding.UTF8;
         }
 
         public unsafe void WriteValue<T>(T value) where T : unmanaged
@@ -76,7 +76,16 @@ namespace Vildmark.Serialization
                 return;
             }
 
-            WriteString(includeType ? value!.GetType().AssemblyQualifiedName : null);
+            Type type = value!.GetType();
+
+            string? typeName = TypeNameSerializationOptions switch
+            {
+                TypeNameSerializationOptions.FullName => type.FullName,
+                TypeNameSerializationOptions.AssemblyQualifiedName => type.AssemblyQualifiedName,
+                _ => type.Name
+            };
+
+            WriteString(includeType ? typeName : null);
 
             value!.Serialize(this);
         }

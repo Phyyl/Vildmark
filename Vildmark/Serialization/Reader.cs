@@ -8,12 +8,11 @@ namespace Vildmark.Serialization
     public class Reader : IReader
     {
         public Stream BaseStream { get; }
-        public Encoding Encoding { get; }
-
-        public Reader(Stream stream, Encoding? encoding = default)
+        public Encoding Encoding { get; init; } = Encoding.UTF8;
+        
+        public Reader(Stream stream)
         {
             BaseStream = stream ?? throw new ArgumentNullException(nameof(stream));
-            Encoding = encoding ?? Encoding.UTF8;
         }
 
         public unsafe T ReadValue<T>() where T : unmanaged
@@ -78,7 +77,7 @@ namespace Vildmark.Serialization
 
             if (ReadString() is string typeName)
             {
-                if (Type.GetType(typeName) is not Type foundType)
+                if (TypeHelper.FindType(typeName) is not Type foundType)
                 {
                     Logger.Error($"Could not find type {typeName} for deserialization");
                     return default;

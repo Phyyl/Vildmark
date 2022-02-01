@@ -66,6 +66,13 @@ namespace Vildmark.Helpers
 
         public static bool HasAttribute(Type type, Type attributeType) => Attribute.IsDefined(type, attributeType);
 
+        public static Type? FindType(string typeName)
+        {
+            return typeCache?.FirstOrDefault(t => t.Name == typeName) ??
+                typeCache?.FirstOrDefault(t => t.FullName == typeName) ??
+                typeCache?.FirstOrDefault(t => t.AssemblyQualifiedName == typeName);
+        }
+
         public static object? CreateInstanceOrDefault(Type type, params object?[]? parameters)
         {
             try
