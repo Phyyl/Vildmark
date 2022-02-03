@@ -68,7 +68,7 @@ namespace Vildmark.Resources
             return Load<TResource>(GetEmbeddedStream(name, assembly), assembly, name);
         }
 
-        public static TResource? LoadEmbedded<TResource, TLoaderOptions>(string name, TLoaderOptions options, Assembly? assembly)
+        public static TResource? LoadEmbedded<TResource, TLoaderOptions>(string name, TLoaderOptions options, Assembly? assembly = default)
         {
             assembly ??= Assembly.GetCallingAssembly();
 

@@ -5,6 +5,7 @@ using Vildmark.Graphics.FrameBuffers;
 using Vildmark.Graphics.Materials;
 using Vildmark.Graphics.Meshes;
 using Vildmark.Graphics.Shaders;
+using Vildmark.Graphics.Textures;
 using Vildmark.Windowing;
 
 namespace Vildmark.Graphics.Rendering
@@ -59,12 +60,30 @@ namespace Vildmark.Graphics.Rendering
             }
         }
 
-        public RenderContext(Camera camera, IWindow window)
+        public bool Multisample
+        {
+            get => GL.IsEnabled(EnableCap.Multisample);
+            set
+            {
+                if (value)
+                {
+                    GL.Enable(EnableCap.Multisample);
+                }
+                else
+                {
+                    GL.Disable(EnableCap.Multisample);
+                }
+            }
+        }
+
+        public RenderContext(Camera camera, IWindow window, bool mutlisample = false)
         {
             this.window = window;
 
             Camera = camera;
             texturedShader = new TexturedShader();
+
+            Multisample = mutlisample;
         }
 
         public virtual void Clear()
@@ -97,6 +116,8 @@ namespace Vildmark.Graphics.Rendering
             frameBuffer?.Unbind();
         }
 
+        public void Render(IMesh mesh, Color4 color, Transform? transform = default, PrimitiveType primitiveType = PrimitiveType.Triangles, IShader? shader = default) => Render(mesh, new ColorMaterial(color), transform, primitiveType, shader);
+        public void Render(IMesh mesh, Texture2D texture, Transform? transform = default, PrimitiveType primitiveType = PrimitiveType.Triangles, IShader? shader = default) => Render(mesh, new TextureMaterial(texture), transform, primitiveType, shader);
         public virtual void Render<TMaterial>(IMesh mesh, TMaterial material, Transform? transform = default, PrimitiveType primitiveType = PrimitiveType.Triangles, IShader? shader = default)
             where TMaterial : IMaterial
         {
