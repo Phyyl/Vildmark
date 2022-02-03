@@ -9,6 +9,8 @@ namespace Vildmark.Graphics.Shaders
 {
     public class TexturedShader : EmbeddedShader, IShaderSetup<Camera>, IShaderSetup<IMaterial>, IShaderSetup<Transform?>
     {
+        private static readonly Vector2 texCoordCorrection = new Vector2(0.00000002f);
+
         public TexturedShader()
             : base("model")
         {
@@ -21,7 +23,7 @@ namespace Vildmark.Graphics.Shaders
                 Texture2D texture = textureMaterial.Texture ?? Texture2D.TransparentPixel;
                 Vector2 texelSize = new(1f / texture.GLTexture.Width, 1f / texture.GLTexture.Height);
 
-                Uniform("source_rect", texture.SourceRectangle.Inflated(new Vector2(-0.00000001f)));
+                Uniform("source_rect", texture.SourceRectangle.Translated(texCoordCorrection).Inflated(-texCoordCorrection * 2));
                 Uniform("tex", texture);
                 Uniform("texel_size", texelSize);
             }
