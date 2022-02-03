@@ -14,7 +14,7 @@ namespace Vildmark.Windowing
 
         public WindowBorder Border { get; set; } = WindowBorder.Resizable;
 
-        public int Samples { get; set; } = 4;
+        public int Samples { get; set; } = 0;
 
         public double UpdateFrequency { get; set; } = 60;
 
