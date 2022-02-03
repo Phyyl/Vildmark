@@ -3,6 +3,7 @@ using System.Drawing;
 using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.Materials;
 using Vildmark.Graphics.Textures;
+using Vildmark.Maths;
 
 namespace Vildmark.Graphics.Shaders
 {
@@ -20,7 +21,7 @@ namespace Vildmark.Graphics.Shaders
                 Texture2D texture = textureMaterial.Texture ?? Texture2D.TransparentPixel;
                 Vector2 texelSize = new(1f / texture.GLTexture.Width, 1f / texture.GLTexture.Height);
 
-                Uniform("source_rect", texture.SourceRectangle);
+                Uniform("source_rect", texture.SourceRectangle.Inflated(new Vector2(-0.00000001f)));
                 Uniform("tex", texture);
                 Uniform("texel_size", texelSize);
             }
