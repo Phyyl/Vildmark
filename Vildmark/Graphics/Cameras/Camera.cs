@@ -46,7 +46,7 @@ namespace Vildmark.Graphics.Cameras
         {
             protected override Matrix4 CreateMatrix()
             {
-                return MatrixHelper.CreateMatrix(Origin, Rotation, Position, Scale);
+                return MatrixHelper.CreateMatrix(-Position, Rotation, Origin, Scale);
             }
         }
     }
