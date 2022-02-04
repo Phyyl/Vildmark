@@ -121,6 +121,14 @@ namespace Vildmark.Graphics.Rendering
         public virtual void Render<TMaterial>(IMesh mesh, TMaterial material, Transform? transform = default, PrimitiveType primitiveType = PrimitiveType.Triangles, IShader? shader = default)
             where TMaterial : IMaterial
         {
+            RenderBatch(new[] { new BatchEntry(mesh, transform) }, material, primitiveType, shader);
+        }
+
+        public void RenderBatch(IEnumerable<BatchEntry> entries, Color4 color, PrimitiveType primitiveType = PrimitiveType.Triangles, IShader? shader = default) => RenderBatch(entries, new ColorMaterial(color), primitiveType, shader);
+        public void RenderBatch(IEnumerable<BatchEntry> entries, Texture2D texture, PrimitiveType primitiveType = PrimitiveType.Triangles, IShader? shader = default) => RenderBatch(entries, new TextureMaterial(texture), primitiveType, shader);
+        public virtual void RenderBatch<TMaterial>(IEnumerable<BatchEntry> entries, TMaterial material, PrimitiveType primitiveType = PrimitiveType.Triangles, IShader? shader = default)
+            where TMaterial : IMaterial
+        {
             shader ??= texturedShader;
 
             shader.Use();
@@ -140,12 +148,17 @@ namespace Vildmark.Graphics.Rendering
                 cameraShader.Setup(Camera);
             }
 
-            if (shader is IShaderSetup<Transform?> transformShader)
+            foreach (var entry in entries)
             {
-                transformShader.Setup(transform);
-            }
+                if (shader is IShaderSetup<Transform?> transformShader)
+                {
+                    transformShader.Setup(entry.Transform);
+                }
 
-            mesh.Draw(primitiveType);
+                entry.Mesh?.Draw(primitiveType);
+            }
         }
     }
+
+    public record class BatchEntry(IMesh Mesh, Transform? Transform = default);
 }
