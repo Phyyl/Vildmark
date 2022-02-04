@@ -13,9 +13,9 @@ namespace Vildmark.Windowing
 
 		public bool IsKeyUp(Keys key) => !IsKeyDown(key);
 
-		public bool IsKeyPressed(Keys key) => gameWindow.IsKeyPressed(key);
+		public bool IsKeyPressed(Keys key) => gameWindow.KeyboardState.IsKeyDown(key) && !gameWindow.KeyboardState.WasKeyDown(key);
 
-		public bool IsKeyReleased(Keys key) => gameWindow.IsKeyReleased(key);
+		public bool IsKeyReleased(Keys key) => !gameWindow.KeyboardState.IsKeyDown(key) && gameWindow.KeyboardState.WasKeyDown(key);
 
         private void GameWindow_KeyDown(KeyboardKeyEventArgs obj)
         {

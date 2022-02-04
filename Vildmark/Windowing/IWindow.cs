@@ -13,7 +13,6 @@ namespace Vildmark.Windowing
 		Vector2i Size { get; set; }
 		IWindowHandler WindowHandler { get; set; }
         bool IsFocused { get; }
-        bool CursorVisible { get; set; }
 
         void Run();
         void Close();

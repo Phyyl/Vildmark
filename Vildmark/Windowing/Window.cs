@@ -18,12 +18,6 @@ namespace Vildmark.Windowing
 
         public bool IsFocused => gameWindow.IsFocused;
 
-        public bool CursorVisible
-        {
-            get => gameWindow.CursorVisible;
-            set => gameWindow.CursorVisible = value;
-        }
-
         public Vector2i Size
         {
             get => gameWindow.ClientRectangle.Size;

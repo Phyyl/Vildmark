@@ -10,16 +10,20 @@ namespace Vildmark.Windowing
         public Vector2 Position { get; private set; }
         public Vector2 Wheel { get; private set; }
 
-        public bool IsMouseGrabbed
+        public bool CursorGrabbed
 		{
 			get => gameWindow.CursorGrabbed;
-			set
-			{
-				gameWindow.CursorGrabbed = value;
-			}
+			set => gameWindow.CursorGrabbed = value;
 		}
 
-		public bool IsMouseDown(MouseButton mouseButton)
+        public bool CursorVisible
+        {
+            get => gameWindow.CursorVisible;
+            set => gameWindow.CursorVisible = value;
+        }
+
+
+        public bool IsMouseDown(MouseButton mouseButton)
 		{
 			return gameWindow.IsMouseButtonDown(mouseButton);
 		}

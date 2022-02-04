@@ -16,8 +16,8 @@ namespace Vildmark.Windowing
 
         public int Samples { get; set; } = 0;
 
-        public double UpdateFrequency { get; set; } = 60;
+        public double UpdateFrequency { get; set; }
 
-        public double RenderFrequency { get; set; } = 60;
+        public double RenderFrequency { get; set; }
     }
 }

@@ -9,7 +9,8 @@ namespace Vildmark.Windowing
         Vector2 Position { get; }
         Vector2 Wheel { get; }
 
-        bool IsMouseGrabbed { get; set; }
+        bool CursorGrabbed { get; set; }
+        bool CursorVisible { get; set; }
 
         bool IsMouseDown(MouseButton mouseButton);
         bool IsMouseUp(MouseButton mouseButton);
