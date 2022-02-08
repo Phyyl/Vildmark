@@ -6,9 +6,9 @@ namespace Vildmark.Windowing
 {
     public partial class Window : IMouse
 	{
-		public Vector2 Delta { get; private set; }
-        public Vector2 Position { get; private set; }
-        public Vector2 Wheel { get; private set; }
+        public Vector2 Delta => gameWindow.MouseState.Delta;
+        public Vector2 Position => gameWindow.MouseState.Position;
+        public Vector2 Wheel => gameWindow.MouseState.ScrollDelta;
 
         public bool CursorGrabbed
 		{
@@ -42,23 +42,5 @@ namespace Vildmark.Windowing
 		{
 			return !gameWindow.IsMouseButtonDown(mouseButton);
 		}
-
-        private void GameWindow_MouseWheel(MouseWheelEventArgs e)
-        {
-            Wheel = e.Offset;
-        }
-
-        private void BeginUpdateMouse()
-        {
-            Vector2 previousPosition = Position;
-
-            Position = gameWindow.MousePosition;
-            Delta = Position - previousPosition;
-        }
-
-        private void EndUpdateMouse()
-        {
-            Wheel = Vector2.Zero;
-        }
     }
 }

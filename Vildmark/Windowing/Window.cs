@@ -57,7 +57,6 @@ namespace Vildmark.Windowing
             gameWindow.Resize += GameWindow_Resize;
             gameWindow.UpdateFrame += GameWindow_UpdateFrame;
             gameWindow.RenderFrame += GameWindow_RenderFrame;
-            gameWindow.MouseWheel += GameWindow_MouseWheel;
             gameWindow.KeyDown += GameWindow_KeyDown;
             gameWindow.KeyUp += GameWindow_KeyUp;
             gameWindow.Closed += GameWindow_Closed;
@@ -104,9 +103,7 @@ namespace Vildmark.Windowing
 
         private void GameWindow_UpdateFrame(FrameEventArgs obj)
         {
-            BeginUpdateMouse();
             WindowHandler?.Update((float)obj.Time);
-            EndUpdateMouse();
         }
 
         private void GameWindow_RenderFrame(FrameEventArgs obj)
