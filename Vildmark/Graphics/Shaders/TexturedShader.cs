@@ -1,13 +1,14 @@
 using OpenTK.Mathematics;
 using System.Drawing;
 using Vildmark.Graphics.Cameras;
+using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Materials;
 using Vildmark.Graphics.Textures;
 using Vildmark.Maths;
 
 namespace Vildmark.Graphics.Shaders
 {
-    public class TexturedShader : EmbeddedShader, IShaderSetup<Camera>, IShaderSetup<IMaterial>, IShaderSetup<Transform?>
+    public class TexturedShader : EmbeddedShader, IShaderSetup<Camera>, IShaderMaterialSetup, IShaderSetup<Transform?>
     {
         private static readonly Vector2 texCoordCorrection = new Vector2(0.00000002f);
 
@@ -16,31 +17,40 @@ namespace Vildmark.Graphics.Shaders
         {
         }
 
-        void IShaderSetup<IMaterial>.Setup(IMaterial input)
+        void IShaderMaterialSetup.Setup<TMaterial>(TMaterial input)
         {
+            Texture2D texture = Texture2D.WhitePixel;
+            Color4 tint = Color4.White;
+
             if (input is ITextureMaterial textureMaterial)
             {
-                Texture2D texture = textureMaterial.Texture ?? Texture2D.TransparentPixel;
-                Vector2 texelSize = new(1f / texture.GLTexture.Width, 1f / texture.GLTexture.Height);
-
-                Uniform("source_rect", texture.SourceRectangle.Translated(texCoordCorrection).Inflated(-texCoordCorrection * 2));
-                Uniform("tex", texture);
-                Uniform("texel_size", texelSize);
+                texture = textureMaterial.Texture ?? Texture2D.TransparentPixel;
             }
-            else
+            else if (input is Texture2D texture2D)
             {
-                Uniform("source_rect", new RectangleF(0, 0, 1, 1));
-                Uniform("tex", Texture2D.WhitePixel);
+                texture = texture2D;
+            }
+            else if (input is GLTexture2D glTexture2D)
+            {
+                texture = glTexture2D;
             }
 
             if (input is IColorMaterial colorMaterial)
             {
-                Uniform("tint", colorMaterial.Color);
+                tint = colorMaterial.Color;
             }
-            else
+            else if (input is Color4 color4)
             {
-                Uniform("tint", Color4.White);
+                tint = color4;
             }
+
+            Vector2 texelSize = new(1f / texture.GLTexture.Width, 1f / texture.GLTexture.Height);
+
+            Uniform("source_rect", texture.SourceRectangle.Translated(texCoordCorrection).Inflated(-texCoordCorrection * 2));
+            Uniform("tex", texture);
+            Uniform("texel_size", texelSize);
+            Uniform("tint", tint);
+
         }
 
         void IShaderSetup<Camera>.Setup(Camera input)

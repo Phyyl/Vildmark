@@ -4,14 +4,14 @@ using Vildmark.Graphics.Shaders;
 
 namespace Vildmark.Graphics.Fonts
 {
-    public class BitmapFontShader : EmbeddedShader, IShaderSetup<Camera>, IShaderSetup<IMaterial>, IShaderSetup<Transform>
+    public class BitmapFontShader : EmbeddedShader, IShaderSetup<Camera>, IShaderMaterialSetup, IShaderSetup<Transform>
     {
         public BitmapFontShader()
             : base("bitmapfont")
         {
         }
 
-        void IShaderSetup<IMaterial>.Setup(IMaterial input)
+        void IShaderMaterialSetup.Setup<TMaterial>(TMaterial input)
         {
             if (input is IColorMaterial colorMaterial)
             {

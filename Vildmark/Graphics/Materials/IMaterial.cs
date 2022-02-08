@@ -3,21 +3,17 @@ using Vildmark.Graphics.Textures;
 
 namespace Vildmark.Graphics.Materials
 {
-    public interface IMaterial
-    {
-    }
-
-    public interface ITexturesMaterial : IMaterial
+    public interface ITexturesMaterial
     {
         Texture2D[] Textures { get; }
     }
 
-    public interface IColorMaterial : IMaterial
+    public interface IColorMaterial
     {
         Color4 Color { get; }
     }
 
-    public interface ITextureMaterial : IMaterial
+    public interface ITextureMaterial
     {
         Texture2D Texture { get; }
     }

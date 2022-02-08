@@ -35,6 +35,11 @@
         <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Maths\Physics2D\" />
+      <Folder Include="Maths\Physics3D\" />
+    </ItemGroup>
+
     <Import Project="$(MSBuildThisFileDirectory)Vildmark.targets" />
 
 </Project>

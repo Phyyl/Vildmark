@@ -11,6 +11,7 @@ namespace Vildmark.Maths.Physics
 
             return IntersectLineSegmentToAABB(segment, other);
         }
+
         public static AABB2DIntersectionResult? IntersectMovingAABBToAABB(AABB2D a, Vector2 movement, AABB2D b)
         {
             LineSegment2D segment = new(a.Center, a.Center + movement);
@@ -30,6 +31,7 @@ namespace Vildmark.Maths.Physics
 
             return null;
         }
+
         public static AABB2DIntersectionResult<T>? IntersectMovingAABBToAABB<T>(AABB2D a, Vector2 movement, AABB2D b, T target)
         {
             AABB2DIntersectionResult? result = IntersectMovingAABBToAABB(a, movement, b);
@@ -94,6 +96,7 @@ namespace Vildmark.Maths.Physics
 
             return new AABB3DIntersectionResult(position, movement, GetFace(), box);
         }
+
         public static AABB2DIntersectionResult? IntersectLineSegmentToAABB(LineSegment2D line, AABB2D box)
         {
             float tMax = 1;

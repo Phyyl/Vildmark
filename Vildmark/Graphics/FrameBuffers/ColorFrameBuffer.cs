@@ -29,7 +29,7 @@ namespace Vildmark.Graphics.FrameBuffers
 
         public virtual void Render(RenderContext renderContext, IShader? shader = default)
         {
-            renderContext.RenderRectangle(new System.Drawing.RectangleF(0, 0, renderContext.Width, renderContext.Height), GLTexture, new Transform() { OriginY = renderContext.Height / 2f, RotationX = MathF.PI }, shader: shader);
+            renderContext.RenderRectangle(new System.Drawing.RectangleF(0, 0, renderContext.Width, renderContext.Height), GLTexture, new Transform() { OriginY = renderContext.Height / 2f, RotationX = MathF.PI });
         }
     }
 }

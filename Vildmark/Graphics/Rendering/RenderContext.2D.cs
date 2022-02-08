@@ -13,10 +13,7 @@ namespace Vildmark.Graphics.Rendering
     {
         private readonly Mesh mesh = new();
 
-        public void RenderRectangle(RectangleF rectangle, Color4 color, Transform? transform = default, PrimitiveType primitiveType = PrimitiveType.Triangles, IShader? shader = default) => RenderRectangle(rectangle, new ColorMaterial(color), transform, primitiveType, shader);
-        public void RenderRectangle(RectangleF rectangle, Texture2D texture, Transform? transform = default, PrimitiveType primitiveType = PrimitiveType.Triangles, IShader? shader = default) => RenderRectangle(rectangle, new TextureMaterial(texture), transform, primitiveType, shader);
-        public void RenderRectangle<TMaterial>(RectangleF rectangle, TMaterial material, Transform? transform = default, PrimitiveType primitiveType = PrimitiveType.Triangles, IShader? shader = default)
-            where TMaterial : IMaterial
+        public void RenderRectangle<TMaterial>(RectangleF rectangle, TMaterial material, Transform? transform = default)
         {
             mesh.UpdateVertices(new Vertex[]
             {
@@ -28,13 +25,10 @@ namespace Vildmark.Graphics.Rendering
                 new(rectangle.GetTopRight(), Vector2.UnitX),
             });
 
-            Render(mesh, material, transform, primitiveType, shader);
+            Render(mesh, material, transform);
         }
 
-        public void RenderCircle(Vector2 center, float radius, Color4 color, int sides = 0, Transform? transform = default, PrimitiveType primitiveType = PrimitiveType.TriangleFan, IShader? shader = default) => RenderCircle(center, radius, new ColorMaterial(color), sides, transform, primitiveType, shader);
-        public void RenderCircle(Vector2 center, float radius, Texture2D texture, int sides = 0, Transform? transform = default, PrimitiveType primitiveType = PrimitiveType.TriangleFan, IShader? shader = default) => RenderCircle(center, radius, new TextureMaterial(texture), sides, transform, primitiveType, shader);
-        public void RenderCircle<TMaterial>(Vector2 center, float radius, TMaterial material, int sides = 0, Transform? transform = default, PrimitiveType primitiveType = PrimitiveType.TriangleFan, IShader? shader = default)
-            where TMaterial : IMaterial
+        public void RenderCircle<TMaterial>(Vector2 center, float radius, TMaterial material, int sides = 0, Transform? transform = default)
         {
             if (sides <= 0)
             {
@@ -56,7 +50,7 @@ namespace Vildmark.Graphics.Rendering
 
             mesh.UpdateVertices(vertices);
 
-            Render(mesh, material, transform, primitiveType, shader);
+            Render(mesh, material, transform, overrides: new RenderOverrides(PrimitiveType: PrimitiveType.TriangleFan));
         }
     }
 }

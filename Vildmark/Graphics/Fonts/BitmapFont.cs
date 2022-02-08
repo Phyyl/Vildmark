@@ -54,14 +54,16 @@ namespace Vildmark.Graphics.Fonts
             return new RectangleF(minX + position.X, minY + position.Y, maxX - minX, maxY - minY);
         }
 
-        public void RenderString(RenderContext renderContext, string text, Vector2 position, float size, Color4 color, PrimitiveType primitiveType = PrimitiveType.Triangles)
+        public void RenderString(RenderContext renderContext, string text, Vector2 position, float size, Color4 color)
         {
             UpdateMesh(mesh, text, size);
 
             renderContext.Blending = true;
-            renderContext.DepthTest = false;
 
-            renderContext.Render(mesh, new BitmapFontMaterial(Pages, color), new Transform { Position = new Vector3(position) }, primitiveType, shader);
+            renderContext.Render(mesh, new BitmapFontMaterial(Pages, color), new Transform() { Position = new Vector3(position) }, new RenderOverrides()
+            {
+                Shader = shader
+            });
         }
 
         public void UpdateMesh(IMesh<BitmapFontVertex> mesh, string text, float size)

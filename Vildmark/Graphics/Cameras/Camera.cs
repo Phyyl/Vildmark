@@ -38,6 +38,11 @@ namespace Vildmark.Graphics.Cameras
 
         protected void SetValue<T>(ref T field, T value)
         {
+            if (Equals(field, value))
+            {
+                return;
+            }
+
             field = value;
             projectionMatrix = null;
         }

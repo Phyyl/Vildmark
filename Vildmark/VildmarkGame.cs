@@ -82,17 +82,21 @@ namespace Vildmark
         {
         }
 
-        protected RenderContext Create2DRenderContext(float zNear = 1, float zFar = -1)
+        public RenderContext Create2DRenderContext(float zNear = 1, float zFar = -1)
         {
-            OrthographicOffCenterCamera camera = new(Window.Width, Window.Height, zNear, zFar);
+            OrthographicOffCenterCamera camera = new(0, Window.Width, Window.Height, 0, zNear, zFar);
             RenderContext renderContext = new(camera, Window);
 
-            renderContext.OnBegin += (width, height) => (camera.Right, camera.Bottom) = (width, height);
+            renderContext.OnBegin += (width, height) =>
+            {
+                camera.Right = width;
+                camera.Bottom = height;
+            };
 
             return renderContext;
         }
 
-        protected RenderContext Create2DRenderContext(float width, float height, float zNear = 0.01f, float zFar = 1000)
+        public RenderContext Create2DRenderContext(float width, float height, float zNear = 0.01f, float zFar = 1000)
         {
             OrthographicCamera camera = new(width, height, zNear, zFar);
             return new(camera, Window)
@@ -101,17 +105,20 @@ namespace Vildmark
             };
         }
 
-        protected RenderContext Create2DRenderContext(float left, float right, float bottom, float top, float zNear = 1, float zFar = -1)
+        public RenderContext Create2DRenderContext(float left, float right, float bottom, float top, float zNear = 1, float zFar = -1)
         {
             OrthographicOffCenterCamera camera = new(left, right, bottom, top, zNear, zFar);
             return new(camera, Window);
         }
 
-        protected RenderContext Create3DRenderContext(float fovY = MathF.PI / 3f, float zNear = 0.01f, float zFar = 1000)
+        public RenderContext Create3DRenderContext(float fovY = MathF.PI / 3f, float zNear = 0.01f, float zFar = 1000)
         {
             PerspectiveCamera camera = new(Window.Width / (float)Window.Height, fovY, zNear, zFar);
-            RenderContext renderContext = new(camera, Window);
-            renderContext.DepthTest = true;
+            RenderContext renderContext = new(camera, Window)
+            {
+                DepthTest = true,
+                CullFace = true
+            };
 
             renderContext.OnBegin += (width, height) => camera.AspectRatio = width / (float)height;
 

@@ -20,4 +20,9 @@ namespace Vildmark.Graphics.Shaders
     {
         void Setup(TInput input);
     }
+
+    public interface IShaderMaterialSetup
+    {
+        void Setup<TMaterial>(TMaterial material);
+    }
 }
