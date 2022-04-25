@@ -10,7 +10,7 @@ namespace Vildmark.Graphics.Shaders
 {
     public class TexturedShader : EmbeddedShader, IShaderSetup<Camera>, IShaderMaterialSetup, IShaderSetup<Transform?>
     {
-        private static readonly Vector2 texCoordCorrection = new Vector2(0.00000002f);
+        private static readonly Vector2 texCoordCorrection = new(0.00000002f);
 
         public TexturedShader()
             : base("model")

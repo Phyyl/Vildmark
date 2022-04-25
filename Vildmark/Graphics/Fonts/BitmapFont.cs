@@ -27,7 +27,7 @@ namespace Vildmark.Graphics.Fonts
             characters = chars.ToDictionary(c => c.Character);
 
             mesh = new Mesh<BitmapFontVertex>();
-            Pages = new Texture2D[0];
+            Pages = Array.Empty<Texture2D>();
             Name = "";
             shader = new();
         }

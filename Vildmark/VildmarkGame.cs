@@ -128,7 +128,7 @@ namespace Vildmark
         public static void Run<T>()
             where T : VildmarkGame, new()
         {
-            T instance = new T();
+            T instance = new();
 
             instance.Run();
         }

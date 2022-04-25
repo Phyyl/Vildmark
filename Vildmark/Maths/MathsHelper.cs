@@ -20,6 +20,7 @@ namespace Vildmark.Maths
         public static Vector4 Max(Vector4 a, Vector4 b) => new(MathF.Max(a.X, b.X), MathF.Max(a.Y, b.Y), MathF.Max(a.Z, b.Z), MathF.Max(a.W, b.W));
 
         public static int Mod(int x, int mod) => (x % mod + mod) % mod;
+        public static long Mod(long x, long mod) => (x % mod + mod) % mod;
         public static float Mod(float x, float mod) => (x % mod + mod) % mod;
         public static double Mod(double x, double mod) => (x % mod + mod) % mod;
 
