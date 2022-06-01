@@ -2,6 +2,21 @@
 
     <Import Project="$(MSBuildThisFileDirectory)Vildmark.props" />
 
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <LangVersion>preview</LangVersion>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Authors>Phyyl</Authors>
+        <PackageProjectUrl>https://github.com/Phyyl/Vildmark</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/Phyyl/Vildmark</RepositoryUrl>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    </PropertyGroup>
+    
     <ItemGroup>
         <None Include="tools\**\*">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

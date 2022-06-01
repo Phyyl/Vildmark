@@ -25,7 +25,7 @@ namespace Vildmark.Qubicle
             Voxels = voxels;
         }
 
-        public IMesh<Vertex> CreateMesh(float scale = 1)
+        public Mesh<Vertex> CreateMesh(float scale = 1)
         {
             List<Vertex> vertices = new();
 
@@ -38,7 +38,6 @@ namespace Vildmark.Qubicle
                     for (int x = 0; x < Size.X; x++)
                     {
                         QubicleVoxel voxel = this[x, y, z];
-
                         Vector3 pos = new Vector3(x, y, z) * scale;
 
                         if (voxel.LeftVisible)

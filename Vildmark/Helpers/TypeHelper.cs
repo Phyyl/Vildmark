@@ -51,19 +51,15 @@ namespace Vildmark.Helpers
         }
 
         public static IEnumerable<Type> TypesOf<T>() => typeCache?.Where(typeof(T).IsAssignableFrom) ?? Array.Empty<Type>();
-
         public static IEnumerable<Type> TypesOf<T, TAttribute>() => typeCache?.Where(typeof(T).IsAssignableFrom) ?? Array.Empty<Type>();
 
         public static IEnumerable<Type> ConcreteTypesOf<T>() => TypesOf<T>().Where(t => !t.IsAbstract);
-
         public static IEnumerable<Type> ConcreteTypesOf<T, TAttribute>() => ConcreteTypesOf<T>().Where(HasAttribute<TAttribute>);
 
         public static IEnumerable<Type> TypesWith<TAttribute>() => typeCache?.Where(HasAttribute<TAttribute>) ?? Array.Empty<Type>();
 
         public static bool HasAttribute<T, TAttribute>() => HasAttribute(typeof(T), typeof(TAttribute));
-
         public static bool HasAttribute<TAttribute>(Type type) => HasAttribute(type, typeof(TAttribute));
-
         public static bool HasAttribute(Type type, Type attributeType) => Attribute.IsDefined(type, attributeType);
 
         public static Type? FindType(string typeName)

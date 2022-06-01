@@ -1,24 +1,12 @@
 using OpenTK.Mathematics;
+using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Textures;
 
-namespace Vildmark.Graphics.Materials
+namespace Vildmark.Graphics.Materials;
+
+public record TexturedMaterial(Texture2D Texture, Color4 Tint)
 {
-    public interface ITexturesMaterial
-    {
-        Texture2D[] Textures { get; }
-    }
-
-    public interface IColorMaterial
-    {
-        Color4 Color { get; }
-    }
-
-    public interface ITextureMaterial
-    {
-        Texture2D Texture { get; }
-    }
-
-    public record class ColorMaterial(Color4 Color) : IColorMaterial;
-    public record class TextureMaterial(Texture2D Texture) : ITextureMaterial;
-    public record class TintedTextureMaterial(Texture2D Texture, Color4 Color) : ITextureMaterial, IColorMaterial;
+    public static implicit operator TexturedMaterial(Color4 tint) => new(Texture2D.WhitePixel, tint);
+    public static implicit operator TexturedMaterial(Texture2D texture) => new(texture, Color4.White);
+    public static implicit operator TexturedMaterial(GLTexture2D texture) => new(texture, Color4.White);
 }

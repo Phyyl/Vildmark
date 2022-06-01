@@ -16,8 +16,6 @@ namespace Vildmark.Graphics.FrameBuffers
             GLFramebuffer = new GLFramebuffer();
             GLTexture = new GLTexture2D(width, height, default, format.PixelFormat, format.PixelInternalFormat, format.PixelType);
 
-            GLTexture.Configure(TextureMagFilter.Nearest, TextureMinFilter.Nearest, TextureWrapMode.ClampToBorder, TextureWrapMode.ClampToBorder);
-
             GLFramebuffer.Bind();
             GLFramebuffer.SetTexture(GLTexture, framebufferAttachment);
             InitializeReadBuffer(width, height);

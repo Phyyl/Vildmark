@@ -1,27 +1,26 @@
 using OpenTK.Graphics.OpenGL4;
+using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.GLObjects;
+using Vildmark.Graphics.Meshes;
 
 namespace Vildmark.Graphics.Shaders
 {
-    public class Shader : IShader
+    public abstract class Shader<TVertex, TMaterial> : IShader<TVertex, TMaterial>
+        where TVertex : unmanaged
     {
-        private record class Attrib(int Size, VertexAttribPointerType Type);
-
-        private readonly Dictionary<string, Attrib> attribs = new();
         private readonly GLShaderProgram shaderProgram;
 
-        protected Shader(string vertexShaderSource, string fragmentShaderSource, string? geometryShaderSource = default)
+        protected Shader(GLShaderProgram shaderProgram)
         {
-            shaderProgram = GLShaderProgram.Create(
-                GLShader.CreateVertex(vertexShaderSource),
-                GLShader.CreateFragment(fragmentShaderSource),
-                GLShader.CreateGeometry(geometryShaderSource)) ??
-                throw new Exception("Could not create shader program");
+            this.shaderProgram = shaderProgram;
 
-            InitializeAttribs();
+            InitializeVariables();
         }
 
-        public void Use() => shaderProgram?.Use();
+        public void Use()
+        {
+            shaderProgram?.Use();
+        }
 
         public void Uniform<T>(string name, T value) => shaderProgram.Uniform(name, value);
         public void Uniform<T>(int location, T value) => shaderProgram.Uniform(location, value);
@@ -29,27 +28,23 @@ namespace Vildmark.Graphics.Shaders
         public int GetAttribLocation(string name) => shaderProgram?.GetAttribLocation(name) ?? -1;
         public int GetUniformLocation(string name) => shaderProgram?.GetUniformLocation(name) ?? -1;
 
-        public VertexAttribPointerType GetAttribType(string name) => attribs.GetValueOrDefault(name)?.Type ?? VertexAttribPointerType.Float;
-        public int GetAttribSize(string name) => attribs.GetValueOrDefault(name)?.Size ?? 1;
-
-        private void InitializeAttribs()
+        private void InitializeVariables()
         {
-            GL.GetProgram(shaderProgram.ID, GetProgramParameterName.ActiveAttributes, out int count);
+            var uniforms = this.GetInstancePropertiesOfType<Uniform>();
 
-            for (int i = 0; i < count; i++)
+            foreach (var uniform in uniforms)
             {
-                GL.GetActiveAttrib(shaderProgram.ID, i, 256, out _, out _, out ActiveAttribType activeAttribType, out string name);
+                uniform.Location = GetUniformLocation(uniform.Name);
+            }
 
-                attribs[name] = activeAttribType switch
-                {
-                    ActiveAttribType.FloatVec2 => new(2, VertexAttribPointerType.Float),
-                    ActiveAttribType.FloatVec3 => new(3, VertexAttribPointerType.Float),
-                    ActiveAttribType.FloatVec4 => new(4, VertexAttribPointerType.Float),
-                    ActiveAttribType.Int => new(1, VertexAttribPointerType.Int),
-                    ActiveAttribType.UnsignedInt => new(1, VertexAttribPointerType.UnsignedInt),
-                    _ => new(1, VertexAttribPointerType.Float),
-                };
+            var attribs = this.GetInstancePropertiesOfType<Attrib>();
+
+            foreach (var attrib in attribs)
+            {
+                attrib.Location = GetAttribLocation(attrib.Name);
             }
         }
+
+        public abstract void Setup(Mesh<TVertex> mesh, TMaterial material, Camera camera, Transform? transform = null);
     }
 }

@@ -1,21 +1,20 @@
 using Vildmark.Audio.ALObjects;
 
-namespace Vildmark.Audio
+namespace Vildmark.Audio;
+
+public class AudioTrack
 {
-    public class AudioTrack
+    internal ALBuffer Buffer { get; }
+
+    public AudioTrack(ALBuffer buffer)
     {
-        internal ALBuffer Buffer { get; }
+        Buffer = buffer;
+    }
 
-        internal AudioTrack(ALBuffer buffer)
-        {
-            Buffer = buffer;
-        }
+    public void Play(AudioPlayer? player = default)
+    {
+        player ??= AudioPlayer.Default;
 
-        public void Play(AudioPlayer? player = default)
-        {
-            player ??= AudioPlayer.Default;
-
-            player.Play(this);
-        }
+        player.Play(this);
     }
 }
