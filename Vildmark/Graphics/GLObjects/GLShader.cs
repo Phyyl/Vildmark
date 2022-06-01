@@ -1,54 +1,43 @@
 using OpenTK.Graphics.OpenGL4;
+using Vildmark.Graphics.GLObjects.Loaders;
+using Vildmark.Resources;
 
-namespace Vildmark.Graphics.GLObjects
+namespace Vildmark.Graphics.GLObjects;
+
+public class GLShader : GLObject, IResource<GLShader>
 {
-    public class GLShader : GLObject
+    public static IResourceLoader<GLShader> Loader { get; } = new GLShaderResourceLoader();
+
+    public string InfoLog => GL.GetShaderInfoLog(this);
+
+    public bool Compiled
     {
-        private GLShader(ShaderType shaderType, string source)
-            : base(GL.CreateShader(shaderType))
+        get
         {
-            GL.ShaderSource(this, source);
-            GL.CompileShader(this);
+            GL.GetShader(this, ShaderParameter.CompileStatus, out int value);
+
+            return value == 1;
         }
+    }
 
-        public string InfoLog => GL.GetShaderInfoLog(this);
+    public GLShader(ShaderType shaderType, string source)
+        : base(GL.CreateShader(shaderType))
+    {
+        GL.ShaderSource(this, source);
+        GL.CompileShader(this);
 
-        public bool Compiled
+        if (!Compiled)
         {
-            get
-            {
-                GL.GetShader(this, ShaderParameter.CompileStatus, out int value);
-
-                return value == 1;
-            }
+            Logger.Error($"{shaderType} info log: {InfoLog}");
         }
-
-        protected override void DisposeOpenGL()
+        else if (InfoLog is { Length: > 0 })
         {
-            GL.DeleteShader(this);
+            Logger.Warning($"{shaderType} info log: {InfoLog}");
         }
+    }
 
-        public static GLShader? Create(ShaderType shaderType, string? source)
-        {
-            if (source is null)
-            {
-                return default;
-            }
-
-            GLShader shader = new(shaderType, source);
-
-            if (!shader.Compiled)
-            {
-                Console.WriteLine($"{shaderType} info log: {shader.InfoLog}");
-
-                return null;
-            }
-
-            return shader;
-        }
-
-        public static GLShader? CreateVertex(string? source) => Create(ShaderType.VertexShader, source);
-        public static GLShader? CreateFragment(string? source) => Create(ShaderType.FragmentShader, source);
-        public static GLShader? CreateGeometry(string? source) => Create(ShaderType.GeometryShader, source);
+    protected override void DisposeOpenGL()
+    {
+        GL.DeleteShader(this);
     }
 }

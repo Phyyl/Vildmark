@@ -1,149 +1,131 @@
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
-using System.Diagnostics;
 using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.FrameBuffers;
-using Vildmark.Graphics.Materials;
 using Vildmark.Graphics.Meshes;
 using Vildmark.Graphics.Shaders;
-using Vildmark.Graphics.Textures;
 using Vildmark.Windowing;
 
-namespace Vildmark.Graphics.Rendering
+namespace Vildmark.Graphics.Rendering;
+
+public delegate void RenderContextBeginEventHandler(int width, int height);
+
+public partial class RenderContext
 {
-    public delegate void RenderContextBeginEventHandler(int width, int height);
+    private readonly IWindow window;
+    private RenderOptions? renderOptions;
 
-    public partial class RenderContext
+    public Color4 ClearColor { get; set; } = Color4.Black;
+
+    public bool DepthTest { get; set; }
+    public bool Blending { get; set; }
+    public bool Multisample { get; set; }
+    public bool CullFace { get; set; }
+
+    public int Width => renderOptions?.FrameBuffer?.Width ?? window.Width;
+    public int Height => renderOptions?.FrameBuffer?.Height ?? window.Height;
+
+    public RenderContext(IWindow window)
     {
-        private readonly TexturedShader texturedShader;
-        private readonly IWindow window;
-        private FrameBuffer? frameBuffer;
+        this.window = window;
+    }
 
-        public Color4 ClearColor { get; set; } = Color4.Black;
-        public Camera Camera { get; }
-
-        public int Width { get; private set; }
-        public int Height { get; private set; }
-        public Vector2 Size => new(Width, Height);
-
-        public event RenderContextBeginEventHandler? OnBegin;
-
-        public bool DepthTest { get; set; }
-        public bool Blending { get; set; }
-        public bool Multisample { get; set; }
-        public bool CullFace { get; set; }
-
-        public RenderContext(Camera camera, IWindow window)
+    public virtual void Begin(Camera camera, FrameBuffer? frameBuffer = default, bool clear = true)
+    {
+        if (renderOptions is not null)
         {
-            this.window = window;
-
-            Camera = camera;
-            texturedShader = new TexturedShader();
+            End();
         }
 
-        public virtual void Clear()
+        renderOptions = new RenderOptions(camera, frameBuffer);
+        frameBuffer?.Bind();
+
+        SetOptions();
+        SetViewport();
+
+        if (clear)
         {
             GL.ClearColor(ClearColor);
             GL.Clear(ClearBufferMask.DepthBufferBit | ClearBufferMask.ColorBufferBit);
         }
+    }
 
-        public virtual void Begin(FrameBuffer? frameBuffer = default, bool clear = true)
+    public virtual void End()
+    {
+        if (renderOptions is null)
         {
-            SetOptions();
-
-            this.frameBuffer = frameBuffer;
-
-            Width = frameBuffer?.Width ?? window.Width;
-            Height = frameBuffer?.Height ?? window.Height;
-
-            frameBuffer?.Bind();
-            OnBegin?.Invoke(Width, Height);
-            GL.Viewport(0, 0, Width, Height);
-
-            if (clear)
-            {
-                Clear();
-            }
+            return;
         }
 
-        public virtual void End()
+        renderOptions.FrameBuffer?.Unbind();
+        renderOptions = null;
+    }
+
+    public virtual void Render<TVertex, TMaterial>(Mesh<TVertex> mesh, TMaterial material, Shader<TVertex, TMaterial> shader, Transform? transform = default, PrimitiveType primitiveType = PrimitiveType.Triangles)
+        where TVertex : unmanaged
+    {
+        if (renderOptions is null)
         {
-            frameBuffer?.Unbind();
+            Logger.Warning("Begin needs to be called before rendering");
+            return;
         }
 
-        public virtual void Render<TMaterial>(IMesh mesh, TMaterial material, Transform? transform = default, RenderOverrides? overrides = default)
+        shader.Setup(mesh, material, renderOptions.Camera, transform);
+        mesh.Draw(primitiveType);
+    }
+
+    private void SetViewport()
+    {
+        if (renderOptions is null)
         {
-            RenderBatch(new[] { new BatchEntry(mesh, transform) }, material, overrides);
+            return;
         }
 
-        public virtual void RenderBatch<TMaterial>(IEnumerable<BatchEntry> meshes, TMaterial material, RenderOverrides? overrides = default)
+        int width = renderOptions.FrameBuffer?.Width ?? window.Width;
+        int height = renderOptions.FrameBuffer?.Height ?? window.Height;
+
+        GL.Viewport(0, 0, width, height);
+    }
+
+    private void SetOptions()
+    {
+        if (DepthTest)
         {
-            IShader shader = overrides?.Shader ?? texturedShader;
-
-            shader.Use();
-
-            if (shader is IShaderMaterialSetup materialShader)
-            {
-                materialShader.Setup(material);
-            }
-
-            if (shader is IShaderSetup<Camera> cameraShader)
-            {
-                cameraShader.Setup(overrides?.Camera ?? Camera);
-            }
-
-            foreach (var mesh in meshes)
-            {
-                if (shader is IShaderSetup<Transform?> transformShader)
-                {
-                    transformShader.Setup(mesh.Transform);
-                }
-
-                mesh.Mesh?.Draw(overrides?.PrimitiveType ?? PrimitiveType.Triangles);
-            }
+            GL.Enable(EnableCap.DepthTest);
+        }
+        else
+        {
+            GL.Disable(EnableCap.DepthTest);
         }
 
-        private void SetOptions()
+        if (Blending)
         {
-            if (DepthTest)
-            {
-                GL.Enable(EnableCap.DepthTest);
-            }
-            else
-            {
-                GL.Disable(EnableCap.DepthTest);
-            }
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+        }
+        else
+        {
+            GL.Disable(EnableCap.Blend);
+        }
 
-            if (Blending)
-            {
-                GL.Enable(EnableCap.Blend);
-                GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
-            }
-            else
-            {
-                GL.Disable(EnableCap.Blend);
-            }
+        if (Multisample)
+        {
+            GL.Enable(EnableCap.Multisample);
+        }
+        else
+        {
+            GL.Disable(EnableCap.Multisample);
+        }
 
-            if (Multisample)
-            {
-                GL.Enable(EnableCap.Multisample);
-            }
-            else
-            {
-                GL.Disable(EnableCap.Multisample);
-            }
-
-            if (CullFace)
-            {
-                GL.Enable(EnableCap.CullFace);
-            }
-            else
-            {
-                GL.Disable(EnableCap.CullFace);
-            }
+        if (CullFace)
+        {
+            GL.Enable(EnableCap.CullFace);
+        }
+        else
+        {
+            GL.Disable(EnableCap.CullFace);
         }
     }
 
-    public record class RenderOverrides(Camera? Camera = default, IShader? Shader = default, PrimitiveType PrimitiveType = PrimitiveType.Triangles);
-    public record class BatchEntry(IMesh Mesh, Transform? Transform = default);
+    private record class RenderOptions(Camera Camera, FrameBuffer? FrameBuffer);
 }

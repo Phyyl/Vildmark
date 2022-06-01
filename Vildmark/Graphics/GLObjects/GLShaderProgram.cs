@@ -1,77 +1,70 @@
 using OpenTK.Graphics.OpenGL4;
+using Vildmark.Graphics.GLObjects.Loaders;
+using Vildmark.Resources;
 
-namespace Vildmark.Graphics.GLObjects
+namespace Vildmark.Graphics.GLObjects;
+
+public class GLShaderProgram : GLObject, IResource<GLShaderProgram>
 {
-    public class GLShaderProgram : GLObject
+    public static IResourceLoader<GLShaderProgram> Loader { get; } = new GLShaderProgramResourceLoader();
+
+    public GLShaderProgram(params GLShader[] shaders)
+        : base(GL.CreateProgram())
     {
-        private GLShaderProgram(params GLShader[] shaders)
-            : base(GL.CreateProgram())
+        foreach (var shader in shaders.NotNull())
         {
-            foreach (var shader in shaders.Where(s => s is not null))
-            {
-                GL.AttachShader(this, shader);
-            }
-
-            GL.LinkProgram(this);
+            GL.AttachShader(this, shader);
         }
 
-        public string InfoLog => GL.GetProgramInfoLog(this);
+        GL.LinkProgram(this);
 
-        public bool Linked
+        if (!Linked)
         {
-            get
-            {
-                GL.GetProgram(this, GetProgramParameterName.LinkStatus, out int value);
-
-                return value == 1;
-            }
+            Logger.Error($"Shader program info log: {InfoLog}");
         }
-
-        public void Use()
+        else if (InfoLog is { Length: > 0 })
         {
-            GL.UseProgram(this);
+            Logger.Warning($"Shader program info log: {InfoLog}");
         }
+    }
 
-        public int GetUniformLocation(string name)
+    public string InfoLog => GL.GetProgramInfoLog(this);
+
+    public bool Linked
+    {
+        get
         {
-            return GL.GetUniformLocation(this, name);
+            GL.GetProgram(this, GetProgramParameterName.LinkStatus, out int value);
+
+            return value == 1;
         }
+    }
 
-        public int GetAttribLocation(string name)
-        {
-            return GL.GetAttribLocation(this, name);
-        }
+    public void Use()
+    {
+        GL.UseProgram(this);
+    }
 
-        public bool Uniform<T>(string name, T value) => Uniform(GetUniformLocation(name), value);
-        public bool Uniform<T>(int location, T value) => StructTypeInfo.SetUniform(location, value);
+    public int GetUniformLocation(string name)
+    {
+        return GL.GetUniformLocation(this, name);
+    }
 
-        protected override void DisposeOpenGL()
-        {
-            GL.DeleteProgram(this);
-        }
+    public int GetAttribLocation(string name)
+    {
+        return GL.GetAttribLocation(this, name);
+    }
 
-        public static void Unuse()
-        {
-            GL.UseProgram(0);
-        }
+    public bool Uniform<T>(string name, T value) => Uniform(GetUniformLocation(name), value);
+    public bool Uniform<T>(int location, T value) => StaticTypeInfo.SetUniform(location, value);
 
-        public static GLShaderProgram? Create(params GLShader?[] shaders)
-        {
-            if (shaders.Any(s => s is not null && !s.Compiled))
-            {
-                return null;
-            }
+    protected override void DisposeOpenGL()
+    {
+        GL.DeleteProgram(this);
+    }
 
-            GLShaderProgram shaderProgram = new(shaders.NotNull().ToArray());
-
-            if (!shaderProgram.Linked)
-            {
-                Console.WriteLine($"Shader program info log: {shaderProgram.InfoLog}");
-
-                return null;
-            }
-
-            return shaderProgram;
-        }
+    public static void Unuse()
+    {
+        GL.UseProgram(0);
     }
 }

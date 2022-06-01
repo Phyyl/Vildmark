@@ -1,3 +1,0 @@
-namespace Vildmark.Graphics.Materials
-{
-}

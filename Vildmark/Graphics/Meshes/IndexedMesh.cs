@@ -21,13 +21,6 @@ namespace Vildmark.Graphics.Meshes
             IndexBuffer.SetData(indices);
         }
 
-        protected override void InitializeAttribs()
-        {
-            base.InitializeAttribs();
-
-            IndexBuffer.Bind();
-        }
-
         public override void Draw(PrimitiveType primitiveType = PrimitiveType.Triangles)
         {
             VertexArray.Bind();

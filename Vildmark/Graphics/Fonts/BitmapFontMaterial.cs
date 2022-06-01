@@ -1,8 +1,6 @@
 using OpenTK.Mathematics;
-using Vildmark.Graphics.Materials;
-using Vildmark.Graphics.Textures;
+using Vildmark.Graphics.GLObjects;
 
-namespace Vildmark.Graphics.Fonts
-{
-    public record struct BitmapFontMaterial(Texture2D[] Textures, Color4 Color) : ITexturesMaterial, IColorMaterial;
-}
+namespace Vildmark.Graphics.Fonts;
+
+public record BitmapFontMaterial(GLTexture2D[] Textures, Color4 Color);

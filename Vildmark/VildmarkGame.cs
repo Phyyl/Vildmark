@@ -1,136 +1,90 @@
-using Vildmark.Graphics.Cameras;
-using Vildmark.Graphics.Rendering;
 using Vildmark.Windowing;
 
-namespace Vildmark
+namespace Vildmark;
+
+public abstract class VildmarkGame : IWindowHandler
 {
-    public abstract class VildmarkGame : IWindowHandler
+    public Window Window { get; }
+
+    public IGamePad GamePad { get; }
+
+    public IMouse Mouse { get; }
+
+    public IKeyboard Keyboard { get; }
+
+    public double UpdateFrequency
     {
-        public Window Window { get; }
+        get => Window.UpdateFrequency;
+        set => Window.UpdateFrequency = value;
+    }
 
-        public IGamePad GamePad { get; }
+    public double RenderFrequency
+    {
+        get => Window.RenderFrequency;
+        set => Window.RenderFrequency = value;
+    }
 
-        public IMouse Mouse { get; }
+    protected VildmarkGame()
+    {
+        WindowSettings settings = new();
 
-        public IKeyboard Keyboard { get; }
+        InitializeWindowSettings(settings);
 
-        public double UpdateFrequency
-        {
-            get => Window.UpdateFrequency;
-            set => Window.UpdateFrequency = value;
-        }
+        Window = new Window(settings, this);
+        GamePad = InitializeGamePad();
+        Keyboard = InitializeKeyboard();
+        Mouse = InitializeMouse();
+    }
 
-        public double RenderFrequency
-        {
-            get => Window.RenderFrequency;
-            set => Window.RenderFrequency = value;
-        }
+    public void Run()
+    {
+        Window.Run();
+        Stop();
+    }
 
-        protected VildmarkGame()
-        {
-            WindowSettings settings = new();
+    public void Stop()
+    {
+        Window.Close();
+    }
 
-            InitializeWindowSettings(settings);
+    public virtual void Load()
+    {
+    }
 
-            Window = new Window(settings, this);
-            GamePad = InitializeGamePad();
-            Keyboard = InitializeKeyboard();
-            Mouse = InitializeMouse();
-        }
+    public virtual void Unload()
+    {
+    }
 
-        public void Run()
-        {
-            Window.Run();
-            Stop();
-        }
+    public virtual void Resize(int width, int height)
+    {
+    }
 
-        public void Stop()
-        {
-            Window.Close();
-        }
+    public virtual void Update(float delta)
+    {
+    }
 
-        public virtual void Load()
-        {
-        }
+    public virtual void Render(float delta)
+    {
+    }
 
-        public virtual void Unload()
-        {
-        }
+    public virtual void Close()
+    {
 
-        public virtual void Resize(int width, int height)
-        {
-        }
+    }
 
-        public virtual void Update(float delta)
-        {
-        }
+    protected virtual IKeyboard InitializeKeyboard() => Window;
+    protected virtual IMouse InitializeMouse() => Window;
+    protected virtual IGamePad InitializeGamePad() => Window;
 
-        public virtual void Render(float delta)
-        {
-        }
+    protected virtual void InitializeWindowSettings(WindowSettings settings)
+    {
+    }
 
-        public virtual void Close()
-        {
+    public static void Run<T>()
+        where T : VildmarkGame, new()
+    {
+        T instance = new();
 
-        }
-
-        protected virtual IKeyboard InitializeKeyboard() => Window;
-        protected virtual IMouse InitializeMouse() => Window;
-        protected virtual IGamePad InitializeGamePad() => Window;
-
-        protected virtual void InitializeWindowSettings(WindowSettings settings)
-        {
-        }
-
-        public RenderContext Create2DRenderContext(float zNear = 1, float zFar = -1)
-        {
-            OrthographicOffCenterCamera camera = new(0, Window.Width, Window.Height, 0, zNear, zFar);
-            RenderContext renderContext = new(camera, Window);
-
-            renderContext.OnBegin += (width, height) =>
-            {
-                camera.Right = width;
-                camera.Bottom = height;
-            };
-
-            return renderContext;
-        }
-
-        public RenderContext Create2DRenderContext(float width, float height, float zNear = 0.01f, float zFar = 1000)
-        {
-            OrthographicCamera camera = new(width, height, zNear, zFar);
-            return new(camera, Window)
-            {
-                DepthTest = true
-            };
-        }
-
-        public RenderContext Create2DRenderContext(float left, float right, float bottom, float top, float zNear = 1, float zFar = -1)
-        {
-            OrthographicOffCenterCamera camera = new(left, right, bottom, top, zNear, zFar);
-            return new(camera, Window);
-        }
-
-        public RenderContext Create3DRenderContext(float fovY = MathF.PI / 3f, float zNear = 0.01f, float zFar = 1000)
-        {
-            PerspectiveCamera camera = new(Window.Width / (float)Window.Height, fovY, zNear, zFar);
-            RenderContext renderContext = new(camera, Window)
-            {
-                DepthTest = true,
-                CullFace = true
-            };
-
-            renderContext.OnBegin += (width, height) => camera.AspectRatio = width / (float)height;
-
-            return renderContext;
-        }
-
-        public static void Run<T>()
-            where T : VildmarkGame, new()
-        {
-            T instance = new();
-
-            instance.Run();
-        }
+        instance.Run();
     }
 }
