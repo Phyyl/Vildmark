@@ -3,7 +3,6 @@ using OpenTK.Graphics.OpenGL4;
 using System.Drawing;
 using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Textures;
-using Vildmark.Maths;
 
 namespace Vildmark.Graphics;
 

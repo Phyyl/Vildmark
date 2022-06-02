@@ -3,7 +3,6 @@ using OpenTK.Mathematics;
 using System.Drawing;
 using Vildmark.Graphics.Meshes;
 using Vildmark.Graphics.Shaders;
-using Vildmark.Maths;
 
 namespace Vildmark.Graphics.Rendering;
 
