@@ -1,58 +1,57 @@
 using OpenTK.Mathematics;
 using Vildmark.Maths;
 
-namespace Vildmark.Graphics.Cameras
+namespace Vildmark.Graphics.Cameras;
+
+public abstract class Camera
 {
-    public abstract class Camera
+    private Matrix4? projectionMatrix;
+
+    private float zNear;
+    private float zFar;
+
+    public Transform Transform { get; } = new CameraTransform();
+
+    public float ZNear
     {
-        private Matrix4? projectionMatrix;
+        get => zNear;
+        set => SetValue(ref zNear, value);
+    }
 
-        private float zNear;
-        private float zFar;
+    public float ZFar
+    {
+        get => zFar;
+        set => SetValue(ref zFar, value);
+    }
 
-        public Transform Transform { get; } = new CameraTransform();
+    public Matrix4 ProjectionMatrix => projectionMatrix ??= CreateProjectionMatrix();
+    public Matrix4 ViewMatrix => Transform.Matrix;
+    public Matrix4 Matrix => ViewMatrix * ProjectionMatrix;
 
-        public float ZNear
+    protected Camera(float zNear, float zFar)
+    {
+        ZNear = zNear;
+        ZFar = zFar;
+    }
+
+    protected abstract Matrix4 CreateProjectionMatrix();
+
+    protected void SetValue<T>(ref T field, T value)
+    {
+        if (Equals(field, value))
         {
-            get => zNear;
-            set => SetValue(ref zNear, value);
+            return;
         }
 
-        public float ZFar
+        field = value;
+        projectionMatrix = null;
+    }
+
+    private class CameraTransform : Transform
+    {
+        protected override Matrix4 CreateMatrix()
         {
-            get => zFar;
-            set => SetValue(ref zFar, value);
-        }
-
-        public Matrix4 ProjectionMatrix => projectionMatrix ??= CreateProjectionMatrix();
-        public Matrix4 ViewMatrix => Transform.Matrix;
-        public Matrix4 Matrix => ViewMatrix * ProjectionMatrix;
-
-        protected Camera(float zNear, float zFar)
-        {
-            ZNear = zNear;
-            ZFar = zFar;
-        }
-
-        protected abstract Matrix4 CreateProjectionMatrix();
-
-        protected void SetValue<T>(ref T field, T value)
-        {
-            if (Equals(field, value))
-            {
-                return;
-            }
-
-            field = value;
-            projectionMatrix = null;
-        }
-
-        private class CameraTransform : Transform
-        {
-            protected override Matrix4 CreateMatrix()
-            {
-                return MatrixHelper.CreateMatrix(-Position, Rotation, Origin + Position, Scale);
-            }
+            return MatrixHelper.CreateMatrix(-Position, Rotation, Origin + Position, Scale);
         }
     }
 }

@@ -1,18 +1,9 @@
 <Project>
     <PropertyGroup>
         <LangVersion>preview</LangVersion>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <Company />
-        <Authors>Phyyl</Authors>
-        <PackageProjectUrl>https://github.com/Phyyl/Vildmark</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/Phyyl/Vildmark</RepositoryUrl>
-        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <IncludeSymbols>true</IncludeSymbols>
-        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     </PropertyGroup>
 </Project>

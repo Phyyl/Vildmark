@@ -106,5 +106,5 @@ public class Transform
         matrix = null;
     }
 
-    public static implicit operator Matrix4(Transform? transform) => transform?.matrix ?? Matrix4.Identity;
+    public static implicit operator Matrix4(Transform? transform) => transform?.Matrix ?? Matrix4.Identity;
 }

@@ -1,50 +1,49 @@
 using System.Reflection;
 
-namespace Vildmark.Helpers
-{
-    public static class AssemblyHelper
-    {
-        private static bool loaded;
+namespace Vildmark.Helpers;
 
-        public static void LoadAllReferencedAssemblies()
+public static class AssemblyHelper
+{
+    private static bool loaded;
+
+    public static void LoadAllReferencedAssemblies()
+    {
+        if (loaded)
         {
-            if (loaded)
+            return;
+        }
+
+        try
+        {
+            Assembly? assembly = Assembly.GetEntryAssembly();
+
+            if (assembly is null)
             {
+                Logger.Info($"{nameof(Assembly.GetEntryAssembly)} returned null");
                 return;
             }
 
-            try
+            foreach (var assemblyName in assembly.GetReferencedAssemblies())
             {
-                Assembly? assembly = Assembly.GetEntryAssembly();
-
-                if (assembly is null)
+                try
                 {
-                    Logger.Info($"{nameof(Assembly.GetEntryAssembly)} returned null");
-                    return;
+                    Assembly.LoadFrom($"{assemblyName.Name}.dll");
                 }
-
-                foreach (var assemblyName in assembly.GetReferencedAssemblies())
+                catch // miam
                 {
-                    try
-                    {
-                        Assembly.LoadFrom($"{assemblyName.Name}.dll");
-                    }
-                    catch // miam
-                    {
-                    }
                 }
+            }
 
-                loaded = true;
-            }
-            catch (Exception ex)
-            {
-                Logger.Exception(ex);
-            }
+            loaded = true;
         }
-
-        public static IEnumerable<Assembly> GetAllLoadedUserAssemblies()
+        catch (Exception ex)
         {
-            return AppDomain.CurrentDomain.GetAssemblies().Where(a => a.GetCustomAttribute<AssemblyCompanyAttribute>()?.Company != "Microsoft Corporation");
+            Logger.Exception(ex);
         }
+    }
+
+    public static IEnumerable<Assembly> GetAllLoadedUserAssemblies()
+    {
+        return AppDomain.CurrentDomain.GetAssemblies().Where(a => a.GetCustomAttribute<AssemblyCompanyAttribute>()?.Company != "Microsoft Corporation");
     }
 }

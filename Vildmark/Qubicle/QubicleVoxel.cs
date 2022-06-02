@@ -1,8 +1,8 @@
 using OpenTK.Mathematics;
 
-namespace Vildmark.Qubicle
-{
-    public struct QubicleVoxel
+namespace Vildmark.Qubicle;
+
+public struct QubicleVoxel
 	{
 		public byte R, G, B, A;
 
@@ -19,7 +19,7 @@ namespace Vildmark.Qubicle
 		public static QubicleVoxel FromRGBA(uint rgba)
 		{
 			QubicleVoxel result = new()
-            {
+        {
 				R = (byte)((rgba >> 0) & 0xFF),
 				G = (byte)((rgba >> 8) & 0xFF),
 				B = (byte)((rgba >> 16) & 0xFF),
@@ -32,7 +32,7 @@ namespace Vildmark.Qubicle
 		public static QubicleVoxel FromBGRA(uint bgra)
 		{
 			QubicleVoxel result = new()
-            {
+        {
 				B = (byte)((bgra >> 0) & 0xFF),
 				G = (byte)((bgra >> 8) & 0xFF),
 				R = (byte)((bgra >> 16) & 0xFF),
@@ -42,4 +42,3 @@ namespace Vildmark.Qubicle
 			return result;
 		}
 	}
-}

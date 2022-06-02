@@ -1,8 +1,8 @@
 using System.Diagnostics;
 
-namespace Vildmark.Coroutines
-{
-    public class CoroutineRunner<TCoroutine> where TCoroutine : ICoroutine
+namespace Vildmark.Coroutines;
+
+public class CoroutineRunner<TCoroutine> where TCoroutine : ICoroutine
 	{
 		private readonly bool autoReset;
 		private IEnumerator<bool>? enumerator;
@@ -63,4 +63,3 @@ namespace Vildmark.Coroutines
 			Done = false;
 		}
 	}
-}

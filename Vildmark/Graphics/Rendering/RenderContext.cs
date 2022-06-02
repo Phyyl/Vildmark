@@ -4,15 +4,13 @@ using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.FrameBuffers;
 using Vildmark.Graphics.Meshes;
 using Vildmark.Graphics.Shaders;
-using Vildmark.Windowing;
 
 namespace Vildmark.Graphics.Rendering;
 
 public delegate void RenderContextBeginEventHandler(int width, int height);
 
-public partial class RenderContext
+public partial class Renderer
 {
-    private readonly IWindow window;
     private RenderOptions? renderOptions;
 
     public Color4 ClearColor { get; set; } = Color4.Black;
@@ -22,13 +20,8 @@ public partial class RenderContext
     public bool Multisample { get; set; }
     public bool CullFace { get; set; }
 
-    public int Width => renderOptions?.FrameBuffer?.Width ?? window.Width;
-    public int Height => renderOptions?.FrameBuffer?.Height ?? window.Height;
-
-    public RenderContext(IWindow window)
-    {
-        this.window = window;
-    }
+    public int Width => renderOptions?.FrameBuffer?.Width ?? VildmarkGame.Width;
+    public int Height => renderOptions?.FrameBuffer?.Height ?? VildmarkGame.Height;
 
     public virtual void Begin(Camera camera, FrameBuffer? frameBuffer = default, bool clear = true)
     {
@@ -81,8 +74,8 @@ public partial class RenderContext
             return;
         }
 
-        int width = renderOptions.FrameBuffer?.Width ?? window.Width;
-        int height = renderOptions.FrameBuffer?.Height ?? window.Height;
+        int width = renderOptions.FrameBuffer?.Width ?? VildmarkGame.Width;
+        int height = renderOptions.FrameBuffer?.Height ?? VildmarkGame.Height;
 
         GL.Viewport(0, 0, width, height);
     }

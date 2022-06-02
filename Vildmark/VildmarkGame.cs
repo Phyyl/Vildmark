@@ -1,90 +1,44 @@
-using Vildmark.Windowing;
+using OpenTK.Graphics.OpenGL4;
+using Vildmark.Graphics.Rendering;
+using Vildmark.Windowing.Input;
 
 namespace Vildmark;
 
-public abstract class VildmarkGame : IWindowHandler
+public abstract partial class VildmarkGame
 {
-    public Window Window { get; }
+    public Renderer Renderer { get; } = new();
+    public Mouse Mouse { get; } = new();
+    public Keyboard Keyboard { get; } = new();
 
-    public IGamePad GamePad { get; }
+    protected abstract void Update(float delta);
+    protected abstract void Render(float delta);
 
-    public IMouse Mouse { get; }
+    protected virtual void Resize(int width, int height) { }
+    protected virtual bool ShouldClose() => true;
+    protected virtual void Unload() { }
 
-    public IKeyboard Keyboard { get; }
-
-    public double UpdateFrequency
-    {
-        get => Window.UpdateFrequency;
-        set => Window.UpdateFrequency = value;
-    }
-
-    public double RenderFrequency
-    {
-        get => Window.RenderFrequency;
-        set => Window.RenderFrequency = value;
-    }
-
-    protected VildmarkGame()
-    {
-        WindowSettings settings = new();
-
-        InitializeWindowSettings(settings);
-
-        Window = new Window(settings, this);
-        GamePad = InitializeGamePad();
-        Keyboard = InitializeKeyboard();
-        Mouse = InitializeMouse();
-    }
-
-    public void Run()
-    {
-        Window.Run();
-        Stop();
-    }
-
-    public void Stop()
-    {
-        Window.Close();
-    }
-
-    public virtual void Load()
-    {
-    }
-
-    public virtual void Unload()
-    {
-    }
-
-    public virtual void Resize(int width, int height)
-    {
-    }
-
-    public virtual void Update(float delta)
-    {
-    }
-
-    public virtual void Render(float delta)
-    {
-    }
-
-    public virtual void Close()
-    {
-
-    }
-
-    protected virtual IKeyboard InitializeKeyboard() => Window;
-    protected virtual IMouse InitializeMouse() => Window;
-    protected virtual IGamePad InitializeGamePad() => Window;
-
-    protected virtual void InitializeWindowSettings(WindowSettings settings)
-    {
-    }
-
-    public static void Run<T>()
+    public static void Run<T>(WindowSettings? windowSettings = default)
         where T : VildmarkGame, new()
     {
-        T instance = new();
+        InitializeWindow(windowSettings ?? new());
 
-        instance.Run();
+        Window.Load += () =>
+        {
+            T game = new();
+
+            Window.Resize += e => game.Resize(e.Width, e.Height);
+            Window.Closing += e => e.Cancel = !game.ShouldClose();
+            Window.Unload += () => game.Unload();
+
+            Window.UpdateFrame += e => game.Update((float)e.Time);
+            Window.RenderFrame += e =>
+            {
+                GL.Viewport(0, 0, Width, Height);
+                game.Render((float)e.Time);
+                Window.SwapBuffers();
+            };
+        };
+
+        Window.Run();
     }
 }

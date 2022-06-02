@@ -1,39 +1,38 @@
-namespace Vildmark.Audio.ALObjects
+namespace Vildmark.Audio.ALObjects;
+
+public abstract class ALObject : IDisposable
 {
-    public abstract class ALObject : IDisposable
+#if DEBUG
+    private static readonly List<ALObject> glObjects = new();
+
+    public static IEnumerable<ALObject> GLObjects => glObjects.ToArray();
+#endif
+
+    protected ALObject(int id)
     {
-#if DEBUG
-        private static readonly List<ALObject> glObjects = new();
-
-        public static IEnumerable<ALObject> GLObjects => glObjects.ToArray();
-#endif
-
-        protected ALObject(int id)
-        {
-            ID = id;
+        ID = id;
 
 #if DEBUG
-            glObjects.Add(this);
+        glObjects.Add(this);
 #endif
-        }
+    }
 
-        public int ID { get; }
+    public int ID { get; }
 
-        public void Dispose()
-        {
-            DisposeOpenAL();
-        }
+    public void Dispose()
+    {
+        DisposeOpenAL();
+    }
 
-        protected abstract void DisposeOpenAL();
+    protected abstract void DisposeOpenAL();
 
-        public static implicit operator int(ALObject obj)
-        {
-            return obj?.ID ?? 0;
-        }
+    public static implicit operator int(ALObject obj)
+    {
+        return obj?.ID ?? 0;
+    }
 
-        public override string ToString()
-        {
-            return $"{GetType().Name} ({ID})";
-        }
+    public override string ToString()
+    {
+        return $"{GetType().Name} ({ID})";
     }
 }

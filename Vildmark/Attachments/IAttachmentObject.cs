@@ -1,8 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace Vildmark.Attachments
-{
-    public interface IAttachmentObject
+namespace Vildmark.Attachments;
+
+public interface IAttachmentObject
 	{
 		object SetAttachment(string name, object value);
 		T SetAttachment<T>(string name, T value) where T : notnull;
@@ -15,4 +15,3 @@ namespace Vildmark.Attachments
 
 		object? RemoveAttachment(string name);
 	}
-}

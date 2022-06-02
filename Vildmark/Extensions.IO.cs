@@ -1,6 +1,6 @@
 namespace Vildmark;
 
-public static class IOExtensions
+public static partial class Extensions
 {
     public static string[] ReadAllLines(this Stream stream)
     {
