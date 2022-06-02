@@ -1,15 +1,16 @@
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using System.Drawing;
-using Vildmark.Graphics.Materials;
 using Vildmark.Graphics.Meshes;
+using Vildmark.Graphics.Shaders;
 using Vildmark.Maths;
 
 namespace Vildmark.Graphics.Rendering;
 
-public partial class RenderContext
+public partial class Renderer
 {
     private readonly Mesh<Vertex> mesh = new();
+    private readonly TexturedShader texturedShader = new();
 
     public void RenderRectangle(RectangleF rectangle, TexturedMaterial material, Transform? transform = default)
     {
@@ -23,7 +24,7 @@ public partial class RenderContext
             new(rectangle.GetTopRight(), Vector2.UnitX),
         });
 
-        Render(mesh, material, Resources.Shaders.TexturedShader, transform);
+        Render(mesh, material, texturedShader, transform);
     }
 
     public void RenderCircle(Vector2 center, float radius, TexturedMaterial material, int sides = 0, Transform? transform = default)
@@ -45,6 +46,6 @@ public partial class RenderContext
 
         mesh.UpdateVertices(vertices);
 
-        Render(mesh, material, Resources.Shaders.TexturedShader, transform, PrimitiveType.TriangleFan);
+        Render(mesh, material, texturedShader, transform, PrimitiveType.TriangleFan);
     }
 }

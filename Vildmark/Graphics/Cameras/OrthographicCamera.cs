@@ -1,39 +1,33 @@
 using OpenTK.Mathematics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Vildmark.Graphics.Cameras
+namespace Vildmark.Graphics.Cameras;
+
+public class OrthographicCamera : Camera
 {
-    public class OrthographicCamera : Camera
+    private float width;
+    private float height;
+
+    public float Width
     {
-        private float width;
-        private float height;
+        get => width;
+        set => SetValue(ref width, value);
+    }
 
-        public float Width
-        {
-            get => width;
-            set => SetValue(ref width, value);
-        }
+    public float Height
+    {
+        get => height;
+        set => SetValue(ref height, value);
+    }
 
-        public float Height
-        {
-            get => height;
-            set => SetValue(ref height, value);
-        }
+    public OrthographicCamera(float width, float height, float zNear = 1, float zFar = -1)
+        : base(zNear, zFar)
+    {
+        Width = width;
+        Height = height;
+    }
 
-        public OrthographicCamera(float width, float height, float zNear = 1, float zFar = -1)
-            : base(zNear, zFar)
-        {
-            Width = width;
-            Height = height;
-        }
-
-        protected override Matrix4 CreateProjectionMatrix()
-        {
-            return Matrix4.CreateOrthographic(width, height, ZNear, ZFar);
-        }
+    protected override Matrix4 CreateProjectionMatrix()
+    {
+        return Matrix4.CreateOrthographic(width, height, ZNear, ZFar);
     }
 }

@@ -1,8 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace Vildmark.Attachments
-{
-    public class AttachmentObject : IAttachmentObject
+namespace Vildmark.Attachments;
+
+public class AttachmentObject : IAttachmentObject
 	{
 		private readonly Dictionary<string, object> attachments = new();
 
@@ -33,7 +33,7 @@ namespace Vildmark.Attachments
 		}
 
 		public T SetAttachment<T>(string name, T value)
-            where T : notnull
+        where T : notnull
 		{
 			SetAttachment(name, (object)value);
 
@@ -41,7 +41,7 @@ namespace Vildmark.Attachments
 		}
 
 		public T SetAttachment<T>(string name) where T : notnull, new()
-        {
+    {
 			return SetAttachment(name, new T());
 		}
 
@@ -62,4 +62,3 @@ namespace Vildmark.Attachments
 			return false;
 		}
 	}
-}

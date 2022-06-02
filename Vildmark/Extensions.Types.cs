@@ -2,7 +2,7 @@ using System.Reflection;
 
 namespace Vildmark;
 
-public static class TypeExtensions
+public static partial class Extensions
 {
     public static IEnumerable<T> GetInstancePropertiesOfType<T>(this object obj)
     {

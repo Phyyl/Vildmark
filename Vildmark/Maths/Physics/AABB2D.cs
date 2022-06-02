@@ -1,64 +1,63 @@
 using OpenTK.Mathematics;
 
-namespace Vildmark.Maths.Physics
+namespace Vildmark.Maths.Physics;
+
+public struct AABB2D
 {
-    public struct AABB2D
+    public Vector2 Position;
+    public Vector2 Size;
+
+    public Vector2 Min => Position;
+    public Vector2 Max => Position + Size;
+    public Vector2 Center => Position + Size / 2;
+
+    public float Left => Position.X;
+    public float Right => Position.X + Size.X;
+    public float Top => Position.Y;
+    public float Bottom => Position.Y + Size.Y;
+
+    public AABB2D(Vector2 position, Vector2 size)
     {
-        public Vector2 Position;
-        public Vector2 Size;
+        Position = position;
+        Size = size;
+    }
 
-        public Vector2 Min => Position;
-        public Vector2 Max => Position + Size;
-        public Vector2 Center => Position + Size / 2;
+    public AABB2D Inflate(Vector2 size)
+    {
+        return new AABB2D(Position - size / 2, Size + size);
+    }
 
-        public float Left => Position.X;
-        public float Right => Position.X + Size.X;
-        public float Top => Position.Y;
-        public float Bottom => Position.Y + Size.Y;
+    public AABB2D Offset(Vector2 offset)
+    {
+        return new AABB2D(Position + offset, Size);
+    }
 
-        public AABB2D(Vector2 position, Vector2 size)
-        {
-            Position = position;
-            Size = size;
-        }
+    public AABB2D Join(AABB3D b)
+    {
+        Vector2 position = new(Math.Min(Left, b.Left), Math.Min(Top, b.Top));
+        Vector2 size = new Vector2(Math.Max(Right, b.Right), Math.Max(Bottom, b.Bottom)) - position;
 
-        public AABB2D Inflate(Vector2 size)
-        {
-            return new AABB2D(Position - size / 2, Size + size);
-        }
+        return new AABB2D(position, size);
+    }
 
-        public AABB2D Offset(Vector2 offset)
-        {
-            return new AABB2D(Position + offset, Size);
-        }
+    public bool Intersects(AABB2D b)
+    {
+        return !(Right > b.Left ||
+            Left < b.Right ||
+            Top > b.Bottom ||
+            Bottom < b.Top);
+    }
 
-        public AABB2D Join(AABB3D b)
-        {
-            Vector2 position = new(Math.Min(Left, b.Left), Math.Min(Top, b.Top));
-            Vector2 size = new Vector2(Math.Max(Right, b.Right), Math.Max(Bottom, b.Bottom)) - position;
+    public bool Contains(Vector2 point)
+    {
+        return point.X >= Left
+            && point.X <= Right
+            && point.Y >= Top
+            && point.Y <= Bottom;
+    }
 
-            return new AABB2D(position, size);
-        }
-
-        public bool Intersects(AABB2D b)
-        {
-            return !(Right > b.Left ||
-                Left < b.Right ||
-                Top > b.Bottom ||
-                Bottom < b.Top);
-        }
-
-        public bool Contains(Vector2 point)
-        {
-            return point.X >= Left
-                && point.X <= Right
-                && point.Y >= Top
-                && point.Y <= Bottom;
-        }
-
-        public override string ToString()
-        {
-            return $"{Position}, {Size}";
-        }
+    public override string ToString()
+    {
+        return $"{Position}, {Size}";
     }
 }

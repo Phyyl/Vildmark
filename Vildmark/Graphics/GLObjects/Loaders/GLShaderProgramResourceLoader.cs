@@ -1,12 +1,11 @@
 using Vildmark.Resources;
 
-namespace Vildmark.Graphics.GLObjects.Loaders
+namespace Vildmark.Graphics.GLObjects.Loaders;
+
+internal class GLShaderProgramResourceLoader : IResourceLoader<GLShaderProgram>
 {
-    internal class GLShaderProgramResourceLoader : IResourceLoader<GLShaderProgram>
+    public GLShaderProgram Load(string name, ResourceLoadContext context)
     {
-        public GLShaderProgram Load(string name, ResourceLoadContext context)
-        {
-            return new GLShaderProgram(context.Load<GLShader>($"{name}.vert"), context.Load<GLShader>($"{name}.frag"));
-        }
+        return new GLShaderProgram(context.Load<GLShader>($"{name}.vert"), context.Load<GLShader>($"{name}.frag"));
     }
 }

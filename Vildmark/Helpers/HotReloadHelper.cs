@@ -3,20 +3,21 @@ using Vildmark.Helpers;
 
 [assembly: MetadataUpdateHandler(typeof(HotReloadHelper))]
 
-namespace Vildmark.Helpers
+namespace Vildmark.Helpers;
+
+public delegate void HotReloadEventHandler();
+
+public static class HotReloadHelper
 {
-    public delegate void HotReloadEventHandler();
+    public static event HotReloadEventHandler? OnHotReload;
 
-    public static class HotReloadHelper
+    internal static class HotReloadManager
     {
-        public static event HotReloadEventHandler? OnHotReload;
-
-        internal static class HotReloadManager
+#pragma warning disable IDE0060 // Remove unused parameter
+        public static void UpdateApplication(Type[]? types)
+#pragma warning restore IDE0060 // Remove unused parameter
         {
-            public static void UpdateApplication(Type[]? types)
-            {
-                OnHotReload?.Invoke();
-            }
+            OnHotReload?.Invoke();
         }
     }
 }

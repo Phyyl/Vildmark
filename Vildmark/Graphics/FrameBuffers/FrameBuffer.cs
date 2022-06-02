@@ -3,50 +3,49 @@ using OpenTK.Mathematics;
 using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Textures;
 
-namespace Vildmark.Graphics.FrameBuffers
+namespace Vildmark.Graphics.FrameBuffers;
+
+public abstract class FrameBuffer
 {
-    public abstract class FrameBuffer
+    protected FrameBuffer(
+        int width,
+        int height,
+        FramebufferAttachment framebufferAttachment,
+        Texture2DFormat format)
     {
-        protected FrameBuffer(
-            int width,
-            int height,
-            FramebufferAttachment framebufferAttachment,
-            Texture2DFormat format)
-        {
-            GLFramebuffer = new GLFramebuffer();
-            GLTexture = new GLTexture2D(width, height, default, format.PixelFormat, format.PixelInternalFormat, format.PixelType);
+        GLFramebuffer = new GLFramebuffer();
+        GLTexture = new GLTexture2D(width, height, default, format.PixelFormat, format.PixelInternalFormat, format.PixelType);
 
-            GLFramebuffer.Bind();
-            GLFramebuffer.SetTexture(GLTexture, framebufferAttachment);
-            InitializeReadBuffer(width, height);
-            InitializeDrawBuffer(width, height);
-            GLFramebuffer.Unbind();
-        }
+        GLFramebuffer.Bind();
+        GLFramebuffer.SetTexture(GLTexture, framebufferAttachment);
+        InitializeReadBuffer(width, height);
+        InitializeDrawBuffer(width, height);
+        GLFramebuffer.Unbind();
+    }
 
-        public GLFramebuffer GLFramebuffer { get; }
+    public GLFramebuffer GLFramebuffer { get; }
 
-        public GLTexture2D GLTexture { get; }
+    public GLTexture2D GLTexture { get; }
 
-        public int Width => GLTexture.Width;
-        public int Height => GLTexture.Height;
-        public Vector2 Size => GLTexture.Size;
+    public int Width => GLTexture.Width;
+    public int Height => GLTexture.Height;
+    public Vector2 Size => GLTexture.Size;
 
-        protected abstract void InitializeReadBuffer(int width, int height);
-        protected abstract void InitializeDrawBuffer(int width, int height);
+    protected abstract void InitializeReadBuffer(int width, int height);
+    protected abstract void InitializeDrawBuffer(int width, int height);
 
-        public virtual void Resize(int width, int height)
-        {
-            GLTexture.Resize(width, height);
-        }
+    public virtual void Resize(int width, int height)
+    {
+        GLTexture.Resize(width, height);
+    }
 
-        public void Bind()
-        {
-            GLFramebuffer.Bind();
-        }
+    public void Bind()
+    {
+        GLFramebuffer.Bind();
+    }
 
-        public void Unbind()
-        {
-            GLFramebuffer.Unbind();
-        }
+    public void Unbind()
+    {
+        GLFramebuffer.Unbind();
     }
 }

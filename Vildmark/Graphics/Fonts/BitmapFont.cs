@@ -1,8 +1,6 @@
 using OpenTK.Mathematics;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
-using System.Reflection;
-using System.Text.Json;
 using Vildmark.Graphics.Fonts.Loaders;
 using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Meshes;
@@ -17,6 +15,7 @@ public record BitmapFontChar(char Character, int X, int Y, int Width, int Height
 public class BitmapFont : IResource<BitmapFont>
 {
     public static IResourceLoader<BitmapFont> Loader { get; } = new BitmapFontLoader();
+    public static readonly BitmapFontShader bitmapFontShader = new();
 
     private readonly Mesh<BitmapFontVertex> mesh;
     private readonly Dictionary<char, BitmapFontChar> characters;
@@ -58,13 +57,12 @@ public class BitmapFont : IResource<BitmapFont>
         return new RectangleF(minX + position.X, minY + position.Y, maxX - minX, maxY - minY);
     }
 
-    public void RenderString(RenderContext renderContext, string text, Vector2 position, float size, Color4 color)
+    public void RenderString(Renderer renderContext, string text, Vector2 position, float size, Color4 color)
     {
         UpdateMesh(mesh, text, size);
 
         renderContext.Blending = true;
-
-        renderContext.Render(mesh, new BitmapFontMaterial(Pages, color), Resources.Shaders.BitmapFontShader, new Transform() { Position = new Vector3(position) });
+        renderContext.Render(mesh, new BitmapFontMaterial(Pages, color), bitmapFontShader, new Transform() { Position = new Vector3(position) });
     }
 
     public void UpdateMesh(Mesh<BitmapFontVertex> mesh, string text, float size)
