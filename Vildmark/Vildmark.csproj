@@ -28,11 +28,6 @@
 			<Pack>true</Pack>
 			<Visible>false</Visible>
 		</None>
-		<None Include="..\nuget\tools\linux\*">
-			<PackagePath>tools\linux</PackagePath>
-			<Pack>true</Pack>
-			<Visible>false</Visible>
-		</None>
 		<None Include="..\nuget\build\*">
 			<PackagePath>build</PackagePath>
 			<Pack>true</Pack>
