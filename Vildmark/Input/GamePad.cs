@@ -2,7 +2,7 @@ using OpenTK.Mathematics;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 
-namespace Vildmark.Windowing.Input;
+namespace Vildmark.Input;
 
 public class GamePad : InputDevice
 {

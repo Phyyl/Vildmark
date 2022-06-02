@@ -1,6 +1,6 @@
 using Vildmark.Resources;
 
-namespace Vildmark.Audio.ALObjects;
+namespace Vildmark.Audio.ALObjects.Loaders;
 
 internal class ALBufferResourceLoader : IResourceLoader<ALBuffer>
 {

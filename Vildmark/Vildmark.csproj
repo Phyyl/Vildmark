@@ -1,40 +1,45 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <Import Project="..\nuget\build\Vildmark.props"/>
+	<Import Project="..\nuget\build\Vildmark.props" />
 
-    <PropertyGroup>
-        <Authors>Phyyl</Authors>
-        <PackageProjectUrl>https://github.com/Phyyl/Vildmark</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/Phyyl/Vildmark</RepositoryUrl>
-        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    </PropertyGroup>
+	<PropertyGroup>
+		<Authors>Phyyl</Authors>
+		<PackageProjectUrl>https://github.com/Phyyl/Vildmark</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Phyyl/Vildmark</RepositoryUrl>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	</PropertyGroup>
 
-    <ItemGroup>
-        <ContentWithTargetPath  Include="..\nuget\libs\windows\*">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <PackagePath>runtimes\win-x64\native</PackagePath>
-            <TargetPath>runtimes\win-x64\native\%(Filename)%(Extension)</TargetPath>
-            <Pack>true</Pack>
-            <Visible>false</Visible>
-        </ContentWithTargetPath >
-        <None  Include="..\nuget\tools\windows\*">
-            <PackagePath>tools</PackagePath>
-            <Pack>true</Pack>
-            <Visible>false</Visible>
-        </None >
-        <None Include="..\nuget\build\*">
-            <PackagePath>build</PackagePath>
-            <Pack>true</Pack>
-            <Visible>false</Visible>
-        </None>
-    </ItemGroup>
+	<ItemGroup>
+		<ContentWithTargetPath Include="..\nuget\libs\windows\*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<TargetPath>runtimes\win-x64\native\%(Filename)%(Extension)</TargetPath>
+		</ContentWithTargetPath>
+	</ItemGroup>
+		
+	<ItemGroup>
+		<None Include="..\nuget\libs\windows\*">
+			<PackagePath>runtimes\win-x64\native</PackagePath>
+			<Pack>true</Pack>
+			<Visible>false</Visible>
+		</None>
+		<None Include="..\nuget\tools\windows\*">
+			<PackagePath>tools</PackagePath>
+			<Pack>true</Pack>
+			<Visible>false</Visible>
+		</None>
+		<None Include="..\nuget\build\*">
+			<PackagePath>build</PackagePath>
+			<Pack>true</Pack>
+			<Visible>false</Visible>
+		</None>
+	</ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="OpenTK" Version="4.7.2" />
-        <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
-    </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="OpenTK" Version="4.7.2" />
+		<PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+	</ItemGroup>
 
-    <Import Project="..\nuget\build\Vildmark.targets"/>
+	<Import Project="..\nuget\build\Vildmark.targets" />
 
 </Project>

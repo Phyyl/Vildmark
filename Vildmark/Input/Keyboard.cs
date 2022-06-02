@@ -1,6 +1,6 @@
 using OpenTK.Windowing.GraphicsLibraryFramework;
 
-namespace Vildmark.Windowing.Input;
+namespace Vildmark.Input;
 
 public class Keyboard : InputDevice
 {

@@ -1,4 +1,4 @@
-namespace Vildmark;
+namespace Vildmark.Logging;
 
 [Flags]
 public enum LogType

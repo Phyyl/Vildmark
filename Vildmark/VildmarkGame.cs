@@ -1,6 +1,6 @@
 using OpenTK.Graphics.OpenGL4;
 using Vildmark.Graphics.Rendering;
-using Vildmark.Windowing.Input;
+using Vildmark.Input;
 
 namespace Vildmark;
 

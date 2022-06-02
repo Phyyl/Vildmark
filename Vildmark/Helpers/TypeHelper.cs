@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using Vildmark.Logging;
 
 namespace Vildmark.Helpers;
 

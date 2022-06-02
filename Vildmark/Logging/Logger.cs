@@ -1,4 +1,4 @@
-namespace Vildmark;
+namespace Vildmark.Logging;
 
 public static class Logger
 {
