@@ -24,7 +24,12 @@
 			<Visible>false</Visible>
 		</None>
 		<None Include="..\nuget\tools\windows\*">
-			<PackagePath>tools</PackagePath>
+			<PackagePath>tools\windows</PackagePath>
+			<Pack>true</Pack>
+			<Visible>false</Visible>
+		</None>
+		<None Include="..\nuget\tools\linux\*">
+			<PackagePath>tools\linux</PackagePath>
 			<Pack>true</Pack>
 			<Visible>false</Visible>
 		</None>
