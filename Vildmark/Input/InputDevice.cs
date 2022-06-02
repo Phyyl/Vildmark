@@ -1,6 +1,6 @@
 using OpenTK.Windowing.Desktop;
 
-namespace Vildmark.Windowing.Input;
+namespace Vildmark.Input;
 
 public abstract class InputDevice
 {

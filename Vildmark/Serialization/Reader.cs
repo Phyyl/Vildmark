@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices;
 using System.Text;
 using Vildmark.Helpers;
+using Vildmark.Logging;
 
 namespace Vildmark.Serialization;
 

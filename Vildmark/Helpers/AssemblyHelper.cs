@@ -1,4 +1,5 @@
 using System.Reflection;
+using Vildmark.Logging;
 
 namespace Vildmark.Helpers;
 

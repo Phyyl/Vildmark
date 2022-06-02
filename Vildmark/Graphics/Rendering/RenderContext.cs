@@ -4,6 +4,7 @@ using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.FrameBuffers;
 using Vildmark.Graphics.Meshes;
 using Vildmark.Graphics.Shaders;
+using Vildmark.Logging;
 
 namespace Vildmark.Graphics.Rendering;
 
