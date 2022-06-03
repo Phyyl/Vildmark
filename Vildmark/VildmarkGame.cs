@@ -10,9 +10,9 @@ public abstract partial class VildmarkGame
     public Mouse Mouse { get; } = new();
     public Keyboard Keyboard { get; } = new();
 
-    protected abstract void Update(float delta);
     protected abstract void Render(float delta);
 
+    protected virtual void Update(float delta) { }
     protected virtual void Resize(int width, int height) { }
     protected virtual bool ShouldClose() => true;
     protected virtual void Unload() { }
