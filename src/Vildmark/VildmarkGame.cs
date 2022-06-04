@@ -1,4 +1,5 @@
 using OpenTK.Graphics.OpenGL4;
+using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.Rendering;
 using Vildmark.Input;
 
@@ -9,6 +10,8 @@ public abstract partial class VildmarkGame
     public Renderer Renderer { get; } = new();
     public Mouse Mouse { get; } = new();
     public Keyboard Keyboard { get; } = new();
+
+    protected AutomaticOrthographicOffCenterCamera Automatic2DCamera { get; } = new();
 
     protected virtual void Load() { }
     protected virtual void Render(float delta) { }
