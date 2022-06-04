@@ -1,6 +1,6 @@
 <Project>
 
-	<Target Name="ResolveVildmarkSystemFontFiles" BeforeTargets="GenerateVildmarkFonts" Condition=" '@(VildmarkSystemFont)' != '' " Outputs="%(VildmarkSystemFont.Identity)">
+	<Target Name="ResolveVildmarkSystemFontFiles"  BeforeTargets="BeforeBuild;GenerateVildmarkFonts" Condition=" '@(VildmarkSystemFont)' != '' " Outputs="%(VildmarkSystemFont.Identity)">
 		<PropertyGroup>
 			<SystemFontPath>C:\Windows\Fonts\</SystemFontPath>
 			<SystemFontFile>$(SystemFontPath)%(VildmarkSystemFont.Identity)</SystemFontFile>
