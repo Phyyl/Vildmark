@@ -4,6 +4,7 @@ using Vildmark.Graphics.Fonts.Loaders;
 using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Meshes;
 using Vildmark.Graphics.Rendering;
+using Vildmark.Graphics.Textures;
 using Vildmark.Resources;
 using static Vildmark.Graphics.Fonts.Loaders.MsdfFontResourceLoader;
 
@@ -17,10 +18,10 @@ public class MsdfFont : IResource<MsdfFont>
 
     internal static MsdfShader Shader { get; } = new();
 
-    internal GLTexture2D Texture { get; }
+    internal Texture2D Texture { get; }
     internal FontInfo Info { get; }
 
-    internal MsdfFont(FontInfo info, GLTexture2D texture)
+    internal MsdfFont(FontInfo info, Texture2D texture)
     {
         Info = info;
         Texture = texture;

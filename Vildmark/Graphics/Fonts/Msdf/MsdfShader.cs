@@ -23,7 +23,7 @@ public class MsdfShader : Shader<Vertex, MsdfMaterial>
     public Uniform<float> PxRange { get; } = new("px_range");
 
     public MsdfShader()
-        : base(ResourceLoader.LoadEmbedded<GLShaderProgram>("msdf"))
+        : base("msdf")
     {
     }
 

@@ -1,12 +1,11 @@
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using System.Runtime.InteropServices;
-using Vildmark.Graphics.GLObjects.Loaders;
 using Vildmark.Resources;
 
 namespace Vildmark.Graphics.GLObjects;
 
-public class GLTexture2D : GLObject, IResource<GLTexture2D>
+internal class GLTexture2D : GLObject
 {
     private readonly PixelFormat pixelFormat;
     private readonly PixelInternalFormat pixelInternalFormat;
@@ -21,8 +20,6 @@ public class GLTexture2D : GLObject, IResource<GLTexture2D>
     public float TexelWidth => 1 / (float)Width;
     public float TexelHeight => 1 / (float)Height;
     public Vector2 TexelSize => new(TexelWidth, TexelHeight);
-
-    public static IResourceLoader<GLTexture2D> Loader { get; } = new GLTexture2DResourceLoader();
 
     public GLTexture2D(
         int width = 0,

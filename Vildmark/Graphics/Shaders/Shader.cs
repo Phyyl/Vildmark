@@ -1,6 +1,11 @@
+using OpenTK.Graphics.OpenGL4;
+using System.Numerics;
+using System.Reflection;
 using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Meshes;
+using Vildmark.Logging;
+using Vildmark.Resources;
 
 namespace Vildmark.Graphics.Shaders;
 
@@ -9,11 +14,38 @@ public abstract class Shader<TVertex, TMaterial> : IShader<TVertex, TMaterial>
 {
     private readonly GLShaderProgram shaderProgram;
 
-    protected Shader(GLShaderProgram shaderProgram)
+    protected Shader(string name)
+        : this(EmbeddedResources.GetEmbeddedStream($"{name}.vert", Assembly.GetCallingAssembly()).ReadAllText(),
+              EmbeddedResources.GetEmbeddedStream($"{name}.frag", Assembly.GetCallingAssembly()).ReadAllText())
     {
-        this.shaderProgram = shaderProgram;
+    }
 
-        InitializeVariables();
+    protected Shader(string vertexShaderSource, string fragmentShaderSource)
+    {
+        shaderProgram = new GLShaderProgram();
+
+        GLShader vertexShader = new(ShaderType.VertexShader, vertexShaderSource);
+        GLShader fragmentShader = new(ShaderType.FragmentShader, fragmentShaderSource);
+
+        if (!vertexShader.Compile())
+        {
+            throw new Exception("Vertex shader compilation failed");
+        }
+
+        if (!fragmentShader.Compile())
+        {
+            throw new Exception("Fragment shader compilation failed");
+        }
+
+        shaderProgram.AttachShader(vertexShader);
+        shaderProgram.AttachShader(fragmentShader);
+
+        if (!shaderProgram.Link())
+        {
+            throw new Exception("Shader program link failed");
+        }
+
+        InitializeVariableLocations();
     }
 
     public void Use()
@@ -27,7 +59,7 @@ public abstract class Shader<TVertex, TMaterial> : IShader<TVertex, TMaterial>
     public int GetAttribLocation(string name) => shaderProgram?.GetAttribLocation(name) ?? -1;
     public int GetUniformLocation(string name) => shaderProgram?.GetUniformLocation(name) ?? -1;
 
-    private void InitializeVariables()
+    private void InitializeVariableLocations()
     {
         var uniforms = this.GetInstancePropertiesOfType<Uniform>();
 

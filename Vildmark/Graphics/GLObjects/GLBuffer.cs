@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Vildmark.Graphics.GLObjects;
 
-public abstract class GLBuffer : GLObject
+internal abstract class GLBuffer : GLObject
 {
     public BufferTarget BufferTarget { get; }
 
@@ -41,7 +41,7 @@ public abstract class GLBuffer : GLObject
     }
 }
 
-public unsafe class GLBuffer<T> : GLBuffer where T : unmanaged
+internal unsafe class GLBuffer<T> : GLBuffer where T : unmanaged
 {
     public override int ElementSize => sizeof(T);
 

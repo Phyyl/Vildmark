@@ -2,6 +2,7 @@
 using System.Text.Json.Serialization;
 using Vildmark.Graphics.Fonts.Msdf;
 using Vildmark.Graphics.GLObjects;
+using Vildmark.Graphics.Textures;
 using Vildmark.Resources;
 
 namespace Vildmark.Graphics.Fonts.Loaders;
@@ -11,7 +12,7 @@ internal class MsdfFontResourceLoader : IResourceLoader<MsdfFont>
     public MsdfFont Load(string name, ResourceLoadContext context)
     {
         FontInfo info = context.LoadAsJson<FontInfo>($"{name}.json");
-        GLTexture2D texture = context.Load<GLTexture2D>($"{name}.png");
+        Texture2D texture = context.Load<Texture2D>($"{name}.png");
 
         return new MsdfFont(info, texture);
     }

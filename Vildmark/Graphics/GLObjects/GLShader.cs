@@ -1,17 +1,14 @@
 using OpenTK.Graphics.OpenGL4;
-using Vildmark.Graphics.GLObjects.Loaders;
+using Vildmark.Graphics.Shaders;
 using Vildmark.Logging;
-using Vildmark.Resources;
 
 namespace Vildmark.Graphics.GLObjects;
 
-public class GLShader : GLObject, IResource<GLShader>
+internal class GLShader : GLObject
 {
-    public static IResourceLoader<GLShader> Loader { get; } = new GLShaderResourceLoader();
-
     public string InfoLog => GL.GetShaderInfoLog(this);
 
-    public bool Compiled
+    public bool IsCompiled
     {
         get
         {
@@ -21,20 +18,29 @@ public class GLShader : GLObject, IResource<GLShader>
         }
     }
 
+    public ShaderType ShaderType { get; }
+
     public GLShader(ShaderType shaderType, string source)
         : base(GL.CreateShader(shaderType))
     {
         GL.ShaderSource(this, source);
+        ShaderType = shaderType;
+    }
+
+    public bool Compile()
+    {
         GL.CompileShader(this);
 
-        if (!Compiled)
+        if (!IsCompiled)
         {
-            Logger.Error($"{shaderType} info log: {InfoLog}");
+            Logger.Error($"{ShaderType} info log: {InfoLog}");
         }
         else if (InfoLog is { Length: > 0 })
         {
-            Logger.Warning($"{shaderType} info log: {InfoLog}");
+            Logger.Warning($"{ShaderType} info log: {InfoLog}");
         }
+
+        return IsCompiled;
     }
 
     protected override void DisposeOpenGL()

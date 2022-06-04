@@ -2,7 +2,7 @@ using OpenTK.Graphics.OpenGL4;
 
 namespace Vildmark.Graphics.GLObjects;
 
-public class GLFramebuffer : GLObject
+internal class GLFramebuffer : GLObject
 {
     public GLFramebuffer(FramebufferTarget framebufferTarget = FramebufferTarget.Framebuffer)
         : base(GL.GenFramebuffer())

@@ -1,3 +1,5 @@
+using System.Drawing.Imaging;
+using System.Drawing;
 using Vildmark.Graphics.GLObjects;
 using Vildmark.Resources;
 
@@ -5,8 +7,16 @@ namespace Vildmark.Graphics.Textures.Loaders;
 
 internal class Texture2DResourceLoader : IResourceLoader<Texture2D>
 {
-    public Texture2D Load(string name, ResourceLoadContext context)
+    public unsafe Texture2D Load(string name, ResourceLoadContext context)
     {
-        return context.Load<GLTexture2D>(name);
+#pragma warning disable CA1416 // Validate platform compatibility
+        Bitmap bitmap = new(context.GetStream(name));
+        BitmapData data = bitmap.LockBits(new Rectangle(Point.Empty, bitmap.Size), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+        Span<byte> span = new(data.Scan0.ToPointer(), bitmap.Width * 4 * bitmap.Height);
+        GLTexture2D texture = new(bitmap.Width, bitmap.Height, span);
+        bitmap.UnlockBits(data);
+#pragma warning restore CA1416 // Validate platform compatibility
+
+        return new Texture2D(texture);
     }
 }
