@@ -1,5 +1,4 @@
 ﻿using OpenTK.Mathematics;
-using System.Drawing;
 using Vildmark.Graphics.Meshes;
 using Vildmark.Graphics.Rendering;
 
@@ -15,10 +14,7 @@ public class MsdfText
     private float fontSize;
     private float maxLineLength;
 
-    public RectangleF Bounds { get; private set; }
-
-    public Vector2 Position => Bounds.Location.ToVector();
-    public Vector2 Size => Bounds.Size.ToVector();
+    public Box2 Bounds { get; private set; }
 
     public string Text
     {

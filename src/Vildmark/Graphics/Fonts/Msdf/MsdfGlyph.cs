@@ -1,5 +1,5 @@
-﻿using System.Drawing;
+﻿using OpenTK.Mathematics;
 
 namespace Vildmark.Graphics.Fonts.Msdf;
 
-internal record struct MsdfGlyph(char Character, RectangleF PlaneBounds, RectangleF AtlasBounds, float Advance);
+internal record struct MsdfGlyph(char Character, Box2 PlaneBounds, Box2 AtlasBounds, float Advance);

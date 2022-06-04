@@ -24,6 +24,8 @@ public static partial class Extensions
     public static Vector4 ToVector(this Rectangle rectangle) => new(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
     public static Vector4 ToVector(this RectangleF rectangle) => new(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
 
+    public static Vector4 ToVector4(this Box2 box) => new(box.Min.X, box.Min.Y, box.Max.X, box.Min.Y);
+
     public static Vector2i ToVector2i(this Vector2 v) => new((int)v.X, (int)v.Y);
     public static Vector3i ToVector3i(this Vector3 v) => new((int)v.X, (int)v.Y, (int)v.Z);
     public static Vector4i ToVector4i(this Vector4 v) => new((int)v.X, (int)v.Y, (int)v.Z, (int)v.W);
@@ -40,6 +42,11 @@ public static partial class Extensions
     public static Vector2 GetBottomLeft(this RectangleF rectangle) => new(rectangle.Left, rectangle.Bottom);
     public static Vector2 GetBottomRight(this RectangleF rectangle) => new(rectangle.Right, rectangle.Bottom);
     public static Vector2 GetTopRight(this RectangleF rectangle) => new(rectangle.Right, rectangle.Top);
+
+    public static Vector2 GetTopLeft(this Box2 rectangle) => new(rectangle.Min.X, rectangle.Min.Y);
+    public static Vector2 GetBottomLeft(this Box2 rectangle) => new(rectangle.Min.X, rectangle.Max.Y);
+    public static Vector2 GetBottomRight(this Box2 rectangle) => new(rectangle.Max.X, rectangle.Max.Y);
+    public static Vector2 GetTopRight(this Box2 rectangle) => new(rectangle.Max.X, rectangle.Min.Y);
 
     public static Vector2 ToVector(this SizeF size) => new(size.Width, size.Height);
     public static Vector2 ToVector(this PointF size) => new(size.X, size.Y);

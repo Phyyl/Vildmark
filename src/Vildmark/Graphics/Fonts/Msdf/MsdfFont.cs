@@ -1,5 +1,4 @@
 ﻿using OpenTK.Mathematics;
-using System.Drawing;
 using Vildmark.Graphics.Fonts.Loaders;
 using Vildmark.Graphics.Rendering;
 using Vildmark.Graphics.Textures;
@@ -45,8 +44,20 @@ public class MsdfFont
         Vector2 position = lineStart;
         char previous = '\0';
 
+        void GoToNextLine()
+        {
+            lineStart.Y += Info.LineHeight * size;
+            position = lineStart;
+        }
+
         foreach (var chr in text)
         {
+            if (chr == '\n')
+            {
+                GoToNextLine();
+                continue;
+            }
+
             if (!Info.TryGetGlyph(chr, out MsdfGlyph glyph))
             {
                 continue;
@@ -54,8 +65,7 @@ public class MsdfFont
 
             if ((position.X + glyph.Advance * size) > maxLineLength)
             {
-                lineStart.Y += Info.LineHeight * size;
-                position = lineStart;
+                GoToNextLine();
             }
 
             if (Info.TryGetKerning(previous, chr, out float kerningAdvance))
@@ -63,7 +73,7 @@ public class MsdfFont
                 position.X += kerningAdvance * size;
             }
 
-            if (!glyph.PlaneBounds.IsEmpty && !glyph.AtlasBounds.IsEmpty)
+            if (glyph.PlaneBounds.Size != default && glyph.AtlasBounds.Size != default)
             {
                 Vector2 tl = glyph.PlaneBounds.GetTopLeft() * size;
                 Vector2 bl = glyph.PlaneBounds.GetBottomLeft() * size;
@@ -90,19 +100,19 @@ public class MsdfFont
         return vertices.ToArray();
     }
 
-    public RectangleF MeasureString(string text, float size, float maxLineLength = float.PositiveInfinity)
+    public Box2 MeasureString(string text, float size, float maxLineLength = float.PositiveInfinity)
     {
         Vertex[] vertices = CreateMesh(text, size, maxLineLength);
 
         if (vertices.Length == 0)
         {
-            return RectangleF.Empty;
+            return default;
         }
 
         Vector2 min = new(vertices.Min(v => v.Position.X), vertices.Min(v => v.Position.Y));
         Vector2 max = new(vertices.Max(v => v.Position.X), vertices.Max(v => v.Position.Y));
 
-        return new RectangleF(min.X, min.Y, max.X - min.X, max.Y - min.Y);
+        return new(min.X, min.Y, max.X - min.X, max.Y - min.Y);
     }
 
     public MsdfText CreateText(string text, float size, float maxLineLength = float.PositiveInfinity)

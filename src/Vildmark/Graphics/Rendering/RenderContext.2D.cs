@@ -1,6 +1,5 @@
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
-using System.Drawing;
 using Vildmark.Graphics.Meshes;
 using Vildmark.Graphics.Shaders;
 
@@ -11,7 +10,7 @@ public partial class Renderer
     private readonly Mesh<Vertex> mesh = new();
     private readonly TexturedShader texturedShader = new();
 
-    public void RenderRectangle(RectangleF rectangle, TexturedMaterial material, Transform? transform = default)
+    public void RenderRectangle(Box2 rectangle, TexturedMaterial material, Transform? transform = default)
     {
         mesh.UpdateVertices(new Vertex[]
         {
