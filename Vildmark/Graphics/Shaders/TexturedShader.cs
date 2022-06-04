@@ -28,14 +28,6 @@ public class TexturedShader : Shader<Vertex, TexturedMaterial>
     {
     }
 
-    public override void Setup(Mesh<Vertex> mesh)
-    {
-        PositionAttrib.VertexAttribPointer<Vertex>(Vertex.PositionOffset);
-        ColorAttrib.VertexAttribPointer<Vertex>(Vertex.ColorOffset);
-        TexCoordAttrib.VertexAttribPointer<Vertex>(Vertex.TexCoordOffset);
-        NormalAttrib.VertexAttribPointer<Vertex>(Vertex.NormalOffset);
-    }
-
     public override void Setup(TexturedMaterial material, Camera camera, Transform? transform = null)
     {
         ProjectionMatrix.SetUniform(camera.ProjectionMatrix);
