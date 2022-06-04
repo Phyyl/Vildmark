@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<Import Project="..\nuget\build\Vildmark.props" />
+	<Import Project="..\..\nuget\build\Vildmark.props" />
 
 	<PropertyGroup>
 		<Authors>Phyyl</Authors>
@@ -45,6 +45,6 @@
 		<PackageReference Include="System.Drawing.Common" Version="6.0.0" />
 	</ItemGroup>
 
-	<Import Project="..\nuget\build\Vildmark.targets" />
+	<Import Project="..\..\nuget\build\Vildmark.targets" />
 
 </Project>
