@@ -1,34 +1,47 @@
 <Project>
 
-	<Target Name="GenerateVildmarkFonts" BeforeTargets="BeforeBuild" Condition=" '@(VildmarkFont)' != '' ">
+	<Target Name="ResolveVildmarkSystemFontFiles" BeforeTargets="GenerateVildmarkFonts" Condition=" '@(VildmarkSystemFont)' != '' " Outputs="%(VildmarkSystemFont.Identity)">
+		<PropertyGroup>
+			<SystemFontPath>C:\Windows\Fonts\</SystemFontPath>
+			<SystemFontFile>$(SystemFontPath)%(VildmarkSystemFont.Identity)</SystemFontFile>
+		</PropertyGroup>
+		<ItemGroup Condition="Exists('$(SystemFontFile)')">
+			<VildmarkFont Include="$(SystemFontFile)">
+				<LogicalNamePrefix>Vildmark.Resources.SystemFonts.$([System.IO.Path]::GetFileNameWithoutExtension('$(SystemFontFile)'))</LogicalNamePrefix>
+			</VildmarkFont>
+		</ItemGroup>
+	</Target>
+	
+	<Target Name="GenerateVildmarkFonts" BeforeTargets="BeforeBuild" Condition=" '@(VildmarkFont)' != '' " Outputs="%(VildmarkFont.Identity)">
 
 		<PropertyGroup>
 			<InputFontFile>%(VildmarkFont.FullPath)</InputFontFile>
 			<InputFontRelativeDir>%(VildmarkFont.RelativeDir)</InputFontRelativeDir>
 			<InputFontName>%(VildmarkFont.Filename)</InputFontName>
-			<IntermediateFontOutputPath>$(IntermediateOutputPath)Vildmark\Font\</IntermediateFontOutputPath>
+			<OutputLogicalNamePrefix Condition=" '%(VildmarkFont.LogicalNamePrefix)' != '' ">%(VildmarkFont.LogicalNamePrefix)</OutputLogicalNamePrefix>
+			<OutputLogicalNamePrefix Condition=" '%(VildmarkFont.LogicalNamePrefix)' == '' ">$(AssemblyName).$(InputFontRelativeDir.Replace("\", "."))$(InputFontName)</OutputLogicalNamePrefix>
+			<IntermediateFontOutputPath>$(IntermediateOutputPath)Vildmark\Font\$(OutputLogicalNamePrefix)\</IntermediateFontOutputPath>
 			<MsdfAtlasGenToolPath>$(MSBuildThisFileDirectory)..\tools\win-x64\msdf-atlas-gen.exe</MsdfAtlasGenToolPath>
 			<CharSetFile>$(MSBuildThisFileDirectory)..\tools\win-x64\charset.txt</CharSetFile>
 			<ImageOutputFile>$(IntermediateFontOutputPath)atlas.png</ImageOutputFile>
 			<JsonOutputFile>$(IntermediateFontOutputPath)atlas.json</JsonOutputFile>
-			<OutputImageResourceName>$(AssemblyName).$(InputFontRelativeDir.Replace("\", "."))$(InputFontName).png</OutputImageResourceName>
-			<OutputJsonResourceName>$(AssemblyName).$(InputFontRelativeDir.Replace("\", "."))$(InputFontName).json</OutputJsonResourceName>
+			<OutputImageLogicalName>$(OutputLogicalNamePrefix).png</OutputImageLogicalName>
+			<OutputJsonLogicalName>$(OutputLogicalNamePrefix).json</OutputJsonLogicalName>
 		</PropertyGroup>
 
-		<RemoveDir Directories="$(IntermediateFontOutputPath)"></RemoveDir>
 		<MakeDir Directories="$(IntermediateFontOutputPath)"></MakeDir>
 
 		<Exec Command="$(MsdfAtlasGenToolPath) -font &quot;$(InputFontFile)&quot; -charset &quot;$(CharSetFile)&quot; -imageout &quot;$(ImageOutputFile)&quot; -json &quot;$(JsonOutputFile)&quot; -size 64 -yorigin top"></Exec>
 
 		<ItemGroup>
 			<EmbeddedResource Include="$(ImageOutputFile)">
-				<LogicalName>$(OutputImageResourceName)</LogicalName>
+				<LogicalName>$(OutputLogicalNamePrefix).png</LogicalName>
 			</EmbeddedResource>
 			<EmbeddedResource Include="$(JsonOutputFile)">
-				<LogicalName>$(OutputJsonResourceName)</LogicalName>
+				<LogicalName>$(OutputLogicalNamePrefix).json</LogicalName>
 			</EmbeddedResource>
 		</ItemGroup>
-		
+
 	</Target>
 
 </Project>
