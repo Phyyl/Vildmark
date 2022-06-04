@@ -10,7 +10,7 @@ internal class MsdfFontResourceLoader : IResourceLoader<MsdfFont>
 {
     public MsdfFont Load(string name, ResourceLoadContext context)
     {
-        FontInfo info = context.LoadAsJson<FontInfo>($"{name}.json");
+        FontInfo info = context.LoadJson<FontInfo>($"{name}.json");
         Texture2D texture = context.Load<Texture2D>($"{name}.png");
 
         return new MsdfFont(info, texture);
