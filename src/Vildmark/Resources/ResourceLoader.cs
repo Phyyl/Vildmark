@@ -1,5 +1,4 @@
 using System.Reflection;
-using System.Resources;
 using Vildmark.Helpers;
 
 namespace Vildmark.Resources;

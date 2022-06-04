@@ -54,7 +54,7 @@ public class MsdfText
             needsUpdate = false;
         }
 
-        renderer.Render(mesh, new MsdfMaterial(font.Texture, foreground, background ?? foreground with { A = 0 }, font.Info.Atlas?.DistanceRange ?? 2), MsdfFont.Shader, transform);
+        renderer.Render(mesh, new MsdfMaterial(font.Texture, foreground, background ?? foreground with { A = 0 }, font.Info.DistanceRange), MsdfFont.Shader, transform);
     }
 
     private void UpdateMesh()
