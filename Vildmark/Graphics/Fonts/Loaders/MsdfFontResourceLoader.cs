@@ -1,7 +1,6 @@
 ﻿using OpenTK.Mathematics;
 using System.Text.Json.Serialization;
 using Vildmark.Graphics.Fonts.Msdf;
-using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Textures;
 using Vildmark.Resources;
 

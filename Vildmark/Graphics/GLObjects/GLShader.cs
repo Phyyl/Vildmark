@@ -1,5 +1,4 @@
 using OpenTK.Graphics.OpenGL4;
-using Vildmark.Graphics.Shaders;
 using Vildmark.Logging;
 
 namespace Vildmark.Graphics.GLObjects;

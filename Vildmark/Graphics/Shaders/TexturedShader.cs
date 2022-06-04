@@ -1,10 +1,7 @@
 using OpenTK.Mathematics;
 using System.Drawing;
 using Vildmark.Graphics.Cameras;
-using Vildmark.Graphics.GLObjects;
-using Vildmark.Graphics.Meshes;
 using Vildmark.Graphics.Textures;
-using Vildmark.Resources;
 
 namespace Vildmark.Graphics.Shaders;
 

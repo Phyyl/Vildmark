@@ -1,10 +1,7 @@
 ﻿using OpenTK.Mathematics;
 using Vildmark.Graphics.Cameras;
-using Vildmark.Graphics.GLObjects;
-using Vildmark.Graphics.Meshes;
 using Vildmark.Graphics.Shaders;
 using Vildmark.Graphics.Textures;
-using Vildmark.Resources;
 
 namespace Vildmark.Graphics.Fonts.Msdf;
 

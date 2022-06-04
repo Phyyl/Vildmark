@@ -1,8 +1,6 @@
 ﻿using OpenTK.Mathematics;
 using System.Drawing;
 using Vildmark.Graphics.Fonts.Loaders;
-using Vildmark.Graphics.GLObjects;
-using Vildmark.Graphics.Meshes;
 using Vildmark.Graphics.Rendering;
 using Vildmark.Graphics.Textures;
 using Vildmark.Resources;
