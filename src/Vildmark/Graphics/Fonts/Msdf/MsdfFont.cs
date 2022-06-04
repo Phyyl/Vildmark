@@ -4,7 +4,6 @@ using Vildmark.Graphics.Fonts.Loaders;
 using Vildmark.Graphics.Rendering;
 using Vildmark.Graphics.Textures;
 using Vildmark.Resources;
-using static Vildmark.Graphics.Fonts.Loaders.MsdfFontResourceLoader;
 
 namespace Vildmark.Graphics.Fonts.Msdf;
 
@@ -16,9 +15,9 @@ public class MsdfFont
     internal static MsdfShader Shader { get; } = new();
 
     internal Texture2D Texture { get; }
-    internal FontInfo Info { get; }
+    internal MsdfFontInfo Info { get; }
 
-    internal MsdfFont(FontInfo info, Texture2D texture)
+    internal MsdfFont(MsdfFontInfo info, Texture2D texture)
     {
         Info = info;
         Texture = texture;
@@ -41,49 +40,51 @@ public class MsdfFont
             return Array.Empty<Vertex>();
         }
 
-        if (Info.Metrics is null || Info.Atlas is null || Info.Glyphs is null)
-        {
-            throw new Exception("Invalid font descriptor");
-        }
-
         List<Vertex> vertices = new();
-        Vector2 lineStart = new(0, Info.Metrics.LineHeight * size);
+        Vector2 lineStart = new(0, Info.LineHeight * size);
         Vector2 position = lineStart;
+        char previous = '\0';
 
         foreach (var chr in text)
         {
-            if (Info.Glyphs.FirstOrDefault(g => g.Unicode == chr) is not Glyph glyph)
+            if (!Info.TryGetGlyph(chr, out MsdfGlyph glyph))
             {
                 continue;
             }
 
             if ((position.X + glyph.Advance * size) > maxLineLength)
             {
-                lineStart.Y += Info.Metrics.LineHeight * size;
+                lineStart.Y += Info.LineHeight * size;
                 position = lineStart;
             }
 
-            if (glyph.PlaneBounds is not null && glyph.AtlasBounds is not null)
+            if (Info.TryGetKerning(previous, chr, out float kerningAdvance))
             {
-                Vector2 tl = glyph.PlaneBounds.TopLeft * size;
-                Vector2 bl = glyph.PlaneBounds.BottomLeft * size;
-                Vector2 br = glyph.PlaneBounds.BottomRight * size;
-                Vector2 tr = glyph.PlaneBounds.TopRight * size;
+                position.X += kerningAdvance * size;
+            }
 
-                Vector2 ttl = glyph.AtlasBounds.TopLeft;
-                Vector2 tbl = glyph.AtlasBounds.BottomLeft;
-                Vector2 tbr = glyph.AtlasBounds.BottomRight;
-                Vector2 ttr = glyph.AtlasBounds.TopRight;
+            if (!glyph.PlaneBounds.IsEmpty && !glyph.AtlasBounds.IsEmpty)
+            {
+                Vector2 tl = glyph.PlaneBounds.GetTopLeft() * size;
+                Vector2 bl = glyph.PlaneBounds.GetBottomLeft() * size;
+                Vector2 br = glyph.PlaneBounds.GetBottomRight() * size;
+                Vector2 tr = glyph.PlaneBounds.GetTopRight() * size;
 
-                vertices.Add(new(position + tl, ttl / Texture.Size));
-                vertices.Add(new(position + bl, tbl / Texture.Size));
-                vertices.Add(new(position + br, tbr / Texture.Size));
-                vertices.Add(new(position + tl, ttl / Texture.Size));
-                vertices.Add(new(position + br, tbr / Texture.Size));
-                vertices.Add(new(position + tr, ttr / Texture.Size));
+                Vector2 ttl = glyph.AtlasBounds.GetTopLeft();
+                Vector2 tbl = glyph.AtlasBounds.GetBottomLeft();
+                Vector2 tbr = glyph.AtlasBounds.GetBottomRight();
+                Vector2 ttr = glyph.AtlasBounds.GetTopRight();
+
+                vertices.Add(new(position + tl, ttl / Info.Size));
+                vertices.Add(new(position + bl, tbl / Info.Size));
+                vertices.Add(new(position + br, tbr / Info.Size));
+                vertices.Add(new(position + tl, ttl / Info.Size));
+                vertices.Add(new(position + br, tbr / Info.Size));
+                vertices.Add(new(position + tr, ttr / Info.Size));
             }
 
             position += new Vector2(glyph.Advance * size, 0);
+            previous = chr;
         }
 
         return vertices.ToArray();
