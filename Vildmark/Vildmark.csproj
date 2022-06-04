@@ -23,8 +23,8 @@
 			<Pack>true</Pack>
 			<Visible>false</Visible>
 		</None>
-		<None Include="..\nuget\tools\windows\*">
-			<PackagePath>tools\windows</PackagePath>
+		<None Include="..\nuget\tools\win-x64\*">
+			<PackagePath>tools\win-x64</PackagePath>
 			<Pack>true</Pack>
 			<Visible>false</Visible>
 		</None>
@@ -33,6 +33,11 @@
 			<Pack>true</Pack>
 			<Visible>false</Visible>
 		</None>
+	</ItemGroup>
+		
+	<ItemGroup>
+	  <None Remove="Resources\Shaders\msdf.frag" />
+	  <None Remove="Resources\Shaders\msdf.vert" />
 	</ItemGroup>
 
 	<ItemGroup>

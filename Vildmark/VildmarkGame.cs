@@ -10,8 +10,8 @@ public abstract partial class VildmarkGame
     public Mouse Mouse { get; } = new();
     public Keyboard Keyboard { get; } = new();
 
-    protected abstract void Render(float delta);
-
+    protected virtual void Load() { }
+    protected virtual void Render(float delta) { }
     protected virtual void Update(float delta) { }
     protected virtual void Resize(int width, int height) { }
     protected virtual bool ShouldClose() => true;
@@ -25,6 +25,8 @@ public abstract partial class VildmarkGame
         Window.Load += () =>
         {
             T game = new();
+
+            game.Load();
 
             Window.Resize += e => game.Resize(e.Width, e.Height);
             Window.Closing += e => e.Cancel = !game.ShouldClose();

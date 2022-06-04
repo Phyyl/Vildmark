@@ -1,54 +1,34 @@
 <Project>
 
-    <PropertyGroup Condition=" '$(FontToolsFolder)' == '' ">
-        <FontToolsFolder>$(MSBuildThisFileDirectory)..\..\tools\</FontToolsFolder>
-    </PropertyGroup>
+	<Target Name="GenerateVildmarkFonts" BeforeTargets="BeforeBuild" Condition=" '@(VildmarkFont)' != '' ">
 
-    <PropertyGroup>
-        <GeneratedFontsRootDirectory>$(IntermediateOutputPath)GeneratedFonts\</GeneratedFontsRootDirectory>
-        <FontGeneratorExecutable Condition="$([MSBuild]::IsOSPlatform('Linux'))">$(FontToolsFolder)linux\fontbm</FontGeneratorExecutable>
-        <FontGeneratorExecutable Condition="$([MSBuild]::IsOSPlatform('Windows'))">$(FontToolsFolder)windows\fontbm.exe</FontGeneratorExecutable>
-    </PropertyGroup>
+		<PropertyGroup>
+			<InputFontFile>%(VildmarkFont.FullPath)</InputFontFile>
+			<InputFontRelativeDir>%(VildmarkFont.RelativeDir)</InputFontRelativeDir>
+			<InputFontName>%(VildmarkFont.Filename)</InputFontName>
+			<IntermediateFontOutputPath>$(IntermediateOutputPath)Vildmark\Font\</IntermediateFontOutputPath>
+			<MsdfAtlasGenToolPath>$(MSBuildThisFileDirectory)..\tools\win-x64\msdf-atlas-gen.exe</MsdfAtlasGenToolPath>
+			<CharSetFile>$(MSBuildThisFileDirectory)..\tools\win-x64\charset.txt</CharSetFile>
+			<ImageOutputFile>$(IntermediateFontOutputPath)atlas.png</ImageOutputFile>
+			<JsonOutputFile>$(IntermediateFontOutputPath)atlas.json</JsonOutputFile>
+			<OutputImageResourceName>$(AssemblyName).$(InputFontRelativeDir.Replace("\", "."))$(InputFontName).png</OutputImageResourceName>
+			<OutputJsonResourceName>$(AssemblyName).$(InputFontRelativeDir.Replace("\", "."))$(InputFontName).json</OutputJsonResourceName>
+		</PropertyGroup>
 
-    <Target Name="GenerateFonts" BeforeTargets="BeforeBuild"  Condition=" '@(Font)' != '' ">
-        
-        <PropertyGroup>
-            <GeneratedFontDirectory>$(GeneratedFontsRootDirectory)%(Font.RelativeDir)</GeneratedFontDirectory>
-            <GeneratedFontFilename>$(GeneratedFontDirectory)%(Font.Filename)</GeneratedFontFilename>
-            <FontGeneratorArguments>--font-file "%(Font.Identity)" --output "$(GeneratedFontFilename)" --data-format json</FontGeneratorArguments>
-        </PropertyGroup>
+		<RemoveDir Directories="$(IntermediateFontOutputPath)"></RemoveDir>
+		<MakeDir Directories="$(IntermediateFontOutputPath)"></MakeDir>
 
-        <PropertyGroup>
-            <FontTextureWidth Condition=" '%(Font.Width)' != '' ">%(Font.Width)</FontTextureWidth>
-            <FontTextureHeight Condition=" '%(Font.Height)' != '' ">%(Font.Height)</FontTextureHeight>
-            <FontTexturePadding Condition=" '%(Font.Padding)' != '' ">%(Font.Padding)</FontTexturePadding>
-            <FontChars Condition=" '%(Font.Chars)' != '' ">%(Font.Chars)</FontChars>
-        </PropertyGroup>
+		<Exec Command="$(MsdfAtlasGenToolPath) -font &quot;$(InputFontFile)&quot; -charset &quot;$(CharSetFile)&quot; -imageout &quot;$(ImageOutputFile)&quot; -json &quot;$(JsonOutputFile)&quot; -size 64 -yorigin top"></Exec>
 
-        <PropertyGroup>
-            <FontSize Condition=" '$(FontSize)' == '' ">64</FontSize>
-            <FontTextureWidth Condition=" '$(FontTextureWidth)' == '' ">1024</FontTextureWidth>
-            <FontTextureHeight Condition=" '$(FontTextureHeight)' == '' ">1024</FontTextureHeight>
-            <FontTexturePadding Condition=" '$(FontTexturePadding)' == '' ">1</FontTexturePadding>
-            <FontChars Condition=" '$(FontChars)' == '' ">0-255</FontChars>
-            <FontGeneratorArguments>$(FontGeneratorArguments) --texture-width $(FontTextureWidth) --texture-height $(FontTextureHeight)</FontGeneratorArguments>
-            <FontGeneratorArguments>$(FontGeneratorArguments) --padding-left $(FontTexturePadding) --padding-right $(FontTexturePadding) --padding-down $(FontTexturePadding) --padding-up $(FontTexturePadding)</FontGeneratorArguments>
-            <FontGeneratorArguments>$(FontGeneratorArguments) --chars $(FontChars)</FontGeneratorArguments>
-            <FontGeneratorArguments>$(FontGeneratorArguments) --font-size $(FontSize)</FontGeneratorArguments>
-        </PropertyGroup>
-
-        <Message Text="Generating Fonts"></Message>
-        
-        <MakeDir Directories="$(GeneratedFontDirectory)"></MakeDir>
-        <Exec IgnoreStandardErrorWarningFormat="true" Command="$(FontGeneratorExecutable) $(FontGeneratorArguments)"></Exec>
-
-        <ItemGroup>
-            <FontResources Include="$(GeneratedFontsRootDirectory)**\*"></FontResources>
-            <EmbeddedResource Include="@(FontResources)">
-                <LogicalName>$([System.String]::Copy('%(RelativeDir)%(Filename)%(Extension)').Replace('$(GeneratedFontsRootDirectory)', '').Replace('\', '.'))</LogicalName>
-            </EmbeddedResource>
-        </ItemGroup>
-
-    </Target>
+		<ItemGroup>
+			<EmbeddedResource Include="$(ImageOutputFile)">
+				<LogicalName>$(OutputImageResourceName)</LogicalName>
+			</EmbeddedResource>
+			<EmbeddedResource Include="$(JsonOutputFile)">
+				<LogicalName>$(OutputJsonResourceName)</LogicalName>
+			</EmbeddedResource>
+		</ItemGroup>
+		
+	</Target>
 
 </Project>
