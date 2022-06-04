@@ -13,6 +13,7 @@ public class MsdfText
     private readonly MsdfFont font;
     private string text;
     private float fontSize;
+    private float maxLineLength;
 
     public RectangleF Bounds { get; private set; }
 
@@ -31,11 +32,18 @@ public class MsdfText
         set => SetValue(ref fontSize, value);
     }
 
-    public MsdfText(MsdfFont font, string text, float fontSize)
+    public float MaxLineLength
+    {
+        get => maxLineLength;
+        set => SetValue(ref maxLineLength, value);
+    }
+
+    public MsdfText(MsdfFont font, string text, float fontSize, float maxLineLength = float.PositiveInfinity)
     {
         this.font = font;
         this.text = text;
         this.fontSize = fontSize;
+        this.maxLineLength = maxLineLength;
     }
 
     public void Render(Renderer renderer, Color4 foreground, Color4? background = default, Transform? transform = default)
@@ -51,8 +59,8 @@ public class MsdfText
 
     private void UpdateMesh()
     {
-        mesh.UpdateVertices(font.CreateMesh(text, fontSize));
-        Bounds = font.MeasureString(text, fontSize);
+        mesh.UpdateVertices(font.CreateMesh(text, fontSize, MaxLineLength));
+        Bounds = font.MeasureString(text, fontSize, MaxLineLength);
     }
 
     private void SetValue<T>(ref T field, T value)

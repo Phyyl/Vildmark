@@ -34,7 +34,7 @@ public class MsdfFont
         this.text.Render(renderer, foreground, background, transform);
     }
 
-    public Vertex[] CreateMesh(string text, float size)
+    public Vertex[] CreateMesh(string text, float size, float maxLineLength = float.PositiveInfinity)
     {
         if (Info.Metrics is null || Info.Atlas is null || Info.Glyphs is null)
         {
@@ -42,12 +42,20 @@ public class MsdfFont
         }
 
         List<Vertex> vertices = new();
-        Vector2 position = new(0, Info.Metrics.LineHeight * size);
+        Vector2 lineStart = new(0, Info.Metrics.LineHeight * size);
+        Vector2 position = lineStart;
+
         foreach (var chr in text)
         {
             if (Info.Glyphs.FirstOrDefault(g => g.Unicode == chr) is not Glyph glyph)
             {
                 continue;
+            }
+
+            if ((position.X + glyph.Advance * size) > maxLineLength)
+            {
+                lineStart.Y += Info.Metrics.LineHeight * size;
+                position = lineStart;
             }
 
             if (glyph.PlaneBounds is not null && glyph.AtlasBounds is not null)
@@ -76,9 +84,9 @@ public class MsdfFont
         return vertices.ToArray();
     }
 
-    public RectangleF MeasureString(string text, float size)
+    public RectangleF MeasureString(string text, float size, float maxLineLength = float.PositiveInfinity)
     {
-        Vertex[] vertices = CreateMesh(text, size);
+        Vertex[] vertices = CreateMesh(text, size, maxLineLength);
 
         Vector2 min = new(vertices.Min(v => v.Position.X), vertices.Min(v => v.Position.Y));
         Vector2 max = new(vertices.Max(v => v.Position.X), vertices.Max(v => v.Position.Y));
@@ -86,8 +94,8 @@ public class MsdfFont
         return new RectangleF(min.X, min.Y, max.X - min.X, max.Y - min.Y);
     }
 
-    public MsdfText CreateText(string text, float size)
+    public MsdfText CreateText(string text, float size, float maxLineLength = float.PositiveInfinity)
     {
-        return new MsdfText(this, text, size);
+        return new MsdfText(this, text, size, maxLineLength);
     }
 }
