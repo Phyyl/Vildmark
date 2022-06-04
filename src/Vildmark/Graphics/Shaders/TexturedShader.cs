@@ -1,5 +1,4 @@
 using OpenTK.Mathematics;
-using System.Drawing;
 using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.Textures;
 
@@ -18,7 +17,7 @@ public class TexturedShader : Shader<Vertex, TexturedMaterial>
 
     public Uniform<Texture2D> Texture { get; } = new("tex");
     public Uniform<Color4> Tint { get; } = new("tint");
-    public Uniform<RectangleF> SourceRect { get; } = new("source_rect");
+    public Uniform<Box2> SourceRect { get; } = new("source_rect");
 
     public TexturedShader() 
         : base("textured")

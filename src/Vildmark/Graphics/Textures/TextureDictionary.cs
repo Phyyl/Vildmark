@@ -1,4 +1,4 @@
-using System.Drawing;
+using OpenTK.Mathematics;
 
 namespace Vildmark.Graphics.Textures;
 
@@ -17,5 +17,5 @@ public class TextureDictionary<TKey>
 
     public Texture2D? this[TKey key] => rectangles.GetValueOrDefault(key);
 
-    public record Entry(TKey Key, RectangleF SourceRectangle);
+    public record Entry(TKey Key, Box2 SourceRectangle);
 }

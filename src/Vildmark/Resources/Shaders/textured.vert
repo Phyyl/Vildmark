@@ -17,5 +17,5 @@ void main()
 {
 	gl_Position = projection_matrix * view_matrix * model_matrix * vec4(vert_position, 1.0);
 	vert_frag_color = vert_color;
-	vert_frag_texcoord = vec2(vert_texcoord.xy * source_rect.zw + source_rect.xy);
+	vert_frag_texcoord = vec2(mix(source_rect.xy, source_rect.zw, vert_texcoord.xy));
 }

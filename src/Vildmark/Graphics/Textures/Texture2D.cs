@@ -1,5 +1,4 @@
 using OpenTK.Mathematics;
-using System.Drawing;
 using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Textures.Loaders;
 using Vildmark.Resources;
@@ -18,7 +17,7 @@ public class Texture2D
     public virtual int Height => GLTexture.Height;
 
     public Vector2 Size => new(Width, Height);
-    public RectangleF Bounds => new(0, 0, Width, Height);
+    public Box2 Bounds => new(0, 0, Width, Height);
 
     public Texture2D(int width, int height)
          : this(new GLTexture2D(width, height))
@@ -33,12 +32,12 @@ public class Texture2D
 
 public class SubTexture2D : Texture2D
 {
-    public RectangleF SourceRectangle { get; }
+    public Box2 SourceRectangle { get; }
 
-    public override int Width => (int)(base.Width * SourceRectangle.Width);
-    public override int Height => (int)(base.Height * SourceRectangle.Height);
+    public override int Width => (int)(base.Width * SourceRectangle.Size.X);
+    public override int Height => (int)(base.Height * SourceRectangle.Size.Y);
 
-    public SubTexture2D(Texture2D texture, RectangleF sourceRectangle)
+    public SubTexture2D(Texture2D texture, Box2 sourceRectangle)
         : base(texture.GLTexture)
     {
         SourceRectangle = sourceRectangle;

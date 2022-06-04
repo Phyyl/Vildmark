@@ -32,6 +32,9 @@ internal static class StaticTypeInfo
         Storage<RectangleF>.UniformSetter = (l, v, i) => SetUniform(l, v.ToVector(), i);
         Storage<RectangleF>.AttribSize = 4;
 
+        Storage<Box2>.UniformSetter = (l, v, i) => SetUniform(l, v.ToVector4(), i);
+        Storage<Box2>.AttribSize = 4;
+
         Storage<Matrix4>.UniformSetter = (l, v, i) => GL.UniformMatrix4(l, false, ref v);
         Storage<Transform?>.UniformSetter = (l, v, i) => SetUniform(l, v?.Matrix ?? Matrix4.Identity, i);
 

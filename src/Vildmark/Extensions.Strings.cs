@@ -40,6 +40,7 @@ public static partial class Extensions
                     {
                         builder.Remove(builder.Length - 1, 1);
                     }
+
                     break;
                 default:
                     builder.Append(chr);

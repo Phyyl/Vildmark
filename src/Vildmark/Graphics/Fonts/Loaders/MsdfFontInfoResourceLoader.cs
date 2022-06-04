@@ -1,5 +1,5 @@
-﻿using System.Collections.ObjectModel;
-using System.Drawing;
+﻿using OpenTK.Mathematics;
+using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
 using Vildmark.Graphics.Fonts.Msdf;
 using Vildmark.Resources;
@@ -17,7 +17,7 @@ internal class MsdfFontInfoResourceLoader : IResourceLoader<MsdfFontInfo>
 
     private ReadOnlyDictionary<char, MsdfGlyph> CreateGlyphs(JsonFontInfo jsonInfo)
     {
-        RectangleF CreateBounds(JsonBounds? jsonBounds) => jsonBounds is null ? RectangleF.Empty : new(jsonBounds.Left, jsonBounds.Top, jsonBounds.Right - jsonBounds.Left, jsonBounds.Bottom - jsonBounds.Top);
+        static Box2 CreateBounds(JsonBounds? jsonBounds) => jsonBounds is null ? new Box2() : new(jsonBounds.Left, jsonBounds.Top, jsonBounds.Right, jsonBounds.Bottom);
 
         return new(jsonInfo.Glyphs.ToDictionary(g => (char)g.Unicode, g => new MsdfGlyph((char)g.Unicode, CreateBounds(g.PlaneBounds), CreateBounds(g.AtlasBounds), g.Advance)));
     }
