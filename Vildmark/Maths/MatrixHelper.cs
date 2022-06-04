@@ -9,11 +9,6 @@ public static class MatrixHelper
     {
         Matrix4 result = Matrix4.Identity;
 
-        if (scale != 1)
-        {
-            result *= Matrix4.CreateScale(scale);
-        }
-
         if (origin != default)
         {
             result *= Matrix4.CreateTranslation(-origin);
@@ -34,14 +29,14 @@ public static class MatrixHelper
             result *= Matrix4.CreateRotationZ(rotation.Z);
         }
 
+        if (scale != 1)
+        {
+            result *= Matrix4.CreateScale(scale);
+        }
+
         if (position != default)
         {
             result *= Matrix4.CreateTranslation(position);
-        }
-
-        if (origin != default)
-        {
-            result *= Matrix4.CreateTranslation(origin);
         }
 
         return result;

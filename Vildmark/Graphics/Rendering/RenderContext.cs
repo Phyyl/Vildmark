@@ -64,7 +64,14 @@ public partial class Renderer
             return;
         }
 
-        shader.Setup(mesh, material, renderOptions.Camera, transform);
+        shader.Use();
+
+        mesh.VertexArray.Bind();
+        mesh.VertexBuffer.Bind();
+
+        shader.Setup(mesh);
+        shader.Setup(material, renderOptions.Camera, transform);
+
         mesh.Draw(primitiveType);
     }
 

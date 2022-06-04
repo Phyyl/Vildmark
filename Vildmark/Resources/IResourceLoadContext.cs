@@ -1,4 +1,6 @@
 using System.Reflection;
+using System.Runtime.Serialization;
+using System.Text.Json;
 
 namespace Vildmark.Resources;
 
@@ -10,6 +12,13 @@ public abstract class ResourceLoadContext
         where TResource : IResource<TResource>
     {
         return ResourceLoader.Load<TResource>(name, this);
+    }
+
+    public TResource LoadAsJson<TResource>(string name)
+    {
+        string json = GetStream(name).ReadAllText();
+
+        return JsonSerializer.Deserialize<TResource>(json) ?? throw new SerializationException($@"Could not deserialize object of type {typeof(TResource).Name} from resource ""{name}""");
     }
 }
 
@@ -42,5 +51,4 @@ public class FileResourceLoadContext : ResourceLoadContext
         return File.OpenRead(Path.Combine(RootPath, name));
     }
 }
-
 

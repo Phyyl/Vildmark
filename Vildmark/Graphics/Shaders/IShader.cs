@@ -17,5 +17,6 @@ public interface IShader
 public interface IShader<TVertex, TMaterial> : IShader
     where TVertex : unmanaged
 {
-    void Setup(Mesh<TVertex> mesh, TMaterial material, Camera camera, Transform? transform = default);
+    void Setup(TMaterial material, Camera camera, Transform? transform = default);
+    void Setup(Mesh<TVertex> mesh);
 }

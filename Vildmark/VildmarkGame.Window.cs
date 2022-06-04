@@ -37,7 +37,6 @@ public abstract partial class VildmarkGame
         set => Window.RenderFrequency = value;
     }
 
-
     private static void InitializeWindow(WindowSettings settings)
     {
         NativeWindowSettings nativeSettings = NativeWindowSettings.Default;

@@ -44,5 +44,6 @@ public abstract class Shader<TVertex, TMaterial> : IShader<TVertex, TMaterial>
         }
     }
 
-    public abstract void Setup(Mesh<TVertex> mesh, TMaterial material, Camera camera, Transform? transform = null);
+    public abstract void Setup(TMaterial material, Camera camera, Transform? transform = null);
+    public abstract void Setup(Mesh<TVertex> mesh);
 }
