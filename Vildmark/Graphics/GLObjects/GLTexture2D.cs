@@ -1,7 +1,6 @@
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using System.Runtime.InteropServices;
-using Vildmark.Resources;
 
 namespace Vildmark.Graphics.GLObjects;
 

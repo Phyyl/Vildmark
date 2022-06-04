@@ -1,11 +1,9 @@
 using OpenTK.Graphics.OpenGL4;
 using System.Collections.Immutable;
-using System.Numerics;
 using System.Reflection;
 using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Meshes;
-using Vildmark.Logging;
 using Vildmark.Resources;
 
 namespace Vildmark.Graphics.Shaders;
