@@ -1,4 +1,5 @@
 using OpenTK.Graphics.OpenGL4;
+using System.Collections.Immutable;
 using System.Numerics;
 using System.Reflection;
 using Vildmark.Graphics.Cameras;
@@ -13,6 +14,8 @@ public abstract class Shader<TVertex, TMaterial> : IShader<TVertex, TMaterial>
     where TVertex : unmanaged
 {
     private readonly GLShaderProgram shaderProgram;
+    private readonly ImmutableArray<Attrib> attribs;
+    private readonly ImmutableArray<Uniform> uniforms;
 
     protected Shader(string name)
         : this(EmbeddedResources.GetEmbeddedStream($"{name}.vert", Assembly.GetCallingAssembly()).ReadAllText(),
@@ -44,6 +47,9 @@ public abstract class Shader<TVertex, TMaterial> : IShader<TVertex, TMaterial>
         {
             throw new Exception("Shader program link failed");
         }
+        
+        uniforms = this.GetInstancePropertiesOfType<Uniform>().ToImmutableArray();
+        attribs = this.GetInstancePropertiesOfType<Attrib>().ToImmutableArray();
 
         InitializeVariableLocations();
     }
@@ -61,14 +67,10 @@ public abstract class Shader<TVertex, TMaterial> : IShader<TVertex, TMaterial>
 
     private void InitializeVariableLocations()
     {
-        var uniforms = this.GetInstancePropertiesOfType<Uniform>();
-
         foreach (var uniform in uniforms)
         {
             uniform.Location = GetUniformLocation(uniform.Name);
         }
-
-        var attribs = this.GetInstancePropertiesOfType<Attrib>();
 
         foreach (var attrib in attribs)
         {
@@ -77,5 +79,12 @@ public abstract class Shader<TVertex, TMaterial> : IShader<TVertex, TMaterial>
     }
 
     public abstract void Setup(TMaterial material, Camera camera, Transform? transform = null);
-    public abstract void Setup(Mesh<TVertex> mesh);
+
+    public void Setup(Mesh<TVertex> mesh)
+    {
+        foreach (var attrib in attribs)
+        {
+            attrib.VertexAttribPointer();
+        }
+    }
 }

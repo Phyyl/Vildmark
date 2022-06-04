@@ -10,8 +10,8 @@ namespace Vildmark.Graphics.Fonts.Msdf;
 
 public class MsdfShader : Shader<Vertex, MsdfMaterial>
 {
-    public Attrib<Vector3> Position { get; } = new("vert_position");
-    public Attrib<Vector2> TexCoord { get; } = new("vert_texcoord");
+    public Attrib<Vertex, Vector3> Position { get; } = new("vert_position", Vertex.PositionOffset);
+    public Attrib<Vertex, Vector2> TexCoord { get; } = new("vert_texcoord", Vertex.TexCoordOffset);
 
     public Uniform<Matrix4> ProjectionMatrix { get; } = new("projection_matrix");
     public Uniform<Matrix4> ViewMatrix { get; } = new("view_matrix");
@@ -25,12 +25,6 @@ public class MsdfShader : Shader<Vertex, MsdfMaterial>
     public MsdfShader()
         : base("msdf")
     {
-    }
-
-    public override void Setup(Mesh<Vertex> mesh)
-    {
-        Position.VertexAttribPointer<Vertex>(Vertex.PositionOffset);
-        TexCoord.VertexAttribPointer<Vertex>(Vertex.TexCoordOffset);
     }
 
     public override void Setup(MsdfMaterial material, Camera camera, Transform? transform = null)
