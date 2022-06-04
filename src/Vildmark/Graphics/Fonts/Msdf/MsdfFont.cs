@@ -36,6 +36,11 @@ public class MsdfFont
 
     public Vertex[] CreateMesh(string text, float size, float maxLineLength = float.PositiveInfinity)
     {
+        if (text.Length == 0 || size <= 0)
+        {
+            return Array.Empty<Vertex>();
+        }
+
         if (Info.Metrics is null || Info.Atlas is null || Info.Glyphs is null)
         {
             throw new Exception("Invalid font descriptor");
@@ -87,6 +92,11 @@ public class MsdfFont
     public RectangleF MeasureString(string text, float size, float maxLineLength = float.PositiveInfinity)
     {
         Vertex[] vertices = CreateMesh(text, size, maxLineLength);
+
+        if (vertices.Length == 0)
+        {
+            return RectangleF.Empty;
+        }
 
         Vector2 min = new(vertices.Min(v => v.Position.X), vertices.Min(v => v.Position.Y));
         Vector2 max = new(vertices.Max(v => v.Position.X), vertices.Max(v => v.Position.Y));
