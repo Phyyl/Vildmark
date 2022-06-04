@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 namespace Vildmark.Graphics;
 
 [StructLayout(LayoutKind.Sequential)]
-public struct Vertex
+public record struct Vertex
 {
     public static readonly int PositionOffset = (int)Marshal.OffsetOf<Vertex>(nameof(Position));
     public static readonly int TexCoordOffset = (int)Marshal.OffsetOf<Vertex>(nameof(TexCoord));

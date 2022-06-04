@@ -6,10 +6,10 @@ namespace Vildmark.Graphics.Shaders;
 
 public class TexturedShader : Shader<Vertex, TexturedMaterial>
 {
-    public Attrib<Vector3> PositionAttrib { get; } = new("vert_position");
-    public Attrib<Vector4> ColorAttrib { get; } = new("vert_color");
-    public Attrib<Vector2> TexCoordAttrib { get; } = new("vert_texcoord");
-    public Attrib<Vector3> NormalAttrib { get; } = new("vert_normal");
+    public Attrib<Vertex, Vector3> PositionAttrib { get; } = new("vert_position", Vertex.PositionOffset);
+    public Attrib<Vertex, Vector4> ColorAttrib { get; } = new("vert_color", Vertex.ColorOffset);
+    public Attrib<Vertex, Vector2> TexCoordAttrib { get; } = new("vert_texcoord", Vertex.TexCoordOffset);
+    public Attrib<Vertex, Vector3> NormalAttrib { get; } = new("vert_normal", Vertex.NormalOffset);
 
     public Uniform<Matrix4> ProjectionMatrix { get; } = new("projection_matrix");
     public Uniform<Matrix4> ViewMatrix { get; } = new("view_matrix");
