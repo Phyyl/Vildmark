@@ -8,11 +8,10 @@ using static Vildmark.Graphics.Fonts.Loaders.MsdfFontResourceLoader;
 
 namespace Vildmark.Graphics.Fonts.Msdf;
 
-public class MsdfFont : IResource<MsdfFont>
+[ResourceLoader(typeof(MsdfFontResourceLoader))]
+public class MsdfFont
 {
     private readonly MsdfText text;
-
-    public static IResourceLoader<MsdfFont> Loader => new MsdfFontResourceLoader();
 
     internal static MsdfShader Shader { get; } = new();
 

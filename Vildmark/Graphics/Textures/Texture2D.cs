@@ -6,10 +6,9 @@ using Vildmark.Resources;
 
 namespace Vildmark.Graphics.Textures;
 
-public class Texture2D : IResource<Texture2D>
+[ResourceLoader(typeof(Texture2DResourceLoader))]
+public class Texture2D
 {
-    public static IResourceLoader<Texture2D> Loader { get; } = new Texture2DResourceLoader();
-
     public static Texture2D WhitePixel { get; } = new(new GLTexture2D(1, 1, new byte[] { 255, 255, 255, 255 }));
     public static Texture2D TransparentPixel { get; } = new(new GLTexture2D(1, 1, new byte[] { 0, 0, 0, 0 }));
 

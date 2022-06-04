@@ -1,13 +1,9 @@
 using OpenTK.Audio.OpenAL;
-using Vildmark.Audio.ALObjects.Loaders;
-using Vildmark.Resources;
 
 namespace Vildmark.Audio.ALObjects;
 
-public class ALBuffer : ALObject, IResource<ALBuffer>
+public class ALBuffer : ALObject
 {
-    public static IResourceLoader<ALBuffer> Loader { get; } = new ALBufferResourceLoader();
-
     public ALBuffer()
         : base(OpenALContext.GenBuffer())
     {
