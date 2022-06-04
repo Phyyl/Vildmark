@@ -8,13 +8,6 @@ using Vildmark.Resources;
 
 namespace Vildmark.Graphics.Shaders;
 
-public record TexturedMaterial(Texture2D Texture, Color4 Tint)
-{
-    public static implicit operator TexturedMaterial(Color4 tint) => new(Texture2D.WhitePixel, tint);
-    public static implicit operator TexturedMaterial(Texture2D texture) => new(texture, Color4.White);
-    public static implicit operator TexturedMaterial(GLTexture2D texture) => new(texture, Color4.White);
-}
-
 public class TexturedShader : Shader<Vertex, TexturedMaterial>
 {
     public Attrib<Vector3> PositionAttrib { get; } = new("vert_position");
@@ -26,12 +19,12 @@ public class TexturedShader : Shader<Vertex, TexturedMaterial>
     public Uniform<Matrix4> ViewMatrix { get; } = new("view_matrix");
     public Uniform<Matrix4> ModelMatrix { get; } = new("model_matrix");
 
-    public Uniform<GLTexture2D> Texture { get; } = new("tex");
+    public Uniform<Texture2D> Texture { get; } = new("tex");
     public Uniform<Color4> Tint { get; } = new("tint");
     public Uniform<RectangleF> SourceRect { get; } = new("source_rect");
 
-    public TexturedShader()
-        : base(ResourceLoader.LoadEmbedded<GLShaderProgram>("textured"))
+    public TexturedShader() 
+        : base("textured")
     {
     }
 
@@ -49,8 +42,12 @@ public class TexturedShader : Shader<Vertex, TexturedMaterial>
         ViewMatrix.SetUniform(camera.ViewMatrix);
         ModelMatrix.SetUniform(transform);
 
-        Texture.SetUniform(material.Texture.GLTexture);
-        SourceRect.SetUniform(material.Texture.SourceRectangle);
+        Texture.SetUniform(material.Texture);
         Tint.SetUniform(material.Tint);
+        
+        if (material.Texture is SubTexture2D subTexture)
+        {
+            SourceRect.SetUniform(subTexture.SourceRectangle);
+        }
     }
 }

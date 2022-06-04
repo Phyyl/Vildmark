@@ -2,7 +2,7 @@ using OpenTK.Graphics.OpenGL4;
 
 namespace Vildmark.Graphics.GLObjects;
 
-public class GLRenderbuffer : GLObject
+internal class GLRenderbuffer : GLObject
 {
     public GLRenderbuffer(int width, int height, RenderbufferTarget renderbufferTarget = RenderbufferTarget.Renderbuffer, RenderbufferStorage renderbufferStorage = RenderbufferStorage.Rgba8)
         : base(GL.GenRenderbuffer())

@@ -2,7 +2,7 @@ using OpenTK.Graphics.OpenGL4;
 
 namespace Vildmark.Graphics.GLObjects;
 
-public class GLVertexArray : GLObject
+internal class GLVertexArray : GLObject
 {
     public GLVertexArray()
         : base(GL.GenVertexArray())

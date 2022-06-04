@@ -1,37 +1,19 @@
 using OpenTK.Graphics.OpenGL4;
-using Vildmark.Graphics.GLObjects.Loaders;
 using Vildmark.Logging;
 using Vildmark.Resources;
 
 namespace Vildmark.Graphics.GLObjects;
 
-public class GLShaderProgram : GLObject, IResource<GLShaderProgram>
+internal class GLShaderProgram : GLObject
 {
-    public static IResourceLoader<GLShaderProgram> Loader { get; } = new GLShaderProgramResourceLoader();
-
-    public GLShaderProgram(params GLShader[] shaders)
+    public GLShaderProgram()
         : base(GL.CreateProgram())
     {
-        foreach (var shader in shaders.NotNull())
-        {
-            GL.AttachShader(this, shader);
-        }
-
-        GL.LinkProgram(this);
-
-        if (!Linked)
-        {
-            Logger.Error($"Shader program info log: {InfoLog}");
-        }
-        else if (InfoLog is { Length: > 0 })
-        {
-            Logger.Warning($"Shader program info log: {InfoLog}");
-        }
     }
 
     public string InfoLog => GL.GetProgramInfoLog(this);
 
-    public bool Linked
+    public bool IsLinked
     {
         get
         {
@@ -39,6 +21,27 @@ public class GLShaderProgram : GLObject, IResource<GLShaderProgram>
 
             return value == 1;
         }
+    }
+
+    public void AttachShader(GLShader shader)
+    {
+        GL.AttachShader(this, shader);
+    }
+
+    public bool Link()
+    {
+        GL.LinkProgram(this);
+
+        if (!IsLinked)
+        {
+            Logger.Error($"Shader program info log: {InfoLog}");
+        }
+        else if (InfoLog is { Length: > 0 })
+        {
+            Logger.Warning($"Shader program info log: {InfoLog}");
+        }
+
+        return IsLinked;
     }
 
     public void Use()

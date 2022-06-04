@@ -1,19 +1,18 @@
 using System.Drawing;
-using Vildmark.Graphics.GLObjects;
 
 namespace Vildmark.Graphics.Textures;
 
 public class TextureDictionary<TKey>
     where TKey : notnull
 {
-    private readonly Dictionary<TKey, Texture2D> rectangles = new();
+    private readonly Dictionary<TKey, SubTexture2D> rectangles = new();
 
-    public GLTexture2D Texture { get; }
+    internal Texture2D Texture { get; }
 
-    public TextureDictionary(GLTexture2D texture, params Entry[] entries)
+    public TextureDictionary(Texture2D texture, params Entry[] entries)
     {
         Texture = texture;
-        rectangles = entries.ToDictionary(e => e.Key, e => new Texture2D(texture, e.SourceRectangle));
+        rectangles = entries.ToDictionary(e => e.Key, e => new SubTexture2D(texture, e.SourceRectangle));
     }
 
     public Texture2D? this[TKey key] => rectangles.GetValueOrDefault(key);

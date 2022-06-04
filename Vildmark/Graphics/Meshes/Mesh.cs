@@ -7,8 +7,8 @@ namespace Vildmark.Graphics.Meshes;
 public class Mesh<TVertex>
     where TVertex : unmanaged
 {
-    public GLVertexArray VertexArray { get; }
-    public GLBuffer<TVertex> VertexBuffer { get; }
+    internal GLVertexArray VertexArray { get; }
+    internal GLBuffer<TVertex> VertexBuffer { get; }
 
     public int ElementSize { get; } = Marshal.SizeOf<TVertex>();
 

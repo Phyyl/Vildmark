@@ -1,6 +1,6 @@
 namespace Vildmark.Graphics.GLObjects;
 
-public abstract class GLObject : IDisposable
+internal abstract class GLObject : IDisposable
 {
 #if DEBUG
     private static readonly List<GLObject> glObjects = new();

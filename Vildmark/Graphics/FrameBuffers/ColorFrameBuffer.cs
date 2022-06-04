@@ -14,7 +14,7 @@ public class ColorFrameBuffer : FrameBuffer
 
     }
 
-    public GLRenderbuffer? GLRenderbuffer { get; private set; }
+    internal GLRenderbuffer? GLRenderbuffer { get; private set; }
 
     protected override void InitializeDrawBuffer(int width, int height)
     {
@@ -29,6 +29,6 @@ public class ColorFrameBuffer : FrameBuffer
 
     public virtual void Render(Renderer renderContext, IShader? shader = default)
     {
-        renderContext.RenderRectangle(new System.Drawing.RectangleF(0, 0, renderContext.Width, renderContext.Height), GLTexture, new Transform() { OriginY = renderContext.Height / 2f, RotationX = MathF.PI });
+        renderContext.RenderRectangle(new System.Drawing.RectangleF(0, 0, renderContext.Width, renderContext.Height), new Texture2D(GLTexture), new Transform() { OriginY = renderContext.Height / 2f, RotationX = MathF.PI });
     }
 }

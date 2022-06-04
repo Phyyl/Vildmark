@@ -23,9 +23,8 @@ public abstract class FrameBuffer
         GLFramebuffer.Unbind();
     }
 
-    public GLFramebuffer GLFramebuffer { get; }
-
-    public GLTexture2D GLTexture { get; }
+    internal GLFramebuffer GLFramebuffer { get; }
+    internal GLTexture2D GLTexture { get; }
 
     public int Width => GLTexture.Width;
     public int Height => GLTexture.Height;
