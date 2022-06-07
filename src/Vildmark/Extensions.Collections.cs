@@ -11,6 +11,14 @@ public static partial class Extensions
         list.AddRange(values);
     }
 
+    public static void AddRange<T>(this HashSet<T> hashSet, params T[] values)
+    {
+        foreach (var value in values)
+        {
+            hashSet.Add(value);
+        }
+    }
+
     public static TValue AddOrSet<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue value, SetPredicate<TValue> setPredicate)
         where TKey : notnull
     {
