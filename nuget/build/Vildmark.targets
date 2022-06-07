@@ -8,12 +8,15 @@
 		<ItemGroup Condition="Exists('$(SystemFontFile)')">
 			<VildmarkFont Include="$(SystemFontFile)">
 				<LogicalNamePrefix>Vildmark.Resources.SystemFonts.$([System.IO.Path]::GetFileNameWithoutExtension('$(SystemFontFile)'))</LogicalNamePrefix>
-			</VildmarkFont>
+				<CharSet>%(VildmarkSystemFont.CharSet)</CharSet>
+				<Size>%(VildmarkSystemFont.Size)</Size>
+		</VildmarkFont>
 		</ItemGroup>
 	</Target>
 	
 	<Target Name="GenerateVildmarkFonts" BeforeTargets="BeforeBuild" Condition=" '@(VildmarkFont)' != '' " Outputs="%(VildmarkFont.Identity)">
 
+		
 		<PropertyGroup>
 			<InputFontFile>%(VildmarkFont.FullPath)</InputFontFile>
 			<InputFontRelativeDir>%(VildmarkFont.RelativeDir)</InputFontRelativeDir>
@@ -22,16 +25,19 @@
 			<OutputLogicalNamePrefix Condition=" '%(VildmarkFont.LogicalNamePrefix)' == '' ">$(AssemblyName).$(InputFontRelativeDir.Replace("\", "."))$(InputFontName)</OutputLogicalNamePrefix>
 			<IntermediateFontOutputPath>$(IntermediateOutputPath)Vildmark\Font\$(OutputLogicalNamePrefix)\</IntermediateFontOutputPath>
 			<MsdfAtlasGenToolPath>$(MSBuildThisFileDirectory)..\tools\win-x64\msdf-atlas-gen.exe</MsdfAtlasGenToolPath>
-			<CharSetFile>$(MSBuildThisFileDirectory)..\tools\win-x64\charset.txt</CharSetFile>
 			<ImageOutputFile>$(IntermediateFontOutputPath)atlas.png</ImageOutputFile>
 			<JsonOutputFile>$(IntermediateFontOutputPath)atlas.json</JsonOutputFile>
+			<OutputCharSetFile>$(IntermediateFontOutputPath)charset.txt</OutputCharSetFile>
 			<OutputImageLogicalName>$(OutputLogicalNamePrefix).png</OutputImageLogicalName>
 			<OutputJsonLogicalName>$(OutputLogicalNamePrefix).json</OutputJsonLogicalName>
 		</PropertyGroup>
+		
+		<WriteLinesToFile Overwrite="true" File="$(OutputCharSetFile)" Lines="%(VildmarkFont.CharSet)" ContinueOnError="false"></WriteLinesToFile>
+		<Warning Condition=" '%(VildmarkFont.Charset)' != '' "  Text="Vildmark font passed with charset: %(VildmarkFont.Charset)"></Warning>
 
 		<MakeDir Directories="$(IntermediateFontOutputPath)"></MakeDir>
 
-		<Exec Command="$(MsdfAtlasGenToolPath) -font &quot;$(InputFontFile)&quot; -charset &quot;$(CharSetFile)&quot; -imageout &quot;$(ImageOutputFile)&quot; -json &quot;$(JsonOutputFile)&quot; -size 64 -yorigin top"></Exec>
+		<Exec Command="$(MsdfAtlasGenToolPath) -font &quot;$(InputFontFile)&quot; -charset &quot;$(OutputCharSetFile)&quot; -imageout &quot;$(ImageOutputFile)&quot; -json &quot;$(JsonOutputFile)&quot; -potr -size %(VildmarkFont.Size) -yorigin top"></Exec>
 
 		<ItemGroup>
 			<EmbeddedResource Include="$(ImageOutputFile)">
