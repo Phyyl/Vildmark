@@ -1,7 +1,26 @@
 <Project>
+	<PropertyGroup>
+		<DefaultVildmarkFontCharSet>[0x00,0xFF]</DefaultVildmarkFontCharSet>
+		<DefaultVildmarkFontSize>64</DefaultVildmarkFontSize>
+	</PropertyGroup>
+	
     <ItemGroup>
         <AvailableItemName Include="VildmarkFont"></AvailableItemName>
     </ItemGroup>
+
+	<ItemDefinitionGroup>
+		<VildmarkSystemFont>
+			<Charset>$(DefaultVildmarkFontCharSet)</Charset>
+			<Size>$(DefaultVildmarkFontSize)</Size>
+		</VildmarkSystemFont>
+	</ItemDefinitionGroup>
+	
+	<ItemDefinitionGroup>
+		<VildmarkFont>
+			<Charset>$(DefaultVildmarkFontCharSet)</Charset>
+			<Size>$(DefaultVildmarkFontSize)</Size>
+		</VildmarkFont>
+	</ItemDefinitionGroup>
 
     <ItemGroup>
 		<EmbeddedResource Include="Resources\**\*.frag" />
