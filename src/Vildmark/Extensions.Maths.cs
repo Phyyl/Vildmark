@@ -53,4 +53,18 @@ public static partial class Extensions
     public static Vector4 ToVector(this Color4 color) => new(color.R, color.G, color.B, color.A);
 
     public static Color4 ToColor4(this Vector4 color) => new(color.X, color.Y, color.Z, color.W);
+
+    public static Box2 ActuallyInflated(this Box2 box, Vector2 size)
+    {
+        size = Vector2.ComponentMax(size, -box.HalfSize);
+
+        return new Box2(box.Min - size, box.Max + size);
+    }
+
+    public static Box3 ActuallyInflated(this Box3 box, Vector3 size)
+    {
+        size = Vector3.ComponentMax(size, -box.HalfSize);
+
+        return new Box3(box.Min - size, box.Max + size);
+    }
 }
