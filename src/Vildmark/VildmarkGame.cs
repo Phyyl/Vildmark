@@ -1,4 +1,5 @@
 using OpenTK.Graphics.OpenGL4;
+using System.Reflection;
 using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.Rendering;
 using Vildmark.Input;
@@ -20,13 +21,17 @@ public abstract partial class VildmarkGame
     protected virtual bool ShouldClose() => true;
     protected virtual void Unload() { }
 
-    public static void Run<T>(WindowSettings? windowSettings = default)
+    public static void Run<T>()
         where T : VildmarkGame, new()
     {
-        InitializeWindow(windowSettings ?? new());
+        InitializeWindow(typeof(T).GetCustomAttribute<WindowSettingsAttribute>() ?? new());
 
         Window.Load += () =>
         {
+#if DEBUG
+            DisplayDiagnostics();
+#endif
+
             T game = new();
 
             game.Load();
@@ -45,5 +50,11 @@ public abstract partial class VildmarkGame
         };
 
         Window.Run();
+    }
+
+    private static void DisplayDiagnostics()
+    {
+        Console.WriteLine($"OpenGL version: {GL.GetInteger(GetPName.MajorVersion)}.{GL.GetInteger(GetPName.MinorVersion)}");
+        Console.WriteLine($"Maximum texture size: {GL.GetInteger(GetPName.MaxTextureSize)}x{GL.GetInteger(GetPName.MaxTextureSize)}");
     }
 }
