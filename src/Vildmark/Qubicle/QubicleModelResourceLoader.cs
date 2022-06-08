@@ -4,13 +4,13 @@ using Vildmark.Resources;
 
 namespace Vildmark.Qubicle;
 
-public class QubicleMatrixResourceLoader : IResourceLoader<QubicleMatrixCollection>
+public class QubicleModelResourceLoader : IResourceLoader<QubicleModel>
 {
-    public QubicleMatrixCollection Load(string name, ResourceLoadContext context)
+    public QubicleModel Load(string name, ResourceLoadContext context)
     {
         QubicleReader reader = new(context.GetStream(name));
 
-        return new QubicleMatrixCollection(reader.ReadMatrices());
+        return new QubicleModel(reader.ReadMatrices());
     }
 
     private class QubicleReader
