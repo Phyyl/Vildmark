@@ -1,5 +1,6 @@
 using OpenTK.Mathematics;
 using System.Drawing;
+using Vildmark.Maths.Physics;
 
 namespace Vildmark;
 
@@ -54,6 +55,31 @@ public static partial class Extensions
 
     public static Color4 ToColor4(this Vector4 color) => new(color.X, color.Y, color.Z, color.W);
 
+    public static Vector2 Reflected(this Vector2 vector, Vector2 normal)
+    {
+        return vector * (Vector2.One - normal.Abs()) + vector * -normal.Abs();
+    }
+
+    public static Vector2 GetNormal(this Face2 face, Vector2 @default = default) => face switch
+    {
+        Face2.Left => -Vector2.UnitX,
+        Face2.Right => Vector2.UnitX,
+        Face2.Top => -Vector2.UnitY,
+        Face2.Bottom => Vector2.UnitY,
+        _ => @default
+    };
+
+    public static Vector3 GetNormal(this Face3 face, Vector3 @default = default) => face switch
+    {
+        Face3.Left => -Vector3.UnitX,
+        Face3.Right => Vector3.UnitX,
+        Face3.Top => -Vector3.UnitY,
+        Face3.Bottom => Vector3.UnitY,
+        Face3.Back => -Vector3.UnitZ,
+        Face3.Front => Vector3.UnitZ,
+        _ => @default
+    };
+
     public static Box2 ActuallyInflated(this Box2 box, Vector2 size)
     {
         size = Vector2.ComponentMax(size, -box.HalfSize);
@@ -67,4 +93,5 @@ public static partial class Extensions
 
         return new Box3(box.Min - size, box.Max + size);
     }
+
 }

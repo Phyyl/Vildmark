@@ -1,7 +1,18 @@
 ﻿namespace Vildmark.Maths.Physics;
 
 [Flags]
-public enum AABBFace
+public enum Face2
+{
+    None = 0,
+    Left = 1,
+    Right = 2,
+    Top = 4,
+    Bottom = 8,
+    All = Left | Right | Bottom | Top
+}
+
+[Flags]
+public enum Face3
 {
     None = 0,
     Left = 1,
