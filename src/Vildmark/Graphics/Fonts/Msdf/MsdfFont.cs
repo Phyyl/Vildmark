@@ -112,7 +112,7 @@ public class MsdfFont
         Vector2 min = new(vertices.Min(v => v.Position.X), vertices.Min(v => v.Position.Y));
         Vector2 max = new(vertices.Max(v => v.Position.X), vertices.Max(v => v.Position.Y));
 
-        return new(min.X, min.Y, max.X - min.X, max.Y - min.Y);
+        return new(min, max);
     }
 
     public MsdfText CreateText(string text, float size, float maxLineLength = float.PositiveInfinity)

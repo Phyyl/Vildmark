@@ -19,7 +19,7 @@ public class OrthographicCamera : Camera
         set => SetValue(ref height, value);
     }
 
-    public OrthographicCamera(float width, float height, float zNear = 1, float zFar = -1)
+    public OrthographicCamera(float width, float height, float zNear = 0.1f, float zFar = 1000)
         : base(zNear, zFar)
     {
         Width = width;

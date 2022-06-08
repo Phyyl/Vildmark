@@ -51,7 +51,7 @@ public abstract class Camera
     {
         protected override Matrix4 CreateMatrix()
         {
-            return MatrixHelper.CreateMatrix(-Position, Rotation, Origin + Position, Scale);
+            return MatrixHelper.CreateMatrix(-Position, Rotation, -Origin, Scale);
         }
     }
 }

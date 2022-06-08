@@ -19,14 +19,14 @@ public partial class Renderer
     public int Width => renderOptions?.FrameBuffer?.Width ?? VildmarkGame.Width;
     public int Height => renderOptions?.FrameBuffer?.Height ?? VildmarkGame.Height;
 
-    public virtual void Begin(Camera camera, FrameBuffer? frameBuffer = default, bool clear = true, bool depthTest = false, bool multiSample = false, bool cullFace = true, bool blending = false)
+    public virtual void Begin(Camera camera, FrameBuffer? frameBuffer = default, bool clear = true, bool depthTest = false, bool multiSample = false, bool blending = false, CullingMode cullingMode = CullingMode.None)
     {
         if (renderOptions is not null)
         {
             End();
         }
 
-        renderOptions = new RenderOptions(camera, frameBuffer, depthTest, blending, multiSample, cullFace);
+        renderOptions = new RenderOptions(camera, frameBuffer, depthTest, blending, multiSample, cullingMode);
         frameBuffer?.Bind();
 
         SetOptions(renderOptions);
@@ -68,6 +68,11 @@ public partial class Renderer
         shader.Setup(material, renderOptions.Camera, transform);
 
         mesh.Draw(primitiveType);
+    }
+
+    public void Render(Mesh<Vertex> mesh, TexturedMaterial material, Transform? transform = default, PrimitiveType primitiveType = PrimitiveType.Triangles)
+    {
+        Render(mesh, material, texturedShader, transform, primitiveType);
     }
 
     private void SetViewport()
@@ -113,16 +118,18 @@ public partial class Renderer
             GL.Disable(EnableCap.Multisample);
         }
 
-        if (renderOptions.CullFace)
-        {
-            GL.Enable(EnableCap.CullFace);
-        }
-        else
+        if (renderOptions.CullingMode == CullingMode.None)
         {
             GL.Disable(EnableCap.CullFace);
         }
+        else
+        {
+            GL.FrontFace(renderOptions.CullingMode == CullingMode.CounterClockwise ? FrontFaceDirection.Ccw : FrontFaceDirection.Cw);
+            GL.CullFace(CullFaceMode.Back);
+            GL.Enable(EnableCap.CullFace);
+        }
     }
 
-    private record class RenderOptions(Camera Camera, FrameBuffer? FrameBuffer, bool DepthTest, bool Blending, bool Multisample, bool CullFace);
+    private record class RenderOptions(Camera Camera, FrameBuffer? FrameBuffer, bool DepthTest, bool Blending, bool Multisample, CullingMode CullingMode);
 
 }
