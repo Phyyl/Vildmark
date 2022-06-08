@@ -16,25 +16,20 @@ public partial class Renderer
 
     public Color4 ClearColor { get; set; } = Color4.Black;
 
-    public bool DepthTest { get; set; }
-    public bool Blending { get; set; }
-    public bool Multisample { get; set; }
-    public bool CullFace { get; set; }
-
     public int Width => renderOptions?.FrameBuffer?.Width ?? VildmarkGame.Width;
     public int Height => renderOptions?.FrameBuffer?.Height ?? VildmarkGame.Height;
 
-    public virtual void Begin(Camera camera, FrameBuffer? frameBuffer = default, bool clear = true)
+    public virtual void Begin(Camera camera, FrameBuffer? frameBuffer = default, bool clear = true, bool depthTest = false, bool multiSample = false, bool cullFace = true, bool blending = false)
     {
         if (renderOptions is not null)
         {
             End();
         }
 
-        renderOptions = new RenderOptions(camera, frameBuffer);
+        renderOptions = new RenderOptions(camera, frameBuffer, depthTest, blending, multiSample, cullFace);
         frameBuffer?.Bind();
 
-        SetOptions();
+        SetOptions(renderOptions);
         SetViewport();
 
         if (clear)
@@ -88,9 +83,9 @@ public partial class Renderer
         GL.Viewport(0, 0, width, height);
     }
 
-    private void SetOptions()
+    private void SetOptions(RenderOptions renderOptions)
     {
-        if (DepthTest)
+        if (renderOptions.DepthTest)
         {
             GL.Enable(EnableCap.DepthTest);
         }
@@ -99,7 +94,7 @@ public partial class Renderer
             GL.Disable(EnableCap.DepthTest);
         }
 
-        if (Blending)
+        if (renderOptions.Blending)
         {
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
@@ -109,7 +104,7 @@ public partial class Renderer
             GL.Disable(EnableCap.Blend);
         }
 
-        if (Multisample)
+        if (renderOptions.Multisample)
         {
             GL.Enable(EnableCap.Multisample);
         }
@@ -118,7 +113,7 @@ public partial class Renderer
             GL.Disable(EnableCap.Multisample);
         }
 
-        if (CullFace)
+        if (renderOptions.CullFace)
         {
             GL.Enable(EnableCap.CullFace);
         }
@@ -128,5 +123,6 @@ public partial class Renderer
         }
     }
 
-    private record class RenderOptions(Camera Camera, FrameBuffer? FrameBuffer);
+    private record class RenderOptions(Camera Camera, FrameBuffer? FrameBuffer, bool DepthTest, bool Blending, bool Multisample, bool CullFace);
+
 }
