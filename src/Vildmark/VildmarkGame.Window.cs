@@ -11,6 +11,7 @@ public abstract partial class VildmarkGame
 
     public static int Width => Size.X;
     public static int Height => Size.Y;
+    public static float AspectRatio => Width / (float)Height;
     public static bool IsFocused => Window.IsFocused;
 
     public static CursorState CursorState
@@ -24,6 +25,8 @@ public abstract partial class VildmarkGame
         get => Window.ClientRectangle.Size;
         set => Window.ClientRectangle = new Box2i(Window.ClientRectangle.Min, Window.ClientRectangle.Min + value);
     }
+
+    public static Vector2 Center => Size / 2;
 
     public static double UpdateFrequency
     {

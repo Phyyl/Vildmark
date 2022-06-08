@@ -1,4 +1,5 @@
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Windowing.Common;
 using System.Reflection;
 using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.Rendering;
@@ -35,6 +36,7 @@ public abstract partial class VildmarkGame
             T game = new();
 
             game.Load();
+            game.Resize(Width, Height);
 
             Window.Resize += e => game.Resize(e.Width, e.Height);
             Window.Closing += e => e.Cancel = !game.ShouldClose();

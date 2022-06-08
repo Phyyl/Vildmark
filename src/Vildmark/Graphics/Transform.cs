@@ -7,7 +7,7 @@ public class Transform
 {
     private Matrix4? matrix;
 
-    private float scale;
+    private Vector3 scale = Vector3.One;
     private Vector3 position;
     private Vector3 rotation;
     private Vector3 origin;
@@ -30,9 +30,9 @@ public class Transform
         set => SetValue(ref origin, value);
     }
 
-    public float Scale
+    public Vector3 Scale
     {
-        get => scale <= 0 ? (scale = 1) : scale;
+        get => scale;
         set => SetValue(ref scale, value);
     }
 
@@ -88,6 +88,24 @@ public class Transform
     {
         get => origin.Z;
         set => SetValue(ref origin.Z, value);
+    }
+
+    public float ScaleX
+    {
+        get => scale.X;
+        set => SetValue(ref scale.X, value);
+    }
+
+    public float ScaleY
+    {
+        get => scale.Y;
+        set => SetValue(ref scale.Y, value);
+    }
+
+    public float ScaleZ
+    {
+        get => scale.Z;
+        set => SetValue(ref scale.Z, value);
     }
 
     public Vector3 ForwardVector => new(MathF.Sin(RotationY), 0, -MathF.Cos(RotationY));
