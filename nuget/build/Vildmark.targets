@@ -33,10 +33,7 @@
 		</PropertyGroup>
 		
 		<WriteLinesToFile Overwrite="true" File="$(OutputCharSetFile)" Lines="%(VildmarkFont.CharSet)" ContinueOnError="false"></WriteLinesToFile>
-		<Warning Condition=" '%(VildmarkFont.Charset)' != '' "  Text="Vildmark font passed with charset: %(VildmarkFont.Charset)"></Warning>
-
 		<MakeDir Directories="$(IntermediateFontOutputPath)"></MakeDir>
-
 		<Exec Command="$(MsdfAtlasGenToolPath) -font &quot;$(InputFontFile)&quot; -charset &quot;$(OutputCharSetFile)&quot; -imageout &quot;$(ImageOutputFile)&quot; -json &quot;$(JsonOutputFile)&quot; -potr -size %(VildmarkFont.Size) -yorigin top"></Exec>
 
 		<ItemGroup>
