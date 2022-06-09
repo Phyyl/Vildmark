@@ -1,8 +1,8 @@
 ﻿namespace Vildmark.Graphics.Rendering;
 
-public enum CullingMode
+public enum RenderFace
 {
-    None,
+    All,
     Clockwise,
     CounterClockwise
 }
