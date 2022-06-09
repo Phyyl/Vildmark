@@ -19,14 +19,14 @@ public partial class Renderer
     public int Width => renderOptions?.FrameBuffer?.Width ?? VildmarkGame.Width;
     public int Height => renderOptions?.FrameBuffer?.Height ?? VildmarkGame.Height;
 
-    public virtual void Begin(Camera camera, FrameBuffer? frameBuffer = default, bool clear = true, bool depthTest = false, bool multiSample = false, bool blending = false, CullingMode cullingMode = CullingMode.None)
+    public virtual void Begin(Camera camera, FrameBuffer? frameBuffer = default, bool clear = true, bool depthTest = false, bool multiSample = false, bool blending = false, RenderFace renderFace = RenderFace.All)
     {
         if (renderOptions is not null)
         {
             End();
         }
 
-        renderOptions = new RenderOptions(camera, frameBuffer, depthTest, blending, multiSample, cullingMode);
+        renderOptions = new RenderOptions(camera, frameBuffer, depthTest, blending, multiSample, renderFace);
         frameBuffer?.Bind();
 
         SetOptions(renderOptions);
@@ -118,18 +118,18 @@ public partial class Renderer
             GL.Disable(EnableCap.Multisample);
         }
 
-        if (renderOptions.CullingMode == CullingMode.None)
+        if (renderOptions.RenderFace == RenderFace.All)
         {
             GL.Disable(EnableCap.CullFace);
         }
         else
         {
-            GL.FrontFace(renderOptions.CullingMode == CullingMode.CounterClockwise ? FrontFaceDirection.Ccw : FrontFaceDirection.Cw);
+            GL.FrontFace(renderOptions.RenderFace == RenderFace.CounterClockwise ? FrontFaceDirection.Ccw : FrontFaceDirection.Cw);
             GL.CullFace(CullFaceMode.Back);
             GL.Enable(EnableCap.CullFace);
         }
     }
 
-    private record class RenderOptions(Camera Camera, FrameBuffer? FrameBuffer, bool DepthTest, bool Blending, bool Multisample, CullingMode CullingMode);
+    private record class RenderOptions(Camera Camera, FrameBuffer? FrameBuffer, bool DepthTest, bool Blending, bool Multisample, RenderFace RenderFace);
 
 }

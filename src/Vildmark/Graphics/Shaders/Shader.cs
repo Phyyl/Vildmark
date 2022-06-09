@@ -15,9 +15,9 @@ public abstract class Shader<TVertex, TMaterial> : IShader<TVertex, TMaterial>
     private readonly ImmutableArray<Attrib> attribs;
     private readonly ImmutableArray<Uniform> uniforms;
 
-    protected Shader(string name)
-        : this(EmbeddedResources.GetEmbeddedStream($"{name}.vert", Assembly.GetCallingAssembly()).ReadAllText(),
-              EmbeddedResources.GetEmbeddedStream($"{name}.frag", Assembly.GetCallingAssembly()).ReadAllText())
+    protected Shader(string resourceName)
+        : this(EmbeddedResources.GetEmbeddedStream($"{resourceName}.vert", Assembly.GetCallingAssembly()).ReadAllText(),
+              EmbeddedResources.GetEmbeddedStream($"{resourceName}.frag", Assembly.GetCallingAssembly()).ReadAllText())
     {
     }
 
