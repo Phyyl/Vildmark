@@ -3,33 +3,14 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace Vildmark.Input;
 
-public class Mouse : InputDevice
+public static class Mouse
 {
-    public Vector2 Delta => GameWindow.MouseState.Delta;
-    public Vector2 Position => GameWindow.MouseState.Position;
-    public Vector2 Wheel => GameWindow.MouseState.ScrollDelta;
+    public static Vector2 Delta => VildmarkGame.Window.MouseState.Delta;
+    public static Vector2 Position => VildmarkGame.Window.MouseState.Position;
+    public static Vector2 Wheel => VildmarkGame.Window.MouseState.ScrollDelta;
 
-    internal Mouse()
-    {
-    }
-
-    public bool IsMouseDown(MouseButton mouseButton)
-    {
-        return GameWindow.IsMouseButtonDown(mouseButton);
-    }
-
-    public bool IsMousePressed(MouseButton mouseButton)
-    {
-        return GameWindow.IsMouseButtonPressed(mouseButton);
-    }
-
-    public bool IsMouseReleased(MouseButton mouseButton)
-    {
-        return GameWindow.IsMouseButtonReleased(mouseButton);
-    }
-
-    public bool IsMouseUp(MouseButton mouseButton)
-    {
-        return !GameWindow.IsMouseButtonDown(mouseButton);
-    }
+    public static bool IsMouseDown(MouseButton mouseButton) => VildmarkGame.Window.IsMouseButtonDown(mouseButton);
+    public static bool IsMousePressed(MouseButton mouseButton) => VildmarkGame.Window.IsMouseButtonPressed(mouseButton);
+    public static bool IsMouseReleased(MouseButton mouseButton) => VildmarkGame.Window.IsMouseButtonReleased(mouseButton);
+    public static bool IsMouseUp(MouseButton mouseButton) => !VildmarkGame.Window.IsMouseButtonDown(mouseButton);
 }

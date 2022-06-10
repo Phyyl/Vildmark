@@ -10,8 +10,6 @@ namespace Vildmark;
 public abstract partial class VildmarkGame
 {
     public Renderer Renderer { get; } = new();
-    public Mouse Mouse { get; } = new();
-    public Keyboard Keyboard { get; } = new();
 
     protected AutomaticOrthographicOffCenterCamera Automatic2DCamera { get; } = new();
 

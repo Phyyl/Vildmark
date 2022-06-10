@@ -2,18 +2,18 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace Vildmark.Input;
 
-public class Keyboard : InputDevice
+public static class Keyboard
 {
-    public event Action<Keys>? OnKeyPressed;
-    public event Action<Keys>? OnKeyReleased;
-    public event Action<char>? OnTextInput;
+    public static event Action<Keys>? OnKeyPressed;
+    public static event Action<Keys>? OnKeyReleased;
+    public static event Action<char>? OnTextInput;
 
-    internal Keyboard()
+    static Keyboard()
     {
-        GameWindow.KeyDown += e => OnKeyPressed?.Invoke(e.Key);
-        GameWindow.KeyUp += e => OnKeyReleased?.Invoke(e.Key);
-        GameWindow.TextInput += e => OnTextInput?.Invoke((char)e.Unicode);
-        GameWindow.KeyDown += e =>
+        VildmarkGame.Window.KeyDown += e => OnKeyPressed?.Invoke(e.Key);
+        VildmarkGame.Window.KeyUp += e => OnKeyReleased?.Invoke(e.Key);
+        VildmarkGame.Window.TextInput += e => OnTextInput?.Invoke((char)e.Unicode);
+        VildmarkGame.Window.KeyDown += e =>
         {
             char? chr = e.Key switch
             {
@@ -30,8 +30,8 @@ public class Keyboard : InputDevice
         };
     }
 
-    public bool IsKeyDown(Keys key) => GameWindow.IsKeyDown(key);
-    public bool IsKeyUp(Keys key) => !IsKeyDown(key);
-    public bool IsKeyPressed(Keys key) => GameWindow.KeyboardState.IsKeyDown(key) && !GameWindow.KeyboardState.WasKeyDown(key);
-    public bool IsKeyReleased(Keys key) => !GameWindow.KeyboardState.IsKeyDown(key) && GameWindow.KeyboardState.WasKeyDown(key);
+    public static bool IsKeyDown(Keys key) => VildmarkGame.Window.IsKeyDown(key);
+    public static bool IsKeyUp(Keys key) => !IsKeyDown(key);
+    public static bool IsKeyPressed(Keys key) => VildmarkGame.Window.KeyboardState.IsKeyDown(key) && !VildmarkGame.Window.KeyboardState.WasKeyDown(key);
+    public static bool IsKeyReleased(Keys key) => !VildmarkGame.Window.KeyboardState.IsKeyDown(key) && VildmarkGame.Window.KeyboardState.WasKeyDown(key);
 }

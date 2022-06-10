@@ -1,12 +1,11 @@
 using OpenTK.Mathematics;
-using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace Vildmark.Input;
 
-public class GamePad : InputDevice
+public class GamePad
 {
-    internal JoystickState? State => GameWindow.JoystickStates[Index];
+    internal JoystickState? State => VildmarkGame.Window.JoystickStates[Index];
 
     public int Index { get; }
     public bool IsConnected => State is not null;
