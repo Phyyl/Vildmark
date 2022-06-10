@@ -6,10 +6,7 @@ public static partial class Extensions
 
     public static IEnumerable<T> NotNull<T>(this IEnumerable<T?> enumerable) => enumerable.Where(v => v is not null)!;
 
-    public static void AddRange<T>(this IList<T> list, params T[] values)
-    {
-        list.AddRange(values);
-    }
+    public static IEnumerable<T> Except<T>(this IEnumerable<T> enumerable, params T[] values) => enumerable.Except(values.AsEnumerable());
 
     public static void AddRange<T>(this HashSet<T> hashSet, params T[] values)
     {
