@@ -10,9 +10,19 @@ public static class ResourceLoader
         return Load<TResource>(name, new FileResourceLoadContext(rootPath));
     }
 
+    public static TResource LoadFile<TResource, TOptions>(string name, TOptions options, string? rootPath = default)
+    {
+        return Load<TResource, TOptions>(name, options, new FileResourceLoadContext(rootPath));
+    }
+
     public static TResource LoadEmbedded<TResource>(string name, Assembly? assembly = default)
     {
         return Load<TResource>(name, new EmbeddedResourceLoadContext(assembly ?? Assembly.GetCallingAssembly()));
+    }
+
+    public static TResource LoadEmbedded<TResource, TOptions>(string name, TOptions options, Assembly? assembly = default)
+    {
+        return Load<TResource, TOptions>(name, options, new EmbeddedResourceLoadContext(assembly ?? Assembly.GetCallingAssembly()));
     }
 
     internal static TResource Load<TResource>(string name, ResourceLoadContext context)

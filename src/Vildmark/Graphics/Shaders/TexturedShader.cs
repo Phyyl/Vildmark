@@ -1,3 +1,4 @@
+using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.Textures;
@@ -19,7 +20,7 @@ public class TexturedShader : Shader<Vertex, TexturedMaterial>
     public Uniform<Color4> Tint { get; } = new("tint");
     public Uniform<Box2> SourceRect { get; } = new("source_rect");
 
-    public TexturedShader() 
+    public TexturedShader()
         : base("textured")
     {
     }
@@ -32,10 +33,8 @@ public class TexturedShader : Shader<Vertex, TexturedMaterial>
 
         Texture.SetUniform(material.Texture);
         Tint.SetUniform(material.Tint);
-        
-        if (material.Texture is SubTexture2D subTexture)
-        {
-            SourceRect.SetUniform(subTexture.SourceRectangle);
-        }
+
+        Box2 sourceRect = (material.Texture as SubTexture2D)?.SourceRectangle ?? new(0, 0, 1, 1);
+        SourceRect.SetUniform(sourceRect);
     }
 }
