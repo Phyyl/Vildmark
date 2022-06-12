@@ -25,7 +25,7 @@ public static partial class Extensions
     public static Vector4 ToVector(this Rectangle rectangle) => new(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
     public static Vector4 ToVector(this RectangleF rectangle) => new(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
 
-    public static Vector4 ToVector4(this Box2 box) => new(box.Min.X, box.Min.Y, box.Max.X, box.Min.Y);
+    public static Vector4 ToVector4(this Box2 box) => new(box.Min.X, box.Min.Y, box.Max.X, box.Max.Y);
 
     public static Vector2i ToVector2i(this Vector2 v) => new((int)v.X, (int)v.Y);
     public static Vector3i ToVector3i(this Vector3 v) => new((int)v.X, (int)v.Y, (int)v.Z);
