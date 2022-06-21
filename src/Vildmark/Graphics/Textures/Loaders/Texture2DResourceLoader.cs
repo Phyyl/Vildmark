@@ -1,8 +1,9 @@
-using System.Drawing.Imaging;
-using System.Drawing;
 using Vildmark.Graphics.GLObjects;
 using Vildmark.Resources;
 using OpenTK.Graphics.OpenGL4;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using System.Buffers;
 
 namespace Vildmark.Graphics.Textures.Loaders;
 
@@ -21,12 +22,10 @@ internal class Texture2DResourceLoader : IResourceLoader<Texture2D, Texture2DOpt
 
     public unsafe Texture2D Load(string name, Texture2DOptions options, ResourceLoadContext context)
     {
-        Bitmap bitmap = new(context.GetStream(name));
-        BitmapData data = bitmap.LockBits(new Rectangle(Point.Empty, bitmap.Size), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-        Span<byte> span = new(data.Scan0.ToPointer(), bitmap.Width * 4 * bitmap.Height);
-        GLTexture2D texture = new(bitmap.Width, bitmap.Height, span);
-        
-        bitmap.UnlockBits(data);
+        Image<Rgba32> image = Image.Load<Rgba32>(context.GetStream(name));
+        using var buffer = MemoryPool<byte>.Shared.Rent(image.Width * image.Height * 4);
+
+        GLTexture2D texture = new GLTexture2D(image.Width, image.Height, buffer.Memory.Span);
         texture.Configure(options.MagFilter, options.MinFilter, options.WrapS, options.WrapT);
 
         return new(texture);

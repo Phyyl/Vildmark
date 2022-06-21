@@ -1,6 +1,5 @@
 using OpenTK.Mathematics;
 using OpenTK.Graphics.OpenGL4;
-using System.Drawing;
 using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Textures;
 using Vildmark.Logging;
@@ -28,9 +27,6 @@ internal static class StaticTypeInfo
 
         Storage<Vector4>.UniformSetter = (l, v, i) => GL.Uniform4(l, v);
         Storage<Vector4>.AttribSize = 4;
-
-        Storage<RectangleF>.UniformSetter = (l, v, i) => SetUniform(l, v.ToVector(), i);
-        Storage<RectangleF>.AttribSize = 4;
 
         Storage<Box2>.UniformSetter = (l, v, i) => SetUniform(l, v.ToVector4(), i);
         Storage<Box2>.AttribSize = 4;

@@ -1,5 +1,4 @@
 using OpenTK.Mathematics;
-using System.Drawing;
 using Vildmark.Maths.Physics;
 
 namespace Vildmark;
@@ -22,37 +21,18 @@ public static partial class Extensions
     public static Vector3 Abs(this Vector3 v) => new(Math.Abs(v.X), Math.Abs(v.Y), Math.Abs(v.Z));
     public static Vector4 Abs(this Vector4 v) => new(Math.Abs(v.X), Math.Abs(v.Y), Math.Abs(v.Z), Math.Abs(v.W));
 
-    public static Vector4 ToVector(this Rectangle rectangle) => new(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
-    public static Vector4 ToVector(this RectangleF rectangle) => new(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
-
     public static Vector4 ToVector4(this Box2 box) => new(box.Min.X, box.Min.Y, box.Max.X, box.Max.Y);
 
     public static Vector2i ToVector2i(this Vector2 v) => new((int)v.X, (int)v.Y);
     public static Vector3i ToVector3i(this Vector3 v) => new((int)v.X, (int)v.Y, (int)v.Z);
     public static Vector4i ToVector4i(this Vector4 v) => new((int)v.X, (int)v.Y, (int)v.Z, (int)v.W);
 
-    public static RectangleF ToRectangleF(this Vector4 v) => new(v.X, v.Y, v.Z, v.W);
-    public static RectangleF Inflated(this RectangleF rectangle, Vector2 size) => rectangle.Inflated(size.X, size.Y);
-    public static RectangleF Inflated(this RectangleF rectangle, float x, float y) => new(rectangle.X - x, rectangle.Y - y, rectangle.Width + x + x, rectangle.Height + y + y);
-    public static RectangleF Translated(this RectangleF rectangle, Vector2 offset) => rectangle.Translated(offset.X, offset.Y);
-    public static RectangleF Translated(this RectangleF rectangle, float x, float y) => new(rectangle.X + x, rectangle.Y + y, rectangle.Width, rectangle.Height);
-
-    public static Vector2 GetCenter(this RectangleF rectangle) => new((rectangle.Left + rectangle.Right) / 2f, (rectangle.Top + rectangle.Bottom) / 2f);
-
-    public static Vector2 GetTopLeft(this RectangleF rectangle) => new(rectangle.Left, rectangle.Top);
-    public static Vector2 GetBottomLeft(this RectangleF rectangle) => new(rectangle.Left, rectangle.Bottom);
-    public static Vector2 GetBottomRight(this RectangleF rectangle) => new(rectangle.Right, rectangle.Bottom);
-    public static Vector2 GetTopRight(this RectangleF rectangle) => new(rectangle.Right, rectangle.Top);
-
     public static Vector2 GetTopLeft(this Box2 rectangle) => new(rectangle.Min.X, rectangle.Min.Y);
     public static Vector2 GetBottomLeft(this Box2 rectangle) => new(rectangle.Min.X, rectangle.Max.Y);
     public static Vector2 GetBottomRight(this Box2 rectangle) => new(rectangle.Max.X, rectangle.Max.Y);
     public static Vector2 GetTopRight(this Box2 rectangle) => new(rectangle.Max.X, rectangle.Min.Y);
 
-    public static Vector2 ToVector(this SizeF size) => new(size.Width, size.Height);
-    public static Vector2 ToVector(this PointF size) => new(size.X, size.Y);
     public static Vector4 ToVector(this Color4 color) => new(color.R, color.G, color.B, color.A);
-
     public static Color4 ToColor4(this Vector4 color) => new(color.X, color.Y, color.Z, color.W);
 
     public static Vector2 Reflected(this Vector2 vector, Vector2 normal)
