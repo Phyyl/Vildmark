@@ -25,7 +25,9 @@ internal class Texture2DResourceLoader : IResourceLoader<Texture2D, Texture2DOpt
         Image<Rgba32> image = Image.Load<Rgba32>(context.GetStream(name));
         using var buffer = MemoryPool<byte>.Shared.Rent(image.Width * image.Height * 4);
 
-        GLTexture2D texture = new GLTexture2D(image.Width, image.Height, buffer.Memory.Span);
+        image.CopyPixelDataTo(buffer.Memory.Span);
+
+        GLTexture2D texture = new(image.Width, image.Height, buffer.Memory.Span);
         texture.Configure(options.MagFilter, options.MinFilter, options.WrapS, options.WrapT);
 
         return new(texture);
