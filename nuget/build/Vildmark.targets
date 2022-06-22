@@ -1,8 +1,22 @@
 <Project>
 
+    <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
+		<SystemFontPath>C:\Windows\Fonts\</SystemFontPath>
+		<MsdfAtlasGenToolPath>$(MSBuildThisFileDirectory)..\tools\win-x64\msdf-atlas-gen.exe</MsdfAtlasGenToolPath>
+    </PropertyGroup>
+    
+    <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Linux'))">
+	    <SystemFontPath>/usr/share/fonts/</SystemFontPath>
+	    <MsdfAtlasGenToolPath>$(MSBuildThisFileDirectory)..\tools\linux-x64\msdf-atlas-gen</MsdfAtlasGenToolPath>
+    </PropertyGroup>
+    
+    <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
+	    <SystemFontPath>/System/Library/Fonts/</SystemFontPath>
+	    <MsdfAtlasGenToolPath>$(MSBuildThisFileDirectory)..\tools\macos-x64\msdf-atlas-gen</MsdfAtlasGenToolPath>
+    </PropertyGroup>
+    
 	<Target Name="ResolveVildmarkSystemFontFiles"  BeforeTargets="BeforeBuild;GenerateVildmarkFonts" Condition=" '@(VildmarkSystemFont)' != '' " Outputs="%(VildmarkSystemFont.Identity)">
 		<PropertyGroup>
-			<SystemFontPath>C:\Windows\Fonts\</SystemFontPath>
 			<SystemFontFile>$(SystemFontPath)%(VildmarkSystemFont.Identity)</SystemFontFile>
 		</PropertyGroup>
 		<ItemGroup Condition="Exists('$(SystemFontFile)')">
@@ -15,7 +29,6 @@
 	</Target>
 	
 	<Target Name="GenerateVildmarkFonts" BeforeTargets="BeforeBuild" Condition=" '@(VildmarkFont)' != '' " Outputs="%(VildmarkFont.Identity)">
-
 		
 		<PropertyGroup>
 			<InputFontFile>%(VildmarkFont.FullPath)</InputFontFile>
@@ -24,7 +37,6 @@
 			<OutputLogicalNamePrefix Condition=" '%(VildmarkFont.LogicalNamePrefix)' != '' ">%(VildmarkFont.LogicalNamePrefix)</OutputLogicalNamePrefix>
 			<OutputLogicalNamePrefix Condition=" '%(VildmarkFont.LogicalNamePrefix)' == '' ">$(AssemblyName).$(InputFontRelativeDir.Replace("\", "."))$(InputFontName)</OutputLogicalNamePrefix>
 			<IntermediateFontOutputPath>$(IntermediateOutputPath)Vildmark\Font\$(OutputLogicalNamePrefix)\</IntermediateFontOutputPath>
-			<MsdfAtlasGenToolPath>$(MSBuildThisFileDirectory)..\tools\win-x64\msdf-atlas-gen.exe</MsdfAtlasGenToolPath>
 			<ImageOutputFile>$(IntermediateFontOutputPath)atlas.png</ImageOutputFile>
 			<JsonOutputFile>$(IntermediateFontOutputPath)atlas.json</JsonOutputFile>
 			<OutputCharSetFile>$(IntermediateFontOutputPath)charset.txt</OutputCharSetFile>
