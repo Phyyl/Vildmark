@@ -27,7 +27,7 @@ public partial class Renderer
 
     public void RenderCircle(Vector2 center, float radius, TexturedMaterial material, int sides = 0, Transform? transform = default)
     {
-        sides = Math.Max(sides, (int)(MathF.Sqrt(radius * 12) + 12f));
+        sides = Math.Max(sides, (int)(MathF.Round((MathF.Sqrt(radius * 12) + 12f) / 4f) * 4f));
 
         float angleStep = 1f / sides * MathF.Tau;
         Vertex[] vertices = new Vertex[sides + 2];

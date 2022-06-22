@@ -10,6 +10,8 @@ public abstract class ResourceLoadContext
 
     public TResource Load<TResource>(string name) => ResourceLoader.Load<TResource>(name, this);
 
+    public TResource Load<TResource, TOptions>(string name, TOptions options) => ResourceLoader.Load<TResource, TOptions>(name, options, this);
+
     public byte[] LoadAllBytes(string name) => GetStream(name).ReadAllBytes();
 
     public string LoadAllText(string name) => GetStream(name).ReadAllText();
