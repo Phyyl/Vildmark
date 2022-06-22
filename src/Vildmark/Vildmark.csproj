@@ -11,33 +11,47 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ContentWithTargetPath Include="..\nuget\libs\windows\*">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<TargetPath>runtimes\win-x64\native\%(Filename)%(Extension)</TargetPath>
-		</ContentWithTargetPath>
-	</ItemGroup>
-		
-	<ItemGroup>
-		<None Include="..\nuget\libs\windows\*">
+		<None Include="..\..\nuget\libs\win-x64\*">
 			<PackagePath>runtimes\win-x64\native</PackagePath>
 			<Pack>true</Pack>
 			<Visible>false</Visible>
 		</None>
-		<None Include="..\nuget\tools\win-x64\*">
-			<PackagePath>tools\win-x64</PackagePath>
+		<None Include="..\..\nuget\libs\linux-x64\*">
+			<PackagePath>runtimes\linux-x64\native</PackagePath>
 			<Pack>true</Pack>
 			<Visible>false</Visible>
 		</None>
-		<None Include="..\nuget\build\*">
-			<PackagePath>build</PackagePath>
+		<None Include="..\..\nuget\libs\osx-x64\*">
+			<PackagePath>runtimes\osx-x64\native</PackagePath>
 			<Pack>true</Pack>
 			<Visible>false</Visible>
 		</None>
 	</ItemGroup>
-		
+	
 	<ItemGroup>
-	  <None Remove="Resources\Shaders\msdf.frag" />
-	  <None Remove="Resources\Shaders\msdf.vert" />
+		<None Include="..\..\nuget\tools\win-x64\*">
+			<PackagePath>tools\win-x64</PackagePath>
+			<Pack>true</Pack>
+			<Visible>false</Visible>
+		</None>
+		<None Include="..\..\nuget\tools\linux-x64\*">
+			<PackagePath>tools\linux-x64</PackagePath>
+			<Pack>true</Pack>
+			<Visible>false</Visible>
+		</None>
+		<None Include="..\..\nuget\tools\osx-x64\*">
+			<PackagePath>tools\osx-x64</PackagePath>
+			<Pack>true</Pack>
+			<Visible>false</Visible>
+		</None>
+	</ItemGroup>
+	
+	<ItemGroup>
+		<None Include="..\..\nuget\build\*">
+			<PackagePath>build</PackagePath>
+			<Pack>true</Pack>
+			<Visible>false</Visible>
+		</None>
 	</ItemGroup>
 
 	<ItemGroup>

@@ -18,7 +18,7 @@ internal static class NativeLibraryHelper
         }
         else if (OperatingSystem.IsMacOS())
         {
-            path = $"runtimes/macos-x64/native/{macOSName}";
+            path = $"runtimes/osx-x64/native/{macOSName}";
         }
         else
         {
