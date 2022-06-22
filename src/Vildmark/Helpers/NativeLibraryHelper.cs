@@ -4,11 +4,27 @@ namespace Vildmark.Helpers;
 
 internal static class NativeLibraryHelper
 {
-    public static IntPtr LoadNativeLibrary(string name)
+    public static IntPtr LoadNativeLibrary(string windowsName, string linuxName, string macOSName)
     {
-        string osFolder = OperatingSystem.IsLinux() ? "linux-x64" : "win-x64";
-        string loadPath = $@"runtimes\{osFolder}\native\{name}";
+        string? path = null;
 
-        return NativeLibrary.Load(loadPath);
+        if (OperatingSystem.IsWindows())
+        {
+            path = $"runtimes\\win-x64\\native\\{windowsName}";
+        }
+        else if (OperatingSystem.IsLinux())
+        {
+            path = $"runtimes/linux-x64/native/{linuxName}";
+        }
+        else if (OperatingSystem.IsMacOS())
+        {
+            path = $"runtimes/macos-x64/native/{macOSName}";
+        }
+        else
+        {
+            throw new PlatformNotSupportedException();
+        }
+
+        return NativeLibrary.Load(path);
     }
 }

@@ -20,7 +20,7 @@ internal static class OpenALContext
         //    }
         //}
 
-        NativeLibraryHelper.LoadNativeLibrary("openal32");
+        NativeLibraryHelper.LoadNativeLibrary("openal32.dll", "libopenal.so", "libopenal.dylib");
 
         device = ALC.OpenDevice(null);
         context = ALC.CreateContext(device, (int[])null!);

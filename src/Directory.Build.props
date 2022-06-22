@@ -1,6 +1,5 @@
 <Project>
     <PropertyGroup>
-        <LangVersion>latest</LangVersion>
         <TargetFramework>net6.0</TargetFramework>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <ImplicitUsings>enable</ImplicitUsings>
