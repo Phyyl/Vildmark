@@ -1,4 +1,4 @@
-#version 420
+#version 410
 
 uniform sampler2D tex;
 uniform vec4 tint;
