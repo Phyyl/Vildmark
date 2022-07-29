@@ -11,8 +11,6 @@ public abstract partial class VildmarkGame
 {
     public Renderer Renderer { get; } = new();
 
-    protected AutomaticOrthographicOffCenterCamera Automatic2DCamera { get; } = new();
-
     protected virtual void Load() { }
     protected virtual void Render(float delta) { }
     protected virtual void Update(float delta) { }
