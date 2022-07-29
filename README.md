@@ -1,2 +1,2 @@
 # Vildmark
-Code-first game engine in C#
+Simple game framework in C# (no editor, all code!)
