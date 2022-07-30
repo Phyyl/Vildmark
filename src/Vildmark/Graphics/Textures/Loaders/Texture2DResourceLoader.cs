@@ -22,7 +22,8 @@ internal class Texture2DResourceLoader : IResourceLoader<Texture2D, Texture2DOpt
 
     public unsafe Texture2D Load(string name, Texture2DOptions options, ResourceLoadContext context)
     {
-        Image<Rgba32> image = Image.Load<Rgba32>(context.GetStream(name));
+        Image baseImage = Image.Load(context.GetStream(name));
+        using var image = baseImage.CloneAs<Bgra32>();
         using var buffer = MemoryPool<byte>.Shared.Rent(image.Width * image.Height * 4);
 
         image.CopyPixelDataTo(buffer.Memory.Span);
