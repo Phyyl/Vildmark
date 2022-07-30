@@ -1,6 +1,8 @@
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text.Json;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace Vildmark.Resources;
 
@@ -18,7 +20,9 @@ public abstract class ResourceLoadContext
 
     public string[] LoadAllLines(string name) => GetStream(name).ReadAllLines();
 
-    public TResource LoadJson<TResource>(string name) => JsonSerializer.Deserialize<TResource>(LoadAllText(name)) ?? throw new SerializationException($@"Could not deserialize object of type {typeof(TResource).Name} from resource ""{name}""");
+    public TResource LoadJson<TResource>(string name) => JsonSerializer.Deserialize<TResource>(LoadAllText(name)) ?? throw new SerializationException($@"Could not deserialize object of type {typeof(TResource).Name} from json resource ""{name}""");
+
+    public TResource LoadXml<TResource>(string name) where TResource : class => new XmlSerializer(typeof(TResource)).Deserialize(GetStream(name)) as TResource ?? throw new SerializationException($@"Could not deserialize object of type {typeof(TResource).Name} from xml resource ""{name}""");
 }
 
 public class EmbeddedResourceLoadContext : ResourceLoadContext
