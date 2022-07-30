@@ -45,7 +45,7 @@
 			<OutputImageLogicalName>$(OutputLogicalNamePrefix).png</OutputImageLogicalName>
 			<OutputJsonLogicalName>$(OutputLogicalNamePrefix).json</OutputJsonLogicalName>
 		</PropertyGroup>
-		
+
 		<WriteLinesToFile Overwrite="true" File="$(OutputCharSetFile)" Lines="%(VildmarkFont.CharSet)" ContinueOnError="false"></WriteLinesToFile>
 		<MakeDir Directories="$(IntermediateFontOutputPath)"></MakeDir>
 		<Exec Command="$(MsdfAtlasGenToolPath) -font &quot;$(InputFontFile)&quot; -charset &quot;$(OutputCharSetFile)&quot; -imageout &quot;$(ImageOutputFile)&quot; -json &quot;$(JsonOutputFile)&quot; -potr -size %(VildmarkFont.Size) -yorigin top"></Exec>

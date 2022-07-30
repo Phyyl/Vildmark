@@ -4,6 +4,7 @@ using System.Reflection;
 using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.Rendering;
 using Vildmark.Input;
+using Vildmark.Logging;
 
 namespace Vildmark;
 
@@ -31,6 +32,11 @@ public abstract partial class VildmarkGame
 
             T game = new();
 
+            if (game is VildmarkGame<T> instanceGame)
+            {
+                VildmarkGame<T>.Instance = game;
+            }
+
             game.Load();
             game.Resize(Width, Height);
 
@@ -54,5 +60,17 @@ public abstract partial class VildmarkGame
     {
         Console.WriteLine($"OpenGL version: {GL.GetInteger(GetPName.MajorVersion)}.{GL.GetInteger(GetPName.MinorVersion)}");
         Console.WriteLine($"Maximum texture size: {GL.GetInteger(GetPName.MaxTextureSize)}x{GL.GetInteger(GetPName.MaxTextureSize)}");
+    }
+}
+
+public abstract class VildmarkGame<T> : VildmarkGame
+    where T : VildmarkGame
+{
+    private static T? instance;
+
+    public static T Instance
+    {
+        get => instance ?? throw new InvalidOperationException("Game not yet initialized");
+        internal set => instance ??= value;
     }
 }
