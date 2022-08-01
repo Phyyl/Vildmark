@@ -53,8 +53,8 @@ public static partial class Extensions
     {
         Face3.Left => -Vector3.UnitX,
         Face3.Right => Vector3.UnitX,
-        Face3.Top => -Vector3.UnitY,
-        Face3.Bottom => Vector3.UnitY,
+        Face3.Top => Vector3.UnitY,
+        Face3.Bottom => -Vector3.UnitY,
         Face3.Back => -Vector3.UnitZ,
         Face3.Front => Vector3.UnitZ,
         _ => @default

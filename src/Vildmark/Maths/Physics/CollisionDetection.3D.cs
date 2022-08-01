@@ -56,11 +56,11 @@ public static partial class CollisionDetection
             {
                 float ood = 1 / delta[i];
                 (float t, bool min) t1 = ((box.Min[i] - line.Start[i]) * ood, true);
-                (float t, bool min) t3 = ((box.Max[i] - line.Start[i]) * ood, false);
+                (float t, bool min) t2 = ((box.Max[i] - line.Start[i]) * ood, false);
 
-                if (t1.t > t3.t)
+                if (t1.t > t2.t)
                 {
-                    (t1, t3) = (t3, t1);
+                    (t1, t2) = (t2, t1);
                 }
 
                 if (t1.t > tMin)
@@ -70,10 +70,10 @@ public static partial class CollisionDetection
                     Vector3 pos = line.Start + delta * tMin;
                     pos[i] = t1.min ? box.Min[i] : box.Max[i];
 
-                    intersection = new(pos, (Face3)(1 << (i * 3 + (t1.min ? 0 : 1))));
+                    intersection = new(pos, (Face3)(1 << (i * 2 + (t1.min ? 0 : 1))));
                 }
 
-                tMax = Math.Min(tMax, t3.t);
+                tMax = Math.Min(tMax, t2.t);
 
                 if (tMin > tMax)
                 {

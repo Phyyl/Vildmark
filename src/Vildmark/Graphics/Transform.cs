@@ -108,7 +108,8 @@ public class Transform
         set => SetValue(ref scale.Z, value);
     }
 
-    public Vector3 ForwardVector => new(MathF.Sin(RotationY), 0, -MathF.Cos(RotationY));
+    public Vector3 HorizontalForwardVector => new(MathF.Sin(RotationY), 0, -MathF.Cos(RotationY));
+    public Vector3 ForwardVector => new(MathF.Sin(RotationY) * MathF.Cos(RotationX), MathF.Sin(-RotationX), -MathF.Cos(RotationY) * MathF.Cos(RotationX));
     public Vector3 RightVector => new(MathF.Cos(RotationY), 0, MathF.Sin(RotationY));
 
     public Matrix4 Matrix => matrix ??= CreateMatrix();
