@@ -2,14 +2,14 @@
 using Vildmark.Graphics.Meshes;
 using Vildmark.Graphics.Rendering;
 
-namespace Vildmark.Graphics.Fonts.Msdf;
+namespace Vildmark.Graphics.Fonts;
 
-public class MsdfText
+public class FontText
 {
     private bool needsUpdate = true;
 
     private readonly Mesh<Vertex> mesh = new();
-    private readonly MsdfFont font;
+    private readonly Font font;
     private string text;
     private float fontSize;
     private float maxLineLength;
@@ -34,7 +34,7 @@ public class MsdfText
         set => SetValue(ref maxLineLength, value);
     }
 
-    public MsdfText(MsdfFont font, string text, float fontSize, float maxLineLength = float.PositiveInfinity)
+    public FontText(Font font, string text, float fontSize, float maxLineLength = float.PositiveInfinity)
     {
         this.font = font;
         this.text = text;
@@ -50,7 +50,7 @@ public class MsdfText
             needsUpdate = false;
         }
 
-        renderer.Render(mesh, new MsdfMaterial(font.Texture, foreground, background ?? foreground with { A = 0 }, font.Info.DistanceRange), MsdfFont.Shader, transform);
+        renderer.Render(mesh, new FontMaterial(font.Texture, foreground, background ?? foreground with { A = 0 }, 1f), Font.Shader, transform);
     }
 
     private void UpdateMesh()

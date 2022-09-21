@@ -4,19 +4,19 @@ using Vildmark.Graphics.Rendering;
 using Vildmark.Graphics.Textures;
 using Vildmark.Resources;
 
-namespace Vildmark.Graphics.Fonts.Msdf;
+namespace Vildmark.Graphics.Fonts;
 
 [ResourceLoader(typeof(MsdfFontResourceLoader))]
-public class MsdfFont
+public class Font
 {
-    private readonly MsdfText text;
+    private readonly FontText text;
 
-    internal static MsdfShader Shader { get; } = new();
+    internal static FontShader Shader { get; } = new();
 
     internal Texture2D Texture { get; }
-    internal MsdfFontInfo Info { get; }
+    internal FontInfo Info { get; }
 
-    internal MsdfFont(MsdfFontInfo info, Texture2D texture)
+    internal Font(FontInfo info, Texture2D texture)
     {
         Info = info;
         Texture = texture;
@@ -58,12 +58,12 @@ public class MsdfFont
                 continue;
             }
 
-            if (!Info.TryGetGlyph(chr, out MsdfGlyph glyph))
+            if (!Info.TryGetGlyph(chr, out FontGlyph glyph))
             {
                 continue;
             }
 
-            if ((position.X + glyph.Advance * size) > maxLineLength)
+            if (position.X + glyph.Advance * size > maxLineLength)
             {
                 GoToNextLine();
             }
@@ -115,8 +115,8 @@ public class MsdfFont
         return new(min, max);
     }
 
-    public MsdfText CreateText(string text, float size, float maxLineLength = float.PositiveInfinity)
+    public FontText CreateText(string text, float size, float maxLineLength = float.PositiveInfinity)
     {
-        return new MsdfText(this, text, size, maxLineLength);
+        return new FontText(this, text, size, maxLineLength);
     }
 }

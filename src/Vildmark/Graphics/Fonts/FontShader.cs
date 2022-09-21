@@ -3,9 +3,9 @@ using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.Shaders;
 using Vildmark.Graphics.Textures;
 
-namespace Vildmark.Graphics.Fonts.Msdf;
+namespace Vildmark.Graphics.Fonts;
 
-public class MsdfShader : Shader<Vertex, MsdfMaterial>
+public class FontShader : Shader<Vertex, FontMaterial>
 {
     public Attrib<Vertex, Vector3> Position { get; } = new("vert_position", Vertex.PositionOffset);
     public Attrib<Vertex, Vector2> TexCoord { get; } = new("vert_texcoord", Vertex.TexCoordOffset);
@@ -19,12 +19,12 @@ public class MsdfShader : Shader<Vertex, MsdfMaterial>
     public Uniform<Color4> ForegroundColor { get; } = new("foreground_color");
     public Uniform<float> PxRange { get; } = new("px_range");
 
-    public MsdfShader()
+    public FontShader()
         : base("msdf")
     {
     }
 
-    public override void Setup(MsdfMaterial material, Camera camera, Transform? transform = null)
+    public override void Setup(FontMaterial material, Camera camera, Transform? transform = null)
     {
         ProjectionMatrix.SetUniform(camera.ProjectionMatrix);
         ViewMatrix.SetUniform(camera.ViewMatrix);

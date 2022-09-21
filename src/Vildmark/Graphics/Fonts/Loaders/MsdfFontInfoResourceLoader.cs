@@ -1,25 +1,24 @@
 ﻿using OpenTK.Mathematics;
 using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
-using Vildmark.Graphics.Fonts.Msdf;
 using Vildmark.Resources;
 
 namespace Vildmark.Graphics.Fonts.Loaders;
 
-internal class MsdfFontInfoResourceLoader : IResourceLoader<MsdfFontInfo>
+internal class MsdfFontInfoResourceLoader : IResourceLoader<FontInfo>
 {
-    public MsdfFontInfo Load(string name, ResourceLoadContext context)
+    public FontInfo Load(string name, ResourceLoadContext context)
     {
         JsonFontInfo jsonInfo = context.LoadJson<JsonFontInfo>(name);
 
-        return new MsdfFontInfo(jsonInfo.Atlas.Width, jsonInfo.Atlas.Height, jsonInfo.Metrics.LineHeight, jsonInfo.Atlas.DistanceRange, CreateGlyphs(jsonInfo), CreateKernings(jsonInfo));
+        return new FontInfo(jsonInfo.Atlas.Width, jsonInfo.Atlas.Height, jsonInfo.Metrics.LineHeight, jsonInfo.Atlas.DistanceRange, CreateGlyphs(jsonInfo), CreateKernings(jsonInfo));
     }
 
-    private ReadOnlyDictionary<char, MsdfGlyph> CreateGlyphs(JsonFontInfo jsonInfo)
+    private ReadOnlyDictionary<char, FontGlyph> CreateGlyphs(JsonFontInfo jsonInfo)
     {
         static Box2 CreateBounds(JsonBounds? jsonBounds) => jsonBounds is null ? new Box2() : new(jsonBounds.Left, jsonBounds.Top, jsonBounds.Right, jsonBounds.Bottom);
 
-        return new(jsonInfo.Glyphs.ToDictionary(g => (char)g.Unicode, g => new MsdfGlyph((char)g.Unicode, CreateBounds(g.PlaneBounds), CreateBounds(g.AtlasBounds), g.Advance)));
+        return new(jsonInfo.Glyphs.ToDictionary(g => (char)g.Unicode, g => new FontGlyph((char)g.Unicode, CreateBounds(g.PlaneBounds), CreateBounds(g.AtlasBounds), g.Advance)));
     }
 
     private ReadOnlyDictionary<(char, char), float> CreateKernings(JsonFontInfo jsonInfo)
