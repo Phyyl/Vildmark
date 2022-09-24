@@ -50,7 +50,7 @@ public class FontText
             needsUpdate = false;
         }
 
-        renderer.Render(mesh, new FontMaterial(font.Texture, foreground, background ?? foreground with { A = 0 }, 1f), Font.Shader, transform);
+        renderer.Render(mesh, new FontMaterial(font.Texture, foreground, background ?? foreground with { A = 0 }, 1.75f), Font.Shader, transform);
     }
 
     private void UpdateMesh()

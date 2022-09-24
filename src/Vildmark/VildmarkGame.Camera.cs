@@ -18,14 +18,14 @@ public partial class VildmarkGame
         return camera;
     }
 
-    protected static OrthographicCamera CreateAutoOrthographicCamera(float zNear = 1, float zFar = -1)
+    protected static OrthographicCamera CreateAutoOrthographicCamera(float fovY = 1, float zNear = 0.01f, float zFar = 1000)
     {
         OrthographicCamera camera = new(Width, Height, zNear, zFar);
 
         Window.Resize += e =>
         {
-            camera.Width = e.Width;
-            camera.Height = e.Height;
+            camera.Width = fovY * AspectRatio;
+            camera.Height = fovY;
         };
 
         return camera;
