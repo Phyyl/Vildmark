@@ -20,7 +20,7 @@ public partial class VildmarkGame
 
     protected static OrthographicCamera CreateAutoOrthographicCamera(float fovY = 1, float zNear = 0.01f, float zFar = 1000)
     {
-        OrthographicCamera camera = new(Width, Height, zNear, zFar);
+        OrthographicCamera camera = new(fovY * AspectRatio, fovY, zNear, zFar);
 
         Window.Resize += e =>
         {
