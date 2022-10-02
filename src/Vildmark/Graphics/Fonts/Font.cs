@@ -40,7 +40,7 @@ public class Font
         }
 
         List<Vertex> vertices = new();
-        Vector2 lineStart = new(0, Info.LineHeight * size);
+        Vector2 lineStart = new(0, size);
         Vector2 position = lineStart;
         char previous = '\0';
 

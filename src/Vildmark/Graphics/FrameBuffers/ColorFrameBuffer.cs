@@ -4,6 +4,7 @@ using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Rendering;
 using Vildmark.Graphics.Shaders;
 using Vildmark.Graphics.Textures;
+using Vildmark.Helpers;
 
 namespace Vildmark.Graphics.FrameBuffers;
 
@@ -30,6 +31,6 @@ public class ColorFrameBuffer : FrameBuffer
 
     public virtual void Render(Renderer renderContext, IShader? shader = default)
     {
-        renderContext.RenderRectangle(new Box2(0, 0, renderContext.Width, renderContext.Height), new Texture2D(GLTexture), new Transform() { OriginY = renderContext.Height / 2f, RotationX = MathF.PI });
+        renderContext.RenderRectangle(GeometryHelper.Fit(renderContext.Bounds, Bounds), new Texture2D(GLTexture), new Transform() { OriginY = renderContext.Height, RotationX = MathF.PI });
     }
 }

@@ -15,6 +15,7 @@ public abstract class FrameBuffer
     {
         GLFramebuffer = new GLFramebuffer();
         GLTexture = new GLTexture2D(width, height, default, format.PixelFormat, format.PixelInternalFormat, format.PixelType);
+        GLTexture.Configure(TextureMagFilter.Nearest, TextureMinFilter.Nearest, TextureWrapMode.ClampToBorder, TextureWrapMode.ClampToBorder);
 
         GLFramebuffer.Bind();
         GLFramebuffer.SetTexture(GLTexture, framebufferAttachment);
@@ -26,9 +27,12 @@ public abstract class FrameBuffer
     internal GLFramebuffer GLFramebuffer { get; }
     internal GLTexture2D GLTexture { get; }
 
+    public Texture2D Texture => new(GLTexture);
+
     public int Width => GLTexture.Width;
     public int Height => GLTexture.Height;
     public Vector2 Size => GLTexture.Size;
+    public Box2 Bounds => new(0, 0, Width, Height);
 
     protected abstract void InitializeReadBuffer(int width, int height);
     protected abstract void InitializeDrawBuffer(int width, int height);

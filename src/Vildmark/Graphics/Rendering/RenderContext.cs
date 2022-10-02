@@ -2,6 +2,7 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.FrameBuffers;
+using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Meshes;
 using Vildmark.Graphics.Shaders;
 using Vildmark.Logging;
@@ -18,6 +19,8 @@ public partial class Renderer
 
     public int Width => renderOptions?.FrameBuffer?.Width ?? VildmarkGame.Width;
     public int Height => renderOptions?.FrameBuffer?.Height ?? VildmarkGame.Height;
+    public Vector2 Size => new(Width, Height);
+    public Box2 Bounds => new(0, 0, Width, Height);
 
     public virtual void Begin(Camera camera, FrameBuffer? frameBuffer = default, bool clear = true, bool depthTest = false, bool multiSample = false, bool blending = false, RenderFace renderFace = RenderFace.All)
     {
