@@ -1,6 +1,4 @@
-﻿using OpenTK.Mathematics;
-
-namespace Vildmark.Maths.Physics;
+﻿namespace Vildmark.Maths.Physics;
 
 public record Intersection2(Vector2 HitPosition, Face2 Face);
 public record Intersection2<T> : Intersection2 where T : IBox2

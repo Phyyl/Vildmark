@@ -1,5 +1,3 @@
-using OpenTK.Mathematics;
-
 namespace Vildmark.Maths.Physics;
 
 public struct LineSegment3

@@ -1,5 +1,3 @@
-using OpenTK.Mathematics;
-
 namespace Vildmark.Maths.Physics;
 
 public static partial class CollisionDetection
@@ -27,6 +25,7 @@ public static partial class CollisionDetection
         {
             return new(intersection, b);
         }
+
         return default;
 
     }

@@ -1,6 +1,4 @@
-﻿using OpenTK.Mathematics;
-
-namespace Vildmark.Maths.Physics;
+﻿namespace Vildmark.Maths.Physics;
 
 public struct Ray
 {

@@ -1,4 +1,3 @@
-using OpenTK.Mathematics;
 using Vildmark.Maths.Physics;
 
 namespace Vildmark;

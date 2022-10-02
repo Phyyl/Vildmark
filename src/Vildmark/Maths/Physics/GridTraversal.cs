@@ -1,6 +1,4 @@
-﻿using OpenTK.Mathematics;
-
-namespace Vildmark.Maths.Physics;
+﻿namespace Vildmark.Maths.Physics;
 
 public static class GridTraversal
 {
@@ -17,7 +15,7 @@ public static class GridTraversal
         int y = (int)MathF.Floor(line.Start.Y);
         int z = (int)MathF.Floor(line.Start.Z);
 
-        Vector3 dt = new Vector3(1 / d.X, 1 / d.Y, 1 / d.Z);
+        Vector3 dt = new(1 / d.X, 1 / d.Y, 1 / d.Z);
 
         float t = 0;
 

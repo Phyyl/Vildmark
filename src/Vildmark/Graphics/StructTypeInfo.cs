@@ -1,4 +1,3 @@
-using OpenTK.Mathematics;
 using OpenTK.Graphics.OpenGL4;
 using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Textures;

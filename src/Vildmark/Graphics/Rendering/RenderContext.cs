@@ -1,8 +1,6 @@
 using OpenTK.Graphics.OpenGL4;
-using OpenTK.Mathematics;
 using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.FrameBuffers;
-using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Meshes;
 using Vildmark.Graphics.Shaders;
 using Vildmark.Logging;

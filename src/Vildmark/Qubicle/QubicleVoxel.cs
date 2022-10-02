@@ -1,5 +1,3 @@
-using OpenTK.Mathematics;
-
 namespace Vildmark.Qubicle;
 
 public struct QubicleVoxel

@@ -1,5 +1,4 @@
-﻿using OpenTK.Mathematics;
-using Vildmark.Graphics.Meshes;
+﻿using Vildmark.Graphics.Meshes;
 using Vildmark.Graphics.Rendering;
 
 namespace Vildmark.Graphics.Fonts;

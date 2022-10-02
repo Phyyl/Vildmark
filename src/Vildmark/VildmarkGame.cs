@@ -1,10 +1,6 @@
 using OpenTK.Graphics.OpenGL4;
-using OpenTK.Windowing.Common;
 using System.Reflection;
-using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.Rendering;
-using Vildmark.Input;
-using Vildmark.Logging;
 
 namespace Vildmark;
 

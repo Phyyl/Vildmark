@@ -1,7 +1,4 @@
-﻿using OpenTK.Mathematics;
-using System.Data;
-
-namespace Vildmark.Helpers;
+﻿namespace Vildmark.Helpers;
 
 public static class GeometryHelper
 {

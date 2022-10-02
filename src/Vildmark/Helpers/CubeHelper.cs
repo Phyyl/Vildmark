@@ -1,4 +1,3 @@
-using OpenTK.Mathematics;
 using Vildmark.Graphics;
 
 namespace Vildmark.Helpers;

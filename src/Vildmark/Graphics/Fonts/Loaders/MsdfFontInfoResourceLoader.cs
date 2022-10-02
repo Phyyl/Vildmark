@@ -1,5 +1,4 @@
-﻿using OpenTK.Mathematics;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
 using Vildmark.Resources;
 

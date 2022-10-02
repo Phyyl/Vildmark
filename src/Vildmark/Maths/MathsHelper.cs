@@ -1,5 +1,3 @@
-using OpenTK.Mathematics;
-
 namespace Vildmark.Maths;
 
 public static class MathsHelper

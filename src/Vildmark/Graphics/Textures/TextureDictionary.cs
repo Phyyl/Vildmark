@@ -1,5 +1,3 @@
-using OpenTK.Mathematics;
-
 namespace Vildmark.Graphics.Textures;
 
 public class TextureDictionary<TKey>

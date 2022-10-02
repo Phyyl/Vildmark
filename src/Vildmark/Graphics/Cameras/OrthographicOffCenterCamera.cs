@@ -1,5 +1,3 @@
-using OpenTK.Mathematics;
-
 namespace Vildmark.Graphics.Cameras;
 
 public class OrthographicOffCenterCamera : Camera

@@ -105,7 +105,6 @@ public class FastNoise
     // Default: Simplex
     public void SetNoiseType(NoiseType noiseType) { m_noiseType = noiseType; }
 
-
     // Sets octave count for all fractal noise types
     // Default: 3
     public void SetFractalOctaves(int octaves) { m_octaves = octaves; CalculateFractalBounding(); }
@@ -121,7 +120,6 @@ public class FastNoise
     // Sets method for combining octaves in all fractal noise types
     // Default: FBM
     public void SetFractalType(FractalType fractalType) { m_fractalType = fractalType; }
-
 
     // Sets return type from cellular noise calculations
     // Note: NoiseLookup requires another FastNoise object be set with SetCellularNoiseLookup() to function
@@ -153,7 +151,6 @@ public class FastNoise
     // Noise used to calculate a cell value if cellular return type is NoiseLookup
     // The lookup value is acquired through GetNoise() so ensure you SetNoiseType() on the noise lookup, value, gradient or simplex is recommended
     public void SetCellularNoiseLookup(FastNoise noise) { m_cellularNoiseLookup = noise; }
-
 
     // Sets the maximum perturb distance from original location when using GradientPerturb{Fractal}(...)
     // Default: 1.0
@@ -295,6 +292,7 @@ public class FastNoise
             ampFractal += amp;
             amp *= m_gain;
         }
+
         m_fractalBounding = 1 / ampFractal;
     }
 
@@ -430,6 +428,7 @@ public class FastNoise
             case 2: a = zd; b = wd; c = xd; break;     // Z,W,X
             case 3: a = yd; b = zd; c = wd; break;     // Y,Z,W
         }
+
         return ((hash & 4) == 0 ? -a : a) + ((hash & 2) == 0 ? -b : b) + ((hash & 1) == 0 ? -c : c);
     }
 
@@ -1459,6 +1458,7 @@ public class FastNoise
             t *= t;
             n0 = t * t * GradCoord4D(seed, i, j, k, l, x0, y0, z0, w0);
         }
+
         t = (FN_DECIMAL)0.6 - x1 * x1 - y1 * y1 - z1 * z1 - w1 * w1;
         if (t < 0)
         {
@@ -1469,6 +1469,7 @@ public class FastNoise
             t *= t;
             n1 = t * t * GradCoord4D(seed, i + i1, j + j1, k + k1, l + l1, x1, y1, z1, w1);
         }
+
         t = (FN_DECIMAL)0.6 - x2 * x2 - y2 * y2 - z2 * z2 - w2 * w2;
         if (t < 0)
         {
@@ -1479,6 +1480,7 @@ public class FastNoise
             t *= t;
             n2 = t * t * GradCoord4D(seed, i + i2, j + j2, k + k2, l + l2, x2, y2, z2, w2);
         }
+
         t = (FN_DECIMAL)0.6 - x3 * x3 - y3 * y3 - z3 * z3 - w3 * w3;
         if (t < 0)
         {
@@ -1489,6 +1491,7 @@ public class FastNoise
             t *= t;
             n3 = t * t * GradCoord4D(seed, i + i3, j + j3, k + k3, l + l3, x3, y3, z3, w3);
         }
+
         t = (FN_DECIMAL)0.6 - x4 * x4 - y4 * y4 - z4 * z4 - w4 * w4;
         if (t < 0)
         {
@@ -1633,7 +1636,6 @@ public class FastNoise
             ys),
             zs) * CUBIC_3D_BOUNDING;
     }
-
 
     public FN_DECIMAL GetCubicFractal(FN_DECIMAL x, FN_DECIMAL y)
     {
@@ -1793,6 +1795,7 @@ public class FastNoise
                         }
                     }
                 }
+
                 break;
             case CellularDistanceFunction.Manhattan:
                 for (int xi = xr - 1; xi <= xr + 1; xi++)
@@ -1819,6 +1822,7 @@ public class FastNoise
                         }
                     }
                 }
+
                 break;
             case CellularDistanceFunction.Natural:
                 for (int xi = xr - 1; xi <= xr + 1; xi++)
@@ -1845,6 +1849,7 @@ public class FastNoise
                         }
                     }
                 }
+
                 break;
         }
 
@@ -1898,6 +1903,7 @@ public class FastNoise
                         }
                     }
                 }
+
                 break;
             case CellularDistanceFunction.Manhattan:
                 for (int xi = xr - 1; xi <= xr + 1; xi++)
@@ -1923,6 +1929,7 @@ public class FastNoise
                         }
                     }
                 }
+
                 break;
             case CellularDistanceFunction.Natural:
                 for (int xi = xr - 1; xi <= xr + 1; xi++)
@@ -1948,6 +1955,7 @@ public class FastNoise
                         }
                     }
                 }
+
                 break;
             default:
                 break;
@@ -2007,6 +2015,7 @@ public class FastNoise
                         }
                     }
                 }
+
                 break;
             case CellularDistanceFunction.Manhattan:
                 for (int xi = xr - 1; xi <= xr + 1; xi++)
@@ -2028,6 +2037,7 @@ public class FastNoise
                         }
                     }
                 }
+
                 break;
             case CellularDistanceFunction.Natural:
                 for (int xi = xr - 1; xi <= xr + 1; xi++)
@@ -2049,6 +2059,7 @@ public class FastNoise
                         }
                     }
                 }
+
                 break;
         }
 
@@ -2098,6 +2109,7 @@ public class FastNoise
                         distance[0] = Math.Min(distance[0], newDistance);
                     }
                 }
+
                 break;
             case CellularDistanceFunction.Manhattan:
                 for (int xi = xr - 1; xi <= xr + 1; xi++)
@@ -2119,6 +2131,7 @@ public class FastNoise
                         distance[0] = Math.Min(distance[0], newDistance);
                     }
                 }
+
                 break;
             case CellularDistanceFunction.Natural:
                 for (int xi = xr - 1; xi <= xr + 1; xi++)
@@ -2140,6 +2153,7 @@ public class FastNoise
                         distance[0] = Math.Min(distance[0], newDistance);
                     }
                 }
+
                 break;
         }
 
