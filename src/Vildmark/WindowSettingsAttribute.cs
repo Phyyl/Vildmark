@@ -10,6 +10,8 @@ public class WindowSettingsAttribute : Attribute
     public int Width { get; init; } = 1280;
     public int Height { get; init; } = 720;
     public int Samples { get; init; } = 0;
+    public double UpdateFrequency { get; init; } = 60;
+    public double RenderFrequency { get; init; } = 0;
 
     public WindowState State { get; init; } = WindowState.Normal;
     public WindowBorder Border { get; init; } = WindowBorder.Resizable;

@@ -42,15 +42,22 @@ public abstract partial class VildmarkGame
 
     private static void InitializeWindow(WindowSettingsAttribute settings)
     {
-        NativeWindowSettings nativeSettings = NativeWindowSettings.Default;
+        NativeWindowSettings nativeWindowSettings = new()
+        {
+            Size = new Vector2i(settings.Width, settings.Height),
+            Title = settings.Title,
+            WindowState = settings.State,
+            WindowBorder = settings.Border,
+            NumberOfSamples = settings.Samples,
+            Flags = ContextFlags.ForwardCompatible
+        };
 
-        nativeSettings.Size = new Vector2i(settings.Width, settings.Height);
-        nativeSettings.Title = settings.Title;
-        nativeSettings.WindowState = settings.State;
-        nativeSettings.WindowBorder = settings.Border;
-        nativeSettings.NumberOfSamples = settings.Samples;
-        nativeSettings.Flags = ContextFlags.ForwardCompatible;
+        GameWindowSettings gameWindowSettings = new()
+        {
+            UpdateFrequency = settings.UpdateFrequency,
+            RenderFrequency = settings.RenderFrequency
+        };
 
-        window = new GameWindow(GameWindowSettings.Default, nativeSettings);
+        window = new GameWindow(gameWindowSettings, nativeWindowSettings);
     }
 }
