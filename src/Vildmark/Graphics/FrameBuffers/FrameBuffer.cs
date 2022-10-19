@@ -11,10 +11,10 @@ public abstract class FrameBuffer
         int width,
         int height,
         FramebufferAttachment framebufferAttachment,
-        Texture2DFormat format)
+        Texture2DParameters parameters)
     {
         GLFramebuffer = new GLFramebuffer();
-        GLTexture = new GLTexture2D(width, height, default, format.PixelFormat, format.PixelInternalFormat, format.PixelType);
+        GLTexture = new GLTexture2D(width, height, default, parameters);
 
         GLFramebuffer.Bind();
         GLFramebuffer.SetTexture(GLTexture, framebufferAttachment);

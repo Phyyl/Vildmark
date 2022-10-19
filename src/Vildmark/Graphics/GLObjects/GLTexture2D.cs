@@ -1,16 +1,13 @@
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using System.Runtime.InteropServices;
+using Vildmark.Graphics.Textures;
 
 namespace Vildmark.Graphics.GLObjects;
 
 internal class GLTexture2D : GLObject
 {
-    private readonly PixelFormat pixelFormat;
-    private readonly PixelInternalFormat pixelInternalFormat;
-    private readonly PixelType pixelType;
-
-    public TextureTarget TextureTarget { get; }
+    private readonly Texture2DParameters parameters;
 
     public int Width { get; private set; }
     public int Height { get; private set; }
@@ -24,34 +21,19 @@ internal class GLTexture2D : GLObject
         int width = 0,
         int height = 0,
         Span<byte> data = default,
-        PixelFormat pixelFormat = PixelFormat.Bgra,
-        PixelInternalFormat pixelInternalFormat = PixelInternalFormat.Rgba,
-        PixelType pixelType = PixelType.UnsignedByte,
-        TextureMagFilter magFilter = TextureMagFilter.Linear,
-        TextureMinFilter minFilter = TextureMinFilter.Linear,
-        TextureWrapMode wrapS = TextureWrapMode.ClampToEdge,
-        TextureWrapMode wrapT = TextureWrapMode.ClampToEdge,
-        TextureTarget textureTarget = TextureTarget.Texture2D)
+        Texture2DParameters? parameters = default)
         : base(GL.GenTexture())
     {
-        this.pixelFormat = pixelFormat;
-        this.pixelInternalFormat = pixelInternalFormat;
-        this.pixelType = pixelType;
+        this.parameters = parameters ?? Texture2DParameters.Texture2D;
 
-        TextureTarget = textureTarget;
-
-        Configure(magFilter, minFilter, wrapS, wrapT);
-        SetData(width, height, data);
-    }
-
-    public void Configure(TextureMagFilter magFilter, TextureMinFilter minFilter, TextureWrapMode wrapS, TextureWrapMode wrapT)
-    {
         Bind();
-        GL.TexParameter(TextureTarget, TextureParameterName.TextureMagFilter, (int)magFilter);
-        GL.TexParameter(TextureTarget, TextureParameterName.TextureMinFilter, (int)minFilter);
-        GL.TexParameter(TextureTarget, TextureParameterName.TextureWrapS, (int)wrapS);
-        GL.TexParameter(TextureTarget, TextureParameterName.TextureWrapT, (int)wrapT);
+        GL.TexParameter(this.parameters.Target, TextureParameterName.TextureMagFilter, (int)this.parameters.MagFilter);
+        GL.TexParameter(this.parameters.Target, TextureParameterName.TextureMinFilter, (int)this.parameters.MinFilter);
+        GL.TexParameter(this.parameters.Target, TextureParameterName.TextureWrapS, (int)this.parameters.WrapS);
+        GL.TexParameter(this.parameters.Target, TextureParameterName.TextureWrapT, (int)this.parameters.WrapT);
         Unbind();
+
+        SetData(width, height, data);
     }
 
     public void UpdateData<T>(int x, int y, int width, int height, Span<T> data) where T : unmanaged
@@ -61,7 +43,9 @@ internal class GLTexture2D : GLObject
             return;
         }
 
-        GL.TexSubImage2D(TextureTarget, 0, x, y, width, height, pixelFormat, pixelType, ref MemoryMarshal.GetReference(data));
+        Bind();
+        GL.TexSubImage2D(parameters.Target, 0, x, y, width, height, parameters.PixelFormat, parameters.PixelType, ref MemoryMarshal.GetReference(data));
+        Unbind();
     }
 
     public void SetData<T>(int width, int height, Span<T> data) where T : unmanaged
@@ -69,11 +53,11 @@ internal class GLTexture2D : GLObject
         Bind();
         if (data.IsEmpty)
         {
-            GL.TexImage2D(TextureTarget, 0, pixelInternalFormat, width, height, 0, pixelFormat, pixelType, IntPtr.Zero);
+            GL.TexImage2D(parameters.Target, 0, parameters.PixelInternalFormat, width, height, 0, parameters.PixelFormat, parameters.PixelType, IntPtr.Zero);
         }
         else
         {
-            GL.TexImage2D(TextureTarget, 0, pixelInternalFormat, width, height, 0, pixelFormat, pixelType, ref MemoryMarshal.GetReference(data));
+            GL.TexImage2D(parameters.Target, 0, parameters.PixelInternalFormat, width, height, 0, parameters.PixelFormat, parameters.PixelType, ref MemoryMarshal.GetReference(data));
         }
 
         Width = width;
@@ -89,12 +73,12 @@ internal class GLTexture2D : GLObject
     public void Bind(int index = 0)
     {
         GL.ActiveTexture(TextureUnit.Texture0 + index);
-        GL.BindTexture(TextureTarget, this);
+        GL.BindTexture(parameters.Target, this);
     }
 
     public void Unbind(int index = 0)
     {
-        Unbind(TextureTarget, index);
+        Unbind(parameters.Target, index);
     }
 
     protected override void DisposeOpenGL()

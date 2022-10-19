@@ -10,7 +10,7 @@ namespace Vildmark.Graphics.FrameBuffers;
 public class ColorFrameBuffer : FrameBuffer
 {
     public ColorFrameBuffer(int width, int height)
-        : base(width, height, FramebufferAttachment.ColorAttachment0, Texture2DFormat.Texture2D)
+        : base(width, height, FramebufferAttachment.ColorAttachment0, Texture2DParameters.Texture2D)
     {
 
     }

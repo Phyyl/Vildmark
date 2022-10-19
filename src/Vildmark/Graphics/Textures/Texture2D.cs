@@ -1,4 +1,6 @@
+using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
+using System.Runtime.InteropServices;
 using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Textures.Loaders;
 using Vildmark.Resources;
@@ -19,14 +21,26 @@ public class Texture2D
     public Vector2 Size => new(Width, Height);
     public Box2 Bounds => new(0, 0, Width, Height);
 
-    public Texture2D(int width, int height)
-         : this(new GLTexture2D(width, height))
+    public Texture2D(int width, int height, Texture2DParameters? parameters = default)
+         : this(new GLTexture2D(width, height, default, parameters))
     {
     }
 
     internal Texture2D(GLTexture2D glTexture)
     {
         GLTexture = glTexture;
+    }
+
+    public void UpdateData<T>(int x, int y, int width, int height, Span<T> data)
+        where T : unmanaged
+    {
+        GLTexture.UpdateData(x, y, width, height, data);
+    }
+
+    public void SetData<T>(int width, int height, Span<T> data)
+        where T : unmanaged
+    {
+        GLTexture.SetData(width, height, data);
     }
 }
 

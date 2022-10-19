@@ -28,8 +28,13 @@ internal class Texture2DResourceLoader : IResourceLoader<Texture2D, Texture2DOpt
 
         image.CopyPixelDataTo(buffer.Memory.Span);
 
-        GLTexture2D texture = new(image.Width, image.Height, buffer.Memory.Span);
-        texture.Configure(options.MagFilter, options.MinFilter, options.WrapS, options.WrapT);
+        GLTexture2D texture = new(image.Width, image.Height, buffer.Memory.Span, new()
+        {
+            MagFilter = options.MagFilter,
+            MinFilter = options.MinFilter,
+            WrapS = options.WrapS,
+            WrapT = options.WrapT
+        });
 
         return new(texture);
     }
