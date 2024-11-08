@@ -1,11 +1,11 @@
-using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 using System.Runtime.InteropServices;
 
 namespace Vildmark.Graphics.Shaders;
 
 public abstract record ShaderVariable(string Name)
 {
-    public int Location { get; internal protected set; }
+    public uint Location { get; internal protected set; }
 
     public bool IsDefined => Location >= 0;
 }
@@ -27,7 +27,7 @@ public record Attrib<TAttrib>(string Name, int Offset = 0, int Stride = 0) : Att
             return;
         }
 
-        GL.VertexAttribPointer(Location, Size, VertexAttribPointerType, false, Stride, Offset);
+        GL.VertexAttribPointer(Location, Size, VertexAttribPointerType, false, Stride, (nint)Offset);
         GL.EnableVertexAttribArray(Location);
     }
 }
@@ -57,6 +57,6 @@ public record Uniform<T>(string Name) : Uniform(Name)
             return;
         }
 
-        StaticTypeInfo.SetUniform<T>(Location, value, index);
+        StaticTypeInfo.SetUniform((int)Location, value, index);
     }
 }

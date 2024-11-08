@@ -1,4 +1,4 @@
-using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 using System.Runtime.InteropServices;
 
 namespace Vildmark.Graphics.GLObjects;
@@ -7,17 +7,17 @@ internal abstract class GLBuffer : GLObject
 {
     public BufferTarget BufferTarget { get; }
 
-    public BufferUsageHint BufferUsageHint { get; }
+    public BufferUsage BufferUsage { get; }
 
     public int Count { get; protected set; }
 
     public abstract int ElementSize { get; }
 
-    protected GLBuffer(BufferTarget bufferTarget, BufferUsageHint bufferUsageHint)
+    protected GLBuffer(BufferTarget bufferTarget, BufferUsage bufferUsage)
         : base(GL.GenBuffer())
     {
         BufferTarget = bufferTarget;
-        BufferUsageHint = bufferUsageHint;
+        BufferUsage = bufferUsage;
     }
 
     public void Bind()
@@ -35,9 +35,9 @@ internal abstract class GLBuffer : GLObject
         GL.BindBuffer(bufferTarget, 0);
     }
 
-    protected override void DisposeOpenGL()
+    protected override void DisposeOpenGL(ref int id)
     {
-        GL.DeleteBuffer(this);
+        GL.DeleteBuffer(ref id);
     }
 }
 
@@ -45,13 +45,13 @@ internal unsafe class GLBuffer<T> : GLBuffer where T : unmanaged
 {
     public override int ElementSize => sizeof(T);
 
-    public GLBuffer(int size = default, BufferTarget bufferTarget = BufferTarget.ArrayBuffer, BufferUsageHint bufferUsageHint = BufferUsageHint.StaticDraw)
-        : this(new Span<T>(new T[size]), bufferTarget, bufferUsageHint)
+    public GLBuffer(int size = default, BufferTarget bufferTarget = BufferTarget.ArrayBuffer, BufferUsage bufferUsage = BufferUsage.StaticDraw)
+        : this(new Span<T>(new T[size]), bufferTarget, bufferUsage)
     {
     }
 
-    public GLBuffer(Span<T> data, BufferTarget bufferTarget = BufferTarget.ArrayBuffer, BufferUsageHint bufferUsageHint = BufferUsageHint.StaticDraw)
-        : base(bufferTarget, bufferUsageHint)
+    public GLBuffer(Span<T> data, BufferTarget bufferTarget = BufferTarget.ArrayBuffer, BufferUsage bufferUsage = BufferUsage.StaticDraw)
+        : base(bufferTarget, bufferUsage)
     {
         SetData(data);
     }
@@ -62,11 +62,11 @@ internal unsafe class GLBuffer<T> : GLBuffer where T : unmanaged
 
         if (data.IsEmpty)
         {
-            GL.BufferData(BufferTarget, 0, IntPtr.Zero, BufferUsageHint);
+            GL.BufferData(BufferTarget, 0, IntPtr.Zero, BufferUsage);
         }
         else
         {
-            GL.BufferData(BufferTarget, data.Length * sizeof(T), ref MemoryMarshal.GetReference(data), BufferUsageHint);
+            GL.BufferData(BufferTarget, data.Length * sizeof(T), ref MemoryMarshal.GetReference(data), BufferUsage);
         }
 
         Count = data.Length;
@@ -99,13 +99,23 @@ internal unsafe class GLBuffer<T> : GLBuffer where T : unmanaged
         GL.UnmapBuffer(bufferTarget);
     }
 
-    private unsafe void Map(BufferAccess bufferAccess, out Span<T> data)
+    private unsafe IDisposable Map(BufferAccess bufferAccess, out Span<T> data)
     {
         Bind();
 
-        GL.GetBufferParameter(BufferTarget, BufferParameterName.BufferSize, out int size);
-        IntPtr ptr = GL.MapBuffer(BufferTarget, bufferAccess);
+        GL.GetBufferParameteri(BufferTarget, BufferPName.BufferSize, out int size);
+        void* ptr = GL.MapBuffer(BufferTarget, bufferAccess);
 
-        data = new Span<T>(ptr.ToPointer(), size / sizeof(T));
+        data = new Span<T>(ptr, size / sizeof(T));
+
+        return new DisposableMap(BufferTarget);
+    }
+
+    private class DisposableMap(BufferTarget bufferTarget) : IDisposable
+    {
+        public void Dispose()
+        {
+            Unmap(bufferTarget);
+        }
     }
 }

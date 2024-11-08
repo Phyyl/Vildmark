@@ -1,4 +1,4 @@
-using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.Textures;
@@ -17,7 +17,7 @@ public class TexturedShader : Shader<Vertex, TexturedMaterial>
     public Uniform<Matrix4> ModelMatrix { get; } = new("model_matrix");
 
     public Uniform<Texture2D> Texture { get; } = new("tex");
-    public Uniform<Color4> Tint { get; } = new("tint");
+    public Uniform<Color4<Rgba>> Tint { get; } = new("tint");
     public Uniform<Box2> SourceRect { get; } = new("source_rect");
 
     public TexturedShader()

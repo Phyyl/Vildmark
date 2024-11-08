@@ -1,4 +1,4 @@
-using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 
 namespace Vildmark.Graphics.GLObjects;
 
@@ -12,11 +12,11 @@ internal class GLFramebuffer : GLObject
 
     public FramebufferTarget FramebufferTarget { get; }
 
-    public bool Complete => GL.CheckFramebufferStatus(FramebufferTarget) == FramebufferErrorCode.FramebufferComplete;
+    public bool Complete => GL.CheckFramebufferStatus(FramebufferTarget) == FramebufferStatus.FramebufferComplete;
 
-    protected override void DisposeOpenGL()
+    protected override void DisposeOpenGL(ref int id)
     {
-        GL.DeleteFramebuffer(this);
+        GL.DeleteFramebuffer(ref id);
     }
 
     public void Bind()

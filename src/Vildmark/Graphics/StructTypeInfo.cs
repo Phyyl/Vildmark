@@ -1,5 +1,5 @@
 using OpenTK.Mathematics;
-using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 using Vildmark.Graphics.GLObjects;
 using Vildmark.Graphics.Textures;
 using Vildmark.Logging;
@@ -11,36 +11,36 @@ internal static class StaticTypeInfo
 {
     static StaticTypeInfo()
     {
-        Storage<float>.UniformSetter = (l, v, i) => GL.Uniform1(l, v);
+        Storage<float>.UniformSetter = (l, v, i) => GL.Uniform1f(l, v);
 
-        Storage<int>.UniformSetter = (l, v, i) => GL.Uniform1(l, v);
+        Storage<int>.UniformSetter = (l, v, i) => GL.Uniform1i(l, v);
         Storage<int>.AttribType = VertexAttribPointerType.Int;
 
-        Storage<uint>.UniformSetter = (l, v, i) => GL.Uniform1(l, v);
+        Storage<uint>.UniformSetter = (l, v, i) => GL.Uniform1ui(l, v);
         Storage<uint>.AttribType = VertexAttribPointerType.UnsignedInt;
 
-        Storage<Vector2>.UniformSetter = (l, v, i) => GL.Uniform2(l, v);
+        Storage<Vector2>.UniformSetter = (l, v, i) => GL.Uniform2f(l, 1, ref v);
         Storage<Vector2>.AttribSize = 2;
 
-        Storage<Vector3>.UniformSetter = (l, v, i) => GL.Uniform3(l, v);
+        Storage<Vector3>.UniformSetter = (l, v, i) => GL.Uniform3f(l, 1, ref v);
         Storage<Vector3>.AttribSize = 3;
 
-        Storage<Vector4>.UniformSetter = (l, v, i) => GL.Uniform4(l, v);
+        Storage<Vector4>.UniformSetter = (l, v, i) => GL.Uniform4f(l, 1, ref v);
         Storage<Vector4>.AttribSize = 4;
 
         Storage<Box2>.UniformSetter = (l, v, i) => SetUniform(l, v.ToVector4(), i);
         Storage<Box2>.AttribSize = 4;
 
-        Storage<Matrix4>.UniformSetter = (l, v, i) => GL.UniformMatrix4(l, false, ref v);
+        Storage<Matrix4>.UniformSetter = (l, v, i) => GL.UniformMatrix4f(l, 1, false, ref v);
         Storage<Transform?>.UniformSetter = (l, v, i) => SetUniform(l, v?.Matrix ?? Matrix4.Identity, i);
 
-        Storage<Color4>.UniformSetter = (l, v, i) => GL.Uniform4(l, v);
-        Storage<Color4>.AttribSize = 4;
+        Storage<Color4<Rgba>>.UniformSetter = (l, v, i) => GL.Uniform4f(l, v.X, v.Y, v.Z, v.W);
+        Storage<Color4<Rgba>>.AttribSize = 4;
 
         Storage<GLTexture2D>.UniformSetter = (l, v, i) =>
         {
             v.Bind(i);
-            GL.Uniform1(l, i);
+            GL.Uniform1i(l, i);
         };
 
         Storage<GLTexture2D[]>.UniformSetter = (l, v, i) =>

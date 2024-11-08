@@ -1,4 +1,4 @@
-using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 
 namespace Vildmark.Graphics.Textures;
 
@@ -11,13 +11,13 @@ public record class Texture2DParameters
     {
         PixelFormat = PixelFormat.DepthComponent,
         PixelType = PixelType.Byte,
-        PixelInternalFormat = PixelInternalFormat.DepthComponent
+        InternalFormat = InternalFormat.DepthComponent
     };
 
-    public TextureTarget Target { get; init; } = TextureTarget.Texture2D;
+    public TextureTarget Target { get; init; } = TextureTarget.Texture2d;
     public PixelFormat PixelFormat { get; init; } = PixelFormat.Bgra;
     public PixelType PixelType { get; init; } = PixelType.UnsignedByte;
-    public PixelInternalFormat PixelInternalFormat { get; init; } = PixelInternalFormat.Rgba;
+    public InternalFormat InternalFormat { get; init; } = InternalFormat.Rgba;
     public TextureMagFilter MagFilter { get; init; } = TextureMagFilter.Nearest;
     public TextureMinFilter MinFilter { get; init; } = TextureMinFilter.Nearest;
     public TextureWrapMode WrapS { get; init; } = TextureWrapMode.ClampToBorder;

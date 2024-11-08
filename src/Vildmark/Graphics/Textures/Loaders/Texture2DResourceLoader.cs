@@ -1,6 +1,6 @@
 using Vildmark.Graphics.GLObjects;
 using Vildmark.Resources;
-using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System.Buffers;

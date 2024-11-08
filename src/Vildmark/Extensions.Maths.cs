@@ -32,8 +32,8 @@ public static partial class Extensions
     public static Vector2 GetBottomRight(this Box2 rectangle) => new(rectangle.Max.X, rectangle.Max.Y);
     public static Vector2 GetTopRight(this Box2 rectangle) => new(rectangle.Max.X, rectangle.Min.Y);
 
-    public static Vector4 ToVector(this Color4 color) => new(color.R, color.G, color.B, color.A);
-    public static Color4 ToColor4(this Vector4 color) => new(color.X, color.Y, color.Z, color.W);
+    public static Vector4 ToVector(this Color4<Rgba> color) => new(color.X, color.Y, color.Z, color.W);
+    public static Color4<Rgba> ToColor4(this Vector4 color) => new(color.X, color.Y, color.Z, color.W);
 
     public static Vector2 Reflected(this Vector2 vector, Vector2 normal)
     {

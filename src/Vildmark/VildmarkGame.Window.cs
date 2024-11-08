@@ -34,17 +34,11 @@ public abstract partial class VildmarkGame
         set => Window.UpdateFrequency = value;
     }
 
-    public static double RenderFrequency
-    {
-        get => Window.RenderFrequency;
-        set => Window.RenderFrequency = value;
-    }
-
     private static void InitializeWindow(WindowSettingsAttribute settings)
     {
         NativeWindowSettings nativeWindowSettings = new()
         {
-            Size = new Vector2i(settings.Width, settings.Height),
+            ClientSize = new Vector2i(settings.Width, settings.Height),
             Title = settings.Title,
             WindowState = settings.State,
             WindowBorder = settings.Border,
@@ -55,7 +49,6 @@ public abstract partial class VildmarkGame
         GameWindowSettings gameWindowSettings = new()
         {
             UpdateFrequency = settings.UpdateFrequency,
-            RenderFrequency = settings.RenderFrequency
         };
 
         window = new GameWindow(gameWindowSettings, nativeWindowSettings);

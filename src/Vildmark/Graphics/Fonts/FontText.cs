@@ -42,7 +42,7 @@ public class FontText
         this.maxLineLength = maxLineLength;
     }
 
-    public void Render(Renderer renderer, Color4 foreground, Color4? background = default, Transform? transform = default)
+    public void Render(Renderer renderer, Color4<Rgba> foreground, Color4<Rgba>? background = default, Transform? transform = default)
     {
         if (needsUpdate)
         {
@@ -50,7 +50,7 @@ public class FontText
             needsUpdate = false;
         }
 
-        renderer.Render(mesh, new FontMaterial(font.Texture, foreground, background ?? foreground with { A = 0 }, 1.75f), Font.Shader, transform);
+        renderer.Render(mesh, new FontMaterial(font.Texture, foreground, background ?? foreground with { W = 0 }, 1.75f), Font.Shader, transform);
     }
 
     private void UpdateMesh()

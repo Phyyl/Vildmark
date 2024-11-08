@@ -1,25 +1,25 @@
-using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 
 namespace Vildmark.Graphics.GLObjects;
 
 internal class GLRenderbuffer : GLObject
 {
-    public GLRenderbuffer(int width, int height, RenderbufferTarget renderbufferTarget = RenderbufferTarget.Renderbuffer, RenderbufferStorage renderbufferStorage = RenderbufferStorage.Rgba8)
+    public GLRenderbuffer(int width, int height, RenderbufferTarget renderbufferTarget = RenderbufferTarget.Renderbuffer, InternalFormat internalFormat = InternalFormat.Rgba8)
         : base(GL.GenRenderbuffer())
     {
         RenderbufferTarget = renderbufferTarget;
-        RenderbufferStorage = renderbufferStorage;
+        InternalFormat = internalFormat;
 
         Resize(width, height);
     }
 
     public RenderbufferTarget RenderbufferTarget { get; }
 
-    public RenderbufferStorage RenderbufferStorage { get; }
+    public InternalFormat InternalFormat { get; }
 
-    protected override void DisposeOpenGL()
+    protected override void DisposeOpenGL(ref int id)
     {
-        GL.DeleteRenderbuffer(this);
+        GL.DeleteRenderbuffer(ref id);
     }
 
     public void Bind()
@@ -34,7 +34,7 @@ internal class GLRenderbuffer : GLObject
 
     public void Resize(int width, int height)
     {
-        GL.RenderbufferStorage(RenderbufferTarget, RenderbufferStorage, width, height);
+        GL.RenderbufferStorage(RenderbufferTarget, InternalFormat, width, height);
     }
 
     public static void Unbind(RenderbufferTarget renderbufferTarget)

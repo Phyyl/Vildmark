@@ -15,8 +15,8 @@ public class FontShader : Shader<Vertex, FontMaterial>
     public Uniform<Matrix4> ModelMatrix { get; } = new("model_matrix");
 
     public Uniform<Texture2D> Texture { get; } = new("tex");
-    public Uniform<Color4> BackgroundColor { get; } = new("background_color");
-    public Uniform<Color4> ForegroundColor { get; } = new("foreground_color");
+    public Uniform<Color4<Rgba>> BackgroundColor { get; } = new("background_color");
+    public Uniform<Color4<Rgba>> ForegroundColor { get; } = new("foreground_color");
     public Uniform<float> PxRange { get; } = new("px_range");
 
     public FontShader()

@@ -1,4 +1,4 @@
-using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 using System.Collections.Immutable;
 using System.Reflection;
 using Vildmark.Graphics.Cameras;
@@ -67,12 +67,12 @@ public abstract class Shader<TVertex, TMaterial> : IShader<TVertex, TMaterial>
     {
         foreach (var uniform in uniforms)
         {
-            uniform.Location = GetUniformLocation(uniform.Name);
+            uniform.Location = (uint)GetUniformLocation(uniform.Name);
         }
 
         foreach (var attrib in attribs)
         {
-            attrib.Location = GetAttribLocation(attrib.Name);
+            attrib.Location = (uint)GetAttribLocation(attrib.Name);
         }
     }
 

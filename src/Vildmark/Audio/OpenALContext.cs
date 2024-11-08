@@ -30,7 +30,7 @@ internal static class OpenALContext
     public static ALSourceState GetSourceState(int sid)
     {
         ALC.MakeContextCurrent(context);
-        return AL.GetSourceState(sid);
+        return (ALSourceState)AL.GetSource(sid, ALGetSourcei.SourceState);
     }
 
     public static int GenBuffer() => AL.GenBuffer();

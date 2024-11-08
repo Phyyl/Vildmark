@@ -8,23 +8,25 @@ internal abstract class GLObject : IDisposable
     public static IEnumerable<GLObject> GLObjects => glObjects.ToArray();
 #endif
 
+    private int id;
+
     protected GLObject(int id)
     {
-        ID = id;
+        this.id = id;
 
 #if DEBUG
         glObjects.Add(this);
 #endif
     }
 
-    public int ID { get; }
+    public int ID => id;
 
     public void Dispose()
     {
-        DisposeOpenGL();
+        DisposeOpenGL(ref id);
     }
 
-    protected abstract void DisposeOpenGL();
+    protected abstract void DisposeOpenGL(ref int id);
 
     public static implicit operator int(GLObject obj)
     {

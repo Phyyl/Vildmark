@@ -33,7 +33,7 @@ public static partial class CollisionDetection
 
     public static Intersection2? LineSegmentToBox(LineSegment2 line, Box2 box)
     {
-        if (box.Contains(line.Start) || line.Delta.LengthSquared < float.Epsilon)
+        if (box.ContainsInclusive(line.Start) || line.Delta.LengthSquared < float.Epsilon)
         {
             return default;
         }

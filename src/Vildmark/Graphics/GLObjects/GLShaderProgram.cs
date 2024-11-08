@@ -1,4 +1,4 @@
-using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 using Vildmark.Logging;
 
 namespace Vildmark.Graphics.GLObjects;
@@ -10,13 +10,20 @@ internal class GLShaderProgram : GLObject
     {
     }
 
-    public string InfoLog => GL.GetProgramInfoLog(this);
+    public string InfoLog
+    {
+        get
+        {
+            GL.GetProgramInfoLog(this, out var result);
+            return result;
+        }
+    }
 
     public bool IsLinked
     {
         get
         {
-            GL.GetProgram(this, GetProgramParameterName.LinkStatus, out int value);
+            GL.GetProgrami(this, ProgramProperty.LinkStatus, out int value);
 
             return value == 1;
         }
@@ -61,9 +68,9 @@ internal class GLShaderProgram : GLObject
     public bool Uniform<T>(string name, T value) => Uniform(GetUniformLocation(name), value);
     public bool Uniform<T>(int location, T value) => StaticTypeInfo.SetUniform(location, value);
 
-    protected override void DisposeOpenGL()
+    protected override void DisposeOpenGL(ref int id)
     {
-        GL.DeleteProgram(this);
+        GL.DeleteProgram(id);
     }
 
     public static void Unuse()

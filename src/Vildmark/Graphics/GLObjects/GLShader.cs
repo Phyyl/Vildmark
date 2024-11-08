@@ -1,17 +1,24 @@
-using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 using Vildmark.Logging;
 
 namespace Vildmark.Graphics.GLObjects;
 
 internal class GLShader : GLObject
 {
-    public string InfoLog => GL.GetShaderInfoLog(this);
+    public string InfoLog
+    {
+        get
+        {
+            GL.GetShaderInfoLog(this, out var result);
+            return result;
+        }
+    }
 
     public bool IsCompiled
     {
         get
         {
-            GL.GetShader(this, ShaderParameter.CompileStatus, out int value);
+            GL.GetShaderi(this, ShaderParameterName.CompileStatus, out int value);
 
             return value == 1;
         }
@@ -42,8 +49,8 @@ internal class GLShader : GLObject
         return IsCompiled;
     }
 
-    protected override void DisposeOpenGL()
+    protected override void DisposeOpenGL(ref int id)
     {
-        GL.DeleteShader(this);
+        GL.DeleteShader(id);
     }
 }

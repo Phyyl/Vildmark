@@ -1,4 +1,4 @@
-using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using Vildmark.Graphics.Cameras;
 using Vildmark.Graphics.FrameBuffers;
@@ -14,7 +14,7 @@ public partial class Renderer
 {
     private RenderOptions? renderOptions;
 
-    public Color4 ClearColor { get; set; } = Color4.Black;
+    public Color4<Rgba> ClearColor { get; set; } = Color4.Black;
 
     public int Width => renderOptions?.FrameBuffer?.Width ?? VildmarkGame.Width;
     public int Height => renderOptions?.FrameBuffer?.Height ?? VildmarkGame.Height;
@@ -125,7 +125,7 @@ public partial class Renderer
         else
         {
             GL.FrontFace(renderOptions.RenderFace == RenderFace.CounterClockwise ? FrontFaceDirection.Ccw : FrontFaceDirection.Cw);
-            GL.CullFace(CullFaceMode.Back);
+            GL.CullFace(TriangleFace.Back);
             GL.Enable(EnableCap.CullFace);
         }
     }

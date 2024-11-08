@@ -1,4 +1,4 @@
-using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 
 namespace Vildmark.Graphics.GLObjects;
 
@@ -27,8 +27,8 @@ internal class GLVertexArray : GLObject
         GL.BindVertexArray(0);
     }
 
-    protected override void DisposeOpenGL()
+    protected override void DisposeOpenGL(ref int id)
     {
-        GL.DeleteVertexArray(this);
+        GL.DeleteVertexArray(ref id);
     }
 }

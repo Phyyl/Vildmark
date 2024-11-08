@@ -24,7 +24,7 @@ public class Font
         text = new(this, "", 64);
     }
 
-    public void RenderString(Renderer renderer, string text, float size, Color4 foreground, Color4? background = default, Transform? transform = default)
+    public void RenderString(Renderer renderer, string text, float size, Color4<Rgba> foreground, Color4<Rgba>? background = default, Transform? transform = default)
     {
         this.text.Text = text;
         this.text.FontSize = size;
