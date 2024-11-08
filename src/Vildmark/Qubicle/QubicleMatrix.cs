@@ -5,29 +5,21 @@ using Vildmark.Helpers;
 
 namespace Vildmark.Qubicle;
 
-public class QubicleMatrix
+public class QubicleMatrix(string name, Vector3i size, Vector3i position, QubicleVoxel[,,] voxels)
 {
-    public string Name { get; }
+    public string Name { get; } = name;
 
-    public Vector3i Size { get; }
+    public Vector3i Size { get; } = size;
 
-    public Vector3i Position { get; }
+    public Vector3i Position { get; } = position;
 
-    public QubicleVoxel[,,] Voxels { get; }
+    public QubicleVoxel[,,] Voxels { get; } = voxels;
 
     public QubicleVoxel this[int x, int y, int z] => Voxels[x, y, z];
 
-    public QubicleMatrix(string name, Vector3i size, Vector3i position, QubicleVoxel[,,] voxels)
-    {
-        Name = name;
-        Size = size;
-        Position = position;
-        Voxels = voxels;
-    }
-
     public Mesh<Vertex> CreateMesh(float scale = 1)
     {
-        List<Vertex> vertices = new();
+        List<Vertex> vertices = [];
 
         Vector3 size = new(scale);
 

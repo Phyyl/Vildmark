@@ -35,11 +35,7 @@ public class Mesh<TVertex>
     }
 }
 
-public class Mesh : Mesh<Vertex>
+public class Mesh(Span<Vertex> vertices = default) : Mesh<Vertex>(vertices)
 {
-    public Mesh(Span<Vertex> vertices = default)
-        : base(vertices)
-    {
-    }
 }
 

@@ -3,9 +3,9 @@ namespace Vildmark.Graphics.GLObjects;
 internal abstract class GLObject : IDisposable
 {
 #if DEBUG
-    private static readonly List<GLObject> glObjects = new();
+    private static readonly List<GLObject> glObjects = [];
 
-    public static IEnumerable<GLObject> GLObjects => glObjects.ToArray();
+    public static IEnumerable<GLObject> GLObjects => [.. glObjects];
 #endif
 
     private int id;

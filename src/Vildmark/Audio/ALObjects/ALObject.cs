@@ -3,9 +3,9 @@ namespace Vildmark.Audio.ALObjects;
 public abstract class ALObject : IDisposable
 {
 #if DEBUG
-    private static readonly List<ALObject> glObjects = new();
+    private static readonly List<ALObject> glObjects = [];
 
-    public static IEnumerable<ALObject> GLObjects => glObjects.ToArray();
+    public static IEnumerable<ALObject> GLObjects => [.. glObjects];
 #endif
 
     protected ALObject(int id)

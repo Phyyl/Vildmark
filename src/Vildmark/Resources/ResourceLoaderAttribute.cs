@@ -1,12 +1,7 @@
 ﻿namespace Vildmark.Resources;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-public class ResourceLoaderAttribute : Attribute
+public class ResourceLoaderAttribute(Type type) : Attribute
 {
-    public Type Type { get; }
-
-    public ResourceLoaderAttribute(Type type)
-    {
-        Type = type;
-    }
+    public Type Type { get; } = type;
 }

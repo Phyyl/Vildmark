@@ -3,22 +3,15 @@ using System.Runtime.InteropServices;
 
 namespace Vildmark.Graphics.GLObjects;
 
-internal abstract class GLBuffer : GLObject
+internal abstract class GLBuffer(BufferTarget bufferTarget, BufferUsage bufferUsage) : GLObject(GL.GenBuffer())
 {
-    public BufferTarget BufferTarget { get; }
+    public BufferTarget BufferTarget { get; } = bufferTarget;
 
-    public BufferUsage BufferUsage { get; }
+    public BufferUsage BufferUsage { get; } = bufferUsage;
 
     public int Count { get; protected set; }
 
     public abstract int ElementSize { get; }
-
-    protected GLBuffer(BufferTarget bufferTarget, BufferUsage bufferUsage)
-        : base(GL.GenBuffer())
-    {
-        BufferTarget = bufferTarget;
-        BufferUsage = bufferUsage;
-    }
 
     public void Bind()
     {

@@ -36,10 +36,10 @@ public class Font
     {
         if (text.Length == 0 || size <= 0)
         {
-            return Array.Empty<Vertex>();
+            return [];
         }
 
-        List<Vertex> vertices = new();
+        List<Vertex> vertices = [];
         Vector2 lineStart = new(0, Info.LineHeight * size);
         Vector2 position = lineStart;
         char previous = '\0';
@@ -97,7 +97,7 @@ public class Font
             previous = chr;
         }
 
-        return vertices.ToArray();
+        return [.. vertices];
     }
 
     public Box2 MeasureString(string text, float size, float maxLineLength = float.PositiveInfinity)

@@ -4,7 +4,7 @@ namespace Vildmark.Attachments;
 
 public class AttachmentObject : IAttachmentObject
 	{
-		private readonly Dictionary<string, object> attachments = new();
+		private readonly Dictionary<string, object> attachments = [];
 
 		public object? GetAttachment(string name)
 		{

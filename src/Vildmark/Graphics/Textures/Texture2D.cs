@@ -44,16 +44,10 @@ public class Texture2D
     }
 }
 
-public class SubTexture2D : Texture2D
+public class SubTexture2D(Texture2D texture, Box2 sourceRectangle) : Texture2D(texture.GLTexture)
 {
-    public Box2 SourceRectangle { get; }
+    public Box2 SourceRectangle { get; } = sourceRectangle;
 
     public override int Width => (int)(base.Width * SourceRectangle.Size.X);
     public override int Height => (int)(base.Height * SourceRectangle.Size.Y);
-
-    public SubTexture2D(Texture2D texture, Box2 sourceRectangle)
-        : base(texture.GLTexture)
-    {
-        SourceRectangle = sourceRectangle;
-    }
 }

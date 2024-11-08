@@ -5,15 +5,10 @@ using Vildmark.Logging;
 
 namespace Vildmark.Serialization;
 
-public class Reader : IReader
+public class Reader(Stream stream) : IReader
 {
-    public Stream BaseStream { get; }
+    public Stream BaseStream { get; } = stream ?? throw new ArgumentNullException(nameof(stream));
     public Encoding Encoding { get; init; } = Encoding.UTF8;
-    
-    public Reader(Stream stream)
-    {
-        BaseStream = stream ?? throw new ArgumentNullException(nameof(stream));
-    }
 
     public unsafe T ReadValue<T>() where T : unmanaged
     {

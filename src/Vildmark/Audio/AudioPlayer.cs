@@ -2,19 +2,14 @@ using Vildmark.Audio.ALObjects;
 
 namespace Vildmark.Audio;
 
-public class AudioPlayer
+public class AudioPlayer(int channels = 256)
 {
     private static AudioPlayer? @default;
 
     public static AudioPlayer Default => @default ??= new(2);
 
-    private readonly ALSource[] sources;
+    private readonly ALSource[] sources = Enumerable.Range(0, channels).Select(_ => new ALSource()).ToArray();
     private int nextSource;
-
-    public AudioPlayer(int channels = 256)
-    {
-        sources = Enumerable.Range(0, channels).Select(_ => new ALSource()).ToArray();
-    }
 
     public void Play(AudioTrack track)
     {

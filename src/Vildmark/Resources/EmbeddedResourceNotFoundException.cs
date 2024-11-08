@@ -2,10 +2,6 @@ using System.Reflection;
 
 namespace Vildmark.Resources;
 
-public class EmbeddedResourceNotFoundException : Exception
+public class EmbeddedResourceNotFoundException(string resourceName, Assembly assembly) : Exception($@"Resource not found: ""{resourceName}"" in {assembly}")
 {
-    public EmbeddedResourceNotFoundException(string resourceName, Assembly assembly)
-        : base($@"Resource not found: ""{resourceName}"" in {assembly}")
-    {
-    }
 }

@@ -3,18 +3,12 @@ using Vildmark.Graphics.GLObjects;
 
 namespace Vildmark.Graphics.Meshes;
 
-public abstract class IndexedMesh<TVertex> : Mesh<TVertex>
+public abstract class IndexedMesh<TVertex>(Span<TVertex> vertices = default, Span<uint> indices = default) : Mesh<TVertex>(vertices)
     where TVertex : unmanaged
 {
-    internal GLBuffer<uint> IndexBuffer { get; }
+    internal GLBuffer<uint> IndexBuffer { get; } = new GLBuffer<uint>(indices, BufferTarget.ElementArrayBuffer);
 
     public override int Count => IndexBuffer.Count;
-
-    public IndexedMesh(Span<TVertex> vertices = default, Span<uint> indices = default)
-        : base(vertices)
-    {
-        IndexBuffer = new GLBuffer<uint>(indices, BufferTarget.ElementArrayBuffer);
-    }
 
     public void UpdateIndices(Span<uint> indices)
     {
@@ -29,11 +23,7 @@ public abstract class IndexedMesh<TVertex> : Mesh<TVertex>
     }
 }
 
-public class IndexedMesh : IndexedMesh<Vertex>
+public class IndexedMesh(Span<Vertex> vertices = default, Span<uint> indices = default) : IndexedMesh<Vertex>(vertices, indices)
 {
-    public IndexedMesh(Span<Vertex> vertices = default, Span<uint> indices = default)
-        : base(vertices, indices)
-    {
-    }
 }
 

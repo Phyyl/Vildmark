@@ -4,7 +4,7 @@ namespace Vildmark.Components;
 
 public class ComponentObject : IComponentObject
 {
-    private readonly Dictionary<Type, object> components = new();
+    private readonly Dictionary<Type, object> components = [];
 
     public T? GetComponent<T>()
     {
@@ -55,6 +55,6 @@ public class ComponentObject : IComponentObject
 
     public IEnumerable<object> GetComponents()
     {
-        return components.Values.ToArray();
+        return [.. components.Values];
     }
 }

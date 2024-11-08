@@ -3,11 +3,11 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace Vildmark.Input;
 
-public class GamePad
+public class GamePad(int index = 0)
 {
     internal JoystickState? State => VildmarkGame.Window.JoystickStates[Index];
 
-    public int Index { get; }
+    public int Index { get; } = index;
     public bool IsConnected => State is not null;
 
     public Vector2 LeftThumbStick => new(GetAxisOrDefault(0), GetAxisOrDefault(1));
@@ -15,11 +15,6 @@ public class GamePad
 
     public float LeftTrigger => GetAxisOrDefault(4);
     public float RightTrigger => GetAxisOrDefault(5);
-
-    public GamePad(int index = 0)
-    {
-        Index = index;
-    }
 
     public bool IsButtonDown(int button) => GetButtonOrDefault(button);
     public bool IsButtonUp(int button) => !GetButtonOrDefault(button);

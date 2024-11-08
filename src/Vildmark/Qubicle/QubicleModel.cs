@@ -3,15 +3,10 @@ using Vildmark.Resources;
 namespace Vildmark.Qubicle;
 
 [ResourceLoader(typeof(QubicleModelResourceLoader))]
-public class QubicleModel
+public class QubicleModel(IEnumerable<QubicleMatrix> matrices)
 {
-    private readonly Dictionary<string, QubicleMatrix> matrices;
+    private readonly Dictionary<string, QubicleMatrix> matrices = matrices.ToDictionary(m => m.Name);
 
-    public IEnumerable<QubicleMatrix> Matrices => matrices.Values.ToArray();
+    public IEnumerable<QubicleMatrix> Matrices => [.. matrices.Values];
     public QubicleMatrix? this[string name] => matrices.GetValueOrDefault(name);
-
-    public QubicleModel(IEnumerable<QubicleMatrix> matrices)
-    {
-        this.matrices = matrices.ToDictionary(m => m.Name);
-    }
 }

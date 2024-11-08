@@ -4,7 +4,7 @@ namespace Vildmark;
 
 public class Benchmark
 {
-    private static readonly Dictionary<string, Benchmark> benchmarks = new();
+    private static readonly Dictionary<string, Benchmark> benchmarks = [];
 
     public static Benchmark Get(string name)
     {
@@ -24,7 +24,7 @@ public class Benchmark
 
     private readonly Stopwatch stopwatch = Stopwatch.StartNew();
 
-    private readonly List<float> samples = new();
+    private readonly List<float> samples = [];
 
     public float Average => samples.Average();
 
@@ -42,15 +42,8 @@ public class Benchmark
         return new StartContext(this);
     }
 
-    private class StartContext : IDisposable
+    private class StartContext(Benchmark benchmark) : IDisposable
     {
-        private readonly Benchmark benchmark;
-
-        public StartContext(Benchmark benchmark)
-        {
-            this.benchmark = benchmark;
-        }
-
         public void Dispose()
         {
             benchmark.samples.Add(benchmark.stopwatch.ElapsedTicks / 10000f);

@@ -3,13 +3,8 @@ using Vildmark.Graphics.Textures;
 
 namespace Vildmark.Graphics.FrameBuffers;
 
-public class DepthFrameBuffer : FrameBuffer
+public class DepthFrameBuffer(int width, int height) : FrameBuffer(width, height, FramebufferAttachment.DepthAttachment, Texture2DParameters.Depth)
 {
-    public DepthFrameBuffer(int width, int height)
-        : base(width, height, FramebufferAttachment.DepthAttachment, Texture2DParameters.Depth)
-    {
-    }
-
     protected override void InitializeDrawBuffer(int width, int height)
     {
         GLFramebuffer.DrawBuffer(DrawBufferMode.None);

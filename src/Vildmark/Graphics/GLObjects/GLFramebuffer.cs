@@ -2,15 +2,9 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Vildmark.Graphics.GLObjects;
 
-internal class GLFramebuffer : GLObject
+internal class GLFramebuffer(FramebufferTarget framebufferTarget = FramebufferTarget.Framebuffer) : GLObject(GL.GenFramebuffer())
 {
-    public GLFramebuffer(FramebufferTarget framebufferTarget = FramebufferTarget.Framebuffer)
-        : base(GL.GenFramebuffer())
-    {
-        FramebufferTarget = framebufferTarget;
-    }
-
-    public FramebufferTarget FramebufferTarget { get; }
+    public FramebufferTarget FramebufferTarget { get; } = framebufferTarget;
 
     public bool Complete => GL.CheckFramebufferStatus(FramebufferTarget) == FramebufferStatus.FramebufferComplete;
 

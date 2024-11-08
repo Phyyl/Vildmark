@@ -25,14 +25,9 @@ public abstract class ResourceLoadContext
     public TResource LoadXml<TResource>(string name) where TResource : class => new XmlSerializer(typeof(TResource)).Deserialize(GetStream(name)) as TResource ?? throw new SerializationException($@"Could not deserialize object of type {typeof(TResource).Name} from xml resource ""{name}""");
 }
 
-public class EmbeddedResourceLoadContext : ResourceLoadContext
+public class EmbeddedResourceLoadContext(Assembly assembly) : ResourceLoadContext
 {
-    public Assembly Assembly { get; }
-
-    public EmbeddedResourceLoadContext(Assembly assembly)
-    {
-        Assembly = assembly;
-    }
+    public Assembly Assembly { get; } = assembly;
 
     public override Stream GetStream(string name)
     {
@@ -40,14 +35,9 @@ public class EmbeddedResourceLoadContext : ResourceLoadContext
     }
 }
 
-public class FileResourceLoadContext : ResourceLoadContext
+public class FileResourceLoadContext(string? rootPath = default) : ResourceLoadContext
 {
-    public string RootPath { get; }
-
-    public FileResourceLoadContext(string? rootPath = default)
-    {
-        RootPath = rootPath ?? Directory.GetCurrentDirectory();
-    }
+    public string RootPath { get; } = rootPath ?? Directory.GetCurrentDirectory();
 
     public override Stream GetStream(string name)
     {

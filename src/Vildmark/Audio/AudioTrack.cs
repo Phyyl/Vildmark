@@ -5,14 +5,9 @@ using Vildmark.Resources;
 namespace Vildmark.Audio;
 
 [ResourceLoader(typeof(AudioTrackResourceLoader))]
-public class AudioTrack
+public class AudioTrack(ALBuffer buffer)
 {
-    internal ALBuffer Buffer { get; }
-    
-    public AudioTrack(ALBuffer buffer)
-    {
-        Buffer = buffer;
-    }
+    internal ALBuffer Buffer { get; } = buffer;
 
     public void Play(AudioPlayer? player = default)
     {

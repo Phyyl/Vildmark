@@ -7,14 +7,8 @@ using Vildmark.Graphics.Textures;
 
 namespace Vildmark.Graphics.FrameBuffers;
 
-public class ColorFrameBuffer : FrameBuffer
+public class ColorFrameBuffer(int width, int height) : FrameBuffer(width, height, FramebufferAttachment.ColorAttachment0, Texture2DParameters.Texture2D)
 {
-    public ColorFrameBuffer(int width, int height)
-        : base(width, height, FramebufferAttachment.ColorAttachment0, Texture2DParameters.Texture2D)
-    {
-
-    }
-
     internal GLRenderbuffer? GLRenderbuffer { get; private set; }
 
     protected override void InitializeDrawBuffer(int width, int height)

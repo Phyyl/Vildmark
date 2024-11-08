@@ -2,16 +2,10 @@
 
 namespace Vildmark.Maths.Physics;
 
-public struct Ray
+public struct Ray(Vector3 start, Vector3 direction)
 {
-    public Vector3 Start;
-    public Vector3 Direction;
-
-    public Ray(Vector3 start, Vector3 direction)
-    {
-        Start = start;
-        Direction = direction.Normalized();
-    }
+    public Vector3 Start = start;
+    public Vector3 Direction = direction.Normalized();
 
     public Ray Offset(Vector3 offset)
     {

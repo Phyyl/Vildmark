@@ -4,15 +4,11 @@ using Vildmark.Graphics.Rendering;
 
 namespace Vildmark.Graphics.Fonts;
 
-public class FontText
+public class FontText(Font font, string text, float fontSize, float maxLineLength = float.PositiveInfinity)
 {
     private bool needsUpdate = true;
 
     private readonly Mesh<Vertex> mesh = new();
-    private readonly Font font;
-    private string text;
-    private float fontSize;
-    private float maxLineLength;
 
     public Box2 Bounds { get; private set; }
 
@@ -32,14 +28,6 @@ public class FontText
     {
         get => maxLineLength;
         set => SetValue(ref maxLineLength, value);
-    }
-
-    public FontText(Font font, string text, float fontSize, float maxLineLength = float.PositiveInfinity)
-    {
-        this.font = font;
-        this.text = text;
-        this.fontSize = fontSize;
-        this.maxLineLength = maxLineLength;
     }
 
     public void Render(Renderer renderer, Color4<Rgba> foreground, Color4<Rgba>? background = default, Transform? transform = default)

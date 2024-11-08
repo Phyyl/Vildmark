@@ -3,16 +3,11 @@ using System.Text;
 
 namespace Vildmark.Serialization;
 
-public class Writer : IWriter
+public class Writer(Stream stream) : IWriter
 {
-    public Stream BaseStream { get; }
+    public Stream BaseStream { get; } = stream ?? throw new ArgumentNullException(nameof(stream));
     public Encoding Encoding { get; init; } = Encoding.UTF8;
     public TypeNameSerializationOptions TypeNameSerializationOptions { get; init; } = TypeNameSerializationOptions.Name;
-
-    public Writer(Stream stream)
-    {
-        BaseStream = stream ?? throw new ArgumentNullException(nameof(stream));
-    }
 
     public unsafe void WriteValue<T>(T value) where T : unmanaged
     {

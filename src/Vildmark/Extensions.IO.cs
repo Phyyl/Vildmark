@@ -5,14 +5,14 @@ public static partial class Extensions
     public static string[] ReadAllLines(this Stream stream)
     {
         StreamReader reader = new(stream);
-        List<string> lines = new();
+        List<string> lines = [];
 
         while (reader.ReadLine() is string line)
         {
             lines.Add(line);
         }
 
-        return lines.ToArray();
+        return [.. lines];
     }
 
     public static byte[] ReadAllBytes(this Stream stream)
