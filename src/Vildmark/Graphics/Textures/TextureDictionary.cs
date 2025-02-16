@@ -2,9 +2,9 @@ using OpenTK.Mathematics;
 
 namespace Vildmark.Graphics.Textures;
 
-public class TextureDictionary(Texture2D texture, params TextureDictionary<string>.Entry[] entries) : TextureDictionary<string>(texture, entries);
+public class TextureDictionary(Texture2D texture, params (string Key, Box2 Region)[] entries) : TextureDictionary<string>(texture, entries);
 
-public class TextureDictionary<TKey>(Texture2D texture, params TextureDictionary<TKey>.Entry[] entries)
+public class TextureDictionary<TKey>(Texture2D texture, params (TKey Key, Box2 Region)[] entries)
     where TKey : notnull
 {
     private readonly Dictionary<TKey, SubTexture2D> rectangles = entries.ToDictionary(
@@ -20,6 +20,4 @@ public class TextureDictionary<TKey>(Texture2D texture, params TextureDictionary
     internal Texture2D Texture { get; } = texture;
 
     public Texture2D? this[TKey key] => rectangles.GetValueOrDefault(key);
-
-    public record Entry(TKey Key, Box2 Region);
 }
