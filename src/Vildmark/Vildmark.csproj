@@ -56,7 +56,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="OpenTK" Version="5.0.0-pre.12" />
-		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />
+		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.7" />
 	</ItemGroup>
 
 	<Import Project="..\..\nuget\build\Vildmark.targets" />
