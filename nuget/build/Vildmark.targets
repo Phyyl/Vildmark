@@ -15,7 +15,7 @@
 		<MsdfAtlasGenToolPath>$(MSBuildThisFileDirectory)..\tools\osx-x64\msdf-atlas-gen</MsdfAtlasGenToolPath>
 	</PropertyGroup>
 
-	<Target Name="ResolveVildmarkSystemFontFiles"  BeforeTargets="BeforeBuild;GenerateVildmarkFonts" Condition=" '@(VildmarkSystemFont)' != '' " Outputs="%(VildmarkSystemFont.Identity)">
+	<Target Name="ResolveVildmarkSystemFontFiles" BeforeTargets="BeforeBuild;GenerateVildmarkFonts" Condition=" '@(VildmarkSystemFont)' != '' " Outputs="%(VildmarkSystemFont.Identity)">
 		<PropertyGroup>
 			<SystemFontFile>$(SystemFontPath)%(VildmarkSystemFont.Identity)</SystemFontFile>
 			<SystemFontFile Condition="!Exists('$(SystemFontFile)')">$(SystemFontPath)%(VildmarkSystemFont.Identity).ttf</SystemFontFile>
